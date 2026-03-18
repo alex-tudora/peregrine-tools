@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://peregrine-tools.com/sitemap.xml',
+    sitemap: 'https://convert-a-lot.com/sitemap.xml',
   };
 }

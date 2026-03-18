@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://peregrine-tools.com';
+  const baseUrl = 'https://convert-a-lot.com';
   const lastModified = new Date();
 
   return [
