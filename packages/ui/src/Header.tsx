@@ -77,16 +77,10 @@ export function Header({
     <>
       <header className="sticky top-0 z-50 h-16 border-b border-[color:var(--color-border,theme(colors.slate.200/60))] bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-          {/* Left: Logo + brand + site name */}
-          <a href="/" className="flex shrink-0 items-center gap-3">
+          {/* Left: Logo + site name */}
+          <a href="/" className="flex shrink-0 items-center gap-2.5">
             <FalconLogo size={28} color={accentColor} />
             <span className="font-serif text-lg font-semibold tracking-tight text-slate-900">
-              Peregrine
-            </span>
-            <span
-              className="font-serif text-lg font-semibold tracking-tight"
-              style={{ color: accentColor }}
-            >
               {siteName}
             </span>
           </a>
@@ -123,13 +117,8 @@ export function Header({
 
                 {/* Tools dropdown panel */}
                 {toolsOpen && (
-                  <div
-                    className="absolute left-1/2 top-full mt-2 w-[28rem] -translate-x-1/2 rounded-xl border border-[color:var(--color-border,theme(colors.slate.200/60))] bg-white p-4 shadow-lg shadow-black/5"
-                    style={{
-                      animation:
-                        "fade-in-down 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
-                    }}
-                  >
+                  <div className="absolute left-0 top-full mt-2 w-[28rem] rounded-xl border border-slate-200 bg-white p-4 shadow-lg shadow-black/5">
+
                     <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
                       {currentTools.map((tool) => (
                         <a
@@ -176,13 +165,8 @@ export function Header({
 
               {/* Family dropdown panel */}
               {familyOpen && (
-                <div
-                  className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-[color:var(--color-border,theme(colors.slate.200/60))] bg-white p-4 shadow-lg shadow-black/5"
-                  style={{
-                    animation:
-                      "fade-in-down 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
-                  }}
-                >
+                <div className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-slate-200 bg-white p-4 shadow-lg shadow-black/5">
+
                   <CrossSiteNav currentSite={currentSite} />
                 </div>
               )}
@@ -222,32 +206,26 @@ export function Header({
       </header>
 
       {/* Mobile slide-out panel */}
+      {mobileOpen && (
       <div
-        className={`fixed inset-0 z-[60] md:hidden ${
-          mobileOpen ? "pointer-events-auto" : "pointer-events-none"
-        }`}
+        className="fixed inset-0 z-[60] md:hidden"
         aria-hidden={!mobileOpen}
       >
         {/* Backdrop */}
         <div
-          className={`absolute inset-0 bg-slate-900/30 backdrop-blur-sm transition-opacity duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            mobileOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
           onClick={() => setMobileOpen(false)}
         />
 
         {/* Panel */}
-        <div
-          className={`absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white/95 shadow-2xl shadow-black/10 backdrop-blur-xl transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            mobileOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
+        <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white shadow-2xl shadow-black/10">
+
           {/* Panel header */}
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-[color:var(--color-border,theme(colors.slate.200/60))] px-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               <FalconLogo size={24} color={accentColor} />
               <span className="font-serif text-lg font-semibold tracking-tight text-slate-900">
-                Peregrine
+                {siteName}
               </span>
             </div>
             <button
@@ -304,6 +282,7 @@ export function Header({
           </div>
         </div>
       </div>
+      )}
 
       {/* Keyframe animation for dropdown fade-in */}
       <style
@@ -312,11 +291,11 @@ export function Header({
             @keyframes fade-in-down {
               from {
                 opacity: 0;
-                transform: translateY(-4px) translateX(-50%);
+                transform: translateY(-4px);
               }
               to {
                 opacity: 1;
-                transform: translateY(0) translateX(-50%);
+                transform: translateY(0);
               }
             }
           `,
