@@ -1,0 +1,196 @@
+"use client";
+
+import { useState, useCallback } from "react";
+import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { getFFmpeg, getFetchFile } from "@/lib/ffmpeg";
+import { downloadBlob, formatFileSize } from "@/lib/download";
+
+export function ConvertToMp4Tool() {
+  const [file, setFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<string>("");
+
+  const handleFiles = useCallback((files: File[]) => {
+    const selected = files[0];
+    if (!selected) return;
+    setError(null);
+    setResultBlob(null);
+    setProgress("");
+    setFile(selected);
+  }, []);
+
+  const handleConvert = useCallback(async () => {
+    if (!file) return;
+
+    setIsProcessing(true);
+    setResultBlob(null);
+    setError(null);
+    setProgress("Loading FFmpeg...");
+
+    try {
+      const ffmpeg = await getFFmpeg();
+      const fetchFile = await getFetchFile();
+
+      setProgress("Reading file...");
+      const inputName = "input" + file.name.substring(file.name.lastIndexOf("."));
+      await ffmpeg.writeFile(inputName, await fetchFile(file));
+
+      setProgress("Converting to MP4...");
+      await ffmpeg.exec([
+        "-i",
+        inputName,
+        "-c:v",
+        "libx264",
+        "-preset",
+        "fast",
+        "output.mp4",
+      ]);
+
+      const data = await ffmpeg.readFile("output.mp4");
+      const blob = new Blob([data], { type: "video/mp4" });
+      setResultBlob(blob);
+      setProgress("");
+
+      // Cleanup
+      await ffmpeg.deleteFile(inputName);
+      await ffmpeg.deleteFile("output.mp4");
+    } catch (err) {
+      console.error(err);
+      setError(
+        "Conversion failed. FFmpeg.wasm may not be supported in your browser, or the file may be corrupted. Please try a modern Chrome or Firefox browser."
+      );
+      setProgress("");
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [file]);
+
+  const handleDownload = useCallback(() => {
+    if (!resultBlob || !file) return;
+    const baseName = file.name.replace(/\.[^.]+$/, "");
+    downloadBlob(resultBlob, `${baseName}.mp4`);
+  }, [resultBlob, file]);
+
+  const handleReset = useCallback(() => {
+    setFile(null);
+    setIsProcessing(false);
+    setResultBlob(null);
+    setError(null);
+    setProgress("");
+  }, []);
+
+  return (
+    <div className="space-y-6">
+      {!file && (
+        <Dropzone
+          accept={[".avi", ".mov", ".mkv", ".wmv", ".flv", ".webm"]}
+          multiple={false}
+          onFiles={handleFiles}
+          label="Drop your video file here"
+        />
+      )}
+
+      {file && (
+        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-slate-900">
+                {file.name}
+              </p>
+              <p className="mt-0.5 text-xs text-slate-500">
+                {formatFileSize(file.size)}
+              </p>
+            </div>
+            <button
+              onClick={handleReset}
+              disabled={isProcessing}
+              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Change file
+            </button>
+          </div>
+
+          {!resultBlob && (
+            <button
+              onClick={handleConvert}
+              disabled={isProcessing}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[color:var(--color-accent)]"
+            >
+              {isProcessing ? (
+                <>
+                  <svg
+                    className="h-4 w-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  {progress || "Converting..."}
+                </>
+              ) : (
+                "Convert to MP4"
+              )}
+            </button>
+          )}
+
+          {resultBlob && (
+            <div className="mt-5 space-y-4">
+              <div className="rounded-lg bg-slate-50 p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-600">Original size</span>
+                  <span className="font-medium text-slate-900">
+                    {formatFileSize(file.size)}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between text-sm">
+                  <span className="text-slate-600">Output size</span>
+                  <span className="font-medium text-slate-900">
+                    {formatFileSize(resultBlob.size)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <DownloadButton
+                  onClick={handleDownload}
+                  label="Download MP4"
+                  className="flex-1"
+                />
+                <button
+                  onClick={handleReset}
+                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                >
+                  Convert another
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {error && (
+        <div
+          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          role="alert"
+        >
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
