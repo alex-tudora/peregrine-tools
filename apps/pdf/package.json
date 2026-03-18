@@ -1,0 +1,35 @@
+{
+  "name": "pdf",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4",
+    "jszip": "^3.10.1",
+    "file-saver": "^2.0.5",
+    "@peregrine/ui": "workspace:*",
+    "@peregrine/config": "workspace:*",
+    "@peregrine/seo": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/file-saver": "^2",
+    "tailwindcss": "^4",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "^15",
+    "postcss": "^8"
+  }
+}

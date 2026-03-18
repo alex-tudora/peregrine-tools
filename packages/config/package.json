@@ -1,0 +1,11 @@
+{
+  "name": "@peregrine/config",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./tailwind.config.ts",
+  "exports": {
+    "./tailwind": "./tailwind.config.ts",
+    "./eslint": "./eslint-config.js",
+    "./typescript": "./tsconfig.base.json"
+  }
+}
