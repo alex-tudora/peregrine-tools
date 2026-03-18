@@ -10,79 +10,101 @@ export function KnightLogo({ size = 40, className = "" }: KnightLogoProps) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 64 64"
+      viewBox="0 0 80 96"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-label="Convert-a-Lot knight mascot"
       role="img"
     >
-      {/* Plume / feather on top */}
+      {/* === PLUME === */}
       <path
-        d="M32 4C28 4 26 8 27 12C28 14 30 15 32 16C34 15 36 14 37 12C38 8 36 4 32 4Z"
+        d="M40 2C36 2 33 5 34 9C35 12 38 14 40 16C42 14 45 12 46 9C47 5 44 2 40 2Z"
         fill="#F97316"
       />
       <path
-        d="M32 8C30 6 27 7 28 10C29 12 31 14 32 15C33 14 35 12 36 10C37 7 34 6 32 8Z"
+        d="M40 5C38 4 36 5 37 8C38 10.5 39.5 13 40 14.5C40.5 13 42 10.5 43 8C44 5 42 4 40 5Z"
         fill="#FB923C"
       />
 
-      {/* Helmet top dome */}
+      {/* === HELMET DOME === */}
       <path
-        d="M16 28C16 20 23 14 32 14C41 14 48 20 48 28V32H16V28Z"
+        d="M15 34C15 24 26 16 40 16C54 16 65 24 65 34V40H15V34Z"
         fill="#F97316"
-      />
-      {/* Helmet highlight */}
-      <path
-        d="M20 28C20 22 25 17 32 17C39 17 44 22 44 28V30H20V28Z"
-        fill="#FB923C"
-      />
-
-      {/* Helmet middle band */}
-      <rect x="14" y="30" width="36" height="6" rx="1" fill="#1B2A4A" />
-
-      {/* Visor / face area */}
-      <path
-        d="M16 36H48V46C48 50 44 54 40 54H24C20 54 16 50 16 46V36Z"
-        fill="#F97316"
-      />
-
-      {/* Visor slit (dark) */}
-      <rect x="18" y="38" width="28" height="10" rx="5" fill="#1B2A4A" />
-
-      {/* Eyes */}
-      <circle cx="27" cy="43" r="2.5" fill="white" />
-      <circle cx="37" cy="43" r="2.5" fill="white" />
-
-      {/* Eye pupils */}
-      <circle cx="27.8" cy="43" r="1" fill="#1B2A4A" />
-      <circle cx="37.8" cy="43" r="1" fill="#1B2A4A" />
-
-      {/* Ear guards */}
-      <rect x="10" y="30" width="6" height="14" rx="3" fill="#EA580C" />
-      <rect x="48" y="30" width="6" height="14" rx="3" fill="#EA580C" />
-
-      {/* Chin guard */}
-      <path
-        d="M24 54C24 54 28 58 32 58C36 58 40 54 40 54"
         stroke="#1B2A4A"
-        strokeWidth="2.5"
+        strokeWidth="3"
+      />
+      {/* Helmet dome highlight (left half lighter) */}
+      <path
+        d="M19 33C19 25 28 19 40 19C46 19 51.5 21 55 24"
+        stroke="#FB923C"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      {/* Helmet ventilation slits */}
+      <rect x="28" y="28" width="2.5" height="8" rx="1" fill="#EA580C" />
+      <rect x="33" y="28" width="2.5" height="8" rx="1" fill="#EA580C" />
+      <rect x="38" y="28" width="2.5" height="8" rx="1" fill="#EA580C" />
+      <rect x="43" y="28" width="2.5" height="8" rx="1" fill="#EA580C" />
+      <rect x="48" y="28" width="2.5" height="8" rx="1" fill="#EA580C" />
+
+      {/* === VISOR BAND (dark) === */}
+      <path
+        d="M13 40H67V52C67 52 63 54 40 54C17 54 13 52 13 52V40Z"
+        fill="#1B2A4A"
+        stroke="#1B2A4A"
+        strokeWidth="2"
+      />
+      {/* Eyes */}
+      <circle cx="30" cy="46" r="3.5" fill="white" />
+      <circle cx="50" cy="46" r="3.5" fill="white" />
+      {/* Pupils — looking slightly right */}
+      <circle cx="31" cy="46" r="1.5" fill="#1B2A4A" />
+      <circle cx="51" cy="46" r="1.5" fill="#1B2A4A" />
+
+      {/* === EAR BOLTS === */}
+      <circle cx="10" cy="46" r="7" fill="#1B2A4A" stroke="#1B2A4A" strokeWidth="1" />
+      <circle cx="10" cy="46" r="4" fill="#F97316" />
+      <circle cx="70" cy="46" r="7" fill="#1B2A4A" stroke="#1B2A4A" strokeWidth="1" />
+      <circle cx="70" cy="46" r="4" fill="#F97316" />
+
+      {/* === SHIELD / LOWER FACE === */}
+      <path
+        d="M15 52C15 52 15 54 15 58C15 70 25 82 40 86C55 82 65 70 65 58C65 54 65 52 65 52C63 54 52 56 40 56C28 56 17 54 15 52Z"
+        fill="#F97316"
+        stroke="#1B2A4A"
+        strokeWidth="3"
+      />
+      {/* Shield inner border */}
+      <path
+        d="M20 57C20 57 20 59 20 62C20 71 28 79 40 82C52 79 60 71 60 62C60 59 60 57 60 57C57 58.5 49 60 40 60C31 60 23 58.5 20 57Z"
+        fill="#EA580C"
+        opacity="0.3"
+      />
+
+      {/* === FILE CONVERSION ICON ON SHIELD === */}
+      {/* Left file */}
+      <rect x="23" y="64" width="12" height="14" rx="2" fill="white" stroke="#1B2A4A" strokeWidth="1.5" />
+      <path d="M30 64V67H33" stroke="#1B2A4A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+      {/* Arrow */}
+      <path
+        d="M37 71L43 71"
+        stroke="#1B2A4A"
+        strokeWidth="2"
         strokeLinecap="round"
       />
-
-      {/* Navy outlines for definition */}
       <path
-        d="M16 28C16 20 23 14 32 14C41 14 48 20 48 28V32H16V28Z"
+        d="M41 68L44 71L41 74"
         stroke="#1B2A4A"
         strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         fill="none"
       />
-      <path
-        d="M16 36H48V46C48 50 44 54 40 54H24C20 54 16 50 16 46V36Z"
-        stroke="#1B2A4A"
-        strokeWidth="2"
-        fill="none"
-      />
+      {/* Right file */}
+      <rect x="45" y="64" width="12" height="14" rx="2" fill="white" stroke="#1B2A4A" strokeWidth="1.5" />
+      <path d="M52 64V67H55" stroke="#1B2A4A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
     </svg>
   );
 }
