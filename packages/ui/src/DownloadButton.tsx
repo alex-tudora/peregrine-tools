@@ -17,19 +17,26 @@ export function DownloadButton({
   label = "Download",
   className = "",
 }: DownloadButtonProps) {
+  const isDisabled = disabled || loading;
+
   return (
     <button
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={isDisabled}
       className={`
         relative inline-flex items-center justify-center gap-2.5
-        rounded-xl bg-sky-500 px-6 py-3
-        text-sm font-semibold text-white shadow-sm shadow-sky-500/25
-        transition-all duration-200
-        hover:bg-sky-600 hover:shadow-md hover:shadow-sky-500/30
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2
-        active:scale-[0.98]
-        disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-sky-500
+        w-full sm:w-auto
+        rounded-xl px-8 py-3.5
+        font-semibold text-white
+        transition-all duration-200 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2
+        ${
+          loading
+            ? "bg-[color:var(--color-accent)] opacity-80 cursor-wait"
+            : isDisabled
+              ? "bg-[color:var(--color-accent)] opacity-40 cursor-not-allowed"
+              : "bg-[color:var(--color-accent)] hover:bg-[color:var(--color-accent-hover)] hover:-translate-y-px hover:shadow-lg hover:shadow-[color:var(--color-accent)]/25 active:translate-y-0 active:shadow-md"
+        }
         ${className}
       `}
     >
@@ -37,7 +44,7 @@ export function DownloadButton({
         <>
           {/* Spinner */}
           <svg
-            className="h-4 w-4 animate-spin"
+            className="h-4.5 w-4.5 animate-spin"
             fill="none"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -60,9 +67,9 @@ export function DownloadButton({
         </>
       ) : (
         <>
-          {/* Download icon */}
+          {/* Download icon — arrow-down-to-line */}
           <svg
-            className="h-4 w-4"
+            className="h-[18px] w-[18px]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -72,7 +79,7 @@ export function DownloadButton({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+              d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"
             />
           </svg>
           <span>{label}</span>

@@ -10,9 +10,12 @@ export function ProgressBar({ progress, className = "" }: ProgressBarProps) {
 
   if (clampedProgress === 0) return null;
 
+  const isComplete = clampedProgress === 100;
+  const isInProgress = clampedProgress > 0 && clampedProgress < 100;
+
   return (
     <div
-      className={`h-2 w-full overflow-hidden rounded-full bg-slate-100 ${className}`}
+      className={`h-1.5 w-full overflow-hidden rounded-full bg-[color:var(--color-border)] ${className}`}
       role="progressbar"
       aria-valuenow={clampedProgress}
       aria-valuemin={0}
@@ -20,7 +23,12 @@ export function ProgressBar({ progress, className = "" }: ProgressBarProps) {
       aria-label={`${clampedProgress}% complete`}
     >
       <div
-        className="h-full rounded-full bg-sky-500 transition-all duration-300 ease-out"
+        className={`
+          h-full rounded-full
+          transition-all duration-500 ease-out
+          ${isComplete ? "bg-[color:var(--color-success)]" : "bg-[color:var(--color-accent)]"}
+          ${isInProgress ? "animate-pulse" : ""}
+        `}
         style={{ width: `${clampedProgress}%` }}
       />
     </div>

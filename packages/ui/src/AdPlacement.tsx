@@ -7,7 +7,7 @@ interface AdPlacementProps {
 export function AdPlacement({ className = "" }: AdPlacementProps) {
   return (
     <div
-      className={`min-h-[90px] rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 text-sm ${className}`}
+      className={`min-h-[90px] rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] flex items-center justify-center text-[color:var(--color-text-muted)] text-xs ${className}`}
       aria-hidden="true"
     >
       Advertisement

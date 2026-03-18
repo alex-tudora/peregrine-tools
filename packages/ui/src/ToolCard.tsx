@@ -13,30 +13,53 @@ export function ToolCard({ icon, name, description, href, className = "" }: Tool
     <a
       href={href}
       className={`
-        group block rounded-xl border border-slate-200 bg-white p-5
-        transition-all duration-200
-        hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/50 hover:-translate-y-0.5 hover:scale-[1.01]
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2
+        group relative block overflow-hidden rounded-xl border border-[color:var(--color-border)]
+        bg-white p-6
+        transition-all duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]
+        hover:-translate-y-1 hover:shadow-lg hover:shadow-black/[0.08]
+        hover:border-[color:var(--color-accent)]
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2
         ${className}
       `}
     >
-      <div className="mb-3 text-3xl leading-none" aria-hidden="true">
+      {/* Top accent line — hidden by default, appears on hover */}
+      <div
+        className="absolute inset-x-0 top-0 h-0.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, var(--color-accent), transparent)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Icon */}
+      <div
+        className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--color-accent-light)] text-2xl"
+        aria-hidden="true"
+      >
         {icon}
       </div>
-      <h3 className="text-base font-semibold text-slate-900 group-hover:text-sky-600 transition-colors">
+
+      {/* Name */}
+      <h3 className="font-serif font-semibold text-lg text-[color:var(--color-text-primary)] leading-tight">
         {name}
       </h3>
-      <p className="mt-1 text-sm text-slate-500 leading-snug line-clamp-2">
+
+      {/* Description */}
+      <p className="mt-2 text-sm text-[color:var(--color-text-secondary)] leading-relaxed line-clamp-2">
         {description}
       </p>
-      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-sky-500 transition-colors group-hover:text-sky-600">
+
+      {/* CTA */}
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--color-accent)]">
         Use Tool
         <svg
-          className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>

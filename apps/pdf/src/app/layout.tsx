@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import { Header, Footer } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
 import "./globals.css";
@@ -8,10 +8,24 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-sans",
 });
 
-const currentTools = [
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-serif",
+});
+
+export const metadata: Metadata = generateSiteMetadata({
+  siteName: "Peregrine PDF",
+  description:
+    "The fastest free online PDF tools. Merge, split, compress, and convert PDF files instantly in your browser. No sign-up required.",
+  siteUrl: "https://peregrinepdf.com",
+});
+
+const pdfTools = [
   { name: "Merge PDF", href: "/merge-pdf" },
   { name: "Split PDF", href: "/split-pdf" },
   { name: "Compress PDF", href: "/compress-pdf" },
@@ -27,23 +41,20 @@ const currentTools = [
   { name: "Page Numbers", href: "/add-page-numbers" },
 ];
 
-export const metadata = generateSiteMetadata({
-  siteName: "Peregrine PDF",
-  description:
-    "The fastest free online PDF tools. Merge, split, compress, and convert PDF files instantly in your browser. No sign-up required.",
-  siteUrl: "https://peregrinepdf.com",
-});
-
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="font-sans antialiased">
         <Header
           siteName="Peregrine PDF"
           accentColor="#3B82F6"
-          currentTools={currentTools}
+          currentTools={pdfTools}
         />
-        <main>{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer siteName="Peregrine PDF" />
       </body>
     </html>

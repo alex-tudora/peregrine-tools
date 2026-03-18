@@ -28,31 +28,38 @@ function FAQItem({ question, answer }: FAQ) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-slate-200 last:border-b-0">
+    <div className="border-b border-[color:var(--color-border)] last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-start justify-between gap-4 py-4 text-left transition-colors hover:text-sky-600"
+        className="flex w-full items-start justify-between gap-4 py-5 text-left transition-colors duration-200 hover:text-[color:var(--color-accent)]"
         aria-expanded={isOpen}
       >
-        <span className="text-base font-medium text-slate-900">{question}</span>
+        <span className="text-base font-medium text-[color:var(--color-text-primary)]">
+          {question}
+        </span>
         <svg
-          className={`mt-1 h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 ${
+          className={`mt-1 h-5 w-5 shrink-0 text-[color:var(--color-text-muted)] transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-200 ${
-          isOpen ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0"
+        className={`grid transition-all duration-300 ease-out ${
+          isOpen ? "grid-rows-[1fr] opacity-100 pb-5" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <p className="text-sm leading-relaxed text-slate-600">{answer}</p>
+        <div className="overflow-hidden">
+          <p className="text-sm leading-relaxed text-[color:var(--color-text-secondary)]">
+            {answer}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -69,32 +76,40 @@ export function ToolLayout({
   keyword,
 }: ToolLayoutProps) {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div className="mx-auto max-w-3xl px-6 py-12">
       {/* Hero section */}
-      <div className="mb-8 text-center sm:mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{title}</h1>
-        <p className="mt-3 text-base text-slate-500 sm:text-lg max-w-2xl mx-auto">{subtitle}</p>
+      <div className="text-center animate-fade-in-up">
+        <h1 className="font-serif font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
+          {title}
+        </h1>
+        <p className="mt-3 text-lg text-[color:var(--color-text-secondary)] leading-relaxed max-w-2xl mx-auto animate-fade-in-up delay-1">
+          {subtitle}
+        </p>
       </div>
 
       {/* Tool UI */}
-      <div className="mb-10">{children}</div>
+      <div className="mt-10 animate-slide-up delay-2">
+        {children}
+      </div>
 
       {/* Ad placement */}
-      <AdPlacement className="mb-10" />
+      <AdPlacement className="mt-12" />
 
       {/* How-to section */}
       {howTo.length > 0 && (
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-5">
+        <section className="mt-16">
+          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-6">
             {keyword ? `How to ${keyword}` : "How to Use This Tool"}
           </h2>
-          <ol className="space-y-3">
+          <ol className="space-y-4">
             {howTo.map((step, index) => (
-              <li key={index} className="flex gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sm font-semibold text-sky-600">
+              <li key={index} className="flex gap-4 items-start">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-accent)] text-white text-sm font-semibold">
                   {index + 1}
                 </span>
-                <span className="text-slate-600 pt-0.5 leading-relaxed">{step}</span>
+                <span className="text-[color:var(--color-text-secondary)] pt-0.5 leading-relaxed">
+                  {step}
+                </span>
               </li>
             ))}
           </ol>
@@ -103,10 +118,12 @@ export function ToolLayout({
 
       {/* About section */}
       {about && (
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">About This Tool</h2>
+        <section className="mt-12">
+          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
+            About This Tool
+          </h2>
           <div
-            className="prose prose-slate prose-sm max-w-none text-slate-600 leading-relaxed"
+            className="prose prose-sm max-w-none text-[color:var(--color-text-secondary)] leading-relaxed"
             dangerouslySetInnerHTML={{ __html: about }}
           />
         </section>
@@ -114,9 +131,11 @@ export function ToolLayout({
 
       {/* FAQ section */}
       {faqs.length > 0 && (
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <div className="rounded-xl border border-slate-200 bg-white px-5">
+        <section className="mt-12">
+          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
+            Frequently Asked Questions
+          </h2>
+          <div>
             {faqs.map((faq, index) => (
               <FAQItem key={index} question={faq.question} answer={faq.answer} />
             ))}
@@ -126,24 +145,22 @@ export function ToolLayout({
 
       {/* Related tools */}
       {relatedTools.length > 0 && (
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Related Tools</h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <section className="mt-12">
+          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-5">
+            Related Tools
+          </h2>
+          <div className="flex flex-wrap gap-3">
             {relatedTools.map((tool) => (
               <a
                 key={tool.href}
                 href={tool.href}
-                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-sky-600 hover:shadow-sm"
+                className="
+                  border border-[color:var(--color-border)] rounded-full px-5 py-2
+                  text-sm font-medium text-[color:var(--color-text-primary)]
+                  transition-all duration-200
+                  hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]
+                "
               >
-                <svg
-                  className="h-4 w-4 shrink-0 text-slate-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
                 {tool.name}
               </a>
             ))}

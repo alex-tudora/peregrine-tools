@@ -41,7 +41,6 @@ export function Dropzone({
       const errors: string[] = [];
 
       for (const file of files) {
-        // Check file extension
         if (accept.length > 0) {
           const ext = "." + file.name.split(".").pop()?.toLowerCase();
           const mimeMatch = accept.some((a) => {
@@ -58,7 +57,6 @@ export function Dropzone({
           }
         }
 
-        // Check file size
         if (file.size > maxSize) {
           errors.push(`"${file.name}" exceeds ${formatBytes(maxSize)} limit`);
           continue;
@@ -131,7 +129,6 @@ export function Dropzone({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         handleFiles(e.target.files);
-        // Reset so the same file can be selected again
         e.target.value = "";
       }
     },
@@ -157,53 +154,62 @@ export function Dropzone({
           }
         }}
         className={`
-          relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center
-          rounded-xl border-2 border-dashed p-8 text-center transition-all duration-200
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2
+          relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center
+          rounded-2xl border-2 border-dashed p-8 text-center
+          transition-all duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2
           ${
             isDragging
-              ? "border-sky-400 bg-sky-50/70"
-              : "border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50/50"
+              ? "border-solid border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] scale-[1.01]"
+              : "border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] hover:border-[color:var(--color-border-hover)]"
           }
         `}
       >
-        {/* Upload icon */}
+        {/* Upload icon — cloud with arrow */}
         <div
-          className={`mb-4 flex h-14 w-14 items-center justify-center rounded-full transition-colors ${
-            isDragging ? "bg-sky-100 text-sky-500" : "bg-slate-100 text-slate-400"
+          className={`mb-5 transition-colors duration-300 ${
+            isDragging
+              ? "text-[color:var(--color-accent)]"
+              : "text-[color:var(--color-text-muted)]"
           }`}
         >
           <svg
-            className="h-7 w-7"
+            className="h-12 w-12"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 48 48"
             stroke="currentColor"
             strokeWidth={1.5}
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+              d="M16 32h16M24 32V18m0 0l-6 6m6-6l6 6"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.26 36C8.73 36 5 32.42 5 28c0-3.61 2.47-6.65 5.83-7.6C11.1 14.58 16.93 10 24 10c8.28 0 15 6.27 15 14 0 .34-.01.67-.04 1 2.9.86 5.04 3.5 5.04 6.62C44 35.04 41.27 38 37.87 38H34"
             />
           </svg>
         </div>
 
-        <p className="text-base font-medium text-slate-700">
+        <p className="font-medium text-[color:var(--color-text-secondary)]">
           {isDragging ? "Release to upload" : label}
         </p>
-        <p className="mt-1.5 text-sm text-slate-500">
+        <p className="mt-1.5 text-sm text-[color:var(--color-text-muted)]">
           or{" "}
-          <span className="font-medium text-sky-500 underline underline-offset-2">
-            browse files
+          <span className="font-medium text-[color:var(--color-accent)] underline underline-offset-2">
+            click to browse
           </span>
         </p>
 
         {accept.length > 0 && (
-          <p className="mt-3 text-xs text-slate-400">
+          <p className="mt-4 text-xs text-[color:var(--color-text-muted)]">
             Accepted formats: {accept.map((a) => a.replace(".", "").toUpperCase()).join(", ")}
           </p>
         )}
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">
           Max file size: {formatBytes(maxSize)}
           {multiple ? "" : " (single file)"}
         </p>
@@ -222,7 +228,10 @@ export function Dropzone({
 
       {/* Error message */}
       {error && (
-        <div className="mt-3 rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600" role="alert">
+        <div
+          className="mt-3 rounded-xl bg-[color:var(--color-error-light,#fef2f2)] px-4 py-2.5 text-sm text-[color:var(--color-error)]"
+          role="alert"
+        >
           {error}
         </div>
       )}
