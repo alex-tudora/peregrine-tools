@@ -1,38 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors - Warm Orange, the Convert-a-Lot identity */
-  --color-falcon-navy: #1B2A4A;
   --color-accent: #F97316;
   --color-accent-hover: #EA580C;
   --color-accent-light: #FFF7ED;
-  --color-accent-glow: rgba(249, 115, 22, 0.15);
+  --color-accent-glow: rgba(249, 115, 22, 0.12);
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
-  /* Refined neutrals - off-white, not stark */
-  --color-bg: #FAFBFC;
+  /* Warm cream tones — not cold slate */
+  --color-bg: #FFFCF9;
   --color-bg-card: #FFFFFF;
-  --color-bg-dark: #0F172A;
-  --color-bg-elevated: #F8FAFC;
+  --color-bg-dark: #1B2A4A;
+  --color-bg-elevated: #FFF8F3;
 
-  --color-border: #E2E8F0;
-  --color-border-hover: #CBD5E1;
+  --color-border: #F0E6DB;
+  --color-border-hover: #E0D0C0;
 
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
+  --color-text-primary: #1B2A4A;
+  --color-text-secondary: #5A6578;
+  --color-text-muted: #9CA3AF;
   --color-text-inverse: #F1F5F9;
 
-  /* Typography */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  /* Playful type stack — Outfit for display, DM Sans for body */
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
-/* Smooth rendering */
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -44,14 +41,13 @@ body {
   color: var(--color-text-primary);
 }
 
-/* Premium animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -61,67 +57,51 @@ body {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
+  from { opacity: 0; transform: scale(0.92); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 @keyframes pulseArrow {
   0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(6px); }
+  50% { transform: translateX(4px); }
 }
 
-/* Animation utility classes */
-.animate-fade-in {
-  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
+.animate-fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-fade-in-down { animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-slide-up { animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-scale-in { animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-pulse-arrow { animation: pulseArrow 1.5s ease-in-out infinite; }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.animate-pulse-arrow {
-  animation: pulseArrow 1.5s ease-in-out infinite;
-}
-
-/* Stagger delays for sequential reveals */
 .delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
-.delay-4 { animation-delay: 0.4s; }
-.delay-5 { animation-delay: 0.5s; }
-.delay-6 { animation-delay: 0.6s; }
+.delay-2 { animation-delay: 0.15s; }
+.delay-3 { animation-delay: 0.25s; }
+.delay-4 { animation-delay: 0.35s; }
+.delay-5 { animation-delay: 0.45s; }
+.delay-6 { animation-delay: 0.55s; }
 
-/* Premium selection color */
 ::selection {
   background-color: var(--color-accent-glow);
-  color: var(--color-falcon-navy);
+  color: var(--color-text-primary);
 }
 
-/* Smooth scrolling */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
 
-/* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
