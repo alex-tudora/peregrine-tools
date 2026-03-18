@@ -16,7 +16,7 @@ export function FalconLogo({
       alt="Peregrine falcon logo"
       width={size}
       height={size}
-      className={`object-contain ${className}`}
+      className={`object-contain mix-blend-multiply ${className}`}
       style={{ width: size, height: size }}
     />
   );

@@ -12,7 +12,7 @@ export function KnightLogo({ size = 40, className = "" }: KnightLogoProps) {
       alt="Convert-a-Lot knight mascot"
       width={size}
       height={size}
-      className={`object-contain ${className}`}
+      className={`object-contain mix-blend-multiply ${className}`}
       style={{ width: size, height: size }}
     />
   );

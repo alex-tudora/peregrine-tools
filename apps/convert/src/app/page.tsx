@@ -38,9 +38,9 @@ export default function Home() {
         <div className="relative max-w-4xl mx-auto px-6 pt-16 pb-8 md:pt-24 md:pb-12">
           <div className="text-center">
             {/* Floating mascot */}
-            <div className="animate-fade-in-down inline-block mb-8">
+            <div className="animate-fade-in-down inline-block mb-10">
               <div className="animate-float">
-                <KnightLogo size={72} />
+                <KnightLogo size={140} />
               </div>
             </div>
 
