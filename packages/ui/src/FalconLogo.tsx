@@ -14,66 +14,68 @@ export function FalconLogo({
   return (
     <svg
       width={size}
-      height={size}
-      viewBox="0 0 64 64"
+      height={size * 0.7}
+      viewBox="0 0 120 84"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-label="Peregrine falcon logo"
       role="img"
     >
-      {/* Head — tapered teardrop pointing down-right */}
+      {/* Main body silhouette — falcon in stoop, diving right */}
       <path
-        d="M32 6 C28 6 25 9 25 13 L25 18 C25 20 26.5 22 29 23 L32 24 L35 23 C37.5 22 39 20 39 18 L39 13 C39 9 36 6 32 6Z"
+        d={[
+          // Tail tips (sharp, trailing upper-left)
+          "M2 8",
+          "L18 24",
+          "L8 18",
+          "L22 30",
+          // Upper wing line sweeping back
+          "L14 22",
+          "L32 36",
+          // Top of body flowing into head
+          "C42 42 56 46 72 52",
+          // Forehead curve
+          "C82 56 92 60 100 64",
+          // Beak tip
+          "L108 68",
+          "C110 69 112 68 111 66",
+          // Lower beak
+          "L106 64",
+          // Jaw line curving back
+          "C100 62 96 62 92 62",
+          // Malar stripe starts (the peregrine's dark cheek mark)
+          // Chin / throat line sweeping back under body
+          "C84 60 74 56 64 50",
+          // Belly curve
+          "C50 42 38 34 28 28",
+          // Back to tail
+          "C18 20 10 14 2 8",
+          "Z",
+        ].join(" ")}
         fill={color}
       />
-      {/* Malar stripe — the falcon's signature marking */}
+      {/* Wing speed line — negative space swoosh separating wing from body */}
       <path
-        d="M28.5 17 L27 22 L29 21 L30 18Z"
-        fill={color}
-        opacity="0.5"
+        d="M16 22 C28 30 46 40 72 52"
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="none"
       />
+      {/* Malar stripe — the peregrine's signature curved cheek marking */}
       <path
-        d="M35.5 17 L37 22 L35 21 L34 18Z"
-        fill={color}
-        opacity="0.5"
+        d="M88 58 C84 56 82 60 86 62"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
       />
-      {/* Body — sleek fuselage tapering to tail */}
+      {/* Eye — sharp triangular cutout */}
       <path
-        d="M29 23 L26 30 L25 42 L27 50 L30 54 L32 56 L34 54 L37 50 L39 42 L38 30 L35 23Z"
-        fill={color}
+        d="M92 60 L96 58 L94 62 Z"
+        fill="white"
       />
-      {/* Left wing — swept back in stoop, geometric facets */}
-      <path
-        d="M26 30 L18 26 L8 22 C6 21.2 5 22 5.5 24 L10 34 L16 40 L25 42Z"
-        fill={color}
-      />
-      {/* Right wing — mirrored */}
-      <path
-        d="M38 30 L46 26 L56 22 C58 21.2 59 22 58.5 24 L54 34 L48 40 L39 42Z"
-        fill={color}
-      />
-      {/* Left wing leading-edge highlight */}
-      <path
-        d="M26 30 L18 26 L10 34 L25 40Z"
-        fill={color}
-        opacity="0.75"
-      />
-      {/* Right wing leading-edge highlight */}
-      <path
-        d="M38 30 L46 26 L54 34 L39 40Z"
-        fill={color}
-        opacity="0.75"
-      />
-      {/* Tail feathers — forked */}
-      <path
-        d="M30 54 L28 60 L31 57 L32 56 L33 57 L36 60 L34 54Z"
-        fill={color}
-      />
-      {/* Eye — left */}
-      <circle cx="29.5" cy="12.5" r="1.5" fill="white" opacity="0.95" />
-      {/* Eye — right */}
-      <circle cx="34.5" cy="12.5" r="1.5" fill="white" opacity="0.95" />
     </svg>
   );
 }
