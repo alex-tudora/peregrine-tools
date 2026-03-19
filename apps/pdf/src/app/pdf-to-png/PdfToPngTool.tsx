@@ -135,7 +135,7 @@ export function PdfToPngTool() {
             <button
               onClick={handleConvert}
               disabled={isProcessing}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-sky-600 hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-sky-500"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? (
                 <>
@@ -171,7 +171,7 @@ export function PdfToPngTool() {
 
       {/* Error message */}
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}
@@ -217,7 +217,7 @@ export function PdfToPngTool() {
                   </span>
                   <button
                     onClick={() => handleDownloadSingle(image)}
-                    className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-sky-600 transition-colors hover:bg-sky-50"
+                    className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-[color:var(--color-accent)] transition-colors hover:bg-[color:var(--color-accent-light)]"
                     aria-label={`Download page ${image.pageNumber}`}
                   >
                     <svg

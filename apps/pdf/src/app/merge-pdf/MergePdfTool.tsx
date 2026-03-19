@@ -122,7 +122,7 @@ export function MergePdfTool() {
       )}
 
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}
@@ -135,7 +135,7 @@ export function MergePdfTool() {
         <button
           onClick={handleMerge}
           disabled={files.length < 2 || isProcessing}
-          className="w-full rounded-lg bg-sky-500 py-3 font-semibold text-white transition-colors hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-sky-500"
+          className="w-full rounded-lg bg-[color:var(--color-accent)] py-3 font-semibold text-white transition-colors hover:bg-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[color:var(--color-accent)]"
         >
           {isProcessing ? "Merging..." : "Merge PDFs"}
         </button>

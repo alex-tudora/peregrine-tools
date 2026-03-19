@@ -17,12 +17,12 @@ const popularConversions = [
 ];
 
 const formatCategories = [
-  { name: "Documents", formats: ["PDF", "Word", "Excel"], emoji: "📄", color: "#3B82F6" },
-  { name: "Images", formats: ["JPG", "PNG", "WebP", "SVG", "GIF"], emoji: "🖼️", color: "#8B5CF6" },
-  { name: "Video", formats: ["MP4", "AVI", "MOV", "MKV", "WebM"], emoji: "🎬", color: "#F43F5E" },
-  { name: "Audio", formats: ["MP3", "WAV", "OGG", "FLAC", "AAC"], emoji: "🎵", color: "#EC4899" },
-  { name: "Data", formats: ["JSON", "CSV"], emoji: "📊", color: "#F59E0B" },
-  { name: "Code", formats: ["HTML", "Markdown"], emoji: "🧑‍💻", color: "#10B981" },
+  { name: "Documents", formats: ["PDF", "Word", "Excel"], emoji: "📄", color: "#2563EB" },
+  { name: "Images", formats: ["JPG", "PNG", "WebP", "SVG", "GIF"], emoji: "🖼️", color: "#7C3AED" },
+  { name: "Video", formats: ["MP4", "AVI", "MOV", "MKV", "WebM"], emoji: "🎬", color: "#E11D48" },
+  { name: "Audio", formats: ["MP3", "WAV", "OGG", "FLAC", "AAC"], emoji: "🎵", color: "#DB2777" },
+  { name: "Data", formats: ["JSON", "CSV"], emoji: "📊", color: "#D97706" },
+  { name: "Code", formats: ["HTML", "Markdown"], emoji: "🧑‍💻", color: "#059669" },
 ];
 
 export default function Home() {
@@ -32,8 +32,8 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#FFF1E6] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
         {/* Decorative blobs */}
-        <div className="absolute top-20 left-[10%] w-64 h-64 bg-[#F97316]/[0.04] rounded-full blur-3xl" />
-        <div className="absolute top-40 right-[15%] w-48 h-48 bg-[#F43F5E]/[0.04] rounded-full blur-3xl" />
+        <div className="absolute top-20 left-[10%] w-64 h-64 bg-[color:var(--color-accent)]/[0.04] rounded-full blur-3xl" />
+        <div className="absolute top-40 right-[15%] w-48 h-48 bg-[color:var(--color-accent-glow)] rounded-full blur-3xl" />
 
         <div className="relative max-w-4xl mx-auto px-6 pt-16 pb-8 md:pt-24 md:pb-12">
           <div className="text-center">
@@ -48,7 +48,7 @@ export default function Home() {
             <h1 className="animate-fade-in-up font-display font-extrabold text-5xl sm:text-6xl md:text-7xl leading-[1.0] tracking-tight text-[color:var(--color-text-primary)]">
               Drop your file.
               <br />
-              <span className="text-[#F97316]">We&apos;ll handle the rest.</span>
+              <span className="text-[color:var(--color-accent)]">We&apos;ll handle the rest.</span>
             </h1>
 
             {/* Subhead */}
@@ -70,7 +70,7 @@ export default function Home() {
       <section className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#F97316] mb-3">Most wanted</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[color:var(--color-accent)] mb-3">Most wanted</p>
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
               Popular conversions
             </h2>
@@ -80,10 +80,10 @@ export default function Home() {
               <a
                 key={`${c.from}-${c.to}`}
                 href={c.href}
-                className={`animate-slide-up delay-${Math.min((i % 4) + 1, 6)} group relative flex items-center gap-2.5 px-4 py-3.5 rounded-xl bg-white border border-[color:var(--color-border)] hover:border-[#F97316]/30 hover:shadow-lg hover:shadow-orange-500/[0.08] hover:-translate-y-0.5 transition-all duration-200`}
+                className={`animate-slide-up delay-${Math.min((i % 4) + 1, 6)} group relative flex items-center gap-2.5 px-4 py-3.5 rounded-xl bg-white border border-[color:var(--color-border)] hover:border-[color:var(--color-accent)]/30 hover:shadow-lg hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 transition-all duration-200`}
               >
                 <span className="text-sm font-semibold text-[color:var(--color-text-primary)]">{c.from}</span>
-                <svg className="w-3.5 h-3.5 text-[#F97316] shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                <svg className="w-3.5 h-3.5 text-[color:var(--color-accent)] shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                 </svg>
                 <span className="text-sm font-semibold text-[color:var(--color-text-primary)]">{c.to}</span>
@@ -97,7 +97,7 @@ export default function Home() {
       <section className="border-t border-[color:var(--color-border)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#F97316] mb-3">Format arsenal</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[color:var(--color-accent)] mb-3">Format arsenal</p>
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
               We speak every format
             </h2>
@@ -133,7 +133,7 @@ export default function Home() {
       <section className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <div className="text-center mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#F97316] mb-3">The Convert-a-Lot oath</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[color:var(--color-accent)] mb-3">The Convert-a-Lot oath</p>
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
               Why choose this knight?
             </h2>
@@ -141,7 +141,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5] flex items-center justify-center mx-auto mb-5 shadow-sm">
-                <svg className="w-8 h-8 text-[#F97316]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <svg className="w-8 h-8 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                 </svg>
               </div>
@@ -153,7 +153,7 @@ export default function Home() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5] flex items-center justify-center mx-auto mb-5 shadow-sm">
-                <svg className="w-8 h-8 text-[#F97316]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <svg className="w-8 h-8 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                 </svg>
               </div>
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5] flex items-center justify-center mx-auto mb-5 shadow-sm">
-                <svg className="w-8 h-8 text-[#F97316]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <svg className="w-8 h-8 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                 </svg>
               </div>
@@ -191,7 +191,7 @@ export default function Home() {
           </p>
           <a
             href="/"
-            className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-[#F97316] text-white font-bold rounded-2xl hover:bg-[#EA580C] hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+            className="inline-flex items-center gap-2 mt-8 px-8 py-4 border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] font-bold rounded-2xl hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-[var(--shadow-accent)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
           >
             Start converting
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">

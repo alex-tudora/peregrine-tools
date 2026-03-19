@@ -218,7 +218,7 @@ export default function SplitPdfTool() {
     <div className="space-y-6">
       {/* Error banner */}
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}
@@ -275,7 +275,7 @@ export default function SplitPdfTool() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") applyRange();
                 }}
-                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               />
             </div>
             <button
@@ -293,7 +293,7 @@ export default function SplitPdfTool() {
             <button
               type="button"
               onClick={selectAll}
-              className="rounded-md px-3 py-1.5 text-xs font-medium text-sky-600 transition-colors hover:bg-sky-50"
+              className="rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-accent)] transition-colors hover:bg-[color:var(--color-accent-light)]"
             >
               Select All
             </button>
@@ -317,7 +317,7 @@ export default function SplitPdfTool() {
                   key={page}
                   className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-md border px-2 py-2 text-sm transition-colors select-none ${
                     selectedPages.has(page)
-                      ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                      ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
@@ -339,7 +339,7 @@ export default function SplitPdfTool() {
               type="button"
               onClick={handleExtractSinglePdf}
               disabled={isProcessing || selectedPages.size === 0}
-              className="flex-1 rounded-lg bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex-1 rounded-lg bg-[color:var(--color-accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isProcessing ? "Processing..." : "Extract Selected Pages"}
             </button>
@@ -347,7 +347,7 @@ export default function SplitPdfTool() {
               type="button"
               onClick={handleDownloadAsZip}
               disabled={isProcessing || selectedPages.size === 0}
-              className="flex-1 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex-1 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isProcessing ? "Processing..." : "Download as ZIP"}
             </button>

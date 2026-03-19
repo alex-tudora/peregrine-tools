@@ -54,11 +54,11 @@ interface SiteSection {
 }
 
 const siteSections: SiteSection[] = [
-  { name: "PDF Tools", color: "#3B82F6", siteUrl: "https://peregrinepdf.com", tools: pdfTools },
-  { name: "Image Tools", color: "#8B5CF6", siteUrl: "https://peregrinepix.com", tools: imageTools },
-  { name: "Utility Tools", color: "#10B981", siteUrl: "https://peregrinekit.com", tools: utilityTools },
-  { name: "Video & Audio Tools", color: "#F43F5E", siteUrl: "https://peregrinevid.com", tools: videoTools },
-  { name: "Developer Tools", color: "#F59E0B", siteUrl: "https://peregrinedev.com", tools: devTools },
+  { name: "PDF Tools", color: "#2563EB", siteUrl: "https://peregrinepdf.com", tools: pdfTools },
+  { name: "Image Tools", color: "#7C3AED", siteUrl: "https://peregrinepix.com", tools: imageTools },
+  { name: "Utility Tools", color: "#059669", siteUrl: "https://peregrinekit.com", tools: utilityTools },
+  { name: "Video & Audio Tools", color: "#E11D48", siteUrl: "https://peregrinevid.com", tools: videoTools },
+  { name: "Developer Tools", color: "#D97706", siteUrl: "https://peregrinedev.com", tools: devTools },
 ];
 
 export default function Home() {
@@ -147,46 +147,17 @@ export default function Home() {
       ))}
 
       {/* Section 3: Trust / Stats */}
-      <section className="border-t border-[color:var(--color-border)]">
-        <div className="max-w-7xl mx-auto px-6 py-20">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-serif font-semibold text-2xl md:text-3xl text-[color:var(--color-text-primary)]">
-              89 free tools across 5 sites
-            </h2>
-            <p className="mt-4 text-[color:var(--color-text-secondary)] leading-relaxed">
-              All tools are free, work instantly in your browser, and require no sign-up.
-            </p>
-
-            {/* Three trust pillars */}
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                  </svg>
-                </div>
-                <h3 className="font-semibold text-[color:var(--color-text-primary)]">Lightning Fast</h3>
-                <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">Client-side processing with zero upload wait</p>
-              </div>
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                  </svg>
-                </div>
-                <h3 className="font-semibold text-[color:var(--color-text-primary)]">100% Private</h3>
-                <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">Data never leaves your browser</p>
-              </div>
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                  </svg>
-                </div>
-                <h3 className="font-semibold text-[color:var(--color-text-primary)]">Completely Free</h3>
-                <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">No sign-up, no limits, no hidden fees</p>
-              </div>
-            </div>
+      {/* Trust Section — editorial style */}
+      <section className="relative">
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, var(--color-border), transparent)" }} aria-hidden="true" />
+        <div className="max-w-3xl mx-auto px-6 py-20 text-center">
+          <blockquote className="font-serif text-2xl md:text-3xl italic leading-relaxed text-[color:var(--color-text-primary)]">
+            &ldquo;89 free tools. Your files never leave your device.&rdquo;
+          </blockquote>
+          <div className="mt-8 flex flex-wrap justify-center gap-8 text-sm text-[color:var(--color-text-muted)]">
+            <span><strong className="text-[color:var(--color-text-primary)]">5</strong> specialized sites</span>
+            <span><strong className="text-[color:var(--color-text-primary)]">100%</strong> browser-based</span>
+            <span><strong className="text-[color:var(--color-text-primary)]">No sign-up</strong> required</span>
           </div>
         </div>
       </section>

@@ -114,7 +114,7 @@ export function JwtDecoderTool() {
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 overflow-x-auto">
           <p className="text-xs font-medium text-slate-500 mb-2">Encoded Token</p>
           <p className="font-mono text-sm break-all leading-relaxed">
-            <span className="text-red-600">{result.parts[0]}</span>
+            <span className="text-[color:var(--color-error)]">{result.parts[0]}</span>
             <span className="text-slate-400">.</span>
             <span className="text-purple-600">{result.parts[1]}</span>
             <span className="text-slate-400">.</span>
@@ -124,11 +124,11 @@ export function JwtDecoderTool() {
       )}
 
       {result?.error && (
-        <p className="text-sm text-red-500">{result.error}</p>
+        <p className="text-sm text-[color:var(--color-error)]">{result.error}</p>
       )}
 
       {result?.header && (
-        <JsonBlock label="Header" data={result.header} colorClass="text-red-600" />
+        <JsonBlock label="Header" data={result.header} colorClass="text-[color:var(--color-error)]" />
       )}
 
       {result?.payload && (
@@ -152,13 +152,13 @@ export function JwtDecoderTool() {
         <div
           className={`rounded-xl border p-4 ${
             expStatus.isExpired
-              ? "border-red-200 bg-red-50"
+              ? "border-red-200 bg-[color:var(--color-error-bg,#fef2f2)]"
               : "border-emerald-200 bg-emerald-50"
           }`}
         >
           <p className="text-sm font-medium">
             {expStatus.isExpired ? (
-              <span className="text-red-700">Token is expired</span>
+              <span className="text-[color:var(--color-error)]">Token is expired</span>
             ) : (
               <span className="text-emerald-700">Token is valid (not expired)</span>
             )}

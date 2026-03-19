@@ -10,3 +10,5 @@ export { DownloadButton } from "./DownloadButton";
 export { ProgressBar } from "./ProgressBar";
 export { AdPlacement } from "./AdPlacement";
 export { ToolLayout } from "./ToolLayout";
+export { ToolActionButton } from "./ToolActionButton";
+export { OptionSelector } from "./OptionSelector";

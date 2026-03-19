@@ -328,7 +328,7 @@ export function SignPdfTool() {
                 onClick={() => setMode("draw")}
                 className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "draw"
-                    ? "bg-sky-500 text-white shadow-sm"
+                    ? "bg-[color:var(--color-accent)] text-white shadow-sm"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
               >
@@ -338,7 +338,7 @@ export function SignPdfTool() {
                 onClick={() => setMode("type")}
                 className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                   mode === "type"
-                    ? "bg-sky-500 text-white shadow-sm"
+                    ? "bg-[color:var(--color-accent)] text-white shadow-sm"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
               >
@@ -389,7 +389,7 @@ export function SignPdfTool() {
                   value={typedName}
                   onChange={(e) => setTypedName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                  className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
                 />
               </div>
 
@@ -406,7 +406,7 @@ export function SignPdfTool() {
                         key={style.value}
                         className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
                           isSelected
-                            ? "border-sky-500 bg-sky-50/60 ring-1 ring-sky-500/20"
+                            ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
                             : "border-slate-200 bg-white hover:border-slate-300"
                         }`}
                       >
@@ -455,7 +455,7 @@ export function SignPdfTool() {
                 id="target-page"
                 value={targetPage}
                 onChange={(e) => setTargetPage(Number(e.target.value))}
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               >
                 {Array.from({ length: file.pageCount }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -479,7 +479,7 @@ export function SignPdfTool() {
                 onChange={(e) =>
                   setPosition(e.target.value as SignaturePosition)
                 }
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               >
                 {POSITION_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -505,7 +505,7 @@ export function SignPdfTool() {
             <button
               onClick={handleSign}
               disabled={isProcessing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-sky-600 hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-sky-500"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? (
                 <>
@@ -548,7 +548,7 @@ export function SignPdfTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Sign another
                 </button>
@@ -561,7 +561,7 @@ export function SignPdfTool() {
       {/* Error message */}
       {error && (
         <div
-          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

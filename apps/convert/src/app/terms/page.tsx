@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+      <h1 className="text-3xl font-bold tracking-tight text-[color:var(--color-text-primary)] sm:text-4xl">
         Terms of Service
       </h1>
-      <p className="mt-2 text-sm text-slate-500">
+      <p className="mt-2 text-sm text-[color:var(--color-text-muted)]">
         Effective date: March 1, 2026
       </p>
 
-      <div className="mt-8 space-y-8 text-slate-700 leading-relaxed">
+      <div className="mt-8 space-y-8 text-[color:var(--color-text-secondary)] leading-relaxed">
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Acceptance of Terms
           </h2>
           <p className="mt-3">
@@ -33,7 +33,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Description of Service
           </h2>
           <p className="mt-3">
@@ -47,7 +47,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             No Warranties
           </h2>
           <p className="mt-3">
@@ -63,7 +63,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             User Responsibility
           </h2>
           <p className="mt-3">
@@ -76,7 +76,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Acceptable Use
           </h2>
           <p className="mt-3">
@@ -90,7 +90,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Intellectual Property
           </h2>
           <p className="mt-3">
@@ -108,7 +108,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Limitation of Liability
           </h2>
           <p className="mt-3">
@@ -121,7 +121,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Changes to Terms
           </h2>
           <p className="mt-3">
@@ -134,7 +134,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Contact Us
           </h2>
           <p className="mt-3">
@@ -142,7 +142,7 @@ export default function TermsPage() {
             us at{" "}
             <a
               href="mailto:legal@peregrinetools.com"
-              className="text-[#F97316] underline hover:text-[#EA580C]"
+              className="text-[color:var(--color-accent)] underline hover:text-[color:var(--color-accent-hover)]"
             >
               legal@peregrinetools.com
             </a>

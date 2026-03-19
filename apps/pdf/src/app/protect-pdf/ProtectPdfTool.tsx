@@ -38,8 +38,8 @@ const STRENGTH_CONFIG: Record<
 > = {
   weak: {
     label: "Weak",
-    color: "text-red-600",
-    bg: "bg-red-500",
+    color: "text-[color:var(--color-error)]",
+    bg: "bg-[color:var(--color-error)]",
     width: "w-1/3",
   },
   medium: {
@@ -148,7 +148,7 @@ export default function ProtectPdfTool() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter a password"
-                className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20"
               />
               <button
                 type="button"
@@ -189,10 +189,10 @@ export default function ProtectPdfTool() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter the password"
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 ${
+                className={`w-full rounded-lg border bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 ${
                   confirmPassword.length > 0 && !passwordsMatch
-                    ? "border-red-300 focus:border-red-500"
-                    : "border-slate-200 focus:border-sky-500"
+                    ? "border-red-300 focus:border-[color:var(--color-error)]"
+                    : "border-slate-200 focus:border-[color:var(--color-accent)]"
                 }`}
               />
               <button
@@ -204,7 +204,7 @@ export default function ProtectPdfTool() {
               </button>
             </div>
             {confirmPassword.length > 0 && !passwordsMatch && (
-              <p className="mt-1 text-xs text-red-600">
+              <p className="mt-1 text-xs text-[color:var(--color-error)]">
                 Passwords do not match
               </p>
             )}
@@ -260,7 +260,7 @@ export default function ProtectPdfTool() {
           {/* Protect button (disabled with tooltip) */}
           <button
             disabled
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             title={
               canProtect
                 ? "PDF encryption is coming soon"
@@ -288,7 +288,7 @@ export default function ProtectPdfTool() {
       {/* Error message */}
       {error && (
         <div
-          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

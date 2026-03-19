@@ -117,7 +117,7 @@ export function RemoveDuplicatesTool() {
             <p className="mt-1 text-xs text-slate-500">Original Lines</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-            <p className="text-2xl font-semibold text-red-600">{stats.duplicates}</p>
+            <p className="text-2xl font-semibold text-[color:var(--color-error)]">{stats.duplicates}</p>
             <p className="mt-1 text-xs text-slate-500">Duplicates Removed</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">

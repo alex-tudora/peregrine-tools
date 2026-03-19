@@ -50,7 +50,7 @@ export default function RootLayout({
       <body className="font-sans antialiased overflow-x-hidden">
         <Header
           siteName="Peregrine Tools"
-          accentColor="#3B82F6"
+          accentColor="#2563EB"
           currentTools={currentTools}
         />
         <main className="min-h-screen">{children}</main>

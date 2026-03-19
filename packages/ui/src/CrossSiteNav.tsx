@@ -15,35 +15,35 @@ const sites: SiteInfo[] = [
     name: "Peregrine PDF",
     slug: "pdf",
     url: "https://peregrinepdf.com",
-    accent: "#0ea5e9",
+    accent: "#2563EB",
     tagline: "Merge, split & compress documents",
   },
   {
     name: "Peregrine Pix",
     slug: "pix",
     url: "https://peregrinepix.com",
-    accent: "#8b5cf6",
+    accent: "#7C3AED",
     tagline: "Resize, compress & transform images",
   },
   {
     name: "Peregrine Kit",
     slug: "kit",
     url: "https://peregrinekit.com",
-    accent: "#10b981",
+    accent: "#059669",
     tagline: "Text utilities & everyday tools",
   },
   {
     name: "Peregrine Vid",
     slug: "vid",
     url: "https://peregrinevid.com",
-    accent: "#f43f5e",
+    accent: "#E11D48",
     tagline: "Compress, trim & convert video",
   },
   {
     name: "Peregrine Dev",
     slug: "dev",
     url: "https://peregrinedev.com",
-    accent: "#f59e0b",
+    accent: "#D97706",
     tagline: "JSON, regex & developer utilities",
   },
 ];
@@ -70,11 +70,11 @@ export function CrossSiteNav({
             href={site.url}
             className={`
               group flex items-center gap-3.5 rounded-lg px-3 py-3
-              transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]
+              transition-all duration-200 ease-[var(--ease-peregrine)]
               ${
                 isCurrent
-                  ? "bg-slate-50"
-                  : "hover:bg-slate-50/80"
+                  ? "bg-[color:var(--color-bg-elevated)]"
+                  : "hover:bg-[color:var(--color-bg-elevated)]/80"
               }
             `}
             {...(isCurrent ? { "aria-current": "page" as const } : {})}
@@ -90,18 +90,18 @@ export function CrossSiteNav({
               <div className="flex items-center gap-2">
                 <span
                   className={`text-sm font-semibold tracking-tight ${
-                    isCurrent ? "text-slate-900" : "text-slate-800"
+                    isCurrent ? "text-[color:var(--color-text-primary)]" : "text-[color:var(--color-text-primary)]"
                   }`}
                 >
                   {site.name}
                 </span>
                 {isCurrent && (
-                  <span className="rounded-full bg-slate-200/80 px-2 py-0.5 text-[10px] font-medium leading-none text-slate-500">
+                  <span className="rounded-full bg-[color:var(--color-border)] px-2 py-0.5 text-[10px] font-medium leading-none text-[color:var(--color-text-muted)]">
                     Current
                   </span>
                 )}
               </div>
-              <p className="mt-0.5 text-xs leading-relaxed text-slate-400">
+              <p className="mt-0.5 text-xs leading-relaxed text-[color:var(--color-text-muted)]">
                 {site.tagline}
               </p>
             </div>

@@ -50,7 +50,7 @@ export function CharacterCounterTool() {
           className={`rounded-lg px-4 py-3 text-sm font-medium ${
             stats.remaining >= 0
               ? "bg-emerald-50 text-emerald-700"
-              : "bg-red-50 text-red-700"
+              : "bg-[color:var(--color-error-bg,#fef2f2)] text-[color:var(--color-error)]"
           }`}
         >
           {stats.remaining >= 0

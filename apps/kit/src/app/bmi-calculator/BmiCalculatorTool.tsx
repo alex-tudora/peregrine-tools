@@ -11,7 +11,7 @@ interface BmiResult {
 }
 
 function getBmiCategory(bmi: number): { category: string; color: string } {
-  if (bmi < 18.5) return { category: "Underweight", color: "#3B82F6" };
+  if (bmi < 18.5) return { category: "Underweight", color: "#2563EB" };
   if (bmi < 25) return { category: "Normal weight", color: "#10B981" };
   if (bmi < 30) return { category: "Overweight", color: "#F59E0B" };
   return { category: "Obese", color: "#EF4444" };

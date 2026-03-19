@@ -161,7 +161,7 @@ export function WatermarkPdfTool() {
     <div className="space-y-5">
       {/* Error banner */}
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}
@@ -217,7 +217,7 @@ export function WatermarkPdfTool() {
                 setText(e.target.value);
                 setResult(null);
               }}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
             />
           </div>
 
@@ -240,7 +240,7 @@ export function WatermarkPdfTool() {
                 setFontSize(Number(e.target.value));
                 setResult(null);
               }}
-              className="w-full accent-sky-500"
+              className="w-full accent-[color:var(--color-accent)]"
             />
             <div className="mt-1 flex justify-between text-xs text-slate-400">
               <span>20px</span>
@@ -267,7 +267,7 @@ export function WatermarkPdfTool() {
                 setOpacity(Number(e.target.value));
                 setResult(null);
               }}
-              className="w-full accent-sky-500"
+              className="w-full accent-[color:var(--color-accent)]"
             />
             <div className="mt-1 flex justify-between text-xs text-slate-400">
               <span>10%</span>
@@ -288,7 +288,7 @@ export function WatermarkPdfTool() {
                     color[0] === opt.value[0] &&
                     color[1] === opt.value[1] &&
                     color[2] === opt.value[2]
-                      ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                      ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
@@ -327,7 +327,7 @@ export function WatermarkPdfTool() {
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   position === "diagonal"
-                    ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
@@ -347,7 +347,7 @@ export function WatermarkPdfTool() {
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   position === "center"
-                    ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
@@ -373,7 +373,7 @@ export function WatermarkPdfTool() {
               type="button"
               onClick={handleWatermark}
               disabled={isProcessing || !text.trim()}
-              className="w-full rounded-lg bg-sky-500 py-3 font-semibold text-white transition-colors hover:bg-sky-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-sky-500"
+              className="w-full rounded-lg bg-[color:var(--color-accent)] py-3 font-semibold text-white transition-colors hover:bg-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? "Adding Watermark..." : "Add Watermark"}
             </button>

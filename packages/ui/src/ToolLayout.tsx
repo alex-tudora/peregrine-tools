@@ -38,7 +38,7 @@ function FAQItem({ question, answer }: FAQ) {
           {question}
         </span>
         <svg
-          className={`mt-1 h-5 w-5 shrink-0 text-[color:var(--color-text-muted)] transition-transform duration-300 ${
+          className={`mt-1 h-5 w-5 shrink-0 text-[color:var(--color-text-muted)] transition-transform duration-300 ease-[var(--ease-peregrine)] ${
             isOpen ? "rotate-180" : ""
           }`}
           fill="none"
@@ -51,17 +51,30 @@ function FAQItem({ question, answer }: FAQ) {
         </svg>
       </button>
       <div
-        className={`grid transition-all duration-300 ease-out ${
+        className={`grid transition-all duration-300 ease-[var(--ease-peregrine)] ${
           isOpen ? "grid-rows-[1fr] opacity-100 pb-5" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden">
+        <div className={`overflow-hidden ${isOpen ? "animate-reveal" : ""}`}>
           <p className="text-sm leading-relaxed text-[color:var(--color-text-secondary)]">
             {answer}
           </p>
         </div>
       </div>
     </div>
+  );
+}
+
+function GradientDivider() {
+  return (
+    <div
+      className="h-px my-16"
+      style={{
+        background:
+          "linear-gradient(90deg, transparent, var(--color-border), transparent)",
+      }}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -97,75 +110,87 @@ export function ToolLayout({
 
       {/* How-to section */}
       {howTo.length > 0 && (
-        <section className="mt-16">
-          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-6">
-            {keyword ? `How to ${keyword}` : "How to Use This Tool"}
-          </h2>
-          <ol className="space-y-4">
-            {howTo.map((step, index) => (
-              <li key={index} className="flex gap-4 items-start">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-accent)] text-white text-sm font-semibold">
-                  {index + 1}
-                </span>
-                <span className="text-[color:var(--color-text-secondary)] pt-0.5 leading-relaxed">
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
+        <>
+          <GradientDivider />
+          <section>
+            <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-6">
+              {keyword ? `How to ${keyword}` : "How to Use This Tool"}
+            </h2>
+            <ol className="space-y-4">
+              {howTo.map((step, index) => (
+                <li key={index} className="flex gap-4 items-start">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] text-sm font-semibold">
+                    {index + 1}
+                  </span>
+                  <span className="text-[color:var(--color-text-secondary)] pt-0.5 leading-relaxed">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        </>
       )}
 
       {/* About section */}
       {about && (
-        <section className="mt-12">
-          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
-            About This Tool
-          </h2>
-          <div
-            className="prose prose-sm max-w-none text-[color:var(--color-text-secondary)] leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: about }}
-          />
-        </section>
+        <>
+          <GradientDivider />
+          <section>
+            <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
+              About This Tool
+            </h2>
+            <div
+              className="prose prose-sm max-w-none text-[color:var(--color-text-secondary)] leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: about }}
+            />
+          </section>
+        </>
       )}
 
       {/* FAQ section */}
       {faqs.length > 0 && (
-        <section className="mt-12">
-          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
-            Frequently Asked Questions
-          </h2>
-          <div>
-            {faqs.map((faq, index) => (
-              <FAQItem key={index} question={faq.question} answer={faq.answer} />
-            ))}
-          </div>
-        </section>
+        <>
+          <GradientDivider />
+          <section>
+            <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-4">
+              Frequently Asked Questions
+            </h2>
+            <div>
+              {faqs.map((faq, index) => (
+                <FAQItem key={index} question={faq.question} answer={faq.answer} />
+              ))}
+            </div>
+          </section>
+        </>
       )}
 
       {/* Related tools */}
       {relatedTools.length > 0 && (
-        <section className="mt-12">
-          <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-5">
-            Related Tools
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {relatedTools.map((tool) => (
-              <a
-                key={tool.href}
-                href={tool.href}
-                className="
-                  border border-[color:var(--color-border)] rounded-full px-5 py-2
-                  text-sm font-medium text-[color:var(--color-text-primary)]
-                  transition-all duration-200
-                  hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]
-                "
-              >
-                {tool.name}
-              </a>
-            ))}
-          </div>
-        </section>
+        <>
+          <GradientDivider />
+          <section>
+            <h2 className="font-serif font-semibold text-2xl text-[color:var(--color-text-primary)] mb-5">
+              Related Tools
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {relatedTools.map((tool) => (
+                <a
+                  key={tool.href}
+                  href={tool.href}
+                  className="
+                    border border-[color:var(--color-border)] rounded-full px-5 py-2
+                    text-sm font-medium text-[color:var(--color-text-primary)]
+                    transition-all duration-200 ease-[var(--ease-peregrine)]
+                    hover:border-[color:var(--color-accent)] hover:bg-[color:var(--color-accent-light)] hover:text-[color:var(--color-accent)]
+                  "
+                >
+                  {tool.name}
+                </a>
+              ))}
+            </div>
+          </section>
+        </>
       )}
     </div>
   );

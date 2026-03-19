@@ -1,107 +1,34 @@
 @import "tailwindcss";
+@import "@peregrine/ui/styles/peregrine-base.css";
 
 @theme {
-  --color-accent: #F97316;
-  --color-accent-hover: #EA580C;
+  /* Convert — Warm orange */
+  --color-accent: #EA580C;
+  --color-accent-hover: #C2410C;
   --color-accent-light: #FFF7ED;
-  --color-accent-glow: rgba(249, 115, 22, 0.12);
+  --color-accent-glow: rgba(234, 88, 12, 0.12);
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
+  --color-error-bg: #FEF2F2;
 
-  /* Warm cream tones — not cold slate */
-  --color-bg: #FFFCF9;
+  /* Warm cream tones */
+  --color-bg: #FDFCFA;
   --color-bg-card: #FFFFFF;
   --color-bg-dark: #1B2A4A;
-  --color-bg-elevated: #FFF8F3;
+  --color-bg-elevated: #FAF8F5;
 
-  --color-border: #F0E6DB;
-  --color-border-hover: #E0D0C0;
+  --color-border: #E8E4DF;
+  --color-border-hover: #D4CEC6;
 
-  --color-text-primary: #1B2A4A;
-  --color-text-secondary: #5A6578;
-  --color-text-muted: #9CA3AF;
-  --color-text-inverse: #F1F5F9;
+  --color-text-primary: #1C1917;
+  --color-text-secondary: #57534E;
+  --color-text-muted: #A8A29E;
+  --color-text-inverse: #FAFAF9;
 
-  /* Playful type stack — Outfit for display, DM Sans for body */
+  /* Playful type stack for Convert */
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-}
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes pulseArrow {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-.animate-fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.animate-fade-in-down { animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.animate-slide-up { animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.animate-scale-in { animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.animate-float { animation: float 4s ease-in-out infinite; }
-.animate-pulse-arrow { animation: pulseArrow 1.5s ease-in-out infinite; }
-
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.15s; }
-.delay-3 { animation-delay: 0.25s; }
-.delay-4 { animation-delay: 0.35s; }
-.delay-5 { animation-delay: 0.45s; }
-.delay-6 { animation-delay: 0.55s; }
-
-::selection {
-  background-color: var(--color-accent-glow);
-  color: var(--color-text-primary);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-}
-
-*:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: 8px;
 }

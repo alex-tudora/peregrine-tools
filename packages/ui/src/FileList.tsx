@@ -55,8 +55,10 @@ export function FileList({ files, onRemove, onReorder, className = "" }: FileLis
             flex items-center gap-3 py-3 px-4 rounded-lg
             transition-colors duration-200
             hover:bg-[color:var(--color-bg-elevated)]
+            animate-arrive
             ${index < files.length - 1 ? "border-b border-[color:var(--color-border)]" : ""}
           `}
+          style={{ animationDelay: `${index * 0.05}s` }}
         >
           {/* File icon */}
           <div className="flex h-8 w-8 shrink-0 items-center justify-center text-[color:var(--color-text-muted)]">
@@ -131,7 +133,7 @@ export function FileList({ files, onRemove, onReorder, className = "" }: FileLis
           {/* Remove button */}
           <button
             onClick={() => onRemove(file.id)}
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:text-[color:var(--color-error)] hover:bg-[color:var(--color-error-light,#fef2f2)]"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-all duration-200 hover:text-[color:var(--color-error)] hover:bg-[color:var(--color-error-bg,#fef2f2)]"
             aria-label={`Remove ${file.name}`}
             title="Remove file"
           >

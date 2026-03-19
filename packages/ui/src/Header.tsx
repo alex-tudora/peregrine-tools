@@ -34,7 +34,6 @@ export function Header({
     setFamilyOpen(false);
   }, []);
 
-  // Click outside to close dropdowns
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const target = e.target as Node;
@@ -49,7 +48,6 @@ export function Header({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -61,7 +59,6 @@ export function Header({
     };
   }, [mobileOpen]);
 
-  // Close mobile menu on escape key
   useEffect(() => {
     function handleEscape(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -75,19 +72,28 @@ export function Header({
 
   return (
     <>
-      <header className="sticky top-0 z-50 h-16 border-b border-[color:var(--color-border,theme(colors.slate.200/60))] bg-white/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 h-16 bg-white/80 backdrop-blur-xl">
+        {/* Gradient bottom border */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--color-border), transparent)",
+          }}
+          aria-hidden="true"
+        />
+
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
           {/* Left: Logo + site name */}
           <a href="/" className="flex shrink-0 items-center gap-2.5">
             <FalconLogo size={28} color={accentColor} />
-            <span className="font-serif text-lg font-semibold tracking-tight text-slate-900">
+            <span className="font-serif text-lg font-semibold tracking-tight text-[color:var(--color-text-primary)]">
               {siteName}
             </span>
           </a>
 
-          {/* Desktop nav — center-right */}
+          {/* Desktop nav */}
           <nav className="hidden items-center gap-1 md:flex">
-            {/* Tools dropdown */}
             {currentTools.length > 0 && (
               <div ref={toolsRef} className="relative">
                 <button
@@ -95,13 +101,13 @@ export function Header({
                     setToolsOpen((prev) => !prev);
                     setFamilyOpen(false);
                   }}
-                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-slate-50 hover:text-slate-900"
+                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
                   aria-expanded={toolsOpen}
                   aria-haspopup="true"
                 >
                   Tools
                   <svg
-                    className={`h-3.5 w-3.5 text-slate-400 transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${toolsOpen ? "rotate-180" : ""}`}
+                    className={`h-3.5 w-3.5 text-[color:var(--color-text-muted)] transition-transform duration-200 ease-[var(--ease-peregrine)] ${toolsOpen ? "rotate-180" : ""}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -117,14 +123,16 @@ export function Header({
 
                 {/* Tools dropdown panel */}
                 {toolsOpen && (
-                  <div className="absolute left-0 top-full mt-2 w-[28rem] rounded-xl border border-slate-200 bg-white p-4 shadow-lg shadow-black/5">
-
+                  <div
+                    className="absolute left-0 top-full mt-2 w-[28rem] rounded-xl border border-[color:var(--color-border)] bg-white p-4 shadow-[var(--shadow-xl)] animate-stoop"
+                    style={{ transformOrigin: "top center" }}
+                  >
                     <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
                       {currentTools.map((tool) => (
                         <a
                           key={tool.href}
                           href={tool.href}
-                          className="rounded-lg px-3 py-2.5 text-sm text-slate-600 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-slate-50 hover:text-slate-900"
+                          className="rounded-lg px-3 py-2.5 text-sm text-[color:var(--color-text-secondary)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
                           onClick={closeAll}
                         >
                           {tool.name}
@@ -143,13 +151,13 @@ export function Header({
                   setFamilyOpen((prev) => !prev);
                   setToolsOpen(false);
                 }}
-                className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-slate-50 hover:text-slate-900"
+                className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
                 aria-expanded={familyOpen}
                 aria-haspopup="true"
               >
                 Peregrine Family
                 <svg
-                  className={`h-3.5 w-3.5 text-slate-400 transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${familyOpen ? "rotate-180" : ""}`}
+                  className={`h-3.5 w-3.5 text-[color:var(--color-text-muted)] transition-transform duration-200 ease-[var(--ease-peregrine)] ${familyOpen ? "rotate-180" : ""}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -163,39 +171,37 @@ export function Header({
                 </svg>
               </button>
 
-              {/* Family dropdown panel */}
               {familyOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-slate-200 bg-white p-4 shadow-lg shadow-black/5">
-
+                <div
+                  className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-[color:var(--color-border)] bg-white p-4 shadow-[var(--shadow-xl)] animate-stoop"
+                  style={{ transformOrigin: "top center" }}
+                >
                   <CrossSiteNav currentSite={currentSite} />
                 </div>
               )}
             </div>
           </nav>
 
-          {/* Mobile hamburger / close */}
+          {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-colors duration-200 hover:bg-slate-50 hover:text-slate-900 md:hidden"
+            className="relative flex h-10 w-10 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)] md:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
-            {/* Top line */}
             <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
                 mobileOpen
                   ? "translate-y-0 rotate-45"
                   : "-translate-y-[5px] rotate-0"
               }`}
             />
-            {/* Middle line */}
             <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
                 mobileOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
               }`}
             />
-            {/* Bottom line */}
             <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
                 mobileOpen
                   ? "translate-y-0 -rotate-45"
                   : "translate-y-[5px] rotate-0"
@@ -207,100 +213,77 @@ export function Header({
 
       {/* Mobile slide-out panel */}
       {mobileOpen && (
-      <div
-        className="fixed inset-0 z-[60] md:hidden"
-        aria-hidden={!mobileOpen}
-      >
-        {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
-          onClick={() => setMobileOpen(false)}
-        />
+          className="fixed inset-0 z-[60] md:hidden"
+          aria-hidden={!mobileOpen}
+        >
+          <div
+            className="absolute inset-0 bg-[color:var(--color-text-primary)]/20 backdrop-blur-sm"
+            onClick={() => setMobileOpen(false)}
+          />
 
-        {/* Panel */}
-        <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white shadow-2xl shadow-black/10">
-
-          {/* Panel header */}
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-[color:var(--color-border,theme(colors.slate.200/60))] px-6">
-            <div className="flex items-center gap-2.5">
-              <FalconLogo size={24} color={accentColor} />
-              <span className="font-serif text-lg font-semibold tracking-tight text-slate-900">
-                {siteName}
-              </span>
-            </div>
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 transition-colors duration-200 hover:bg-slate-50 hover:text-slate-900"
-              aria-label="Close menu"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Panel content */}
-          <div className="flex-1 overflow-y-auto px-6 py-8">
-            {/* Tools section */}
-            {currentTools.length > 0 && (
-              <div className="mb-10">
-                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-slate-400">
-                  Tools
-                </p>
-                <div className="grid grid-cols-2 gap-1">
-                  {currentTools.map((tool) => (
-                    <a
-                      key={tool.href}
-                      href={tool.href}
-                      className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-slate-50 hover:text-slate-900"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {tool.name}
-                    </a>
-                  ))}
-                </div>
+          <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white shadow-[var(--shadow-xl)] animate-descend">
+            {/* Panel header */}
+            <div className="flex h-16 shrink-0 items-center justify-between px-6" style={{ borderBottom: "1px solid var(--color-border)" }}>
+              <div className="flex items-center gap-2.5">
+                <FalconLogo size={24} color={accentColor} />
+                <span className="font-serif text-lg font-semibold tracking-tight text-[color:var(--color-text-primary)]">
+                  {siteName}
+                </span>
               </div>
-            )}
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                aria-label="Close menu"
+              >
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
 
-            {/* Peregrine Family section */}
-            <div>
-              <p className="mb-4 text-xs font-medium uppercase tracking-wider text-slate-400">
-                Peregrine Family
-              </p>
-              <CrossSiteNav currentSite={currentSite} />
+            {/* Panel content */}
+            <div className="flex-1 overflow-y-auto px-6 py-8">
+              {currentTools.length > 0 && (
+                <div className="mb-10">
+                  <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[color:var(--color-text-muted)]">
+                    Tools
+                  </p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {currentTools.map((tool) => (
+                      <a
+                        key={tool.href}
+                        href={tool.href}
+                        className="rounded-lg px-3 py-2.5 text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {tool.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[color:var(--color-text-muted)]">
+                  Peregrine Family
+                </p>
+                <CrossSiteNav currentSite={currentSite} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
-
-      {/* Keyframe animation for dropdown fade-in */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            @keyframes fade-in-down {
-              from {
-                opacity: 0;
-                transform: translateY(-4px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-          `,
-        }}
-      />
     </>
   );
 }

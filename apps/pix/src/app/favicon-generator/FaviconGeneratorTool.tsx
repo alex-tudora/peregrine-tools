@@ -239,7 +239,7 @@ export function FaviconGeneratorTool() {
       {/* Error message */}
       {error && (
         <div
-          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

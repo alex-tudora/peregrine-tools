@@ -103,7 +103,7 @@ export function TextDiffTool() {
           <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
             <p className="text-sm font-medium text-slate-700">Differences</p>
             <p className="mt-0.5 text-xs text-slate-500">
-              <span className="inline-block rounded bg-red-100 px-1.5 py-0.5 text-red-700">Removed</span>
+              <span className="inline-block rounded bg-[color:var(--color-error-bg,#fef2f2)] px-1.5 py-0.5 text-[color:var(--color-error)]">Removed</span>
               {" "}
               <span className="inline-block rounded bg-emerald-100 px-1.5 py-0.5 text-emerald-700">Added</span>
             </p>
@@ -122,7 +122,7 @@ export function TextDiffTool() {
                       line.type === "added"
                         ? "bg-emerald-50 text-emerald-800"
                         : line.type === "removed"
-                        ? "bg-red-50 text-red-800"
+                        ? "bg-[color:var(--color-error-bg,#fef2f2)] text-[color:var(--color-error)]"
                         : "text-slate-600"
                     }`}
                   >

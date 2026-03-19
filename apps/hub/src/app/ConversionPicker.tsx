@@ -114,7 +114,7 @@ export function ConversionPicker() {
               id="convert-from"
               value={fromFormat}
               onChange={(e) => handleFromChange(e.target.value)}
-              className="w-full h-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 text-base font-medium text-[color:var(--color-text-primary)] transition-colors hover:border-[color:var(--color-border-hover)] focus:border-[#3B82F6] focus:ring-2 focus:ring-[rgba(59,130,246,0.15)] focus:outline-none appearance-none cursor-pointer"
+              className="w-full h-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 text-base font-medium text-[color:var(--color-text-primary)] transition-colors hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-2 focus:ring-[color:var(--color-accent-glow)] focus:outline-none appearance-none cursor-pointer"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
                 backgroundRepeat: "no-repeat",
@@ -170,7 +170,7 @@ export function ConversionPicker() {
               value={toFormat}
               onChange={(e) => setToFormat(e.target.value)}
               disabled={!fromFormat}
-              className="w-full h-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 text-base font-medium text-[color:var(--color-text-primary)] transition-colors hover:border-[color:var(--color-border-hover)] focus:border-[#3B82F6] focus:ring-2 focus:ring-[rgba(59,130,246,0.15)] focus:outline-none appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 text-base font-medium text-[color:var(--color-text-primary)] transition-colors hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-2 focus:ring-[color:var(--color-accent-glow)] focus:outline-none appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
                 backgroundRepeat: "no-repeat",
@@ -193,7 +193,7 @@ export function ConversionPicker() {
         <button
           onClick={handleConvert}
           disabled={!conversionUrl}
-          className="mt-5 w-full h-14 rounded-xl bg-[#3B82F6] text-white text-base font-semibold transition-all duration-200 hover:bg-[#2563EB] hover:shadow-lg hover:shadow-blue-500/25 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:bg-[#3B82F6] disabled:active:scale-100 flex items-center justify-center gap-2"
+          className="mt-5 w-full h-14 rounded-xl bg-[color:var(--color-accent)] text-white text-base font-semibold transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-lg hover:shadow-[var(--shadow-accent)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:bg-[color:var(--color-accent)] disabled:active:scale-100 flex items-center justify-center gap-2"
         >
           Convert Now
           <svg

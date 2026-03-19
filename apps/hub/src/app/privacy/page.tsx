@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+      <h1 className="text-3xl font-bold tracking-tight text-[color:var(--color-text-primary)] sm:text-4xl">
         Privacy Policy
       </h1>
-      <p className="mt-2 text-sm text-slate-500">
+      <p className="mt-2 text-sm text-[color:var(--color-text-muted)]">
         Effective date: March 1, 2026
       </p>
 
-      <div className="mt-8 space-y-8 text-slate-700 leading-relaxed">
+      <div className="mt-8 space-y-8 text-[color:var(--color-text-secondary)] leading-relaxed">
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Overview
           </h2>
           <p className="mt-3">
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Data Processing &amp; Your Data
           </h2>
           <p className="mt-3">
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Personal Information
           </h2>
           <p className="mt-3">
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Analytics
           </h2>
           <p className="mt-3">
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Advertising
           </h2>
           <p className="mt-3">
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
               href="https://www.google.com/settings/ads"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#3B82F6] underline hover:text-[#2563EB]"
+              className="text-[color:var(--color-accent)] underline hover:text-[color:var(--color-accent-hover)]"
             >
               Google&apos;s Ads Settings
             </a>
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Cookies
           </h2>
           <p className="mt-3">
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Third-Party Services
           </h2>
           <p className="mt-3">
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Changes to This Policy
           </h2>
           <p className="mt-3">
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold text-[color:var(--color-text-primary)]">
             Contact Us
           </h2>
           <p className="mt-3">
@@ -147,7 +147,7 @@ export default function PrivacyPage() {
             contact us at{" "}
             <a
               href="mailto:privacy@peregrinetools.com"
-              className="text-[#3B82F6] underline hover:text-[#2563EB]"
+              className="text-[color:var(--color-accent)] underline hover:text-[color:var(--color-accent-hover)]"
             >
               privacy@peregrinetools.com
             </a>

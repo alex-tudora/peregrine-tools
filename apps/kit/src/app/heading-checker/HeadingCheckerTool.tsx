@@ -123,18 +123,18 @@ export function HeadingCheckerTool() {
                 key={i}
                 className={`flex items-start gap-2 rounded-lg border p-3 ${
                   w.type === "error"
-                    ? "border-red-200 bg-red-50"
+                    ? "border-red-200 bg-[color:var(--color-error-bg,#fef2f2)]"
                     : "border-amber-200 bg-amber-50"
                 }`}
               >
                 <span
                   className={`mt-0.5 h-4 w-4 shrink-0 rounded-full ${
-                    w.type === "error" ? "bg-red-500" : "bg-amber-500"
+                    w.type === "error" ? "bg-[color:var(--color-error)]" : "bg-amber-500"
                   }`}
                 />
                 <p
                   className={`text-sm ${
-                    w.type === "error" ? "text-red-700" : "text-amber-700"
+                    w.type === "error" ? "text-[color:var(--color-error)]" : "text-amber-700"
                   }`}
                 >
                   {w.message}

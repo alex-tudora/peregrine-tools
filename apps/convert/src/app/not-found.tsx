@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
       <KnightLogo size={80} className="mb-6 opacity-80" />
-      <p className="text-8xl font-bold text-[#F97316]">404</p>
+      <p className="text-8xl font-bold text-[color:var(--color-accent)]">404</p>
 
       <h1 className="mt-6 font-serif text-2xl font-semibold text-[color:var(--color-text-primary)]">
         Page Not Found
@@ -18,7 +18,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-8 inline-block rounded-xl bg-[#F97316] px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-[#EA580C] hover:shadow-lg hover:shadow-orange-500/25"
+        className="mt-8 inline-block rounded-xl bg-[color:var(--color-accent)] px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-[color:var(--color-accent-hover)] hover:shadow-[var(--shadow-accent)]"
       >
         Back to Converting
       </Link>
@@ -37,7 +37,7 @@ export default function NotFound() {
             <a
               key={tool.href}
               href={tool.href}
-              className="rounded-lg border border-[color:var(--color-border)] px-4 py-2 text-sm text-[color:var(--color-text-secondary)] transition-all hover:border-[#F97316]/40 hover:text-[#F97316]"
+              className="rounded-lg border border-[color:var(--color-border)] px-4 py-2 text-sm text-[color:var(--color-text-secondary)] transition-all hover:border-[color:var(--color-accent)]/40 hover:text-[color:var(--color-accent)]"
             >
               {tool.name}
             </a>

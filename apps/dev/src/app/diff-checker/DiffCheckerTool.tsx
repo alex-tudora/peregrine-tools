@@ -78,7 +78,7 @@ export function DiffCheckerTool() {
   const bgClass = (type: DiffLine["type"]) => {
     switch (type) {
       case "added": return "bg-emerald-50 border-l-4 border-emerald-400";
-      case "removed": return "bg-red-50 border-l-4 border-red-400";
+      case "removed": return "bg-[color:var(--color-error-bg,#fef2f2)] border-l-4 border-red-400";
       case "modified": return "bg-amber-50 border-l-4 border-amber-400";
       default: return "";
     }
@@ -187,9 +187,9 @@ export function DiffCheckerTool() {
             <p className="text-lg font-semibold text-emerald-700">{stats.added}</p>
             <p className="text-xs text-emerald-600">Added</p>
           </div>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-center">
-            <p className="text-lg font-semibold text-red-700">{stats.removed}</p>
-            <p className="text-xs text-red-600">Removed</p>
+          <div className="rounded-lg border border-red-200 bg-[color:var(--color-error-bg,#fef2f2)] p-3 text-center">
+            <p className="text-lg font-semibold text-[color:var(--color-error)]">{stats.removed}</p>
+            <p className="text-xs text-[color:var(--color-error)]">Removed</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white p-3 text-center">
             <p className="text-lg font-semibold text-slate-700">{stats.unchanged}</p>
@@ -236,7 +236,7 @@ export function DiffCheckerTool() {
               <div
                 key={i}
                 className={`flex font-mono text-sm ${
-                  line.type === "removed" ? "bg-red-50" : ""
+                  line.type === "removed" ? "bg-[color:var(--color-error-bg,#fef2f2)]" : ""
                 }`}
               >
                 <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-slate-400 select-none border-r border-slate-100">

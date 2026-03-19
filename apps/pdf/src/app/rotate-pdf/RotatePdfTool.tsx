@@ -135,7 +135,7 @@ export function RotatePdfTool() {
     <div className="space-y-5">
       {/* Error banner */}
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}
@@ -185,7 +185,7 @@ export function RotatePdfTool() {
                   key={opt.value}
                   className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                     angle === opt.value
-                      ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                      ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
@@ -215,7 +215,7 @@ export function RotatePdfTool() {
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   pageMode === "all"
-                    ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
@@ -235,7 +235,7 @@ export function RotatePdfTool() {
               <label
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   pageMode === "specific"
-                    ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
@@ -268,7 +268,7 @@ export function RotatePdfTool() {
                       key={page}
                       className={`flex cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-sm transition-colors select-none ${
                         selectedPages.has(page)
-                          ? "border-sky-300 bg-sky-50 text-sky-700 font-medium"
+                          ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
                           : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                       }`}
                     >
@@ -295,7 +295,7 @@ export function RotatePdfTool() {
                 isProcessing ||
                 (pageMode === "specific" && selectedPages.size === 0)
               }
-              className="w-full rounded-lg bg-sky-500 py-3 font-semibold text-white transition-colors hover:bg-sky-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-sky-500"
+              className="w-full rounded-lg bg-[color:var(--color-accent)] py-3 font-semibold text-white transition-colors hover:bg-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? "Rotating..." : "Rotate PDF"}
             </button>

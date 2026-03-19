@@ -108,7 +108,7 @@ export function RobotsTxtGeneratorTool() {
             {groups.length > 1 && (
               <button
                 onClick={() => removeGroup(group.id)}
-                className="text-xs text-red-500 hover:text-red-600 transition-colors"
+                className="text-xs text-[color:var(--color-error)] hover:text-[color:var(--color-error)] transition-colors"
               >
                 Remove
               </button>

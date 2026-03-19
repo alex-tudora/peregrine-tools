@@ -125,7 +125,7 @@ export function JsonFormatterTool() {
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]">
           <span className="mr-2 font-semibold">Error:</span>
           {error}
         </div>

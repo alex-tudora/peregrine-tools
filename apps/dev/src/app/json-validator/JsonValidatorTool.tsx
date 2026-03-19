@@ -83,7 +83,7 @@ export function JsonValidatorTool() {
           className={`rounded-xl border px-4 py-4 ${
             result.valid
               ? "border-emerald-200 bg-emerald-50"
-              : "border-red-200 bg-red-50"
+              : "border-red-200 bg-[color:var(--color-error-bg,#fef2f2)]"
           }`}
         >
           <div className="flex items-center gap-2">
@@ -96,10 +96,10 @@ export function JsonValidatorTool() {
               </>
             ) : (
               <>
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white text-xs font-bold">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[color:var(--color-error)] text-white text-xs font-bold">
                   &#10005;
                 </span>
-                <span className="text-sm font-semibold text-red-800">Invalid JSON</span>
+                <span className="text-sm font-semibold text-[color:var(--color-error)]">Invalid JSON</span>
               </>
             )}
           </div>
@@ -120,10 +120,10 @@ export function JsonValidatorTool() {
               </div>
             </div>
           ) : (
-            <div className="mt-2 text-sm text-red-700">
+            <div className="mt-2 text-sm text-[color:var(--color-error)]">
               <p>{result.error}</p>
               {result.line !== undefined && (
-                <p className="mt-1 text-xs text-red-500">Near line {result.line}</p>
+                <p className="mt-1 text-xs text-[color:var(--color-error)]">Near line {result.line}</p>
               )}
             </div>
           )}

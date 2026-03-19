@@ -95,19 +95,19 @@ function getReadabilityLabel(score: number): string {
 function getReadabilityColor(score: number): string {
   if (score >= 70) return "bg-emerald-500";
   if (score >= 50) return "bg-amber-500";
-  return "bg-red-500";
+  return "bg-[color:var(--color-error)]";
 }
 
 function getReadabilityTextColor(score: number): string {
   if (score >= 70) return "text-emerald-700";
   if (score >= 50) return "text-amber-700";
-  return "text-red-700";
+  return "text-[color:var(--color-error)]";
 }
 
 function getReadabilityBgColor(score: number): string {
   if (score >= 70) return "bg-emerald-50";
   if (score >= 50) return "bg-amber-50";
-  return "bg-red-50";
+  return "bg-[color:var(--color-error-bg,#fef2f2)]";
 }
 
 export function ReadabilityScoreTool() {
@@ -192,8 +192,8 @@ export function ReadabilityScoreTool() {
               <div className="flex justify-between"><span>70-79: Fairly Easy (7th grade)</span><span className="text-emerald-600 font-medium">Easy</span></div>
               <div className="flex justify-between"><span>60-69: Standard (8th-9th grade)</span><span className="text-amber-600 font-medium">Medium</span></div>
               <div className="flex justify-between"><span>50-59: Fairly Difficult (10th-12th grade)</span><span className="text-amber-600 font-medium">Medium</span></div>
-              <div className="flex justify-between"><span>30-49: Difficult (College)</span><span className="text-red-600 font-medium">Hard</span></div>
-              <div className="flex justify-between"><span>0-29: Very Difficult (College graduate)</span><span className="text-red-600 font-medium">Hard</span></div>
+              <div className="flex justify-between"><span>30-49: Difficult (College)</span><span className="text-[color:var(--color-error)] font-medium">Hard</span></div>
+              <div className="flex justify-between"><span>0-29: Very Difficult (College graduate)</span><span className="text-[color:var(--color-error)] font-medium">Hard</span></div>
             </div>
           </div>
         </>

@@ -174,7 +174,7 @@ export default function UnlockPdfTool() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter the document password"
                   disabled={isProcessing}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 disabled:cursor-not-allowed disabled:opacity-50"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && password && !isProcessing) {
                       handleUnlock();
@@ -207,7 +207,7 @@ export default function UnlockPdfTool() {
             <button
               onClick={handleUnlock}
               disabled={isProcessing || !password}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-sky-600 hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-sky-500"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? (
                 <>
@@ -241,7 +241,7 @@ export default function UnlockPdfTool() {
 
           {/* Info message (not encrypted) */}
           {info && (
-            <div className="mt-5 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-700">
+            <div className="mt-5 rounded-lg bg-[color:var(--color-accent-light)] px-4 py-3 text-sm text-[color:var(--color-accent)]">
               <div className="flex items-start gap-2.5">
                 <svg
                   className="mt-0.5 h-4 w-4 shrink-0"
@@ -296,7 +296,7 @@ export default function UnlockPdfTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Unlock another
                 </button>
@@ -309,7 +309,7 @@ export default function UnlockPdfTool() {
       {/* Error message */}
       {error && (
         <div
-          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

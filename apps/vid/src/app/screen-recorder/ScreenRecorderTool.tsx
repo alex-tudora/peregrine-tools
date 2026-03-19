@@ -234,14 +234,14 @@ export function ScreenRecorderTool() {
 
       {/* Recording state */}
       {state === "recording" && (
-        <div className="rounded-xl border-2 border-red-300 bg-white p-6 sm:p-8">
+        <div className="rounded-xl border-2 border-[color:var(--color-error)] bg-white p-6 sm:p-8">
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex items-center gap-3">
               <span className="relative flex h-4 w-4">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-                <span className="relative inline-flex h-4 w-4 rounded-full bg-red-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--color-error)] opacity-75" />
+                <span className="relative inline-flex h-4 w-4 rounded-full bg-[color:var(--color-error)]" />
               </span>
-              <span className="text-lg font-semibold text-red-600">
+              <span className="text-lg font-semibold text-[color:var(--color-error)]">
                 Recording
               </span>
             </div>
@@ -252,7 +252,7 @@ export function ScreenRecorderTool() {
 
             <button
               onClick={handleStopRecording}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-500 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--color-error)] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-error)] focus-visible:ring-offset-2 active:scale-[0.98]"
             >
               <svg
                 className="h-5 w-5"
@@ -317,7 +317,7 @@ export function ScreenRecorderTool() {
 
       {/* Error message */}
       {error && (
-        <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
+        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
           {error}
         </div>
       )}

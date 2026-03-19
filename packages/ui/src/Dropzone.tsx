@@ -156,7 +156,7 @@ export function Dropzone({
         className={`
           relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center
           rounded-2xl border-2 border-dashed p-8 text-center
-          transition-all duration-300 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]
+          transition-all duration-300 ease-[var(--ease-peregrine)]
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2
           ${
             isDragging
@@ -164,13 +164,21 @@ export function Dropzone({
               : "border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] hover:border-[color:var(--color-border-hover)]"
           }
         `}
+        style={
+          !isDragging
+            ? {
+                backgroundImage:
+                  "radial-gradient(ellipse at center, var(--color-bg-elevated) 0%, var(--color-bg) 100%)",
+              }
+            : undefined
+        }
       >
         {/* Upload icon — cloud with arrow */}
         <div
-          className={`mb-5 transition-colors duration-300 ${
+          className={`mb-5 transition-all duration-300 ${
             isDragging
-              ? "text-[color:var(--color-accent)]"
-              : "text-[color:var(--color-text-muted)]"
+              ? "text-[color:var(--color-accent)] animate-stoop"
+              : "text-[color:var(--color-text-muted)] animate-float"
           }`}
         >
           <svg
@@ -194,7 +202,7 @@ export function Dropzone({
           </svg>
         </div>
 
-        <p className="font-medium text-[color:var(--color-text-secondary)]">
+        <p className="font-serif text-lg font-medium text-[color:var(--color-text-secondary)]">
           {isDragging ? "Release to upload" : label}
         </p>
         <p className="mt-1.5 text-sm text-[color:var(--color-text-muted)]">
@@ -229,7 +237,7 @@ export function Dropzone({
       {/* Error message */}
       {error && (
         <div
-          className="mt-3 rounded-xl bg-[color:var(--color-error-light,#fef2f2)] px-4 py-2.5 text-sm text-[color:var(--color-error)]"
+          className="mt-3 rounded-xl bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-2.5 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

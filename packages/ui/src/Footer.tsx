@@ -5,6 +5,14 @@ interface FooterProps {
   siteName?: string;
 }
 
+const siteAccents: Record<string, string> = {
+  PDF: "#2563EB",
+  Pix: "#7C3AED",
+  Kit: "#059669",
+  Vid: "#E11D48",
+  Dev: "#D97706",
+};
+
 const footerSections = [
   {
     title: "PDF",
@@ -84,17 +92,27 @@ const footerSections = [
 
 export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
   return (
-    <footer className="bg-[color:var(--color-bg-dark,theme(colors.slate.900))] text-slate-300">
+    <footer className="bg-[color:var(--color-bg-dark)] text-[color:var(--color-text-inverse)]">
+      {/* Gradient accent line at top */}
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, var(--color-accent), transparent)",
+        }}
+        aria-hidden="true"
+      />
+
       {/* Top section — brand + tagline */}
       <div className="mx-auto max-w-7xl px-6 pt-16 pb-12">
         <div className="flex items-center gap-3">
-          <FalconLogo size={24} color="#94a3b8" />
-          <span className="font-serif text-xl font-semibold tracking-tight text-white">
+          <FalconLogo size={28} color="#94a3b8" />
+          <span className="font-serif text-2xl font-semibold tracking-tight text-white">
             Peregrine
           </span>
         </div>
-        <p className="mt-3 text-sm leading-relaxed text-slate-500">
-          The fastest tools online.
+        <p className="mt-3 font-serif text-base italic text-white/40">
+          Precision at speed.
         </p>
       </div>
 
@@ -105,8 +123,13 @@ export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
             <div key={section.title}>
               <a
                 href={section.url}
-                className="text-sm font-medium uppercase tracking-wider text-white transition-colors duration-200 hover:text-slate-300"
+                className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-white transition-colors duration-200 hover:text-white/70"
               >
+                <span
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: siteAccents[section.title] || "var(--color-accent)" }}
+                  aria-hidden="true"
+                />
                 {section.title}
               </a>
               <ul className="mt-3 space-y-2.5">
@@ -114,7 +137,7 @@ export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
                   <li key={tool.name}>
                     <a
                       href={tool.href}
-                      className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+                      className="text-sm text-white/40 transition-colors duration-200 hover:text-white"
                     >
                       {tool.name}
                     </a>
@@ -127,19 +150,19 @@ export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-slate-800">
+      <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-          <span className="text-sm text-slate-500">
+          <span className="text-sm text-white/30">
             &copy; 2026 {siteName}
           </span>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
+          <div className="flex items-center gap-6 text-sm text-white/30">
             <a
               href="/privacy"
               className="transition-colors duration-200 hover:text-white"
             >
               Privacy
             </a>
-            <span className="text-slate-700" aria-hidden="true">
+            <span className="text-white/10" aria-hidden="true">
               &middot;
             </span>
             <a

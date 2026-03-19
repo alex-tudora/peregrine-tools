@@ -51,7 +51,7 @@ export default function RootLayout({
       <body className="font-sans antialiased overflow-x-hidden">
         <Header
           siteName="Peregrine PDF"
-          accentColor="#3B82F6"
+          accentColor="#2563EB"
           currentTools={pdfTools}
         />
         <main className="min-h-screen">{children}</main>

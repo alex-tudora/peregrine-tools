@@ -210,7 +210,7 @@ export function AddPageNumbersTool() {
                     key={option.value}
                     className={`flex cursor-pointer items-center justify-center rounded-lg border-2 px-3 py-2.5 text-sm font-medium transition-all ${
                       isSelected
-                        ? "border-sky-500 bg-sky-50/60 text-sky-700 ring-1 ring-sky-500/20"
+                        ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] ring-1 ring-sky-500/20"
                         : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
                     }`}
                   >
@@ -242,7 +242,7 @@ export function AddPageNumbersTool() {
                     key={option.value}
                     className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
                       isSelected
-                        ? "border-sky-500 bg-sky-50/60 ring-1 ring-sky-500/20"
+                        ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
                         : "border-slate-200 bg-white hover:border-slate-300"
                     }`}
                   >
@@ -256,7 +256,7 @@ export function AddPageNumbersTool() {
                     />
                     <span
                       className={`text-sm font-medium ${
-                        isSelected ? "text-sky-700" : "text-slate-700"
+                        isSelected ? "text-[color:var(--color-accent)]" : "text-slate-700"
                       }`}
                     >
                       {option.label}
@@ -288,7 +288,7 @@ export function AddPageNumbersTool() {
                 onChange={(e) =>
                   setStartNumber(Math.max(1, parseInt(e.target.value, 10) || 1))
                 }
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               />
             </div>
 
@@ -307,7 +307,7 @@ export function AddPageNumbersTool() {
                 max={24}
                 value={fontSize}
                 onChange={(e) => setFontSize(parseInt(e.target.value, 10))}
-                className="mt-1.5 w-full accent-sky-500"
+                className="mt-1.5 w-full accent-[color:var(--color-accent)]"
               />
               <div className="mt-1 flex justify-between text-xs text-slate-400">
                 <span>8pt</span>
@@ -323,7 +323,7 @@ export function AddPageNumbersTool() {
                 type="checkbox"
                 checked={skipFirst}
                 onChange={(e) => setSkipFirst(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-sky-500 focus:ring-sky-500"
+                className="h-4 w-4 rounded border-slate-300 text-[color:var(--color-accent)] focus:ring-[color:var(--color-accent)]"
               />
               <span className="text-sm text-slate-700">
                 Skip first page (useful for title pages)
@@ -346,7 +346,7 @@ export function AddPageNumbersTool() {
             <button
               onClick={handleAddNumbers}
               disabled={isProcessing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-sky-600 hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-sky-500"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? (
                 <>
@@ -389,7 +389,7 @@ export function AddPageNumbersTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Number another
                 </button>
@@ -402,7 +402,7 @@ export function AddPageNumbersTool() {
       {/* Error message */}
       {error && (
         <div
-          className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
           role="alert"
         >
           {error}

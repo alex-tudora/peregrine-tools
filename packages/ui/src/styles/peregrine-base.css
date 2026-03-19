@@ -1,0 +1,249 @@
+/* ============================================
+   Peregrine Base — Shared Design Foundation
+   "Precision at speed."
+   ============================================ */
+
+/* ------------------------------------------------------------------
+   Warm shadow system — uses warm-toned rgba instead of pure black
+   ------------------------------------------------------------------ */
+@theme {
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-lg: 0 4px 16px rgba(28, 25, 23, 0.08), 0 2px 4px rgba(28, 25, 23, 0.04);
+  --shadow-xl: 0 8px 32px rgba(28, 25, 23, 0.1), 0 2px 8px rgba(28, 25, 23, 0.05);
+  --shadow-accent: 0 4px 20px var(--color-accent-glow);
+}
+
+/* ------------------------------------------------------------------
+   Named animations — organic falcon-inspired easing
+   ------------------------------------------------------------------ */
+
+/* Arrive: elements entering from below, like a falcon landing */
+@keyframes peregrine-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Descend: elements entering from above */
+@keyframes peregrine-descend {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reveal: scale-up reveal, like unfurling */
+@keyframes peregrine-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Stoop: the falcon's dive — quick drop into place */
+@keyframes peregrine-stoop {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Float: gentle idle hovering — for icons/decorative elements */
+@keyframes peregrine-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Gradient shift: animated gradient position for accent elements */
+@keyframes peregrine-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Pulse complete: brief scale pulse for completion events */
+@keyframes peregrine-pulse-complete {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(1.02);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Organic easing — cubic-bezier(0.22, 1, 0.36, 1)
+   Like a falcon: fast start, graceful settle.
+   ------------------------------------------------------------------ */
+:root {
+  --ease-peregrine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------
+   Animation utility classes
+   ------------------------------------------------------------------ */
+.animate-arrive {
+  animation: peregrine-arrive 0.6s var(--ease-peregrine) both;
+}
+
+.animate-descend {
+  animation: peregrine-descend 0.5s var(--ease-peregrine) both;
+}
+
+.animate-reveal {
+  animation: peregrine-reveal 0.5s var(--ease-peregrine) both;
+}
+
+.animate-stoop {
+  animation: peregrine-stoop 0.4s var(--ease-peregrine) both;
+}
+
+.animate-float {
+  animation: peregrine-float 4s ease-in-out infinite;
+}
+
+/* Legacy aliases — map old names to new ones */
+.animate-fade-in {
+  animation: peregrine-reveal 0.5s var(--ease-peregrine) both;
+}
+
+.animate-fade-in-up {
+  animation: peregrine-arrive 0.6s var(--ease-peregrine) both;
+}
+
+.animate-fade-in-down {
+  animation: peregrine-descend 0.5s var(--ease-peregrine) both;
+}
+
+.animate-slide-up {
+  animation: peregrine-arrive 0.7s var(--ease-peregrine) both;
+}
+
+.animate-scale-in {
+  animation: peregrine-reveal 0.5s var(--ease-peregrine) both;
+}
+
+/* ------------------------------------------------------------------
+   Stagger delays for sequential reveals
+   ------------------------------------------------------------------ */
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+.delay-5 { animation-delay: 0.4s; }
+.delay-6 { animation-delay: 0.48s; }
+.delay-7 { animation-delay: 0.56s; }
+.delay-8 { animation-delay: 0.64s; }
+
+/* ------------------------------------------------------------------
+   Shared utility classes
+   ------------------------------------------------------------------ */
+
+/* Input focus style — replaces hardcoded focus:border-sky-500/ring */
+.input-focus {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-focus:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+  outline: none;
+}
+
+/* Error state */
+.error-box {
+  background-color: var(--color-error-bg, #FEF2F2);
+  color: var(--color-error, #EF4444);
+}
+
+/* ------------------------------------------------------------------
+   Global refinements
+   ------------------------------------------------------------------ */
+
+/* Smooth rendering */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+/* Warm selection color */
+::selection {
+  background-color: var(--color-accent-glow);
+  color: var(--color-text-primary);
+}
+
+/* Smooth scrolling — respect motion preferences */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion — disable ALL animations
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-arrive,
+  .animate-descend,
+  .animate-reveal,
+  .animate-stoop,
+  .animate-float,
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-slide-up,
+  .animate-scale-in {
+    animation: none !important;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
