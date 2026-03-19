@@ -76,5 +76,8 @@ export function generateSiteMetadata({
       index: true,
       follow: true,
     },
+    other: {
+      "google-adsense-account": "ca-pub-2865991938661915",
+    },
   };
 }
