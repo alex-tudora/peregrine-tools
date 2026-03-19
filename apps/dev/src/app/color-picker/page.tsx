@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { ColorPickerTool } from "./ColorPickerTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Use the native color picker or type a color value in any format (HEX, RGB, HSL)",
+  "View all color format values (HEX, RGB, HSL, CMYK) updated in real time",
+  "Click 'Copy' next to any format to copy the value to your clipboard",
+  "Explore the complementary color and lighter/darker shade palette below",
+];
+
+const faqs = [
+  {
+    question: "What color formats are supported?",
+    answer:
+      "The tool supports HEX (#ff5733), RGB (rgb(255, 87, 51)), HSL (hsl(14, 100%, 60%)), and CMYK values. You can input in any of these formats and the tool will display all four.",
+  },
+  {
+    question: "What is a complementary color?",
+    answer:
+      "A complementary color is the color on the opposite side of the color wheel. It is calculated by rotating the hue by 180 degrees in HSL color space. Complementary colors create high contrast and visual impact when used together.",
+  },
+  {
+    question: "How are the shade palettes generated?",
+    answer:
+      "The tool generates five lighter shades by progressively increasing the lightness in HSL color space, and five darker shades by decreasing it. This creates a smooth gradient from light to dark for your chosen hue.",
+  },
+  {
+    question: "What is CMYK used for?",
+    answer:
+      "CMYK (Cyan, Magenta, Yellow, Key/Black) is the color model used in print production. The conversion shown here is an approximation — for precise print colors, use a color management system with ICC profiles.",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All color calculations happen locally in your browser. No data is sent to any server.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function ColorPickerPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Pick any color and see its HEX, RGB, HSL, and CMYK values with a shade palette and complementary color. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Use the native color picker or type a color value in any format (HEX, RGB, HSL)",
-          "View all color format values (HEX, RGB, HSL, CMYK) updated in real time",
-          "Click 'Copy' next to any format to copy the value to your clipboard",
-          "Explore the complementary color and lighter/darker shade palette below",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>color picker</strong> is an essential tool for web developers, designers, and
@@ -65,33 +103,7 @@ export default function ColorPickerPage() {
             a modern browser.
           </p>
         `}
-        faqs={[
-          {
-            question: "What color formats are supported?",
-            answer:
-              "The tool supports HEX (#ff5733), RGB (rgb(255, 87, 51)), HSL (hsl(14, 100%, 60%)), and CMYK values. You can input in any of these formats and the tool will display all four.",
-          },
-          {
-            question: "What is a complementary color?",
-            answer:
-              "A complementary color is the color on the opposite side of the color wheel. It is calculated by rotating the hue by 180 degrees in HSL color space. Complementary colors create high contrast and visual impact when used together.",
-          },
-          {
-            question: "How are the shade palettes generated?",
-            answer:
-              "The tool generates five lighter shades by progressively increasing the lightness in HSL color space, and five darker shades by decreasing it. This creates a smooth gradient from light to dark for your chosen hue.",
-          },
-          {
-            question: "What is CMYK used for?",
-            answer:
-              "CMYK (Cyan, Magenta, Yellow, Key/Black) is the color model used in print production. The conversion shown here is an approximation — for precise print colors, use a color management system with ICC profiles.",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All color calculations happen locally in your browser. No data is sent to any server.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Hex to RGB", href: "/hex-to-rgb" },
           { name: "CSS Minifier", href: "/css-minifier" },

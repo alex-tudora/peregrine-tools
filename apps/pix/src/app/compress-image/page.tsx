@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import CompressImageTool from "./CompressImageTool";
 
@@ -19,32 +19,70 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your image file using the drop zone above",
+  "Adjust the quality slider to set the compression level",
+  "Choose your preferred output format (JPEG, PNG, or WebP)",
+  'Click "Compress Image" to reduce the file size',
+  "Download your compressed image",
+];
+
+const faqs = [
+  {
+    question: "Does compressing an image reduce its quality?",
+    answer:
+      "Lossy compression (JPEG, WebP) removes some visual data to shrink file size. At quality 0.7 or above, the difference is usually imperceptible. PNG compression is lossless, so the image stays pixel-perfect but the size reduction is smaller.",
+  },
+  {
+    question: "Is there a file size limit?",
+    answer:
+      "There is no hard limit. Because the tool runs entirely in your browser, performance depends on your device's available memory. Most images up to 50 MB compress without any issues.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
+  },
+  {
+    question: "Which output format should I choose?",
+    answer:
+      "WebP gives the best compression ratios and is supported by all modern browsers. JPEG is ideal for photographs when you need maximum compatibility. PNG is best when you need transparency or lossless quality.",
+  },
+  {
+    question: "How much smaller will my image be?",
+    answer:
+      "Results vary depending on the original file and the quality setting. Typical reductions range from 30% to 80%. Photos saved at high quality in JPEG or PNG tend to see the biggest improvements when re-encoded as WebP.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CompressImagePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Compress Image — Reduce File Size Online Free"
         subtitle="Shrink your image file size while preserving visual quality. Instantly. No sign-up required."
         keyword="compress image"
-        howTo={[
-          "Upload your image file using the drop zone above",
-          "Adjust the quality slider to set the compression level",
-          "Choose your preferred output format (JPEG, PNG, or WebP)",
-          'Click "Compress Image" to reduce the file size',
-          "Download your compressed image",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Oversized images slow down websites, bloat email attachments, and eat
@@ -74,33 +112,7 @@ export default function CompressImagePage() {
             ever leaving your browser.
           </p>
         `}
-        faqs={[
-          {
-            question: "Does compressing an image reduce its quality?",
-            answer:
-              "Lossy compression (JPEG, WebP) removes some visual data to shrink file size. At quality 0.7 or above, the difference is usually imperceptible. PNG compression is lossless, so the image stays pixel-perfect but the size reduction is smaller.",
-          },
-          {
-            question: "Is there a file size limit?",
-            answer:
-              "There is no hard limit. Because the tool runs entirely in your browser, performance depends on your device's available memory. Most images up to 50 MB compress without any issues.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
-          },
-          {
-            question: "Which output format should I choose?",
-            answer:
-              "WebP gives the best compression ratios and is supported by all modern browsers. JPEG is ideal for photographs when you need maximum compatibility. PNG is best when you need transparency or lossless quality.",
-          },
-          {
-            question: "How much smaller will my image be?",
-            answer:
-              "Results vary depending on the original file and the quality setting. Typical reductions range from 30% to 80%. Photos saved at high quality in JPEG or PNG tend to see the biggest improvements when re-encoded as WebP.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Resize Image", href: "/resize-image" },
           { name: "PNG to JPG", href: "/png-to-jpg" },

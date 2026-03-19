@@ -15,6 +15,7 @@ interface HeaderProps {
   currentTools?: Tool[];
   logo?: React.ReactNode;
   brandHref?: string;
+  showFamilyNav?: boolean;
 }
 
 export function Header({
@@ -23,6 +24,7 @@ export function Header({
   currentTools = [],
   logo,
   brandHref = "/",
+  showFamilyNav = true,
 }: HeaderProps) {
   const [toolsOpen, setToolsOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -115,8 +117,8 @@ export function Header({
 
                 {toolsOpen && (
                   <div
-                    className="absolute left-1/2 top-full mt-3 w-[26rem] -translate-x-1/2 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
-                    style={{ transformOrigin: "top center" }}
+                    className="absolute right-0 top-full mt-3 w-[26rem] rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
+                    style={{ transformOrigin: "top right" }}
                   >
                     <div className="grid grid-cols-2 gap-0.5 sm:grid-cols-3">
                       {currentTools.map((tool) => (
@@ -135,45 +137,49 @@ export function Header({
               </div>
             )}
 
-            {/* Divider */}
-            <span className="mx-1 h-4 w-px bg-[color:var(--color-border)]" aria-hidden="true" />
+            {showFamilyNav && (
+              <>
+                {/* Divider */}
+                <span className="mx-1 h-4 w-px bg-[color:var(--color-border)]" aria-hidden="true" />
 
-            {/* Peregrine Family */}
-            <div ref={familyRef} className="relative">
-              <button
-                onClick={() => {
-                  setFamilyOpen((prev) => !prev);
-                  setToolsOpen(false);
-                }}
-                className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
-                  familyOpen
-                    ? "text-[color:var(--color-text-primary)]"
-                    : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]"
-                }`}
-                aria-expanded={familyOpen}
-                aria-haspopup="true"
-              >
-                All Sites
-                <svg
-                  className={`h-3 w-3 transition-transform duration-200 ${familyOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                {/* Peregrine Family */}
+                <div ref={familyRef} className="relative">
+                  <button
+                    onClick={() => {
+                      setFamilyOpen((prev) => !prev);
+                      setToolsOpen(false);
+                    }}
+                    className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                      familyOpen
+                        ? "text-[color:var(--color-text-primary)]"
+                        : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]"
+                    }`}
+                    aria-expanded={familyOpen}
+                    aria-haspopup="true"
+                  >
+                    All Sites
+                    <svg
+                      className={`h-3 w-3 transition-transform duration-200 ${familyOpen ? "rotate-180" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
 
-              {familyOpen && (
-                <div
-                  className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
-                  style={{ transformOrigin: "top center" }}
-                >
-                  <CrossSiteNav currentSite={currentSite} />
+                  {familyOpen && (
+                    <div
+                      className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
+                      style={{ transformOrigin: "top center" }}
+                    >
+                      <CrossSiteNav currentSite={currentSite} />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </nav>
 
           {/* Mobile hamburger */}
@@ -241,12 +247,14 @@ export function Header({
                 </div>
               )}
 
-              <div>
-                <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)]">
-                  Peregrine Family
-                </p>
-                <CrossSiteNav currentSite={currentSite} />
-              </div>
+              {showFamilyNav && (
+                <div>
+                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)]">
+                    Peregrine Family
+                  </p>
+                  <CrossSiteNav currentSite={currentSite} />
+                </div>
+              )}
             </div>
           </div>
         </div>

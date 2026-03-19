@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CssMinifierTool } from "./CssMinifierTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste or type your CSS code into the input textarea",
+  "Click the Minify button to process the code",
+  "Review the minified output and the size comparison",
+  "Click Copy to copy the minified CSS to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "Will minification break my CSS?",
+    answer:
+      "No. The tool only removes characters that have no effect on how browsers interpret the stylesheet: comments, extra whitespace, and trailing semicolons. Selectors and property values are not altered.",
+  },
+  {
+    question: "Does it handle CSS variables and modern syntax?",
+    answer:
+      "Yes. The minification is purely character-level (removing whitespace and comments), so it works with any CSS syntax including custom properties, nesting, container queries, and @layer rules.",
+  },
+  {
+    question: "How much size reduction should I expect?",
+    answer:
+      "Typical savings range from 15% to 40%, depending on the amount of whitespace and comments in your source CSS. Heavily documented stylesheets will see the largest reductions.",
+  },
+  {
+    question: "Is my CSS sent to a server?",
+    answer:
+      "No. All minification happens locally in your browser. Your code never leaves your machine.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CssMinifierPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste your CSS and minify it instantly. Remove comments, collapse whitespace, and reduce file size."
         keyword={keyword}
-        howTo={[
-          "Paste or type your CSS code into the input textarea",
-          "Click the Minify button to process the code",
-          "Review the minified output and the size comparison",
-          "Click Copy to copy the minified CSS to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             CSS minification reduces file size by removing characters that browsers do not need to parse
@@ -61,28 +94,7 @@ export default function CssMinifierPage() {
             to use with proprietary stylesheets and client code.
           </p>
         `}
-        faqs={[
-          {
-            question: "Will minification break my CSS?",
-            answer:
-              "No. The tool only removes characters that have no effect on how browsers interpret the stylesheet: comments, extra whitespace, and trailing semicolons. Selectors and property values are not altered.",
-          },
-          {
-            question: "Does it handle CSS variables and modern syntax?",
-            answer:
-              "Yes. The minification is purely character-level (removing whitespace and comments), so it works with any CSS syntax including custom properties, nesting, container queries, and @layer rules.",
-          },
-          {
-            question: "How much size reduction should I expect?",
-            answer:
-              "Typical savings range from 15% to 40%, depending on the amount of whitespace and comments in your source CSS. Heavily documented stylesheets will see the largest reductions.",
-          },
-          {
-            question: "Is my CSS sent to a server?",
-            answer:
-              "No. All minification happens locally in your browser. Your code never leaves your machine.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "HTML Minifier", href: "/html-minifier" },
           { name: "JS Minifier", href: "/js-minifier" },

@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Header, Footer } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
@@ -25,6 +26,8 @@ export const metadata: Metadata = generateSiteMetadata({
   siteUrl: "https://peregrinepdf.com",
 });
 
+export const viewport: Viewport = { themeColor: "#2563EB" };
+
 const pdfTools = [
   { name: "Merge PDF", href: "/merge-pdf" },
   { name: "Split PDF", href: "/split-pdf" },
@@ -49,6 +52,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Peregrine PDF"
           currentSite="pdf"

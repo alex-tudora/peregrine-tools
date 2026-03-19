@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { WavToMp3Tool } from "./WavToMp3Tool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your WAV file using the drop zone above",
+  "Select your preferred bitrate (128, 192, 256, or 320 kbps)",
+  'Click "Convert to MP3" to start the conversion',
+  "Download your MP3 file",
+];
+
+const faqs = [
+  {
+    question: "How much smaller will the MP3 be?",
+    answer:
+      "WAV files are uncompressed, so MP3 conversion typically reduces size by 80-90%. A 30 MB WAV file becomes roughly 3-5 MB as a 192 kbps MP3.",
+  },
+  {
+    question: "Which bitrate should I choose?",
+    answer:
+      "320 kbps is the highest quality MP3 bitrate and is virtually indistinguishable from WAV in blind tests. 192 kbps is great for most purposes. 128 kbps is fine for spoken-word content.",
+  },
+  {
+    question: "Will I lose audio quality?",
+    answer:
+      "MP3 is a lossy format, so some audio data is discarded. At 256 or 320 kbps, the difference from the original WAV is inaudible to most listeners in normal conditions.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All conversion happens locally in your browser using WebAssembly. Your files never leave your device.",
+  },
+  {
+    question: "Can I convert multiple WAV files at once?",
+    answer:
+      "Currently the tool processes one file at a time. Upload and convert each WAV file individually for the best results.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function WavToMp3Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert WAV files to compact MP3 format with your choice of bitrate. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your WAV file using the drop zone above",
-          "Select your preferred bitrate (128, 192, 256, or 320 kbps)",
-          'Click "Convert to MP3" to start the conversion',
-          "Download your MP3 file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             WAV files offer uncompressed, studio-quality audio — but they are enormous. A
@@ -61,33 +99,7 @@ export default function WavToMp3Page() {
             No watermarks, no daily limits, no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "How much smaller will the MP3 be?",
-            answer:
-              "WAV files are uncompressed, so MP3 conversion typically reduces size by 80-90%. A 30 MB WAV file becomes roughly 3-5 MB as a 192 kbps MP3.",
-          },
-          {
-            question: "Which bitrate should I choose?",
-            answer:
-              "320 kbps is the highest quality MP3 bitrate and is virtually indistinguishable from WAV in blind tests. 192 kbps is great for most purposes. 128 kbps is fine for spoken-word content.",
-          },
-          {
-            question: "Will I lose audio quality?",
-            answer:
-              "MP3 is a lossy format, so some audio data is discarded. At 256 or 320 kbps, the difference from the original WAV is inaudible to most listeners in normal conditions.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All conversion happens locally in your browser using WebAssembly. Your files never leave your device.",
-          },
-          {
-            question: "Can I convert multiple WAV files at once?",
-            answer:
-              "Currently the tool processes one file at a time. Upload and convert each WAV file individually for the best results.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "MP3 to WAV", href: "/mp3-to-wav" },
           { name: "Audio to MP3", href: "/convert-to-mp3" },

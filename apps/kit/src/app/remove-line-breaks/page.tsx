@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { RemoveLineBreaksTool } from "./RemoveLineBreaksTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your text with unwanted line breaks into the input area",
+  "Choose what to replace line breaks with: a space, nothing, or a comma",
+  "Click 'Remove Line Breaks' to process the text",
+  "Copy the cleaned-up result from the output area",
+];
+
+const faqs = [
+  {
+    question: "Why does copied text have unwanted line breaks?",
+    answer:
+      "PDFs, emails, and some web pages insert hard line breaks at the end of each visual line. When you copy this text, those breaks come along, splitting sentences mid-word or mid-phrase.",
+  },
+  {
+    question: "What is the difference between the three replacement options?",
+    answer:
+      "Space joins words naturally (e.g., 'hello world'). Nothing concatenates without gaps (e.g., 'helloworld'). Comma creates a comma-separated list (e.g., 'hello, world').",
+  },
+  {
+    question: "Does it handle Windows and Mac line endings?",
+    answer:
+      "Yes. The tool recognizes Windows-style (CRLF), Unix-style (LF), and legacy Mac-style (CR) line endings and removes all of them consistently.",
+  },
+  {
+    question: "Will it remove paragraph breaks too?",
+    answer:
+      "Yes, all consecutive line breaks are replaced with a single instance of your chosen replacement. If you want to preserve paragraph breaks, consider using Find & Replace with a regex to target single line breaks only.",
+  },
+  {
+    question: "Is my text private?",
+    answer:
+      "Completely. All processing happens locally in your browser. Your text is never sent to any server.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function RemoveLineBreaksPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Strip unwanted line breaks from copied text and join lines together. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste your text with unwanted line breaks into the input area",
-          "Choose what to replace line breaks with: a space, nothing, or a comma",
-          "Click 'Remove Line Breaks' to process the text",
-          "Copy the cleaned-up result from the output area",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Copying text from PDFs, emails, or web pages often introduces unwanted line breaks that
@@ -65,33 +103,7 @@ export default function RemoveLineBreaksPage() {
             required. Simply paste, click, and copy the clean result.
           </p>
         `}
-        faqs={[
-          {
-            question: "Why does copied text have unwanted line breaks?",
-            answer:
-              "PDFs, emails, and some web pages insert hard line breaks at the end of each visual line. When you copy this text, those breaks come along, splitting sentences mid-word or mid-phrase.",
-          },
-          {
-            question: "What is the difference between the three replacement options?",
-            answer:
-              "Space joins words naturally (e.g., 'hello world'). Nothing concatenates without gaps (e.g., 'helloworld'). Comma creates a comma-separated list (e.g., 'hello, world').",
-          },
-          {
-            question: "Does it handle Windows and Mac line endings?",
-            answer:
-              "Yes. The tool recognizes Windows-style (CRLF), Unix-style (LF), and legacy Mac-style (CR) line endings and removes all of them consistently.",
-          },
-          {
-            question: "Will it remove paragraph breaks too?",
-            answer:
-              "Yes, all consecutive line breaks are replaced with a single instance of your chosen replacement. If you want to preserve paragraph breaks, consider using Find & Replace with a regex to target single line breaks only.",
-          },
-          {
-            question: "Is my text private?",
-            answer:
-              "Completely. All processing happens locally in your browser. Your text is never sent to any server.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Remove Duplicates", href: "/remove-duplicates" },
           { name: "Word Counter", href: "/word-counter" },

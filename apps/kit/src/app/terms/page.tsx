@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Terms of Service | Peregrine Kit",
   description:
     "Terms of service for Peregrine Kit. Read the terms and conditions governing your use of our free online text tools, calculators, and SEO utilities.",
+  keywords: ["terms of service", "Peregrine Kit", "text tools terms", "usage policy"],
 };
 
 export default function TermsPage() {

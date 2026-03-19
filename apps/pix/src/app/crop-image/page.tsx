@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import CropImageTool from "./CropImageTool";
 
@@ -19,32 +19,70 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your image file using the drop zone above",
+  "Choose a preset aspect ratio or use free-form cropping",
+  "Adjust the crop region using the X, Y, Width, and Height inputs",
+  'Click "Crop Image" to extract the selected area',
+  "Download your cropped image",
+];
+
+const faqs = [
+  {
+    question: "Can I crop to a specific aspect ratio?",
+    answer:
+      "Yes. The tool offers preset ratios including 1:1, 4:3, 16:9, and 3:2. Select a preset and the crop region will automatically lock to that ratio. Choose Free to crop without any constraints.",
+  },
+  {
+    question: "Does cropping reduce image quality?",
+    answer:
+      "No. Cropping extracts the selected region pixel-for-pixel from the original image. The output is the same quality as the source — no re-compression is applied unless you choose a lossy output format.",
+  },
+  {
+    question: "What image formats are supported?",
+    answer:
+      "You can upload JPEG, PNG, and WebP files. The output is exported as PNG by default to preserve quality, but you can change the format if needed.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
+  },
+  {
+    question: "Can I crop multiple images at once?",
+    answer:
+      "This tool handles one image at a time to give you precise control over each crop. After downloading the result, click \"Crop another\" to process the next image.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CropImagePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Crop Image — Cut & Trim Online Free"
         subtitle="Trim your image to the exact region you need. Instantly. No sign-up required."
         keyword="crop image"
-        howTo={[
-          "Upload your image file using the drop zone above",
-          "Choose a preset aspect ratio or use free-form cropping",
-          "Adjust the crop region using the X, Y, Width, and Height inputs",
-          'Click "Crop Image" to extract the selected area',
-          "Download your cropped image",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Need to trim a screenshot, cut a subject out of a photo, or reframe
@@ -73,33 +111,7 @@ export default function CropImagePage() {
             installing software or creating an account.
           </p>
         `}
-        faqs={[
-          {
-            question: "Can I crop to a specific aspect ratio?",
-            answer:
-              "Yes. The tool offers preset ratios including 1:1, 4:3, 16:9, and 3:2. Select a preset and the crop region will automatically lock to that ratio. Choose Free to crop without any constraints.",
-          },
-          {
-            question: "Does cropping reduce image quality?",
-            answer:
-              "No. Cropping extracts the selected region pixel-for-pixel from the original image. The output is the same quality as the source — no re-compression is applied unless you choose a lossy output format.",
-          },
-          {
-            question: "What image formats are supported?",
-            answer:
-              "You can upload JPEG, PNG, and WebP files. The output is exported as PNG by default to preserve quality, but you can change the format if needed.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
-          },
-          {
-            question: "Can I crop multiple images at once?",
-            answer:
-              "This tool handles one image at a time to give you precise control over each crop. After downloading the result, click \"Crop another\" to process the next image.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Resize Image", href: "/resize-image" },
           { name: "Compress Image", href: "/compress-image" },

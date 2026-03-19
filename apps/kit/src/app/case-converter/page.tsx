@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CaseConverterTool } from "./CaseConverterTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Type or paste your text into the input text area",
+  "Click the case conversion button you need (UPPERCASE, lowercase, Title Case, etc.)",
+  "View the converted text in the output area below",
+  "Click 'Copy to Clipboard' to copy the result",
+];
+
+const faqs = [
+  {
+    question: "What is Title Case?",
+    answer:
+      "Title Case capitalizes the first letter of every word. It is commonly used for headings, article titles, and book titles. For example, 'the quick brown fox' becomes 'The Quick Brown Fox'.",
+  },
+  {
+    question: "What is the difference between camelCase and PascalCase?",
+    answer:
+      "In camelCase the first word is lowercase and subsequent words start with an uppercase letter (e.g., 'myVariableName'). PascalCase is the same except the first word also starts with an uppercase letter (e.g., 'MyVariableName'). camelCase is common for variables; PascalCase is common for class names.",
+  },
+  {
+    question: "When should I use snake_case or kebab-case?",
+    answer:
+      "snake_case uses underscores to separate words and is standard in Python and SQL. kebab-case uses hyphens and is common in URLs, CSS class names, and file naming conventions.",
+  },
+  {
+    question: "Does Sentence case handle proper nouns?",
+    answer:
+      "The tool capitalizes the first letter after sentence-ending punctuation (.!?) and at the start of the text. It does not detect proper nouns automatically, so names and places will be lowercase unless they start a sentence.",
+  },
+  {
+    question: "Is my text stored or shared?",
+    answer:
+      "No. All processing happens locally in your browser. Your text is never transmitted to any server and is not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CaseConverterPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Transform text between UPPERCASE, lowercase, Title Case, and programming cases. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Type or paste your text into the input text area",
-          "Click the case conversion button you need (UPPERCASE, lowercase, Title Case, etc.)",
-          "View the converted text in the output area below",
-          "Click 'Copy to Clipboard' to copy the result",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>case converter</strong> saves you time when you need to change the
@@ -66,33 +104,7 @@ export default function CaseConverterPage() {
             on any device with a modern browser.
           </p>
         `}
-        faqs={[
-          {
-            question: "What is Title Case?",
-            answer:
-              "Title Case capitalizes the first letter of every word. It is commonly used for headings, article titles, and book titles. For example, 'the quick brown fox' becomes 'The Quick Brown Fox'.",
-          },
-          {
-            question: "What is the difference between camelCase and PascalCase?",
-            answer:
-              "In camelCase the first word is lowercase and subsequent words start with an uppercase letter (e.g., 'myVariableName'). PascalCase is the same except the first word also starts with an uppercase letter (e.g., 'MyVariableName'). camelCase is common for variables; PascalCase is common for class names.",
-          },
-          {
-            question: "When should I use snake_case or kebab-case?",
-            answer:
-              "snake_case uses underscores to separate words and is standard in Python and SQL. kebab-case uses hyphens and is common in URLs, CSS class names, and file naming conventions.",
-          },
-          {
-            question: "Does Sentence case handle proper nouns?",
-            answer:
-              "The tool capitalizes the first letter after sentence-ending punctuation (.!?) and at the start of the text. It does not detect proper nouns automatically, so names and places will be lowercase unless they start a sentence.",
-          },
-          {
-            question: "Is my text stored or shared?",
-            answer:
-              "No. All processing happens locally in your browser. Your text is never transmitted to any server and is not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Word Counter", href: "/word-counter" },
           { name: "Text to Slug", href: "/text-to-slug" },

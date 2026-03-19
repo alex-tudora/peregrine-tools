@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { PngToWebpTool } from "./PngToWebpTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload one or more PNG images using the drop zone above",
+  "Adjust the image quality if needed",
+  'Click "Convert to WebP" to process your images',
+  "Download individual files or all as a ZIP archive",
+];
+
+const faqs = [
+  {
+    question: "Is this PNG to WebP converter really free?",
+    answer:
+      "Yes, completely free with no hidden limits. Convert as many images as you like without creating an account or paying anything.",
+  },
+  {
+    question: "Are my files safe?",
+    answer:
+      "Absolutely. All processing happens locally in your browser. Your images are never uploaded to any server, so your data stays entirely on your device.",
+  },
+  {
+    question: "Does WebP support transparency like PNG?",
+    answer:
+      "Yes! WebP supports both lossy and lossless compression with an alpha channel for transparency. Your transparent PNGs will retain their transparency when converted to WebP.",
+  },
+  {
+    question: "How much smaller will the WebP files be?",
+    answer:
+      "WebP files are typically 25-35% smaller than equivalent PNGs. The exact savings depend on the image content and quality setting. Photos and complex graphics tend to see the biggest reductions.",
+  },
+  {
+    question: "Can I convert multiple files at once?",
+    answer:
+      "Yes! You can drop multiple PNG files at once. After conversion, download them individually or grab all images in a single ZIP archive.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function PngToWebpPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your PNG images to modern, compact WebP format. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload one or more PNG images using the drop zone above",
-          "Adjust the image quality if needed",
-          'Click "Convert to WebP" to process your images',
-          "Download individual files or all as a ZIP archive",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Our free <strong>png to webp</strong> converter transforms your PNG images into
@@ -63,33 +101,7 @@ export default function PngToWebpPage() {
             them all in a single ZIP archive.
           </p>
         `}
-        faqs={[
-          {
-            question: "Is this PNG to WebP converter really free?",
-            answer:
-              "Yes, completely free with no hidden limits. Convert as many images as you like without creating an account or paying anything.",
-          },
-          {
-            question: "Are my files safe?",
-            answer:
-              "Absolutely. All processing happens locally in your browser. Your images are never uploaded to any server, so your data stays entirely on your device.",
-          },
-          {
-            question: "Does WebP support transparency like PNG?",
-            answer:
-              "Yes! WebP supports both lossy and lossless compression with an alpha channel for transparency. Your transparent PNGs will retain their transparency when converted to WebP.",
-          },
-          {
-            question: "How much smaller will the WebP files be?",
-            answer:
-              "WebP files are typically 25-35% smaller than equivalent PNGs. The exact savings depend on the image content and quality setting. Photos and complex graphics tend to see the biggest reductions.",
-          },
-          {
-            question: "Can I convert multiple files at once?",
-            answer:
-              "Yes! You can drop multiple PNG files at once. After conversion, download them individually or grab all images in a single ZIP archive.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "WebP to PNG", href: "/webp-to-png" },
           { name: "JPG to WebP", href: "/jpg-to-webp" },

@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { UuidGeneratorTool } from "./UuidGeneratorTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Click 'Generate UUID' to create a new UUID v4",
+  "Set the quantity (1-100) to generate multiple UUIDs at once",
+  "Toggle uppercase/lowercase and include/exclude hyphens to match your format",
+  "Click 'Copy' to copy the generated UUIDs to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "What is a UUID v4?",
+    answer:
+      "UUID v4 is a version of the Universally Unique Identifier standard that uses random or pseudo-random numbers. The standard format is 8-4-4-4-12 hexadecimal characters with hyphens, like 550e8400-e29b-41d4-a716-446655440000. The '4' in the third group indicates the version.",
+  },
+  {
+    question: "Are these UUIDs truly unique?",
+    answer:
+      "UUID v4 uses 122 bits of randomness, giving over 5.3 x 10^36 possible values. The probability of generating two identical UUIDs is astronomically small — you would need to generate about a billion UUIDs per second for 85 years to have a 50% chance of a single collision.",
+  },
+  {
+    question: "Are these UUIDs cryptographically secure?",
+    answer:
+      "Yes. The tool uses crypto.randomUUID() or crypto.getRandomValues(), both of which use the browser's cryptographically secure random number generator. These are suitable for security-sensitive applications.",
+  },
+  {
+    question: "When should I remove hyphens?",
+    answer:
+      "Some systems and databases store UUIDs without hyphens to save space (32 hex characters instead of 36). The hyphenless format is common in URLs, file names, and compact storage formats. Both formats represent the same 128-bit value.",
+  },
+  {
+    question: "Are the generated UUIDs stored anywhere?",
+    answer:
+      "No. All generation happens locally in your browser. No UUIDs are sent to any server and none are stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function UuidGeneratorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Generate cryptographically random UUID v4 values with options for bulk generation, case, and formatting. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Click 'Generate UUID' to create a new UUID v4",
-          "Set the quantity (1-100) to generate multiple UUIDs at once",
-          "Toggle uppercase/lowercase and include/exclude hyphens to match your format",
-          "Click 'Copy' to copy the generated UUIDs to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>UUID generator</strong> creates universally unique identifiers — 128-bit
@@ -64,33 +102,7 @@ export default function UuidGeneratorPage() {
             limits and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "What is a UUID v4?",
-            answer:
-              "UUID v4 is a version of the Universally Unique Identifier standard that uses random or pseudo-random numbers. The standard format is 8-4-4-4-12 hexadecimal characters with hyphens, like 550e8400-e29b-41d4-a716-446655440000. The '4' in the third group indicates the version.",
-          },
-          {
-            question: "Are these UUIDs truly unique?",
-            answer:
-              "UUID v4 uses 122 bits of randomness, giving over 5.3 x 10^36 possible values. The probability of generating two identical UUIDs is astronomically small — you would need to generate about a billion UUIDs per second for 85 years to have a 50% chance of a single collision.",
-          },
-          {
-            question: "Are these UUIDs cryptographically secure?",
-            answer:
-              "Yes. The tool uses crypto.randomUUID() or crypto.getRandomValues(), both of which use the browser's cryptographically secure random number generator. These are suitable for security-sensitive applications.",
-          },
-          {
-            question: "When should I remove hyphens?",
-            answer:
-              "Some systems and databases store UUIDs without hyphens to save space (32 hex characters instead of 36). The hyphenless format is common in URLs, file names, and compact storage formats. Both formats represent the same 128-bit value.",
-          },
-          {
-            question: "Are the generated UUIDs stored anywhere?",
-            answer:
-              "No. All generation happens locally in your browser. No UUIDs are sent to any server and none are stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Hash Generator", href: "/hash-generator" },
           { name: "Base64 Encode/Decode", href: "/base64" },

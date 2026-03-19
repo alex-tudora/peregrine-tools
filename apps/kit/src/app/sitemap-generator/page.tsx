@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { SitemapGeneratorTool } from "./SitemapGeneratorTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Add URLs one by one or paste multiple URLs in bulk (one per line)",
+  "Set the priority and change frequency for each URL",
+  "Preview the generated XML sitemap",
+  "Copy the XML or download it as sitemap.xml",
+  "Upload the file to your website's root directory",
+];
+
+const faqs = [
+  {
+    question: "How do I submit my sitemap to Google?",
+    answer:
+      "You can submit your sitemap through Google Search Console by going to the Sitemaps section and entering the URL where your sitemap.xml is hosted. You can also reference it in your robots.txt file using the Sitemap directive.",
+  },
+  {
+    question: "What priority value should I use?",
+    answer:
+      "Priority is a relative value between 0.0 and 1.0 that indicates how important a page is compared to other pages on your site. Your homepage might be 1.0, main category pages 0.8, and individual articles 0.6. The default of 0.5 is a reasonable middle ground.",
+  },
+  {
+    question: "What does changefreq mean?",
+    answer:
+      "The changefreq element tells search engines how frequently the content at a URL is likely to change. Options range from 'always' for constantly updated content to 'never' for archived pages. Search engines use this as a hint, not a guarantee.",
+  },
+  {
+    question: "Is there a limit on the number of URLs in a sitemap?",
+    answer:
+      "The sitemap protocol allows up to 50,000 URLs per sitemap file, and the file size must not exceed 50 MB when uncompressed. If your site has more URLs, you can split them across multiple sitemaps and reference them from a sitemap index file.",
+  },
+  {
+    question: "Where should I host my sitemap.xml?",
+    answer:
+      "Place the sitemap.xml file in the root directory of your website so it is accessible at https://yourdomain.com/sitemap.xml. You can also place it elsewhere, but you must submit the full URL to search engines.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function SitemapGeneratorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Create a valid XML sitemap for your website with priority and change frequency settings. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Add URLs one by one or paste multiple URLs in bulk (one per line)",
-          "Set the priority and change frequency for each URL",
-          "Preview the generated XML sitemap",
-          "Copy the XML or download it as sitemap.xml",
-          "Upload the file to your website's root directory",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             An XML sitemap is a file that lists the important pages of your website, helping search
@@ -63,33 +101,7 @@ export default function SitemapGeneratorPage() {
             server, so this tool is safe to use for sites under development or behind authentication.
           </p>
         `}
-        faqs={[
-          {
-            question: "How do I submit my sitemap to Google?",
-            answer:
-              "You can submit your sitemap through Google Search Console by going to the Sitemaps section and entering the URL where your sitemap.xml is hosted. You can also reference it in your robots.txt file using the Sitemap directive.",
-          },
-          {
-            question: "What priority value should I use?",
-            answer:
-              "Priority is a relative value between 0.0 and 1.0 that indicates how important a page is compared to other pages on your site. Your homepage might be 1.0, main category pages 0.8, and individual articles 0.6. The default of 0.5 is a reasonable middle ground.",
-          },
-          {
-            question: "What does changefreq mean?",
-            answer:
-              "The changefreq element tells search engines how frequently the content at a URL is likely to change. Options range from 'always' for constantly updated content to 'never' for archived pages. Search engines use this as a hint, not a guarantee.",
-          },
-          {
-            question: "Is there a limit on the number of URLs in a sitemap?",
-            answer:
-              "The sitemap protocol allows up to 50,000 URLs per sitemap file, and the file size must not exceed 50 MB when uncompressed. If your site has more URLs, you can split them across multiple sitemaps and reference them from a sitemap index file.",
-          },
-          {
-            question: "Where should I host my sitemap.xml?",
-            answer:
-              "Place the sitemap.xml file in the root directory of your website so it is accessible at https://yourdomain.com/sitemap.xml. You can also place it elsewhere, but you must submit the full URL to search engines.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Robots.txt Generator", href: "/robots-txt-generator" },
           { name: "Meta Tag Generator", href: "/meta-tag-generator" },

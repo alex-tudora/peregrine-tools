@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+import { generateOrganizationStructuredData, generateWebSiteStructuredData } from "@peregrine/seo";
 import { ToolSearch } from "./ToolSearch";
+
+export const metadata: Metadata = {
+  description: "89 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
+  keywords: ["free online tools", "PDF tools", "image tools", "video tools", "developer tools", "text tools", "browser-based tools", "Peregrine Tools"],
+};
 
 /* ------------------------------------------------------------------ */
 /*  Site Showcase data (mirrors CrossSiteNav.peregrineSites)           */
@@ -104,13 +111,24 @@ const popularTools = [
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateOrganizationStructuredData()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateWebSiteStructuredData()) }}
+      />
+
       {/* ============================================================
           1. Hero + Search Bar
           ============================================================ */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
+      <section className="relative">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="h-full w-full bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-16 md:pt-28 md:pb-24">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="animate-arrive font-semibold text-4xl sm:text-5xl md:text-6xl leading-[1.1] tracking-tight text-[color:var(--color-text-primary)]">
               The fastest way to work

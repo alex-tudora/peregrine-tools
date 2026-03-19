@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { ExtractAudioTool } from "./ExtractAudioTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  "Choose your preferred output format — MP3, WAV, or AAC",
+  'Click "Extract Audio" to pull the audio track',
+  "Download your audio file",
+];
+
+const faqs = [
+  {
+    question: "Which output format should I choose?",
+    answer:
+      "MP3 is the safest choice for maximum compatibility — it plays everywhere. WAV is best for audio editing since it is lossless. AAC offers better quality than MP3 at the same file size and is used by Apple devices.",
+  },
+  {
+    question: "Which video formats are supported?",
+    answer:
+      "The tool accepts MP4, AVI, MOV, MKV, WMV, FLV, WebM, and most other common video formats.",
+  },
+  {
+    question: "Will the audio quality be the same as the original?",
+    answer:
+      "If you choose WAV, the audio is decoded to a lossless format. MP3 and AAC introduce some compression, but at the default settings the quality is excellent — easily good enough for music and speech.",
+  },
+  {
+    question: "Are my videos uploaded to a server?",
+    answer:
+      "No. All extraction happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+  {
+    question: "How long does extraction take?",
+    answer:
+      "Audio extraction is faster than video conversion since only the audio stream is processed. A 100 MB video typically takes 10-30 seconds depending on your device.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function ExtractAudioPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Pull the audio track from any video and save it in your preferred format. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          "Choose your preferred output format — MP3, WAV, or AAC",
-          'Click "Extract Audio" to pull the audio track',
-          "Download your audio file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Sometimes you only need the audio from a video — a song from a music video,
@@ -62,33 +100,7 @@ export default function ExtractAudioPage() {
             uploaded to any server. No watermarks, no limits, no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which output format should I choose?",
-            answer:
-              "MP3 is the safest choice for maximum compatibility — it plays everywhere. WAV is best for audio editing since it is lossless. AAC offers better quality than MP3 at the same file size and is used by Apple devices.",
-          },
-          {
-            question: "Which video formats are supported?",
-            answer:
-              "The tool accepts MP4, AVI, MOV, MKV, WMV, FLV, WebM, and most other common video formats.",
-          },
-          {
-            question: "Will the audio quality be the same as the original?",
-            answer:
-              "If you choose WAV, the audio is decoded to a lossless format. MP3 and AAC introduce some compression, but at the default settings the quality is excellent — easily good enough for music and speech.",
-          },
-          {
-            question: "Are my videos uploaded to a server?",
-            answer:
-              "No. All extraction happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-          {
-            question: "How long does extraction take?",
-            answer:
-              "Audio extraction is faster than video conversion since only the audio stream is processed. A 100 MB video typically takes 10-30 seconds depending on your device.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Video to MP3", href: "/video-to-mp3" },
           { name: "Compress Audio", href: "/compress-audio" },

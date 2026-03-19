@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { FaviconGeneratorTool } from "./FaviconGeneratorTool";
 
@@ -19,32 +19,70 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your source image or SVG using the drop zone above or click to browse",
+  "Review the list of favicon sizes that will be generated (16x16 through 512x512)",
+  'Click "Generate Favicons" to create all sizes at once',
+  "Preview the generated favicons in the grid below",
+  'Click "Download All as ZIP" to save every size in a single archive',
+];
+
+const faqs = [
+  {
+    question: "Which image format should I use as the source?",
+    answer:
+      "For best results, use a square image at least 512x512 pixels. SVG files work especially well because they scale without losing quality. JPEG, PNG, and WebP are also supported.",
+  },
+  {
+    question: "Why are there so many favicon sizes?",
+    answer:
+      "Different platforms and devices use different icon sizes. 16x16 and 32x32 are used in browser tabs, 192x192 is used by Android home screens, and 512x512 is used by Progressive Web Apps (PWAs) and some social platforms.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for brand assets and confidential logos.",
+  },
+  {
+    question: "Can I use a non-square image?",
+    answer:
+      "Yes, but the output will be stretched to fit a square canvas. For the best results, crop your source image to a 1:1 aspect ratio before uploading, or use our Crop Image tool first.",
+  },
+  {
+    question: "What format are the generated favicons?",
+    answer:
+      "All favicons are generated as PNG files. PNG is the recommended format for favicons because it supports transparency and produces crisp edges at small sizes.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function FaviconGeneratorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Favicon Generator — Create Favicons Online Free"
         subtitle="Generate a complete set of favicons from a single image. Instantly. No sign-up required."
         keyword="favicon generator"
-        howTo={[
-          "Upload your source image or SVG using the drop zone above or click to browse",
-          "Review the list of favicon sizes that will be generated (16x16 through 512x512)",
-          'Click "Generate Favicons" to create all sizes at once',
-          "Preview the generated favicons in the grid below",
-          'Click "Download All as ZIP" to save every size in a single archive',
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Every website needs favicons — the small icons shown in browser
@@ -69,33 +107,7 @@ export default function FaviconGeneratorPage() {
             no daily caps.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which image format should I use as the source?",
-            answer:
-              "For best results, use a square image at least 512x512 pixels. SVG files work especially well because they scale without losing quality. JPEG, PNG, and WebP are also supported.",
-          },
-          {
-            question: "Why are there so many favicon sizes?",
-            answer:
-              "Different platforms and devices use different icon sizes. 16x16 and 32x32 are used in browser tabs, 192x192 is used by Android home screens, and 512x512 is used by Progressive Web Apps (PWAs) and some social platforms.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for brand assets and confidential logos.",
-          },
-          {
-            question: "Can I use a non-square image?",
-            answer:
-              "Yes, but the output will be stretched to fit a square canvas. For the best results, crop your source image to a 1:1 aspect ratio before uploading, or use our Crop Image tool first.",
-          },
-          {
-            question: "What format are the generated favicons?",
-            answer:
-              "All favicons are generated as PNG files. PNG is the recommended format for favicons because it supports transparency and produces crisp edges at small sizes.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "SVG to PNG", href: "/svg-to-png" },
           { name: "Resize Image", href: "/resize-image" },

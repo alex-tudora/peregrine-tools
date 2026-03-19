@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { FindAndReplaceTool } from "./FindAndReplaceTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your text into the input area",
+  "Enter the text you want to find and the replacement text",
+  "Toggle case sensitivity or regex mode as needed",
+  "Click 'Replace All' and copy the result",
+];
+
+const faqs = [
+  {
+    question: "What are regular expressions?",
+    answer:
+      "Regular expressions (regex) are patterns that describe sets of strings. They allow you to match complex text patterns like email addresses, phone numbers, or any repeating structure. When regex mode is enabled, the 'Find' field is interpreted as a regular expression pattern.",
+  },
+  {
+    question: "How do I replace with nothing (delete matches)?",
+    answer:
+      "Leave the 'Replace with' field empty. Every occurrence of the search term will be removed from the text.",
+  },
+  {
+    question: "Does it support special regex groups?",
+    answer:
+      "Yes. When regex mode is enabled, you can use standard JavaScript regular expression syntax including capture groups, character classes, quantifiers, and lookaheads.",
+  },
+  {
+    question: "What if my regex is invalid?",
+    answer:
+      "The tool will display an error message explaining the problem with your regular expression. Fix the pattern and try again.",
+  },
+  {
+    question: "Is my text sent to a server?",
+    answer:
+      "No. All find and replace processing happens entirely in your browser. Your text is never transmitted, stored, or logged anywhere.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function FindAndReplacePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Search for specific text and replace it throughout your document. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste your text into the input area",
-          "Enter the text you want to find and the replacement text",
-          "Toggle case sensitivity or regex mode as needed",
-          "Click 'Replace All' and copy the result",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             The ability to <strong>find and replace text</strong> in bulk is one of the most useful
@@ -65,33 +103,7 @@ export default function FindAndReplacePage() {
             limits and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "What are regular expressions?",
-            answer:
-              "Regular expressions (regex) are patterns that describe sets of strings. They allow you to match complex text patterns like email addresses, phone numbers, or any repeating structure. When regex mode is enabled, the 'Find' field is interpreted as a regular expression pattern.",
-          },
-          {
-            question: "How do I replace with nothing (delete matches)?",
-            answer:
-              "Leave the 'Replace with' field empty. Every occurrence of the search term will be removed from the text.",
-          },
-          {
-            question: "Does it support special regex groups?",
-            answer:
-              "Yes. When regex mode is enabled, you can use standard JavaScript regular expression syntax including capture groups, character classes, quantifiers, and lookaheads.",
-          },
-          {
-            question: "What if my regex is invalid?",
-            answer:
-              "The tool will display an error message explaining the problem with your regular expression. Fix the pattern and try again.",
-          },
-          {
-            question: "Is my text sent to a server?",
-            answer:
-              "No. All find and replace processing happens entirely in your browser. Your text is never transmitted, stored, or logged anywhere.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Text Diff", href: "/text-diff" },
           { name: "Remove Duplicates", href: "/remove-duplicates" },

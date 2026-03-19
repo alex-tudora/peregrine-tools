@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { TimestampConverterTool } from "./TimestampConverterTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Enter a Unix timestamp (in seconds or milliseconds) to see the corresponding date",
+  "Or use the date picker to convert a date to a Unix timestamp",
+  "Click 'Current Timestamp' to see the live-updating current epoch time",
+  "Toggle between seconds and milliseconds as needed",
+];
+
+const faqs = [
+  {
+    question: "What is the Unix epoch?",
+    answer:
+      "The Unix epoch is January 1, 1970, 00:00:00 UTC. All Unix timestamps are measured as the number of seconds (or milliseconds) since this moment. It was chosen as an arbitrary but convenient starting point by early Unix developers.",
+  },
+  {
+    question: "Seconds or milliseconds?",
+    answer:
+      "Standard Unix timestamps are in seconds (10 digits as of 2001). JavaScript's Date.now() and many APIs use milliseconds (13 digits). The tool auto-detects based on the number of digits, or you can toggle manually.",
+  },
+  {
+    question: "Is the Year 2038 problem real?",
+    answer:
+      "Yes. 32-bit signed integers overflow on January 19, 2038. Most modern systems now use 64-bit integers for timestamps, which extends the range far beyond any practical concern. This tool uses JavaScript's 64-bit number type.",
+  },
+  {
+    question: "Does it account for time zones?",
+    answer:
+      "Unix timestamps are always UTC. The tool shows both the UTC time and your local time (based on your browser's time zone setting) so you can compare them side by side.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function TimestampConverterPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Convert between Unix timestamps and human-readable dates. See the current timestamp update live."
         keyword={keyword}
-        howTo={[
-          "Enter a Unix timestamp (in seconds or milliseconds) to see the corresponding date",
-          "Or use the date picker to convert a date to a Unix timestamp",
-          "Click 'Current Timestamp' to see the live-updating current epoch time",
-          "Toggle between seconds and milliseconds as needed",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>Unix timestamp</strong> (also called epoch time or POSIX time) is the number of
@@ -63,28 +96,7 @@ export default function TimestampConverterPage() {
             milliseconds.
           </p>
         `}
-        faqs={[
-          {
-            question: "What is the Unix epoch?",
-            answer:
-              "The Unix epoch is January 1, 1970, 00:00:00 UTC. All Unix timestamps are measured as the number of seconds (or milliseconds) since this moment. It was chosen as an arbitrary but convenient starting point by early Unix developers.",
-          },
-          {
-            question: "Seconds or milliseconds?",
-            answer:
-              "Standard Unix timestamps are in seconds (10 digits as of 2001). JavaScript's Date.now() and many APIs use milliseconds (13 digits). The tool auto-detects based on the number of digits, or you can toggle manually.",
-          },
-          {
-            question: "Is the Year 2038 problem real?",
-            answer:
-              "Yes. 32-bit signed integers overflow on January 19, 2038. Most modern systems now use 64-bit integers for timestamps, which extends the range far beyond any practical concern. This tool uses JavaScript's 64-bit number type.",
-          },
-          {
-            question: "Does it account for time zones?",
-            answer:
-              "Unix timestamps are always UTC. The tool shows both the UTC time and your local time (based on your browser's time zone setting) so you can compare them side by side.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Cron Builder", href: "/cron-builder" },
           { name: "Date Difference", href: "https://peregrinekit.com/date-difference" },

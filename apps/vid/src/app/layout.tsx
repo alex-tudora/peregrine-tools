@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Header, Footer } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
@@ -25,6 +26,8 @@ export const metadata: Metadata = generateSiteMetadata({
   siteUrl: "https://peregrinevid.com",
 });
 
+export const viewport: Viewport = { themeColor: "#E11D48" };
+
 const vidTools = [
   { name: "Video to MP4", href: "/convert-to-mp4" },
   { name: "Video to MP3", href: "/video-to-mp3" },
@@ -48,6 +51,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Peregrine Vid"
           currentSite="vid"

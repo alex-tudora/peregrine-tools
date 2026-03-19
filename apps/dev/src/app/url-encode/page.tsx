@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { UrlEncodeTool } from "./UrlEncodeTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Type or paste your URL or text into the input area",
+  "Click 'Encode' to URL-encode the text or 'Decode' to decode it",
+  "View both the encodeURIComponent and encodeURI results",
+  "Click 'Copy' to copy the output to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "What is the difference between encodeURI and encodeURIComponent?",
+    answer:
+      "encodeURI encodes a full URI but preserves characters that have special meaning in URLs (://?#[]@!$&'()*+,;=). encodeURIComponent encodes everything except unreserved characters, making it the right choice for encoding individual query parameter values.",
+  },
+  {
+    question: "When should I use URL encoding?",
+    answer:
+      "Use URL encoding when passing data as URL query parameters, when building links that contain special characters, or when including user-generated text in URLs. Without encoding, characters like & or = could break the URL structure.",
+  },
+  {
+    question: "Does it handle Unicode characters?",
+    answer:
+      "Yes. Both encodeURI and encodeURIComponent handle Unicode characters by first encoding them as UTF-8 bytes and then percent-encoding each byte. This works for any language or emoji.",
+  },
+  {
+    question: "What does decoding do?",
+    answer:
+      "Decoding reverses the process, converting percent-encoded sequences back to their original characters. For example, %20 becomes a space and %26 becomes an ampersand.",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All encoding and decoding happens locally in your browser. Your data is never sent to any server and is not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function UrlEncodePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Encode or decode URLs and query parameters with both encodeURIComponent and encodeURI modes. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Type or paste your URL or text into the input area",
-          "Click 'Encode' to URL-encode the text or 'Decode' to decode it",
-          "View both the encodeURIComponent and encodeURI results",
-          "Click 'Copy' to copy the output to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             <strong>URL encoding</strong> (also called percent-encoding) converts special characters
@@ -64,33 +102,7 @@ export default function UrlEncodePage() {
             account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "What is the difference between encodeURI and encodeURIComponent?",
-            answer:
-              "encodeURI encodes a full URI but preserves characters that have special meaning in URLs (://?#[]@!$&'()*+,;=). encodeURIComponent encodes everything except unreserved characters, making it the right choice for encoding individual query parameter values.",
-          },
-          {
-            question: "When should I use URL encoding?",
-            answer:
-              "Use URL encoding when passing data as URL query parameters, when building links that contain special characters, or when including user-generated text in URLs. Without encoding, characters like & or = could break the URL structure.",
-          },
-          {
-            question: "Does it handle Unicode characters?",
-            answer:
-              "Yes. Both encodeURI and encodeURIComponent handle Unicode characters by first encoding them as UTF-8 bytes and then percent-encoding each byte. This works for any language or emoji.",
-          },
-          {
-            question: "What does decoding do?",
-            answer:
-              "Decoding reverses the process, converting percent-encoded sequences back to their original characters. For example, %20 becomes a space and %26 becomes an ampersand.",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All encoding and decoding happens locally in your browser. Your data is never sent to any server and is not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Base64 Encode/Decode", href: "/base64" },
           {

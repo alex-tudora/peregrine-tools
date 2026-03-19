@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { JpgToPdfTool } from "./JpgToPdfTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your images (JPG, PNG) using the drop zone above",
+  "Drag to reorder images in your preferred order",
+  "Choose your page size (A4, Letter, or fit to image)",
+  'Click "Create PDF" and download your document',
+];
+
+const faqs = [
+  {
+    question: "What image formats are supported?",
+    answer:
+      "You can upload JPG (JPEG) and PNG images. Both formats can be mixed within the same PDF — the converter handles them seamlessly.",
+  },
+  {
+    question: "Can I reorder the images before creating the PDF?",
+    answer:
+      "Yes. After uploading, use the arrow buttons next to each file to move it up or down. The final PDF pages will match the order shown in the list.",
+  },
+  {
+    question: "Which page size should I choose?",
+    answer:
+      "Use A4 or Letter for documents that will be printed on standard paper. Choose \"Fit to Image\" if you want each PDF page to match the original image dimensions exactly, which is great for photo books or portfolios.",
+  },
+  {
+    question: "Is there a limit on the number of images?",
+    answer:
+      "There is no fixed limit. You can upload as many images as you like. Very large batches may take a bit longer since everything is processed locally in your browser.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using JavaScript. Your images never leave your device, ensuring complete privacy.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function JpgToPdfPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your images to a PDF document. Upload multiple images to create a multi-page PDF. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your images (JPG, PNG) using the drop zone above",
-          "Drag to reorder images in your preferred order",
-          "Choose your page size (A4, Letter, or fit to image)",
-          'Click "Create PDF" and download your document',
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Need to turn a collection of photos or scanned documents into a single PDF? Our free
@@ -64,33 +102,7 @@ export default function JpgToPdfPage() {
             and no account required. Just drag, arrange, convert, and download.
           </p>
         `}
-        faqs={[
-          {
-            question: "What image formats are supported?",
-            answer:
-              "You can upload JPG (JPEG) and PNG images. Both formats can be mixed within the same PDF — the converter handles them seamlessly.",
-          },
-          {
-            question: "Can I reorder the images before creating the PDF?",
-            answer:
-              "Yes. After uploading, use the arrow buttons next to each file to move it up or down. The final PDF pages will match the order shown in the list.",
-          },
-          {
-            question: "Which page size should I choose?",
-            answer:
-              "Use A4 or Letter for documents that will be printed on standard paper. Choose \"Fit to Image\" if you want each PDF page to match the original image dimensions exactly, which is great for photo books or portfolios.",
-          },
-          {
-            question: "Is there a limit on the number of images?",
-            answer:
-              "There is no fixed limit. You can upload as many images as you like. Very large batches may take a bit longer since everything is processed locally in your browser.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using JavaScript. Your images never leave your device, ensuring complete privacy.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "PDF to JPG", href: "/pdf-to-jpg" },
           { name: "Merge PDF", href: "/merge-pdf" },

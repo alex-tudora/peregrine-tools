@@ -17,18 +17,39 @@ importers:
 
   apps/convert:
     dependencies:
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.10
+        version: 0.12.15
+      '@ffmpeg/util':
+        specifier: ^0.12.1
+        version: 0.12.2
       '@peregrine/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@peregrine/converters':
+        specifier: workspace:*
+        version: link:../../packages/converters
       '@peregrine/seo':
         specifier: workspace:*
         version: link:../../packages/seo
       '@peregrine/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.1
       next:
         specifier: ^15
         version: 15.5.13(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      pdf-lib:
+        specifier: ^1.17.1
+        version: 1.17.1
+      pdfjs-dist:
+        specifier: ^4
+        version: 4.10.38
       react:
         specifier: ^19
         version: 19.2.4
@@ -39,6 +60,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.2.2
+      '@types/file-saver':
+        specifier: ^2
+        version: 2.0.7
       '@types/node':
         specifier: ^20
         version: 20.19.37
@@ -401,6 +425,34 @@ importers:
         version: 5.9.3
 
   packages/config: {}
+
+  packages/converters:
+    dependencies:
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.10
+        version: 0.12.15
+      '@ffmpeg/util':
+        specifier: ^0.12.1
+        version: 0.12.2
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.1
+      pdf-lib:
+        specifier: ^1.17.1
+        version: 1.17.1
+      pdfjs-dist:
+        specifier: ^4
+        version: 4.10.38
+    devDependencies:
+      '@types/file-saver':
+        specifier: ^2
+        version: 2.0.7
+      typescript:
+        specifier: ^5
+        version: 5.9.3
 
   packages/seo:
     devDependencies:

@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { JsonToCsvTool } from "./JsonToCsvTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste a JSON array of objects into the input text area",
+  "Click 'Convert' to generate the CSV output",
+  "Review the CSV data in the output area",
+  "Click 'Copy' to copy the CSV or 'Download .csv' to save it as a file",
+];
+
+const faqs = [
+  {
+    question: "What format does the JSON need to be in?",
+    answer:
+      "The input should be a JSON array of objects, like [{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]. Each object becomes a row, and the keys become column headers.",
+  },
+  {
+    question: "How are nested objects handled?",
+    answer:
+      "Nested objects are flattened using dot notation. For example, {\"user\": {\"name\": \"Alice\"}} produces a column called 'user.name'. Arrays within objects are converted to their JSON string representation.",
+  },
+  {
+    question: "What if objects have different keys?",
+    answer:
+      "The tool collects all unique keys across all objects in the array. If an object is missing a key, the corresponding CSV cell will be empty.",
+  },
+  {
+    question: "Are special characters in values handled?",
+    answer:
+      "Yes. Values containing commas, double quotes, or newlines are automatically wrapped in double quotes and properly escaped following the CSV standard (RFC 4180).",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All conversion happens locally in your browser. Your JSON is never sent to any server and is not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function JsonToCsvPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste a JSON array of objects and convert it to a downloadable CSV file. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste a JSON array of objects into the input text area",
-          "Click 'Convert' to generate the CSV output",
-          "Review the CSV data in the output area",
-          "Click 'Copy' to copy the CSV or 'Download .csv' to save it as a file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Converting <strong>JSON to CSV</strong> is a common task when you need to import data
@@ -63,33 +101,7 @@ export default function JsonToCsvPage() {
             download the result as a .csv file with one click.
           </p>
         `}
-        faqs={[
-          {
-            question: "What format does the JSON need to be in?",
-            answer:
-              "The input should be a JSON array of objects, like [{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]. Each object becomes a row, and the keys become column headers.",
-          },
-          {
-            question: "How are nested objects handled?",
-            answer:
-              "Nested objects are flattened using dot notation. For example, {\"user\": {\"name\": \"Alice\"}} produces a column called 'user.name'. Arrays within objects are converted to their JSON string representation.",
-          },
-          {
-            question: "What if objects have different keys?",
-            answer:
-              "The tool collects all unique keys across all objects in the array. If an object is missing a key, the corresponding CSV cell will be empty.",
-          },
-          {
-            question: "Are special characters in values handled?",
-            answer:
-              "Yes. Values containing commas, double quotes, or newlines are automatically wrapped in double quotes and properly escaped following the CSV standard (RFC 4180).",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All conversion happens locally in your browser. Your JSON is never sent to any server and is not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "CSV to JSON", href: "/csv-to-json" },
           { name: "JSON Formatter", href: "/json-formatter" },

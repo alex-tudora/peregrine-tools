@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CharacterCounterTool } from "./CharacterCounterTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Type or paste your text into the text area above",
+  "Optionally set a character limit to track how many characters remain",
+  "View real-time statistics for characters, characters without spaces, words, and sentences",
+  "Use the remaining count to stay within platform limits for social media or form fields",
+];
+
+const faqs = [
+  {
+    question: "What counts as a character?",
+    answer:
+      "Every keystroke counts as a character, including letters, numbers, punctuation marks, spaces, and special symbols. The 'No Spaces' count excludes all whitespace characters.",
+  },
+  {
+    question: "Does it count emoji characters correctly?",
+    answer:
+      "The tool counts characters using JavaScript's string length property. Most single emoji count as 2 characters (due to UTF-16 encoding), which matches how many platforms measure character limits.",
+  },
+  {
+    question: "What is the character limit for Twitter/X?",
+    answer:
+      "Twitter/X allows 280 characters per post. You can set 280 as your character limit in this tool to ensure your posts fit perfectly.",
+  },
+  {
+    question: "Is there a difference between characters and bytes?",
+    answer:
+      "Yes. A character is a single symbol, while a byte is a unit of data. ASCII characters use 1 byte each, but characters from other scripts or emoji can use 2 to 4 bytes depending on the encoding.",
+  },
+  {
+    question: "Can I use this tool offline?",
+    answer:
+      "Once the page has loaded, the character counting works without an internet connection because all processing happens locally in your browser.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CharacterCounterPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Count characters, words, and sentences with an optional character limit. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Type or paste your text into the text area above",
-          "Optionally set a character limit to track how many characters remain",
-          "View real-time statistics for characters, characters without spaces, words, and sentences",
-          "Use the remaining count to stay within platform limits for social media or form fields",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A precise <strong>character counter</strong> is indispensable when you need to stay within
@@ -65,33 +103,7 @@ export default function CharacterCounterPage() {
             no software to install.
           </p>
         `}
-        faqs={[
-          {
-            question: "What counts as a character?",
-            answer:
-              "Every keystroke counts as a character, including letters, numbers, punctuation marks, spaces, and special symbols. The 'No Spaces' count excludes all whitespace characters.",
-          },
-          {
-            question: "Does it count emoji characters correctly?",
-            answer:
-              "The tool counts characters using JavaScript's string length property. Most single emoji count as 2 characters (due to UTF-16 encoding), which matches how many platforms measure character limits.",
-          },
-          {
-            question: "What is the character limit for Twitter/X?",
-            answer:
-              "Twitter/X allows 280 characters per post. You can set 280 as your character limit in this tool to ensure your posts fit perfectly.",
-          },
-          {
-            question: "Is there a difference between characters and bytes?",
-            answer:
-              "Yes. A character is a single symbol, while a byte is a unit of data. ASCII characters use 1 byte each, but characters from other scripts or emoji can use 2 to 4 bytes depending on the encoding.",
-          },
-          {
-            question: "Can I use this tool offline?",
-            answer:
-              "Once the page has loaded, the character counting works without an internet connection because all processing happens locally in your browser.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Word Counter", href: "/word-counter" },
           { name: "Case Converter", href: "/case-converter" },

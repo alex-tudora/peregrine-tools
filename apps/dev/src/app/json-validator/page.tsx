@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { JsonValidatorTool } from "./JsonValidatorTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste or type your JSON into the text area",
+  "Validation runs automatically as you type",
+  "See a green checkmark for valid JSON or a red error message with line number details",
+  "Review the structure info: root type, key count, and maximum nesting depth",
+];
+
+const faqs = [
+  {
+    question: "How does real-time validation work?",
+    answer:
+      "The tool parses your JSON using the browser's JSON.parse() method each time you stop typing. If parsing succeeds, it shows a green checkmark. If it fails, it shows the error message from the parser along with the approximate position of the error.",
+  },
+  {
+    question: "What common JSON errors does it detect?",
+    answer:
+      "It detects all JSON syntax errors including trailing commas, single quotes instead of double quotes, missing colons between key-value pairs, unclosed brackets or braces, unquoted keys, and invalid escape sequences.",
+  },
+  {
+    question: "What does nesting depth mean?",
+    answer:
+      "Nesting depth measures how many levels of objects and arrays are nested inside each other. A flat object with no nested structures has a depth of 1. Deeply nested JSON can be harder to work with and may indicate that the data structure could be simplified.",
+  },
+  {
+    question: "Does it validate JSON Schema?",
+    answer:
+      "This tool validates JSON syntax, not JSON Schema. It confirms that the data is well-formed JSON but does not check it against a schema definition. For schema validation, a dedicated JSON Schema validator is needed.",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All validation happens locally in your browser. Your JSON is never sent to any server and is not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function JsonValidatorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste your JSON and get instant validation with detailed error messages and structure analysis. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste or type your JSON into the text area",
-          "Validation runs automatically as you type",
-          "See a green checkmark for valid JSON or a red error message with line number details",
-          "Review the structure info: root type, key count, and maximum nesting depth",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>JSON validator</strong> checks whether your JSON data is syntactically correct
@@ -65,33 +103,7 @@ export default function JsonValidatorPage() {
             usage limits and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "How does real-time validation work?",
-            answer:
-              "The tool parses your JSON using the browser's JSON.parse() method each time you stop typing. If parsing succeeds, it shows a green checkmark. If it fails, it shows the error message from the parser along with the approximate position of the error.",
-          },
-          {
-            question: "What common JSON errors does it detect?",
-            answer:
-              "It detects all JSON syntax errors including trailing commas, single quotes instead of double quotes, missing colons between key-value pairs, unclosed brackets or braces, unquoted keys, and invalid escape sequences.",
-          },
-          {
-            question: "What does nesting depth mean?",
-            answer:
-              "Nesting depth measures how many levels of objects and arrays are nested inside each other. A flat object with no nested structures has a depth of 1. Deeply nested JSON can be harder to work with and may indicate that the data structure could be simplified.",
-          },
-          {
-            question: "Does it validate JSON Schema?",
-            answer:
-              "This tool validates JSON syntax, not JSON Schema. It confirms that the data is well-formed JSON but does not check it against a schema definition. For schema validation, a dedicated JSON Schema validator is needed.",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All validation happens locally in your browser. Your JSON is never sent to any server and is not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "JSON Formatter", href: "/json-formatter" },
           { name: "JSON to CSV", href: "/json-to-csv" },

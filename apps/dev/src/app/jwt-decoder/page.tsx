@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { JwtDecoderTool } from "./JwtDecoderTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your JWT token into the text area",
+  "View the decoded header and payload as formatted JSON",
+  "Check the expiration status if the token contains an exp claim",
+  "Click copy buttons to copy individual sections",
+];
+
+const faqs = [
+  {
+    question: "Does this tool verify the JWT signature?",
+    answer:
+      "No. Signature verification requires the signing secret (for HMAC) or the public key (for RSA/EC). This tool only decodes and displays the header and payload. Never rely on decoded data without server-side verification.",
+  },
+  {
+    question: "Is it safe to paste my JWT here?",
+    answer:
+      "Yes. All decoding happens locally in your browser using JavaScript. Your token is never sent to any server. However, avoid sharing tokens in general as they may grant access to resources.",
+  },
+  {
+    question: "What claims are shown?",
+    answer:
+      "The tool displays all claims present in the payload, including standard claims like iss (issuer), sub (subject), aud (audience), exp (expiration), iat (issued at), and nbf (not before), as well as any custom claims.",
+  },
+  {
+    question: "Why does my token show as expired?",
+    answer:
+      "The exp claim is a Unix timestamp representing when the token expires. If the current time is past that timestamp, the tool marks it as expired. Short-lived tokens (e.g., 15 minutes) are common in OAuth flows.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function JwtDecoderPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste a JWT token to decode the header, payload, and signature instantly. Check token expiration in real time."
         keyword={keyword}
-        howTo={[
-          "Paste your JWT token into the text area",
-          "View the decoded header and payload as formatted JSON",
-          "Check the expiration status if the token contains an exp claim",
-          "Click copy buttons to copy individual sections",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>JSON Web Token (JWT)</strong> is a compact, URL-safe format used to represent claims
@@ -62,28 +95,7 @@ export default function JwtDecoderPage() {
             JWT library. All decoding happens locally in your browser and no token data is transmitted.
           </p>
         `}
-        faqs={[
-          {
-            question: "Does this tool verify the JWT signature?",
-            answer:
-              "No. Signature verification requires the signing secret (for HMAC) or the public key (for RSA/EC). This tool only decodes and displays the header and payload. Never rely on decoded data without server-side verification.",
-          },
-          {
-            question: "Is it safe to paste my JWT here?",
-            answer:
-              "Yes. All decoding happens locally in your browser using JavaScript. Your token is never sent to any server. However, avoid sharing tokens in general as they may grant access to resources.",
-          },
-          {
-            question: "What claims are shown?",
-            answer:
-              "The tool displays all claims present in the payload, including standard claims like iss (issuer), sub (subject), aud (audience), exp (expiration), iat (issued at), and nbf (not before), as well as any custom claims.",
-          },
-          {
-            question: "Why does my token show as expired?",
-            answer:
-              "The exp claim is a Unix timestamp representing when the token expires. If the current time is past that timestamp, the tool marks it as expired. Short-lived tokens (e.g., 15 minutes) are common in OAuth flows.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Base64 Encode/Decode", href: "/base64" },
           { name: "Hash Generator", href: "/hash-generator" },

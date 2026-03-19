@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next';
+import { conversions } from '@/data/conversions';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://convert-a-lot.com';
   const lastModified = new Date();
 
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified,
@@ -24,4 +25,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+
+  const conversionPages: MetadataRoute.Sitemap = conversions.map((c) => ({
+    url: `${baseUrl}/${c.slug}`,
+    lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...conversionPages];
 }

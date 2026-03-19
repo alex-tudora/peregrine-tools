@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { HtmlToMarkdownTool } from "./HtmlToMarkdownTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your HTML code into the left panel",
+  "The Markdown output appears in the right panel in real time",
+  "Review the converted Markdown for accuracy",
+  "Click 'Copy Markdown' to copy the result to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "Which HTML elements are supported?",
+    answer:
+      "The converter handles headings (h1-h6), bold (strong, b), italic (em, i), links (a), images (img), lists (ul, ol, li), paragraphs (p), line breaks (br), code (code, pre), blockquotes, horizontal rules (hr), and strikethrough (del, s).",
+  },
+  {
+    question: "What happens to unsupported HTML elements?",
+    answer:
+      "HTML tags that do not have a Markdown equivalent are stripped, and their text content is preserved. This means you will not lose text, but formatting specific to those tags (like table structure) will not be represented in the output.",
+  },
+  {
+    question: "Does it handle nested lists?",
+    answer:
+      "The converter handles single-level lists well. Deeply nested lists may not preserve their indentation hierarchy perfectly, as regex-based parsing has limitations with recursive structures.",
+  },
+  {
+    question: "Can I convert entire web pages?",
+    answer:
+      "Yes. You can paste the full HTML of a web page. The converter will strip DOCTYPE, html, head, and body tags automatically and convert the content elements to Markdown.",
+  },
+  {
+    question: "Is my HTML content private?",
+    answer:
+      "Absolutely. All conversion happens locally in your browser. Your HTML is never sent to any server or stored anywhere.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function HtmlToMarkdownPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste HTML and get clean Markdown output. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste your HTML code into the left panel",
-          "The Markdown output appears in the right panel in real time",
-          "Review the converted Markdown for accuracy",
-          "Click 'Copy Markdown' to copy the result to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             When migrating content between platforms or converting web pages to documentation, you
@@ -66,33 +104,7 @@ export default function HtmlToMarkdownPage() {
             no daily usage caps, and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which HTML elements are supported?",
-            answer:
-              "The converter handles headings (h1-h6), bold (strong, b), italic (em, i), links (a), images (img), lists (ul, ol, li), paragraphs (p), line breaks (br), code (code, pre), blockquotes, horizontal rules (hr), and strikethrough (del, s).",
-          },
-          {
-            question: "What happens to unsupported HTML elements?",
-            answer:
-              "HTML tags that do not have a Markdown equivalent are stripped, and their text content is preserved. This means you will not lose text, but formatting specific to those tags (like table structure) will not be represented in the output.",
-          },
-          {
-            question: "Does it handle nested lists?",
-            answer:
-              "The converter handles single-level lists well. Deeply nested lists may not preserve their indentation hierarchy perfectly, as regex-based parsing has limitations with recursive structures.",
-          },
-          {
-            question: "Can I convert entire web pages?",
-            answer:
-              "Yes. You can paste the full HTML of a web page. The converter will strip DOCTYPE, html, head, and body tags automatically and convert the content elements to Markdown.",
-          },
-          {
-            question: "Is my HTML content private?",
-            answer:
-              "Absolutely. All conversion happens locally in your browser. Your HTML is never sent to any server or stored anywhere.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Markdown to HTML", href: "/markdown-to-html" },
           { name: "Word Counter", href: "/word-counter" },

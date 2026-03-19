@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Terms of Service | Convert-a-Lot",
   description:
     "Terms of service for Convert-a-Lot. Read the terms and conditions governing your use of our free online file conversion tools.",
+  keywords: ["terms of service", "Convert-a-Lot", "file converter terms", "usage policy"],
 };
 
 export default function TermsPage() {

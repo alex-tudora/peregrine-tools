@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { Mp3ToWavTool } from "./Mp3ToWavTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your MP3 file using the drop zone above",
+  'Click "Convert to WAV" to start the conversion',
+  "Download your WAV file",
+];
+
+const faqs = [
+  {
+    question: "Will converting MP3 to WAV improve audio quality?",
+    answer:
+      "No. MP3 to WAV conversion decodes the compressed audio to an uncompressed format, but it cannot restore data that was discarded during MP3 encoding. The WAV file will sound identical to the MP3 — just in an uncompressed container.",
+  },
+  {
+    question: "Why would I want to convert MP3 to WAV?",
+    answer:
+      "WAV files are required by many audio editors and DAWs. Converting to WAV also prevents further quality loss if you need to edit and re-export the audio.",
+  },
+  {
+    question: "Why is the WAV file so much larger?",
+    answer:
+      "WAV is uncompressed. A 5 MB MP3 file may become 30-50 MB as WAV. This is normal — you are trading space for universal compatibility and edit-friendliness.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All conversion happens locally in your browser using WebAssembly. Your files never leave your device.",
+  },
+  {
+    question: "What sample rate will the WAV file have?",
+    answer:
+      "The output WAV file matches the sample rate of the input MP3 — typically 44.1 kHz for music. No resampling is applied.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function Mp3ToWavPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert MP3 files to lossless WAV format for editing and professional use. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your MP3 file using the drop zone above",
-          'Click "Convert to WAV" to start the conversion',
-          "Download your WAV file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             WAV is the standard uncompressed audio format used in music production, video
@@ -61,33 +99,7 @@ export default function Mp3ToWavPage() {
             uploaded anywhere. No watermarks, no limits, no account needed.
           </p>
         `}
-        faqs={[
-          {
-            question: "Will converting MP3 to WAV improve audio quality?",
-            answer:
-              "No. MP3 to WAV conversion decodes the compressed audio to an uncompressed format, but it cannot restore data that was discarded during MP3 encoding. The WAV file will sound identical to the MP3 — just in an uncompressed container.",
-          },
-          {
-            question: "Why would I want to convert MP3 to WAV?",
-            answer:
-              "WAV files are required by many audio editors and DAWs. Converting to WAV also prevents further quality loss if you need to edit and re-export the audio.",
-          },
-          {
-            question: "Why is the WAV file so much larger?",
-            answer:
-              "WAV is uncompressed. A 5 MB MP3 file may become 30-50 MB as WAV. This is normal — you are trading space for universal compatibility and edit-friendliness.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All conversion happens locally in your browser using WebAssembly. Your files never leave your device.",
-          },
-          {
-            question: "What sample rate will the WAV file have?",
-            answer:
-              "The output WAV file matches the sample rate of the input MP3 — typically 44.1 kHz for music. No resampling is applied.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "WAV to MP3", href: "/wav-to-mp3" },
           { name: "Audio to MP3", href: "/convert-to-mp3" },

@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy | Convert-a-Lot",
   description:
     "Privacy policy for Convert-a-Lot. Learn how we protect your data — all processing happens in your browser with no server uploads.",
+  keywords: ["privacy policy", "Convert-a-Lot", "file converter privacy", "data protection", "browser-based processing"],
 };
 
 export default function PrivacyPage() {

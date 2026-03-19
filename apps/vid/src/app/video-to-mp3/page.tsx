@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { VideoToMp3Tool } from "./VideoToMp3Tool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  'Click "Extract MP3" to pull the audio track',
+  "Download your MP3 file",
+];
+
+const faqs = [
+  {
+    question: "Which video formats are supported?",
+    answer:
+      "The tool accepts virtually any common video format including MP4, AVI, MOV, MKV, WMV, FLV, and WebM.",
+  },
+  {
+    question: "What quality is the MP3 output?",
+    answer:
+      "The audio is encoded using LAME MP3 at VBR quality level 2, which typically produces files around 190 kbps — excellent quality for music and speech.",
+  },
+  {
+    question: "Is the video uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using WebAssembly. Your video file never leaves your device.",
+  },
+  {
+    question: "Can I extract audio from a YouTube video?",
+    answer:
+      "This tool works with video files stored on your device. You would need to first download the video file, then use this tool to extract the audio.",
+  },
+  {
+    question: "How long does extraction take?",
+    answer:
+      "Audio extraction is typically faster than video conversion since only the audio stream is processed. A 100 MB video usually takes 10-30 seconds.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function VideoToMp3Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Extract audio from any video and save it as an MP3 file. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          'Click "Extract MP3" to pull the audio track',
-          "Download your MP3 file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Need just the audio from a video? Our free <strong>video to mp3</strong>
@@ -61,33 +99,7 @@ export default function VideoToMp3Page() {
             needed.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which video formats are supported?",
-            answer:
-              "The tool accepts virtually any common video format including MP4, AVI, MOV, MKV, WMV, FLV, and WebM.",
-          },
-          {
-            question: "What quality is the MP3 output?",
-            answer:
-              "The audio is encoded using LAME MP3 at VBR quality level 2, which typically produces files around 190 kbps — excellent quality for music and speech.",
-          },
-          {
-            question: "Is the video uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using WebAssembly. Your video file never leaves your device.",
-          },
-          {
-            question: "Can I extract audio from a YouTube video?",
-            answer:
-              "This tool works with video files stored on your device. You would need to first download the video file, then use this tool to extract the audio.",
-          },
-          {
-            question: "How long does extraction take?",
-            answer:
-              "Audio extraction is typically faster than video conversion since only the audio stream is processed. A 100 MB video usually takes 10-30 seconds.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Extract Audio", href: "/extract-audio" },
           { name: "Video to MP4", href: "/convert-to-mp4" },

@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { DiffCheckerTool } from "./DiffCheckerTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your original text into the left textarea",
+  "Paste the modified text into the right textarea",
+  "Click the Compare button to see the differences",
+  "Toggle between inline and side-by-side views for your preferred layout",
+];
+
+const faqs = [
+  {
+    question: "What algorithm does the diff use?",
+    answer:
+      "The tool uses a line-by-line comparison with a longest common subsequence (LCS) approach, similar to the classic Unix diff algorithm. It identifies the minimal set of changes between the two texts.",
+  },
+  {
+    question: "Can I compare code files?",
+    answer:
+      "Yes. The tool works with any plain text including source code, configuration files, JSON, XML, SQL queries, and prose. Simply paste the contents of each file.",
+  },
+  {
+    question: "What do the colors mean?",
+    answer:
+      "Green highlights indicate lines that were added in the modified text. Red highlights indicate lines that were removed from the original. Yellow indicates lines that exist in both but with changes.",
+  },
+  {
+    question: "Is there a size limit?",
+    answer:
+      "There is no hard limit, but very large texts (over 100,000 lines) may cause the browser to slow down since the diff is computed in-browser. For typical use cases the tool handles texts of any reasonable size instantly.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function DiffCheckerPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste two texts and compare them line by line. See additions, removals, and modifications highlighted instantly."
         keyword={keyword}
-        howTo={[
-          "Paste your original text into the left textarea",
-          "Paste the modified text into the right textarea",
-          "Click the Compare button to see the differences",
-          "Toggle between inline and side-by-side views for your preferred layout",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>diff checker</strong> highlights the differences between two pieces of text, making
@@ -61,28 +94,7 @@ export default function DiffCheckerPage() {
             with no data sent to any server.
           </p>
         `}
-        faqs={[
-          {
-            question: "What algorithm does the diff use?",
-            answer:
-              "The tool uses a line-by-line comparison with a longest common subsequence (LCS) approach, similar to the classic Unix diff algorithm. It identifies the minimal set of changes between the two texts.",
-          },
-          {
-            question: "Can I compare code files?",
-            answer:
-              "Yes. The tool works with any plain text including source code, configuration files, JSON, XML, SQL queries, and prose. Simply paste the contents of each file.",
-          },
-          {
-            question: "What do the colors mean?",
-            answer:
-              "Green highlights indicate lines that were added in the modified text. Red highlights indicate lines that were removed from the original. Yellow indicates lines that exist in both but with changes.",
-          },
-          {
-            question: "Is there a size limit?",
-            answer:
-              "There is no hard limit, but very large texts (over 100,000 lines) may cause the browser to slow down since the diff is computed in-browser. For typical use cases the tool handles texts of any reasonable size instantly.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Text Diff", href: "https://peregrinekit.com/text-diff" },
           { name: "JSON Formatter", href: "/json-formatter" },

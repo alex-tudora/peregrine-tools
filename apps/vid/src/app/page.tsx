@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+
+export const metadata: Metadata = {
+  description: "Free online video and audio tools. Convert, compress, trim, and extract audio from videos instantly in your browser. No sign-up required.",
+  keywords: ["video tools", "video converter", "compress video", "video to MP3", "trim video", "audio tools", "free online video tools", "Peregrine Vid"],
+};
 
 const videoTools = [
   { icon: "\uD83C\uDFAC", name: "Video to MP4", description: "Convert any video to MP4 format", href: "/convert-to-mp4" },

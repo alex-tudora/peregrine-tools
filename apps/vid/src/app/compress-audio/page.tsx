@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CompressAudioTool } from "./CompressAudioTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your audio file using the drop zone above",
+  "Choose your target bitrate",
+  'Click "Compress Audio" to reduce the file size',
+  "Compare the before and after sizes, then download",
+];
+
+const faqs = [
+  {
+    question: "Which bitrate should I choose?",
+    answer:
+      "64 kbps works for voice recordings and podcasts. 128 kbps is good for general use. 192 kbps is great for music. 256 kbps gives near-transparent quality where most listeners cannot hear the compression.",
+  },
+  {
+    question: "How much smaller will my audio be?",
+    answer:
+      "Results depend on the original file. A 320 kbps MP3 compressed to 128 kbps will be roughly 60% smaller. WAV and FLAC files will see 80-95% reduction.",
+  },
+  {
+    question: "Which audio formats are supported?",
+    answer:
+      "The tool accepts MP3, WAV, OGG, FLAC, AAC, M4A, and WMA files. The output is always MP3 for maximum compatibility.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All compression happens locally in your browser using WebAssembly. Your files never leave your device.",
+  },
+  {
+    question: "Will compressing an MP3 reduce quality?",
+    answer:
+      "Re-encoding an already compressed MP3 at a lower bitrate will reduce quality. For the best results, start from the highest quality source (WAV or FLAC) when possible.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CompressAudioPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Shrink your audio file size while preserving sound quality. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your audio file using the drop zone above",
-          "Choose your target bitrate",
-          'Click "Compress Audio" to reduce the file size',
-          "Compare the before and after sizes, then download",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Large audio files eat through email attachment limits and storage quotas. Our
@@ -61,33 +99,7 @@ export default function CompressAudioPage() {
             uploaded to any server. No watermarks, no daily limits, no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which bitrate should I choose?",
-            answer:
-              "64 kbps works for voice recordings and podcasts. 128 kbps is good for general use. 192 kbps is great for music. 256 kbps gives near-transparent quality where most listeners cannot hear the compression.",
-          },
-          {
-            question: "How much smaller will my audio be?",
-            answer:
-              "Results depend on the original file. A 320 kbps MP3 compressed to 128 kbps will be roughly 60% smaller. WAV and FLAC files will see 80-95% reduction.",
-          },
-          {
-            question: "Which audio formats are supported?",
-            answer:
-              "The tool accepts MP3, WAV, OGG, FLAC, AAC, M4A, and WMA files. The output is always MP3 for maximum compatibility.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All compression happens locally in your browser using WebAssembly. Your files never leave your device.",
-          },
-          {
-            question: "Will compressing an MP3 reduce quality?",
-            answer:
-              "Re-encoding an already compressed MP3 at a lower bitrate will reduce quality. For the best results, start from the highest quality source (WAV or FLAC) when possible.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Video", href: "/compress-video" },
           { name: "WAV to MP3", href: "/wav-to-mp3" },

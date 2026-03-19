@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Header, Footer } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
@@ -24,6 +25,8 @@ export const metadata: Metadata = generateSiteMetadata({
     "Free online developer tools. JSON formatter, regex tester, base64 encoder, hash generator, and more. No sign-up required.",
   siteUrl: "https://peregrinedev.com",
 });
+
+export const viewport: Viewport = { themeColor: "#D97706" };
 
 const devTools = [
   { name: "JSON Formatter", href: "/json-formatter" },
@@ -55,6 +58,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Peregrine Dev"
           currentSite="dev"

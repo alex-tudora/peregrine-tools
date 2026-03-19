@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+
+export const metadata: Metadata = {
+  description: "Free online text tools, calculators, and SEO utilities. Word counter, case converter, percentage calculator, meta tag generator, and more. No sign-up required.",
+  keywords: ["text tools", "word counter", "case converter", "calculator", "SEO tools", "free online tools", "Peregrine Kit"],
+};
 
 const textTools = [
   { icon: "\ud83d\udcdd", name: "Word Counter", description: "Count words, characters, and sentences", href: "/word-counter" },

@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy | Peregrine Kit",
   description:
     "Privacy policy for Peregrine Kit. Learn how we protect your data — all processing happens in your browser with no server uploads.",
+  keywords: ["privacy policy", "Peregrine Kit", "text tools privacy", "data protection", "browser-based processing"],
 };
 
 export default function PrivacyPage() {

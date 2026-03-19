@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Header, Footer } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
@@ -24,6 +25,8 @@ export const metadata: Metadata = generateSiteMetadata({
     "Free online text tools, calculators, and SEO utilities. Word counter, case converter, percentage calculator, meta tag generator, and more. No sign-up required.",
   siteUrl: "https://peregrinekit.com",
 });
+
+export const viewport: Viewport = { themeColor: "#059669" };
 
 const kitTools = [
   { name: "Word Counter", href: "/word-counter" },
@@ -66,6 +69,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Peregrine Kit"
           currentSite="kit"

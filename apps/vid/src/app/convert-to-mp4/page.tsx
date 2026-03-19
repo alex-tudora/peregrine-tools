@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { ConvertToMp4Tool } from "./ConvertToMp4Tool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  'Click "Convert to MP4" to start the conversion',
+  "Download your converted MP4 file",
+];
+
+const faqs = [
+  {
+    question: "Which video formats can I convert?",
+    answer:
+      "You can convert AVI, MOV, MKV, WMV, FLV, and WebM files to MP4. The tool uses the H.264 video codec, which offers excellent quality and broad device compatibility.",
+  },
+  {
+    question: "Is there a file size limit?",
+    answer:
+      "There is no hard limit, but because processing happens in your browser, very large files (over 500 MB) may be slow or cause memory issues depending on your device.",
+  },
+  {
+    question: "Are my videos uploaded to a server?",
+    answer:
+      "No. All conversion happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+  {
+    question: "Will there be quality loss?",
+    answer:
+      "Re-encoding always involves some generation loss, but the tool uses H.264 with a fast preset that maintains excellent visual quality. The output is suitable for sharing, streaming, and archiving.",
+  },
+  {
+    question: "How long does conversion take?",
+    answer:
+      "Speed depends on the file size and your device. A typical 100 MB video takes 30-90 seconds on a modern computer.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function ConvertToMp4Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your videos to MP4 format. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          'Click "Convert to MP4" to start the conversion',
-          "Download your converted MP4 file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             MP4 is the most widely supported video format, playable on virtually every
@@ -61,33 +99,7 @@ export default function ConvertToMp4Page() {
             drop your video and get a ready-to-share MP4 in seconds.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which video formats can I convert?",
-            answer:
-              "You can convert AVI, MOV, MKV, WMV, FLV, and WebM files to MP4. The tool uses the H.264 video codec, which offers excellent quality and broad device compatibility.",
-          },
-          {
-            question: "Is there a file size limit?",
-            answer:
-              "There is no hard limit, but because processing happens in your browser, very large files (over 500 MB) may be slow or cause memory issues depending on your device.",
-          },
-          {
-            question: "Are my videos uploaded to a server?",
-            answer:
-              "No. All conversion happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-          {
-            question: "Will there be quality loss?",
-            answer:
-              "Re-encoding always involves some generation loss, but the tool uses H.264 with a fast preset that maintains excellent visual quality. The output is suitable for sharing, streaming, and archiving.",
-          },
-          {
-            question: "How long does conversion take?",
-            answer:
-              "Speed depends on the file size and your device. A typical 100 MB video takes 30-90 seconds on a modern computer.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Video", href: "/compress-video" },
           { name: "Video to MP3", href: "/video-to-mp3" },

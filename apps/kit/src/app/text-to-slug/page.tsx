@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { TextToSlugTool } from "./TextToSlugTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Type or paste your title, heading, or phrase into the input field",
+  "Choose your preferred separator (hyphen or underscore) and case setting",
+  "The slug is generated in real time as you type",
+  "Click 'Copy to Clipboard' to use the slug in your project",
+];
+
+const faqs = [
+  {
+    question: "Should I use hyphens or underscores in URLs?",
+    answer:
+      "Google recommends hyphens (-) as word separators in URLs because they are treated as spaces between words. Underscores (_) are not treated as separators by search engines, so hyphens are generally the better choice for SEO.",
+  },
+  {
+    question: "Does it handle accented characters?",
+    answer:
+      "Yes. Accented characters like e-acute, n-tilde, and u-umlaut are converted to their closest ASCII equivalents. For example, 'creme brulee' is produced from 'creme brulee' with accents.",
+  },
+  {
+    question: "What characters are removed?",
+    answer:
+      "All characters that are not letters, numbers, spaces, hyphens, or underscores are removed. This includes punctuation, symbols, and special characters.",
+  },
+  {
+    question: "Can I keep uppercase letters?",
+    answer:
+      "Yes. Uncheck the 'Lowercase' option to preserve the original capitalization. However, most URL conventions and SEO best practices recommend lowercase slugs.",
+  },
+  {
+    question: "Is there a length limit?",
+    answer:
+      "The tool itself has no length limit. However, URLs should generally be kept under 2,048 characters for browser compatibility, and slugs under 60 characters are ideal for SEO readability.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function TextToSlugPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Turn any title or phrase into a clean, URL-friendly slug. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Type or paste your title, heading, or phrase into the input field",
-          "Choose your preferred separator (hyphen or underscore) and case setting",
-          "The slug is generated in real time as you type",
-          "Click 'Copy to Clipboard' to use the slug in your project",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A URL slug is the part of a web address that identifies a specific page in a human-readable
@@ -66,33 +104,7 @@ export default function TextToSlugPage() {
             the effort of manual formatting.
           </p>
         `}
-        faqs={[
-          {
-            question: "Should I use hyphens or underscores in URLs?",
-            answer:
-              "Google recommends hyphens (-) as word separators in URLs because they are treated as spaces between words. Underscores (_) are not treated as separators by search engines, so hyphens are generally the better choice for SEO.",
-          },
-          {
-            question: "Does it handle accented characters?",
-            answer:
-              "Yes. Accented characters like e-acute, n-tilde, and u-umlaut are converted to their closest ASCII equivalents. For example, 'creme brulee' is produced from 'creme brulee' with accents.",
-          },
-          {
-            question: "What characters are removed?",
-            answer:
-              "All characters that are not letters, numbers, spaces, hyphens, or underscores are removed. This includes punctuation, symbols, and special characters.",
-          },
-          {
-            question: "Can I keep uppercase letters?",
-            answer:
-              "Yes. Uncheck the 'Lowercase' option to preserve the original capitalization. However, most URL conventions and SEO best practices recommend lowercase slugs.",
-          },
-          {
-            question: "Is there a length limit?",
-            answer:
-              "The tool itself has no length limit. However, URLs should generally be kept under 2,048 characters for browser compatibility, and slugs under 60 characters are ideal for SEO readability.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Case Converter", href: "/case-converter" },
           { name: "Remove Line Breaks", href: "/remove-line-breaks" },

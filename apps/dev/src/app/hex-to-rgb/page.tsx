@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { HexToRgbTool } from "./HexToRgbTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Enter a hex color code (e.g. #FF5733) in the hex input field",
+  "View the converted RGB, RGBA, HSL, and HSLA values in real time",
+  "Use the RGB inputs to convert in the reverse direction (RGB to hex)",
+  "Click any copy button to copy a value to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "Do I need to include the # symbol?",
+    answer:
+      "No. The tool automatically adds the # prefix if you omit it. You can type FF5733 or #FF5733 and both will work.",
+  },
+  {
+    question: "What hex formats are supported?",
+    answer:
+      "The tool supports 3-character shorthand (e.g. #F00), 6-character standard (e.g. #FF0000), and 8-character hex with alpha (e.g. #FF0000FF). Shorthand values are automatically expanded.",
+  },
+  {
+    question: "How is HSL calculated?",
+    answer:
+      "HSL values are calculated from the RGB components using the standard conversion algorithm. Hue is expressed in degrees (0-360), while saturation and lightness are percentages (0-100%).",
+  },
+  {
+    question: "Is the alpha value preserved?",
+    answer:
+      "Yes. If you enter an 8-character hex code, the alpha channel is extracted and applied to the RGBA and HSLA outputs. You can also manually adjust the alpha slider.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function HexToRgbPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Convert between hex and RGB color formats in real time. Preview colors and copy values instantly."
         keyword={keyword}
-        howTo={[
-          "Enter a hex color code (e.g. #FF5733) in the hex input field",
-          "View the converted RGB, RGBA, HSL, and HSLA values in real time",
-          "Use the RGB inputs to convert in the reverse direction (RGB to hex)",
-          "Click any copy button to copy a value to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Converting between <strong>hex and RGB</strong> color codes is one of the most common tasks
@@ -61,28 +94,7 @@ export default function HexToRgbPage() {
             value into your code.
           </p>
         `}
-        faqs={[
-          {
-            question: "Do I need to include the # symbol?",
-            answer:
-              "No. The tool automatically adds the # prefix if you omit it. You can type FF5733 or #FF5733 and both will work.",
-          },
-          {
-            question: "What hex formats are supported?",
-            answer:
-              "The tool supports 3-character shorthand (e.g. #F00), 6-character standard (e.g. #FF0000), and 8-character hex with alpha (e.g. #FF0000FF). Shorthand values are automatically expanded.",
-          },
-          {
-            question: "How is HSL calculated?",
-            answer:
-              "HSL values are calculated from the RGB components using the standard conversion algorithm. Hue is expressed in degrees (0-360), while saturation and lightness are percentages (0-100%).",
-          },
-          {
-            question: "Is the alpha value preserved?",
-            answer:
-              "Yes. If you enter an 8-character hex code, the alpha channel is extracted and applied to the RGBA and HSLA outputs. You can also manually adjust the alpha slider.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Color Picker", href: "/color-picker" },
           { name: "CSS Minifier", href: "/css-minifier" },

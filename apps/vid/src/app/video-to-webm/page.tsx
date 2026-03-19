@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { VideoToWebmTool } from "./VideoToWebmTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  "Choose your preferred quality level",
+  'Click "Convert to WebM" to start the conversion',
+  "Download your WebM file",
+];
+
+const faqs = [
+  {
+    question: "Why choose WebM over MP4?",
+    answer:
+      "WebM is open-source and royalty-free. It often delivers better compression than H.264 MP4 at the same quality level, resulting in smaller files. It is the preferred format for web video on modern browsers.",
+  },
+  {
+    question: "Which browsers support WebM?",
+    answer:
+      "All modern browsers support WebM: Chrome, Firefox, Edge, Opera, and Safari (version 14.1+). For maximum legacy compatibility, MP4 is still the safer choice.",
+  },
+  {
+    question: "Which quality level should I choose?",
+    answer:
+      "High quality is best for presentations and detailed content. Medium gives a great balance of size and quality for most web videos. Low quality is useful for very large files where size matters most.",
+  },
+  {
+    question: "Are my videos uploaded to a server?",
+    answer:
+      "No. All conversion happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+  {
+    question: "Why does conversion take longer than MP4?",
+    answer:
+      "VP9 encoding (used in WebM) is more computationally intensive than H.264 (used in MP4). The tradeoff is better compression — the output file is typically smaller at the same visual quality.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function VideoToWebmPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your videos to WebM format for optimized web playback. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          "Choose your preferred quality level",
-          'Click "Convert to WebM" to start the conversion',
-          "Download your WebM file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             WebM is an open, royalty-free media format designed specifically for the web.
@@ -62,33 +100,7 @@ export default function VideoToWebmPage() {
             to any server. No watermarks, no limits, no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Why choose WebM over MP4?",
-            answer:
-              "WebM is open-source and royalty-free. It often delivers better compression than H.264 MP4 at the same quality level, resulting in smaller files. It is the preferred format for web video on modern browsers.",
-          },
-          {
-            question: "Which browsers support WebM?",
-            answer:
-              "All modern browsers support WebM: Chrome, Firefox, Edge, Opera, and Safari (version 14.1+). For maximum legacy compatibility, MP4 is still the safer choice.",
-          },
-          {
-            question: "Which quality level should I choose?",
-            answer:
-              "High quality is best for presentations and detailed content. Medium gives a great balance of size and quality for most web videos. Low quality is useful for very large files where size matters most.",
-          },
-          {
-            question: "Are my videos uploaded to a server?",
-            answer:
-              "No. All conversion happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-          {
-            question: "Why does conversion take longer than MP4?",
-            answer:
-              "VP9 encoding (used in WebM) is more computationally intensive than H.264 (used in MP4). The tradeoff is better compression — the output file is typically smaller at the same visual quality.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Video to MP4", href: "/convert-to-mp4" },
           { name: "Compress Video", href: "/compress-video" },

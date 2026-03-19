@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { RegexTesterTool } from "./RegexTesterTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Enter your regular expression pattern in the pattern input field",
+  "Select the flags you need (global, case-insensitive, multiline, dotAll)",
+  "Type or paste your test string in the text area below",
+  "View highlighted matches, match count, and capture group details in real time",
+];
+
+const faqs = [
+  {
+    question: "Which regex flavor does this use?",
+    answer:
+      "The tool uses JavaScript's built-in RegExp engine. This is the same engine used in all modern browsers and Node.js. Syntax features specific to other flavors (like PCRE lookbehinds in older browsers) may not be available.",
+  },
+  {
+    question: "What do the flag checkboxes do?",
+    answer:
+      "g (global) finds all matches instead of stopping at the first. i (case-insensitive) ignores letter case. m (multiline) makes ^ and $ match the start and end of each line. s (dotAll) makes the dot (.) match newline characters too.",
+  },
+  {
+    question: "How are capture groups displayed?",
+    answer:
+      "Each match is listed with its full match text and any named or numbered capture groups. This makes it easy to verify that your groups are extracting the right portions of the text.",
+  },
+  {
+    question: "Can I use the common patterns directly?",
+    answer:
+      "Yes. Click any pattern in the reference sidebar to load it into the pattern input field. You can then modify it to suit your specific needs.",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All testing happens locally in your browser. Your patterns and test strings are never sent to any server and are not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function RegexTesterPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Write a regex pattern, paste your test string, and see matches highlighted in real time. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Enter your regular expression pattern in the pattern input field",
-          "Select the flags you need (global, case-insensitive, multiline, dotAll)",
-          "Type or paste your test string in the text area below",
-          "View highlighted matches, match count, and capture group details in real time",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>regex tester</strong> lets you write and debug regular expressions
@@ -65,33 +103,7 @@ export default function RegexTesterPage() {
             sensitive content. There are no usage limits and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which regex flavor does this use?",
-            answer:
-              "The tool uses JavaScript's built-in RegExp engine. This is the same engine used in all modern browsers and Node.js. Syntax features specific to other flavors (like PCRE lookbehinds in older browsers) may not be available.",
-          },
-          {
-            question: "What do the flag checkboxes do?",
-            answer:
-              "g (global) finds all matches instead of stopping at the first. i (case-insensitive) ignores letter case. m (multiline) makes ^ and $ match the start and end of each line. s (dotAll) makes the dot (.) match newline characters too.",
-          },
-          {
-            question: "How are capture groups displayed?",
-            answer:
-              "Each match is listed with its full match text and any named or numbered capture groups. This makes it easy to verify that your groups are extracting the right portions of the text.",
-          },
-          {
-            question: "Can I use the common patterns directly?",
-            answer:
-              "Yes. Click any pattern in the reference sidebar to load it into the pattern input field. You can then modify it to suit your specific needs.",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All testing happens locally in your browser. Your patterns and test strings are never sent to any server and are not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           {
             name: "Find & Replace",

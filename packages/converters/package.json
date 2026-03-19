@@ -1,0 +1,30 @@
+{
+  "name": "@peregrine/converters",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4",
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.1",
+    "jszip": "^3.10.1",
+    "file-saver": "^2.0.5"
+  },
+  "peerDependenciesMeta": {
+    "pdf-lib": { "optional": true },
+    "pdfjs-dist": { "optional": true },
+    "@ffmpeg/ffmpeg": { "optional": true },
+    "@ffmpeg/util": { "optional": true },
+    "jszip": { "optional": true },
+    "file-saver": { "optional": true }
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/file-saver": "^2"
+  }
+}

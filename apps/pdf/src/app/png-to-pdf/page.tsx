@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { PngToPdfTool } from "./PngToPdfTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your PNG images using the drop zone above",
+  "Drag to reorder images in your preferred order",
+  "Choose your page size (A4, Letter, or fit to image)",
+  'Click "Create PDF" and download your document',
+];
+
+const faqs = [
+  {
+    question: "What file formats are accepted?",
+    answer:
+      "This tool is designed specifically for PNG images. If you need to convert JPG images as well, try our JPG to PDF converter which supports both JPG and PNG formats.",
+  },
+  {
+    question: "Can I reorder the images before creating the PDF?",
+    answer:
+      "Yes. After uploading, use the arrow buttons next to each file to move it up or down. The final PDF pages will match the order shown in the list.",
+  },
+  {
+    question: "Which page size should I choose?",
+    answer:
+      "Use A4 or Letter for documents that will be printed on standard paper. Choose \"Fit to Image\" if you want each PDF page to match the original image dimensions exactly, which is great for design portfolios or screenshot collections.",
+  },
+  {
+    question: "Is there a limit on the number of images?",
+    answer:
+      "There is no fixed limit. You can upload as many PNG files as you like. Very large batches may take a bit longer since everything is processed locally in your browser.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using JavaScript. Your images never leave your device, ensuring complete privacy.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function PngToPdfPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your PNG images to a PDF document. Upload multiple images to create a multi-page PDF. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your PNG images using the drop zone above",
-          "Drag to reorder images in your preferred order",
-          "Choose your page size (A4, Letter, or fit to image)",
-          'Click "Create PDF" and download your document',
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Need to combine PNG screenshots, diagrams, or transparent graphics into a single
@@ -66,33 +104,7 @@ export default function PngToPdfPage() {
             and download.
           </p>
         `}
-        faqs={[
-          {
-            question: "What file formats are accepted?",
-            answer:
-              "This tool is designed specifically for PNG images. If you need to convert JPG images as well, try our JPG to PDF converter which supports both JPG and PNG formats.",
-          },
-          {
-            question: "Can I reorder the images before creating the PDF?",
-            answer:
-              "Yes. After uploading, use the arrow buttons next to each file to move it up or down. The final PDF pages will match the order shown in the list.",
-          },
-          {
-            question: "Which page size should I choose?",
-            answer:
-              "Use A4 or Letter for documents that will be printed on standard paper. Choose \"Fit to Image\" if you want each PDF page to match the original image dimensions exactly, which is great for design portfolios or screenshot collections.",
-          },
-          {
-            question: "Is there a limit on the number of images?",
-            answer:
-              "There is no fixed limit. You can upload as many PNG files as you like. Very large batches may take a bit longer since everything is processed locally in your browser.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using JavaScript. Your images never leave your device, ensuring complete privacy.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "PDF to PNG", href: "/pdf-to-png" },
           { name: "JPG to PDF", href: "/jpg-to-pdf" },

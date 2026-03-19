@@ -7,8 +7,18 @@ export {
 
 export {
   generateToolStructuredData,
+  generateFAQStructuredData,
+  generateHowToStructuredData,
+  generateBreadcrumbStructuredData,
+  generateToolPageStructuredData,
+  generateOrganizationStructuredData,
+  generateWebSiteStructuredData,
   type ToolStructuredDataOptions,
   type WebApplicationStructuredData,
+  type FAQ,
+  type HowToOptions,
+  type BreadcrumbOptions,
+  type ToolPageStructuredDataOptions,
 } from "./structuredData";
 
 export {
@@ -18,3 +28,5 @@ export {
 } from "./sitemap";
 
 export { generateRobotsTxt } from "./robots";
+
+export { createOGImageResponse, type OGImageOptions } from "./og";

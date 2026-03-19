@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Terms of Service | Peregrine Pix",
   description:
     "Terms of service for Peregrine Pix. Read the terms and conditions governing your use of our free online image tools.",
+  keywords: ["terms of service", "Peregrine Pix", "image tools terms", "usage policy"],
 };
 
 export default function TermsPage() {

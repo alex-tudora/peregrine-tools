@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { SignPdfTool } from "./SignPdfTool";
 
@@ -17,13 +17,6 @@ export const metadata = generateToolMetadata({
   siteName,
   siteUrl,
   path,
-});
-
-const structuredData = generateToolStructuredData({
-  toolName,
-  description,
-  url: `${siteUrl}${path}`,
-  siteName,
 });
 
 const howTo = [
@@ -83,6 +76,18 @@ const faqs = [
   },
 ];
 
+const schemas = generateToolPageStructuredData({
+  toolName,
+  description,
+  keyword,
+  url: `${siteUrl}${path}`,
+  siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
+});
+
 const relatedTools = [
   { name: "Watermark PDF", href: "/watermark-pdf" },
   { name: "Protect PDF", href: "/protect-pdf" },
@@ -93,10 +98,13 @@ const relatedTools = [
 export default function SignPdfPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Add your signature to any PDF document. Draw or type it. No sign-up required."

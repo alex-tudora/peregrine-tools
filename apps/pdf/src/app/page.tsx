@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+
+export const metadata: Metadata = {
+  description: "The fastest free online PDF tools. Merge, split, compress, and convert PDF files instantly in your browser. No sign-up required.",
+  keywords: ["PDF tools", "merge PDF", "split PDF", "compress PDF", "PDF converter", "free online PDF tools", "Peregrine PDF"],
+};
 
 const tools = [
   { icon: "\ud83d\udcc4", name: "Merge PDF", description: "Combine multiple PDFs into one document", href: "/merge-pdf" },

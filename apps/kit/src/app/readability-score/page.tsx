@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { ReadabilityScoreTool } from "./ReadabilityScoreTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste or type your text into the text area above",
+  "View real-time readability scores as you type",
+  "Check the Flesch Reading Ease score and visual gauge (green = easy, red = difficult)",
+  "Review the Flesch-Kincaid Grade Level and other metrics to improve your writing",
+];
+
+const faqs = [
+  {
+    question: "What is a good Flesch Reading Ease score?",
+    answer:
+      "For general web content and blog posts, aim for 60-70 (Standard to Fairly Easy). Marketing copy and consumer-facing content should target 70-80. Academic or technical writing naturally scores lower at 30-50.",
+  },
+  {
+    question: "What does the Flesch-Kincaid Grade Level mean?",
+    answer:
+      "It estimates the US school grade level needed to understand your text. A score of 8.0 means an 8th grader could understand it. Most popular online content is written at a 6th to 8th grade level.",
+  },
+  {
+    question: "How are syllables counted?",
+    answer:
+      "The tool counts groups of consecutive vowels (a, e, i, o, u, y) in each word, with adjustments for common patterns like silent e. This heuristic is accurate for most English words.",
+  },
+  {
+    question: "Does it work with languages other than English?",
+    answer:
+      "The Flesch-Kincaid formulas were designed for English text. While the tool will process text in other languages, the readability scores may not be meaningful because syllable counting and formula constants are calibrated for English.",
+  },
+  {
+    question: "How can I improve my readability score?",
+    answer:
+      "Use shorter sentences, choose simpler words with fewer syllables, break long paragraphs into smaller ones, and use active voice instead of passive voice. Aim for an average sentence length of 15-20 words.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function ReadabilityScorePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste your text and see how readable it is with Flesch-Kincaid scoring. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste or type your text into the text area above",
-          "View real-time readability scores as you type",
-          "Check the Flesch Reading Ease score and visual gauge (green = easy, red = difficult)",
-          "Review the Flesch-Kincaid Grade Level and other metrics to improve your writing",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             A <strong>readability checker</strong> measures how easy your writing is to understand.
@@ -67,33 +105,7 @@ export default function ReadabilityScorePage() {
             required.
           </p>
         `}
-        faqs={[
-          {
-            question: "What is a good Flesch Reading Ease score?",
-            answer:
-              "For general web content and blog posts, aim for 60-70 (Standard to Fairly Easy). Marketing copy and consumer-facing content should target 70-80. Academic or technical writing naturally scores lower at 30-50.",
-          },
-          {
-            question: "What does the Flesch-Kincaid Grade Level mean?",
-            answer:
-              "It estimates the US school grade level needed to understand your text. A score of 8.0 means an 8th grader could understand it. Most popular online content is written at a 6th to 8th grade level.",
-          },
-          {
-            question: "How are syllables counted?",
-            answer:
-              "The tool counts groups of consecutive vowels (a, e, i, o, u, y) in each word, with adjustments for common patterns like silent e. This heuristic is accurate for most English words.",
-          },
-          {
-            question: "Does it work with languages other than English?",
-            answer:
-              "The Flesch-Kincaid formulas were designed for English text. While the tool will process text in other languages, the readability scores may not be meaningful because syllable counting and formula constants are calibrated for English.",
-          },
-          {
-            question: "How can I improve my readability score?",
-            answer:
-              "Use shorter sentences, choose simpler words with fewer syllables, break long paragraphs into smaller ones, and use active voice instead of passive voice. Aim for an average sentence length of 15-20 words.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Word Counter", href: "/word-counter" },
           { name: "Character Counter", href: "/character-counter" },

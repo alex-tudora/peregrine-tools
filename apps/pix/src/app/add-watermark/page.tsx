@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { AddWatermarkTool } from "./AddWatermarkTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your image file using the drop zone above or click to browse",
+  "Enter your watermark text and customize the appearance — font size, opacity, color, and position",
+  'Click "Add Watermark" to apply the watermark to your image',
+  "Download your watermarked image",
+];
+
+const faqs = [
+  {
+    question: "Can I customize the watermark appearance?",
+    answer:
+      "Yes. You can change the watermark text, font size (16-72px), opacity (10-100%), color (gray, red, blue, or black), and position (diagonal, center, or bottom-right).",
+  },
+  {
+    question: "Will the watermark be permanent?",
+    answer:
+      "Yes, the watermark is rendered directly onto the image pixels. We recommend keeping a copy of your original file before adding a watermark.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
+  },
+  {
+    question: "Which image formats are supported?",
+    answer:
+      "The tool accepts JPEG, PNG, and WebP images. The output is saved as a PNG to preserve quality and any transparency in the original image.",
+  },
+  {
+    question: "Can I watermark multiple images at once?",
+    answer:
+      "This tool processes one image at a time for precise control over watermark settings. After downloading, click \"Change file\" to watermark another image with the same or different settings.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function AddWatermarkPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Add Watermark to Image — Watermark Photos Online Free"
         subtitle="Stamp text watermarks onto your photos and images. Instantly. No sign-up required."
         keyword="add watermark to image"
-        howTo={[
-          "Upload your image file using the drop zone above or click to browse",
-          "Enter your watermark text and customize the appearance — font size, opacity, color, and position",
-          'Click "Add Watermark" to apply the watermark to your image',
-          "Download your watermarked image",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Watermarking images is essential for photographers, designers, and
@@ -68,33 +106,7 @@ export default function AddWatermarkPage() {
             itself, and no daily caps.
           </p>
         `}
-        faqs={[
-          {
-            question: "Can I customize the watermark appearance?",
-            answer:
-              "Yes. You can change the watermark text, font size (16-72px), opacity (10-100%), color (gray, red, blue, or black), and position (diagonal, center, or bottom-right).",
-          },
-          {
-            question: "Will the watermark be permanent?",
-            answer:
-              "Yes, the watermark is rendered directly onto the image pixels. We recommend keeping a copy of your original file before adding a watermark.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
-          },
-          {
-            question: "Which image formats are supported?",
-            answer:
-              "The tool accepts JPEG, PNG, and WebP images. The output is saved as a PNG to preserve quality and any transparency in the original image.",
-          },
-          {
-            question: "Can I watermark multiple images at once?",
-            answer:
-              "This tool processes one image at a time for precise control over watermark settings. After downloading, click \"Change file\" to watermark another image with the same or different settings.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Image", href: "/compress-image" },
           { name: "Resize Image", href: "/resize-image" },

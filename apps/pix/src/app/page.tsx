@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+
+export const metadata: Metadata = {
+  description: "Free online image tools. Compress, resize, crop, convert, and edit images instantly in your browser. No sign-up required.",
+  keywords: ["image tools", "compress image", "resize image", "image converter", "PNG to JPG", "remove background", "free online image tools", "Peregrine Pix"],
+};
 
 const tools = [
   { icon: "\ud83d\udddc\ufe0f", name: "Compress Image", description: "Reduce file size with quality control", href: "/compress-image" },

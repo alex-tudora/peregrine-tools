@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CsvToJsonTool } from "./CsvToJsonTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste your CSV data into the input text area",
+  "Select whether the first row contains headers and choose the delimiter",
+  "Click 'Convert' to generate the JSON output",
+  "Click 'Copy' to copy the JSON or 'Download .json' to save it as a file",
+];
+
+const faqs = [
+  {
+    question: "Which delimiters are supported?",
+    answer:
+      "The tool supports comma, tab, semicolon, and pipe as delimiters. Select the one that matches your CSV format from the dropdown before converting.",
+  },
+  {
+    question: "What happens if my CSV has no header row?",
+    answer:
+      "Uncheck the 'Has header row' option and the tool will output a JSON array of arrays. Each inner array represents one row of data with values in their original column order.",
+  },
+  {
+    question: "How are quoted fields handled?",
+    answer:
+      "Fields enclosed in double quotes are properly parsed. Commas and newlines inside quoted fields are preserved as part of the value, and escaped double quotes (\"\") are converted to single double quotes.",
+  },
+  {
+    question: "Does it auto-detect data types?",
+    answer:
+      "All values are kept as strings to preserve the original data exactly. If you need numbers or booleans, you can post-process the JSON in your application code.",
+  },
+  {
+    question: "Is my data stored anywhere?",
+    answer:
+      "No. All conversion happens locally in your browser. Your CSV data is never sent to any server and is not stored or logged.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CsvToJsonPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste CSV data and convert it to a JSON array of objects or arrays. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Paste your CSV data into the input text area",
-          "Select whether the first row contains headers and choose the delimiter",
-          "Click 'Convert' to generate the JSON output",
-          "Click 'Copy' to copy the JSON or 'Download .json' to save it as a file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Converting <strong>CSV to JSON</strong> is essential when importing spreadsheet or
@@ -64,33 +102,7 @@ export default function CsvToJsonPage() {
             and no account required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which delimiters are supported?",
-            answer:
-              "The tool supports comma, tab, semicolon, and pipe as delimiters. Select the one that matches your CSV format from the dropdown before converting.",
-          },
-          {
-            question: "What happens if my CSV has no header row?",
-            answer:
-              "Uncheck the 'Has header row' option and the tool will output a JSON array of arrays. Each inner array represents one row of data with values in their original column order.",
-          },
-          {
-            question: "How are quoted fields handled?",
-            answer:
-              "Fields enclosed in double quotes are properly parsed. Commas and newlines inside quoted fields are preserved as part of the value, and escaped double quotes (\"\") are converted to single double quotes.",
-          },
-          {
-            question: "Does it auto-detect data types?",
-            answer:
-              "All values are kept as strings to preserve the original data exactly. If you need numbers or booleans, you can post-process the JSON in your application code.",
-          },
-          {
-            question: "Is my data stored anywhere?",
-            answer:
-              "No. All conversion happens locally in your browser. Your CSV data is never sent to any server and is not stored or logged.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "JSON to CSV", href: "/json-to-csv" },
           { name: "JSON Formatter", href: "/json-formatter" },

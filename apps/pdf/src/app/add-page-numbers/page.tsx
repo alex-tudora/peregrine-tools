@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { AddPageNumbersTool } from "./AddPageNumbersTool";
 
@@ -17,13 +17,6 @@ export const metadata = generateToolMetadata({
   siteName,
   siteUrl,
   path,
-});
-
-const structuredData = generateToolStructuredData({
-  toolName,
-  description,
-  url: `${siteUrl}${path}`,
-  siteName,
 });
 
 const howTo = [
@@ -83,6 +76,18 @@ const faqs = [
   },
 ];
 
+const schemas = generateToolPageStructuredData({
+  toolName,
+  description,
+  keyword,
+  url: `${siteUrl}${path}`,
+  siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
+});
+
 const relatedTools = [
   { name: "Merge PDF", href: "/merge-pdf" },
   { name: "Rotate PDF", href: "/rotate-pdf" },
@@ -93,10 +98,13 @@ const relatedTools = [
 export default function AddPageNumbersPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Add page numbers to any PDF document. Customize position and format. No sign-up required."

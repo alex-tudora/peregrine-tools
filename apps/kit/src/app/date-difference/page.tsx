@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { DateDifferenceTool } from "./DateDifferenceTool";
 
@@ -17,13 +17,6 @@ export const metadata = generateToolMetadata({
   siteName,
   siteUrl,
   path,
-});
-
-const structuredData = generateToolStructuredData({
-  toolName,
-  description,
-  url: `${siteUrl}${path}`,
-  siteName,
 });
 
 const howTo = [
@@ -66,6 +59,18 @@ const faqs = [
   },
 ];
 
+const schemas = generateToolPageStructuredData({
+  toolName,
+  description,
+  keyword,
+  url: `${siteUrl}${path}`,
+  siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
+});
+
 const relatedTools = [
   { name: "Age Calculator", href: "/age-calculator" },
   { name: "Timezone Converter", href: "/timezone-converter" },
@@ -76,10 +81,13 @@ const relatedTools = [
 export default function DateDifferencePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Find the exact duration between two dates in years, months, days, weeks, and hours."

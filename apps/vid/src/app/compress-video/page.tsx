@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { CompressVideoTool } from "./CompressVideoTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  "Select a compression level — low, medium, or high",
+  'Click "Compress Video" to reduce the file size',
+  "Compare the before and after sizes, then download",
+];
+
+const faqs = [
+  {
+    question: "What does the compression level mean?",
+    answer:
+      "The compression level controls the CRF (Constant Rate Factor) used by the H.264 encoder. Low compression (CRF 18) keeps nearly all visual detail. Medium (CRF 28) is a good balance — visually great with significant size savings. High (CRF 35) aggressively reduces size but may show some quality loss.",
+  },
+  {
+    question: "How much smaller will my video be?",
+    answer:
+      "Results vary depending on the original file. Uncompressed or lightly compressed videos may see 50-90% reduction. Already compressed MP4 files may see 20-50% reduction at medium settings.",
+  },
+  {
+    question: "Is there a file size limit?",
+    answer:
+      "There is no hard limit. Processing happens in your browser, so performance depends on your device's memory and processing power. Most videos under 500 MB work well.",
+  },
+  {
+    question: "Are my videos uploaded to a server?",
+    answer:
+      "No. All compression happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+  {
+    question: "Which compression level should I choose?",
+    answer:
+      "For sharing on social media or messaging, medium works great. For archival or professional use, choose low. For email attachments or very large files, high gives maximum reduction.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CompressVideoPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Shrink your video file size while preserving visual quality. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          "Select a compression level — low, medium, or high",
-          'Click "Compress Video" to reduce the file size',
-          "Compare the before and after sizes, then download",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Large video files are difficult to share via email, upload to social media, or
@@ -63,33 +101,7 @@ export default function CompressVideoPage() {
             no limits, no account needed.
           </p>
         `}
-        faqs={[
-          {
-            question: "What does the compression level mean?",
-            answer:
-              "The compression level controls the CRF (Constant Rate Factor) used by the H.264 encoder. Low compression (CRF 18) keeps nearly all visual detail. Medium (CRF 28) is a good balance — visually great with significant size savings. High (CRF 35) aggressively reduces size but may show some quality loss.",
-          },
-          {
-            question: "How much smaller will my video be?",
-            answer:
-              "Results vary depending on the original file. Uncompressed or lightly compressed videos may see 50-90% reduction. Already compressed MP4 files may see 20-50% reduction at medium settings.",
-          },
-          {
-            question: "Is there a file size limit?",
-            answer:
-              "There is no hard limit. Processing happens in your browser, so performance depends on your device's memory and processing power. Most videos under 500 MB work well.",
-          },
-          {
-            question: "Are my videos uploaded to a server?",
-            answer:
-              "No. All compression happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-          {
-            question: "Which compression level should I choose?",
-            answer:
-              "For sharing on social media or messaging, medium works great. For archival or professional use, choose low. For email attachments or very large files, high gives maximum reduction.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Audio", href: "/compress-audio" },
           { name: "Video to MP4", href: "/convert-to-mp4" },

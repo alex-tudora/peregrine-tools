@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { WebpToJpgTool } from "./WebpToJpgTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload one or more WebP images using the drop zone above",
+  "Adjust the image quality if needed",
+  'Click "Convert to JPG" to process your images',
+  "Download individual files or all as a ZIP archive",
+];
+
+const faqs = [
+  {
+    question: "Is this WebP to JPG converter really free?",
+    answer:
+      "Yes, completely free with no hidden limits. Convert as many images as you like without creating an account or paying anything.",
+  },
+  {
+    question: "Are my files safe?",
+    answer:
+      "Absolutely. All processing happens locally in your browser. Your images are never uploaded to any server, so your data stays entirely on your device.",
+  },
+  {
+    question: "Why convert WebP to JPG?",
+    answer:
+      "While WebP is a modern and efficient format, JPG has universal compatibility. Some older applications, email clients, and platforms do not support WebP, so converting to JPG ensures your images work everywhere.",
+  },
+  {
+    question: "What quality should I choose?",
+    answer:
+      "The default quality of 85% offers a great balance between file size and image clarity. Use a higher value for print-quality images, or lower it to reduce file size for web use.",
+  },
+  {
+    question: "Can I convert multiple files at once?",
+    answer:
+      "Yes! You can drop multiple WebP files at once. After conversion, download them individually or grab all images in a single ZIP archive.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function WebpToJpgPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert your WebP images to widely compatible JPG format. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload one or more WebP images using the drop zone above",
-          "Adjust the image quality if needed",
-          'Click "Convert to JPG" to process your images',
-          "Download individual files or all as a ZIP archive",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Our free <strong>webp to jpg</strong> converter transforms your WebP images into
@@ -63,33 +101,7 @@ export default function WebpToJpgPage() {
             them all in a single ZIP archive.
           </p>
         `}
-        faqs={[
-          {
-            question: "Is this WebP to JPG converter really free?",
-            answer:
-              "Yes, completely free with no hidden limits. Convert as many images as you like without creating an account or paying anything.",
-          },
-          {
-            question: "Are my files safe?",
-            answer:
-              "Absolutely. All processing happens locally in your browser. Your images are never uploaded to any server, so your data stays entirely on your device.",
-          },
-          {
-            question: "Why convert WebP to JPG?",
-            answer:
-              "While WebP is a modern and efficient format, JPG has universal compatibility. Some older applications, email clients, and platforms do not support WebP, so converting to JPG ensures your images work everywhere.",
-          },
-          {
-            question: "What quality should I choose?",
-            answer:
-              "The default quality of 85% offers a great balance between file size and image clarity. Use a higher value for print-quality images, or lower it to reduce file size for web use.",
-          },
-          {
-            question: "Can I convert multiple files at once?",
-            answer:
-              "Yes! You can drop multiple WebP files at once. After conversion, download them individually or grab all images in a single ZIP archive.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "WebP to PNG", href: "/webp-to-png" },
           { name: "JPG to WebP", href: "/jpg-to-webp" },

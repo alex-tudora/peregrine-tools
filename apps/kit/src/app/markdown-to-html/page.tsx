@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { MarkdownToHtmlTool } from "./MarkdownToHtmlTool";
 
@@ -19,30 +19,68 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Type or paste your Markdown content into the left panel",
+  "View the generated HTML code on the right in real time",
+  "Switch between 'HTML Code' and 'Preview' tabs to see raw code or rendered output",
+  "Click 'Copy HTML' to copy the HTML code to your clipboard",
+];
+
+const faqs = [
+  {
+    question: "Which Markdown features are supported?",
+    answer:
+      "The converter supports headings (#), bold (**text**), italic (*text*), links, images, inline code, fenced code blocks, unordered and ordered lists, blockquotes, horizontal rules, and strikethrough (~~text~~).",
+  },
+  {
+    question: "Does it support GitHub Flavored Markdown?",
+    answer:
+      "It supports the most common GFM features including fenced code blocks and strikethrough. More advanced features like tables and task lists are not yet supported.",
+  },
+  {
+    question: "Can I use this for a static site generator?",
+    answer:
+      "The generated HTML is standard and can be used anywhere HTML is accepted. However, for production static site generators, a full Markdown parser library is recommended for edge-case handling.",
+  },
+  {
+    question: "Is the HTML output safe from XSS?",
+    answer:
+      "The converter processes Markdown syntax but does not sanitize raw HTML embedded in the Markdown input. If you plan to display user-generated content, pass the output through a sanitizer before rendering.",
+  },
+  {
+    question: "Is my content stored anywhere?",
+    answer:
+      "No. All conversion happens locally in your browser. Your Markdown content is never sent to a server or stored in any way.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function MarkdownToHtmlPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Write Markdown and see the HTML output in real time. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Type or paste your Markdown content into the left panel",
-          "View the generated HTML code on the right in real time",
-          "Switch between 'HTML Code' and 'Preview' tabs to see raw code or rendered output",
-          "Click 'Copy HTML' to copy the HTML code to your clipboard",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Markdown is a lightweight markup language widely used for documentation, blog posts, README
@@ -65,33 +103,7 @@ export default function MarkdownToHtmlPage() {
             creation required.
           </p>
         `}
-        faqs={[
-          {
-            question: "Which Markdown features are supported?",
-            answer:
-              "The converter supports headings (#), bold (**text**), italic (*text*), links, images, inline code, fenced code blocks, unordered and ordered lists, blockquotes, horizontal rules, and strikethrough (~~text~~).",
-          },
-          {
-            question: "Does it support GitHub Flavored Markdown?",
-            answer:
-              "It supports the most common GFM features including fenced code blocks and strikethrough. More advanced features like tables and task lists are not yet supported.",
-          },
-          {
-            question: "Can I use this for a static site generator?",
-            answer:
-              "The generated HTML is standard and can be used anywhere HTML is accepted. However, for production static site generators, a full Markdown parser library is recommended for edge-case handling.",
-          },
-          {
-            question: "Is the HTML output safe from XSS?",
-            answer:
-              "The converter processes Markdown syntax but does not sanitize raw HTML embedded in the Markdown input. If you plan to display user-generated content, pass the output through a sanitizer before rendering.",
-          },
-          {
-            question: "Is my content stored anywhere?",
-            answer:
-              "No. All conversion happens locally in your browser. Your Markdown content is never sent to a server or stored in any way.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "HTML to Markdown", href: "/html-to-markdown" },
           { name: "Word Counter", href: "/word-counter" },

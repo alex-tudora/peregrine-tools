@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { TrimVideoTool } from "./TrimVideoTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  "Enter the start time and end time in HH:MM:SS format",
+  'Click "Trim Video" to extract the clip',
+  "Download your trimmed video",
+];
+
+const faqs = [
+  {
+    question: "What time format should I use?",
+    answer:
+      "Enter times in HH:MM:SS format. For example, 00:00:30 for 30 seconds, 00:01:00 for 1 minute, or 01:30:00 for 1 hour 30 minutes. You can also use seconds with decimals like 00:00:05.5.",
+  },
+  {
+    question: "Is the quality preserved?",
+    answer:
+      "Yes. The tool uses stream copy mode, which means the video and audio data is not re-encoded. The output has identical quality to the original — only the start and end points change.",
+  },
+  {
+    question: "Why might the trim point be slightly off?",
+    answer:
+      "Stream copy can only cut at keyframes. If your start time falls between keyframes, the actual cut point may be a fraction of a second earlier. For frame-perfect cuts, the video would need re-encoding.",
+  },
+  {
+    question: "Is there a file size limit?",
+    answer:
+      "There is no hard limit. Because processing happens in your browser, very large files may be slow depending on your device. Most videos under 500 MB trim without issues.",
+  },
+  {
+    question: "Are my videos uploaded to a server?",
+    answer:
+      "No. All trimming happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function TrimVideoPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Cut your video to the exact clip you need. Set start and end times. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          "Enter the start time and end time in HH:MM:SS format",
-          'Click "Trim Video" to extract the clip',
-          "Download your trimmed video",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Need to extract a specific portion of a video? Our free <strong>trim video online</strong>
@@ -61,33 +99,7 @@ export default function TrimVideoPage() {
             limits, no account needed.
           </p>
         `}
-        faqs={[
-          {
-            question: "What time format should I use?",
-            answer:
-              "Enter times in HH:MM:SS format. For example, 00:00:30 for 30 seconds, 00:01:00 for 1 minute, or 01:30:00 for 1 hour 30 minutes. You can also use seconds with decimals like 00:00:05.5.",
-          },
-          {
-            question: "Is the quality preserved?",
-            answer:
-              "Yes. The tool uses stream copy mode, which means the video and audio data is not re-encoded. The output has identical quality to the original — only the start and end points change.",
-          },
-          {
-            question: "Why might the trim point be slightly off?",
-            answer:
-              "Stream copy can only cut at keyframes. If your start time falls between keyframes, the actual cut point may be a fraction of a second earlier. For frame-perfect cuts, the video would need re-encoding.",
-          },
-          {
-            question: "Is there a file size limit?",
-            answer:
-              "There is no hard limit. Because processing happens in your browser, very large files may be slow depending on your device. Most videos under 500 MB trim without issues.",
-          },
-          {
-            question: "Are my videos uploaded to a server?",
-            answer:
-              "No. All trimming happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Video", href: "/compress-video" },
           { name: "Video to GIF", href: "/video-to-gif" },

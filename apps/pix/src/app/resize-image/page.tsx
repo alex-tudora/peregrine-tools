@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import ResizeImageTool from "./ResizeImageTool";
 
@@ -19,32 +19,70 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your image file using the drop zone above",
+  "Choose a resize mode: by dimensions or by percentage",
+  "Enter your desired width, height, or scale percentage",
+  "Select an output format and click \"Resize Image\"",
+  "Download your resized image",
+];
+
+const faqs = [
+  {
+    question: "Does resizing an image reduce its quality?",
+    answer:
+      "Downscaling generally preserves visual quality well. Upscaling can introduce blurriness because the browser must interpolate new pixels. For best results when enlarging, keep the scale increase moderate (under 200%).",
+  },
+  {
+    question: "Can I resize without changing the aspect ratio?",
+    answer:
+      "Yes. The \"Maintain aspect ratio\" checkbox is on by default. When enabled, changing the width automatically recalculates the height (and vice versa) to keep the original proportions.",
+  },
+  {
+    question: "What is the maximum image size I can resize?",
+    answer:
+      "There is no hard limit. Performance depends on your browser and device memory. Most images up to 50 MP (e.g., 8000 x 6000 pixels) resize smoothly on modern devices.",
+  },
+  {
+    question: "Are my images uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
+  },
+  {
+    question: "Can I resize to a specific file size?",
+    answer:
+      "This tool resizes by pixel dimensions or percentage, not by target file size. To reduce file size, use our Compress Image tool after resizing — the combination gives you precise control over both dimensions and weight.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function ResizeImagePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Resize Image — Change Dimensions Online Free"
         subtitle="Scale your images to any size by pixels or percentage. Instantly. No sign-up required."
         keyword="resize image"
-        howTo={[
-          "Upload your image file using the drop zone above",
-          "Choose a resize mode: by dimensions or by percentage",
-          "Enter your desired width, height, or scale percentage",
-          "Select an output format and click \"Resize Image\"",
-          "Download your resized image",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Whether you need to fit an image into a specific layout, meet upload
@@ -74,33 +112,7 @@ export default function ResizeImagePage() {
             browser.
           </p>
         `}
-        faqs={[
-          {
-            question: "Does resizing an image reduce its quality?",
-            answer:
-              "Downscaling generally preserves visual quality well. Upscaling can introduce blurriness because the browser must interpolate new pixels. For best results when enlarging, keep the scale increase moderate (under 200%).",
-          },
-          {
-            question: "Can I resize without changing the aspect ratio?",
-            answer:
-              "Yes. The \"Maintain aspect ratio\" checkbox is on by default. When enabled, changing the width automatically recalculates the height (and vice versa) to keep the original proportions.",
-          },
-          {
-            question: "What is the maximum image size I can resize?",
-            answer:
-              "There is no hard limit. Performance depends on your browser and device memory. Most images up to 50 MP (e.g., 8000 x 6000 pixels) resize smoothly on modern devices.",
-          },
-          {
-            question: "Are my images uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using the Canvas API. Your image never leaves your device, making this tool safe for personal or confidential files.",
-          },
-          {
-            question: "Can I resize to a specific file size?",
-            answer:
-              "This tool resizes by pixel dimensions or percentage, not by target file size. To reduce file size, use our Compress Image tool after resizing — the combination gives you precise control over both dimensions and weight.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Compress Image", href: "/compress-image" },
           { name: "Crop Image", href: "/crop-image" },

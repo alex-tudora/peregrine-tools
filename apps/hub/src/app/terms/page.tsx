@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Terms of Service | Peregrine Tools",
   description:
     "Terms of service for Peregrine Tools. Read the terms and conditions governing your use of our free online file conversion, image, video, audio, and developer tools.",
+  keywords: ["terms of service", "Peregrine Tools", "online tools terms", "usage policy"],
 };
 
 export default function TermsPage() {

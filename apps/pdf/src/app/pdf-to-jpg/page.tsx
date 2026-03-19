@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { PdfToJpgTool } from "./PdfToJpgTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your PDF file using the drop zone above",
+  "Adjust the image quality if needed",
+  'Click "Convert to JPG" to process your PDF',
+  "Download individual images or all as a ZIP file",
+];
+
+const faqs = [
+  {
+    question: "Is this PDF to JPG converter really free?",
+    answer:
+      "Yes, completely free with no hidden limits. You can convert as many PDFs as you like without creating an account or paying anything.",
+  },
+  {
+    question: "Are my files safe?",
+    answer:
+      "Absolutely. All processing happens locally in your browser. Your PDF is never uploaded to any server, so your data stays entirely on your device.",
+  },
+  {
+    question: "What quality should I choose?",
+    answer:
+      "The default quality of 0.85 offers a great balance between file size and image clarity. Use a higher value (up to 1.0) for print-quality images, or lower it to reduce file size for web use.",
+  },
+  {
+    question: "Is there a page limit?",
+    answer:
+      "There is no hard page limit. However, very large PDFs (hundreds of pages) may take longer to process since everything runs in your browser. For best results, keep files under 100 MB.",
+  },
+  {
+    question: "Can I convert to PNG instead of JPG?",
+    answer:
+      "Yes! We also offer a dedicated PDF to PNG converter that produces lossless PNG images, which are ideal when you need pixel-perfect accuracy or transparency support.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function PdfToJpgPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Convert each page of your PDF to a high-quality JPG image. Instantly. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your PDF file using the drop zone above",
-          "Adjust the image quality if needed",
-          'Click "Convert to JPG" to process your PDF',
-          "Download individual images or all as a ZIP file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Our free <strong>pdf to jpg</strong> converter turns every page of your PDF document
@@ -65,33 +103,7 @@ export default function PdfToJpgPage() {
             ZIP archive.
           </p>
         `}
-        faqs={[
-          {
-            question: "Is this PDF to JPG converter really free?",
-            answer:
-              "Yes, completely free with no hidden limits. You can convert as many PDFs as you like without creating an account or paying anything.",
-          },
-          {
-            question: "Are my files safe?",
-            answer:
-              "Absolutely. All processing happens locally in your browser. Your PDF is never uploaded to any server, so your data stays entirely on your device.",
-          },
-          {
-            question: "What quality should I choose?",
-            answer:
-              "The default quality of 0.85 offers a great balance between file size and image clarity. Use a higher value (up to 1.0) for print-quality images, or lower it to reduce file size for web use.",
-          },
-          {
-            question: "Is there a page limit?",
-            answer:
-              "There is no hard page limit. However, very large PDFs (hundreds of pages) may take longer to process since everything runs in your browser. For best results, keep files under 100 MB.",
-          },
-          {
-            question: "Can I convert to PNG instead of JPG?",
-            answer:
-              "Yes! We also offer a dedicated PDF to PNG converter that produces lossless PNG images, which are ideal when you need pixel-perfect accuracy or transparency support.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "PDF to PNG", href: "/pdf-to-png" },
           { name: "JPG to PDF", href: "/jpg-to-pdf" },

@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { TipCalculatorTool } from "./TipCalculatorTool";
 
@@ -17,13 +17,6 @@ export const metadata = generateToolMetadata({
   siteName,
   siteUrl,
   path,
-});
-
-const structuredData = generateToolStructuredData({
-  toolName,
-  description,
-  url: `${siteUrl}${path}`,
-  siteName,
 });
 
 const howTo = [
@@ -65,6 +58,18 @@ const faqs = [
   },
 ];
 
+const schemas = generateToolPageStructuredData({
+  toolName,
+  description,
+  keyword,
+  url: `${siteUrl}${path}`,
+  siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
+});
+
 const relatedTools = [
   { name: "Percentage Calculator", href: "/percentage-calculator" },
   { name: "Salary Calculator", href: "/salary-calculator" },
@@ -75,10 +80,13 @@ const relatedTools = [
 export default function TipCalculatorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Calculate the tip, total bill, and per-person split in seconds."

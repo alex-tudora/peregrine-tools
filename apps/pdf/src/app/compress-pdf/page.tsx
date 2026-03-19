@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import CompressPdfTool from "./CompressPdfTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your PDF file using the drop zone above",
+  "Select your compression level (low, medium, or high)",
+  'Click "Compress PDF" to reduce the file size',
+  "Download your compressed PDF",
+];
+
+const faqs = [
+  {
+    question: "Does compressing a PDF reduce its quality?",
+    answer:
+      "Our compressor reduces file size by removing unused objects and metadata — it does not resample images or alter visible content. At the low and medium levels, the pages look identical to the original. The high level strips all metadata but still preserves page content.",
+  },
+  {
+    question: "Is there a file size limit?",
+    answer:
+      "There is no hard limit. Because the tool runs entirely in your browser, performance depends on your device's available memory. Most files up to 100 MB compress without any issues.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using JavaScript. Your PDF never leaves your device, making this tool safe for confidential or sensitive documents.",
+  },
+  {
+    question: "How much smaller will my PDF be?",
+    answer:
+      "Results vary depending on the original file. PDFs with lots of unused objects, embedded metadata, or bloated cross-reference tables see the biggest reductions — sometimes 20-50%. Already-optimized files may see a smaller improvement.",
+  },
+  {
+    question: "Can I compress password-protected PDFs?",
+    answer:
+      "The tool attempts to process protected files by ignoring encryption flags. It works in most cases, but heavily encrypted documents may not compress successfully. Try our Unlock PDF tool first if you run into issues.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function CompressPdfPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Compress PDF — Reduce File Size Online Free"
         subtitle="Reduce your PDF file size while maintaining quality. Instantly. No sign-up required."
         keyword="compress pdf"
-        howTo={[
-          "Upload your PDF file using the drop zone above",
-          "Select your compression level (low, medium, or high)",
-          'Click "Compress PDF" to reduce the file size',
-          "Download your compressed PDF",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Large PDF files can be a headache — they clog up email attachments,
@@ -76,33 +114,7 @@ export default function CompressPdfPage() {
             document workflow without leaving your browser.
           </p>
         `}
-        faqs={[
-          {
-            question: "Does compressing a PDF reduce its quality?",
-            answer:
-              "Our compressor reduces file size by removing unused objects and metadata — it does not resample images or alter visible content. At the low and medium levels, the pages look identical to the original. The high level strips all metadata but still preserves page content.",
-          },
-          {
-            question: "Is there a file size limit?",
-            answer:
-              "There is no hard limit. Because the tool runs entirely in your browser, performance depends on your device's available memory. Most files up to 100 MB compress without any issues.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using JavaScript. Your PDF never leaves your device, making this tool safe for confidential or sensitive documents.",
-          },
-          {
-            question: "How much smaller will my PDF be?",
-            answer:
-              "Results vary depending on the original file. PDFs with lots of unused objects, embedded metadata, or bloated cross-reference tables see the biggest reductions — sometimes 20-50%. Already-optimized files may see a smaller improvement.",
-          },
-          {
-            question: "Can I compress password-protected PDFs?",
-            answer:
-              "The tool attempts to process protected files by ignoring encryption flags. It works in most cases, but heavily encrypted documents may not compress successfully. Try our Unlock PDF tool first if you run into issues.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Merge PDF", href: "/merge-pdf" },
           { name: "Split PDF", href: "/split-pdf" },

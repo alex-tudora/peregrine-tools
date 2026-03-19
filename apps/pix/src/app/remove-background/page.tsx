@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { RemoveBackgroundTool } from "./RemoveBackgroundTool";
 
@@ -19,31 +19,69 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your image file using the drop zone above or click to browse",
+  "The AI model will automatically detect and remove the background",
+  "Preview the result with the transparent background",
+  "Download your image as a transparent PNG",
+];
+
+const faqs = [
+  {
+    question: "When will AI background removal be available?",
+    answer:
+      "We are actively integrating a specialized AI model for background removal. The feature is coming soon — bookmark this page and check back for updates.",
+  },
+  {
+    question: "Will this tool be free?",
+    answer:
+      "Yes. The core background removal feature will be free to use with no account required, consistent with all other tools on Peregrine Pix.",
+  },
+  {
+    question: "What image formats will be supported?",
+    answer:
+      "The tool will accept JPEG, PNG, and WebP images. The output will always be a PNG file to preserve the transparent background.",
+  },
+  {
+    question: "Will my images be uploaded to a server?",
+    answer:
+      "AI background removal requires a specialized model. We will provide clear information about data handling when the feature launches. Your privacy remains our top priority.",
+  },
+  {
+    question: "Can I remove backgrounds from multiple images?",
+    answer:
+      "The tool will process one image at a time for the best results. After downloading, you can immediately upload another image.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function RemoveBackgroundPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title="Remove Background — Background Remover Online Free"
         subtitle="Automatically remove image backgrounds with AI. Get a clean transparent PNG. No sign-up required."
         keyword="remove background"
-        howTo={[
-          "Upload your image file using the drop zone above or click to browse",
-          "The AI model will automatically detect and remove the background",
-          "Preview the result with the transparent background",
-          "Download your image as a transparent PNG",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Removing the background from a photo is one of the most common
@@ -69,33 +107,7 @@ export default function RemoveBackgroundPage() {
             required to use the service.
           </p>
         `}
-        faqs={[
-          {
-            question: "When will AI background removal be available?",
-            answer:
-              "We are actively integrating a specialized AI model for background removal. The feature is coming soon — bookmark this page and check back for updates.",
-          },
-          {
-            question: "Will this tool be free?",
-            answer:
-              "Yes. The core background removal feature will be free to use with no account required, consistent with all other tools on Peregrine Pix.",
-          },
-          {
-            question: "What image formats will be supported?",
-            answer:
-              "The tool will accept JPEG, PNG, and WebP images. The output will always be a PNG file to preserve the transparent background.",
-          },
-          {
-            question: "Will my images be uploaded to a server?",
-            answer:
-              "AI background removal requires a specialized model. We will provide clear information about data handling when the feature launches. Your privacy remains our top priority.",
-          },
-          {
-            question: "Can I remove backgrounds from multiple images?",
-            answer:
-              "The tool will process one image at a time for the best results. After downloading, you can immediately upload another image.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Crop Image", href: "/crop-image" },
           { name: "Compress Image", href: "/compress-image" },

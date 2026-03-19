@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { HtmlMinifierTool } from "./HtmlMinifierTool";
 
@@ -19,30 +19,63 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Paste or type your HTML code into the input textarea",
+  "Click the Minify button to process the code",
+  "Review the minified output and the before/after size comparison",
+  "Click Copy to copy the result or Download to save it as a file",
+];
+
+const faqs = [
+  {
+    question: "Will minification break my HTML?",
+    answer:
+      "Basic minification (removing comments and extra whitespace) is safe and will not change how browsers render your page. The tool does not alter tag structure or attribute values.",
+  },
+  {
+    question: "How much size reduction can I expect?",
+    answer:
+      "It depends on how much whitespace and how many comments your HTML contains. Typical reductions range from 10% to 30% for well-formatted source code. Heavily commented templates may see larger savings.",
+  },
+  {
+    question: "Does it handle inline CSS and JavaScript?",
+    answer:
+      "The tool removes HTML comments but does not minify inline CSS or JavaScript. For those, use the dedicated CSS Minifier and JS Minifier tools.",
+  },
+  {
+    question: "Is my HTML sent to a server?",
+    answer:
+      "No. All minification happens locally in your browser using JavaScript. Your code never leaves your machine.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function HtmlMinifierPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <ToolLayout
         title={toolName}
         subtitle="Paste your HTML and minify it instantly. Remove comments, collapse whitespace, and reduce file size."
         keyword={keyword}
-        howTo={[
-          "Paste or type your HTML code into the input textarea",
-          "Click the Minify button to process the code",
-          "Review the minified output and the before/after size comparison",
-          "Click Copy to copy the result or Download to save it as a file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Minifying HTML removes unnecessary characters from your markup without changing its behavior.
@@ -64,28 +97,7 @@ export default function HtmlMinifierPage() {
             collapse boolean attributes.
           </p>
         `}
-        faqs={[
-          {
-            question: "Will minification break my HTML?",
-            answer:
-              "Basic minification (removing comments and extra whitespace) is safe and will not change how browsers render your page. The tool does not alter tag structure or attribute values.",
-          },
-          {
-            question: "How much size reduction can I expect?",
-            answer:
-              "It depends on how much whitespace and how many comments your HTML contains. Typical reductions range from 10% to 30% for well-formatted source code. Heavily commented templates may see larger savings.",
-          },
-          {
-            question: "Does it handle inline CSS and JavaScript?",
-            answer:
-              "The tool removes HTML comments but does not minify inline CSS or JavaScript. For those, use the dedicated CSS Minifier and JS Minifier tools.",
-          },
-          {
-            question: "Is my HTML sent to a server?",
-            answer:
-              "No. All minification happens locally in your browser using JavaScript. Your code never leaves your machine.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "CSS Minifier", href: "/css-minifier" },
           { name: "JS Minifier", href: "/js-minifier" },

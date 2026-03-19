@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { ToolCard } from "@peregrine/ui";
+
+export const metadata: Metadata = {
+  description: "Free online developer tools. JSON formatter, regex tester, base64 encoder, hash generator, and more. No sign-up required.",
+  keywords: ["developer tools", "JSON formatter", "regex tester", "base64 encoder", "hash generator", "free dev tools", "Peregrine Dev"],
+};
 
 const devTools = [
   { icon: "{}", name: "JSON Formatter", description: "Format and beautify JSON", href: "/json-formatter" },

@@ -1,4 +1,4 @@
-import { generateToolMetadata, generateToolStructuredData } from "@peregrine/seo";
+import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine/seo";
 import { ToolLayout } from "@peregrine/ui";
 import { VideoToGifTool } from "./VideoToGifTool";
 
@@ -19,32 +19,70 @@ export const metadata = generateToolMetadata({
   path,
 });
 
-const structuredData = generateToolStructuredData({
+const howTo = [
+  "Upload your video file using the drop zone above",
+  "Set the start time and duration for the GIF clip",
+  "Adjust the width and frame rate to your liking",
+  'Click "Create GIF" to generate the animated image',
+  "Download your GIF file",
+];
+
+const faqs = [
+  {
+    question: "What video formats can I convert to GIF?",
+    answer:
+      "The tool accepts MP4, AVI, MOV, MKV, WebM, and most other common video formats.",
+  },
+  {
+    question: "Why is my GIF file so large?",
+    answer:
+      "GIF files can be large because the format uses lossless frame-by-frame encoding. To reduce file size, try lowering the width, FPS, or duration. A 320px wide, 10 FPS, 5-second clip typically produces a manageable file.",
+  },
+  {
+    question: "What is a good FPS for GIFs?",
+    answer:
+      "10-15 FPS works well for most purposes. Higher FPS (20-30) produces smoother animation but much larger files. Lower FPS (5-10) creates a choppier look but very small files.",
+  },
+  {
+    question: "Is there a maximum duration?",
+    answer:
+      "The tool supports clips up to 30 seconds. Longer GIFs become extremely large and are better served as short video files instead.",
+  },
+  {
+    question: "Are my files uploaded to a server?",
+    answer:
+      "No. All processing happens locally in your browser using WebAssembly. Your video never leaves your device.",
+  },
+];
+
+const schemas = generateToolPageStructuredData({
   toolName,
   description,
+  keyword,
   url: `${siteUrl}${path}`,
   siteName,
+  siteUrl,
+  path,
+  faqs,
+  howTo,
 });
 
 export default function VideoToGifPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <ToolLayout
         title={toolName}
         subtitle="Create animated GIFs from your video clips. Control timing, size, and frame rate. No sign-up required."
         keyword={keyword}
-        howTo={[
-          "Upload your video file using the drop zone above",
-          "Set the start time and duration for the GIF clip",
-          "Adjust the width and frame rate to your liking",
-          'Click "Create GIF" to generate the animated image',
-          "Download your GIF file",
-        ]}
+        howTo={howTo}
         about={`
           <p>
             Animated GIFs are perfect for sharing short clips on social media, in chat
@@ -62,33 +100,7 @@ export default function VideoToGifPage() {
             processing, no account required. Your videos remain private at all times.
           </p>
         `}
-        faqs={[
-          {
-            question: "What video formats can I convert to GIF?",
-            answer:
-              "The tool accepts MP4, AVI, MOV, MKV, WebM, and most other common video formats.",
-          },
-          {
-            question: "Why is my GIF file so large?",
-            answer:
-              "GIF files can be large because the format uses lossless frame-by-frame encoding. To reduce file size, try lowering the width, FPS, or duration. A 320px wide, 10 FPS, 5-second clip typically produces a manageable file.",
-          },
-          {
-            question: "What is a good FPS for GIFs?",
-            answer:
-              "10-15 FPS works well for most purposes. Higher FPS (20-30) produces smoother animation but much larger files. Lower FPS (5-10) creates a choppier look but very small files.",
-          },
-          {
-            question: "Is there a maximum duration?",
-            answer:
-              "The tool supports clips up to 30 seconds. Longer GIFs become extremely large and are better served as short video files instead.",
-          },
-          {
-            question: "Are my files uploaded to a server?",
-            answer:
-              "No. All processing happens locally in your browser using WebAssembly. Your video never leaves your device.",
-          },
-        ]}
+        faqs={faqs}
         relatedTools={[
           { name: "Trim Video", href: "/trim-video" },
           { name: "Compress Video", href: "/compress-video" },
