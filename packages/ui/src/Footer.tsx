@@ -3,17 +3,10 @@ import { FalconLogo } from "./FalconLogo";
 
 interface FooterProps {
   siteName?: string;
+  logo?: React.ReactNode;
 }
 
-const siteAccents: Record<string, string> = {
-  PDF: "#2563EB",
-  Pix: "#7C3AED",
-  Kit: "#059669",
-  Vid: "#E11D48",
-  Dev: "#D97706",
-};
-
-const footerSections = [
+const sites = [
   {
     title: "PDF",
     url: "https://peregrinepdf.com",
@@ -28,15 +21,9 @@ const footerSections = [
     title: "Pix",
     url: "https://peregrinepix.com",
     tools: [
-      {
-        name: "Compress Image",
-        href: "https://peregrinepix.com/compress-image",
-      },
+      { name: "Compress Image", href: "https://peregrinepix.com/compress-image" },
       { name: "Resize Image", href: "https://peregrinepix.com/resize-image" },
-      {
-        name: "Remove Background",
-        href: "https://peregrinepix.com/remove-background",
-      },
+      { name: "Remove BG", href: "https://peregrinepix.com/remove-background" },
       { name: "PNG to JPG", href: "https://peregrinepix.com/png-to-jpg" },
     ],
   },
@@ -45,28 +32,16 @@ const footerSections = [
     url: "https://peregrinekit.com",
     tools: [
       { name: "Word Counter", href: "https://peregrinekit.com/word-counter" },
-      {
-        name: "Case Converter",
-        href: "https://peregrinekit.com/case-converter",
-      },
-      {
-        name: "Lorem Ipsum",
-        href: "https://peregrinekit.com/lorem-ipsum-generator",
-      },
-      {
-        name: "QR Generator",
-        href: "https://peregrinekit.com/qr-code-generator",
-      },
+      { name: "Case Converter", href: "https://peregrinekit.com/case-converter" },
+      { name: "Lorem Ipsum", href: "https://peregrinekit.com/lorem-ipsum-generator" },
+      { name: "QR Generator", href: "https://peregrinekit.com/qr-code-generator" },
     ],
   },
   {
     title: "Vid",
     url: "https://peregrinevid.com",
     tools: [
-      {
-        name: "Compress Video",
-        href: "https://peregrinevid.com/compress-video",
-      },
+      { name: "Compress Video", href: "https://peregrinevid.com/compress-video" },
       { name: "Trim Video", href: "https://peregrinevid.com/trim-video" },
       { name: "Video to GIF", href: "https://peregrinevid.com/video-to-gif" },
       { name: "Video to MP3", href: "https://peregrinevid.com/video-to-mp3" },
@@ -76,68 +51,44 @@ const footerSections = [
     title: "Dev",
     url: "https://peregrinedev.com",
     tools: [
-      {
-        name: "JSON Formatter",
-        href: "https://peregrinedev.com/json-formatter",
-      },
+      { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter" },
       { name: "Regex Tester", href: "https://peregrinedev.com/regex-tester" },
-      {
-        name: "Base64 Encode",
-        href: "https://peregrinedev.com/base64-encode-decode",
-      },
+      { name: "Base64", href: "https://peregrinedev.com/base64-encode-decode" },
       { name: "Color Picker", href: "https://peregrinedev.com/color-picker" },
     ],
   },
 ];
 
-export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
+export function Footer({ siteName = "Peregrine Tools", logo }: FooterProps) {
   return (
-    <footer className="bg-[color:var(--color-bg-dark)] text-[color:var(--color-text-inverse)]">
-      {/* Gradient accent line at top */}
-      <div
-        className="h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, var(--color-accent), transparent)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Top section — brand + tagline */}
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-12">
-        <div className="flex items-center gap-3">
-          <FalconLogo size={28} color="#94a3b8" />
-          <span className="font-serif text-2xl font-semibold tracking-tight text-white">
+    <footer className="bg-[#111827]">
+      {/* Brand row */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-12 pb-8">
+        <div className="flex items-center gap-2.5">
+          <FalconLogo size={48} className="-ml-2 invert mix-blend-screen" />
+          <span className="-ml-1 text-xl font-semibold tracking-tight text-white">
             Peregrine
           </span>
         </div>
-        <p className="mt-3 font-serif text-base italic text-white/40">
-          Precision at speed.
-        </p>
       </div>
 
-      {/* Middle section — site link columns */}
-      <div className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-          {footerSections.map((section) => (
-            <div key={section.title}>
+      {/* Site columns */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 pb-12">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+          {sites.map((site) => (
+            <div key={site.title}>
               <a
-                href={section.url}
-                className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-white transition-colors duration-200 hover:text-white/70"
+                href={site.url}
+                className="text-[11px] font-semibold uppercase tracking-widest text-white/60 transition-colors duration-200 hover:text-white"
               >
-                <span
-                  className="inline-block h-2 w-2 rounded-full"
-                  style={{ backgroundColor: siteAccents[section.title] || "var(--color-accent)" }}
-                  aria-hidden="true"
-                />
-                {section.title}
+                {site.title}
               </a>
-              <ul className="mt-3 space-y-2.5">
-                {section.tools.map((tool) => (
+              <ul className="mt-3 space-y-2">
+                {site.tools.map((tool) => (
                   <li key={tool.name}>
                     <a
                       href={tool.href}
-                      className="text-sm text-white/40 transition-colors duration-200 hover:text-white"
+                      className="text-[13px] text-white/30 transition-colors duration-200 hover:text-white/70"
                     >
                       {tool.name}
                     </a>
@@ -150,25 +101,16 @@ export function Footer({ siteName = "Peregrine Tools" }: FooterProps) {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-          <span className="text-sm text-white/30">
+      <div className="border-t border-white/[0.06]">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row">
+          <span className="text-xs text-white/25">
             &copy; 2026 {siteName}
           </span>
-          <div className="flex items-center gap-6 text-sm text-white/30">
-            <a
-              href="/privacy"
-              className="transition-colors duration-200 hover:text-white"
-            >
+          <div className="flex items-center gap-5 text-xs text-white/25">
+            <a href="/privacy" className="transition-colors duration-200 hover:text-white/60">
               Privacy
             </a>
-            <span className="text-white/10" aria-hidden="true">
-              &middot;
-            </span>
-            <a
-              href="/terms"
-              className="transition-colors duration-200 hover:text-white"
-            >
+            <a href="/terms" className="transition-colors duration-200 hover:text-white/60">
               Terms
             </a>
           </div>

@@ -18,7 +18,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-8 inline-block rounded-xl bg-[color:var(--color-accent)] px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-[color:var(--color-accent-hover)] hover:shadow-[var(--shadow-accent)]"
+        className="mt-8 inline-block rounded-xl bg-[color:var(--color-accent)] px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-[color:var(--color-accent-hover)] hover:shadow-[var(--shadow-warm-accent)]"
       >
         Back to Converting
       </Link>

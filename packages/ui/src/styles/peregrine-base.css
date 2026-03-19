@@ -7,11 +7,11 @@
    Warm shadow system — uses warm-toned rgba instead of pure black
    ------------------------------------------------------------------ */
 @theme {
-  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
-  --shadow-md: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
-  --shadow-lg: 0 4px 16px rgba(28, 25, 23, 0.08), 0 2px 4px rgba(28, 25, 23, 0.04);
-  --shadow-xl: 0 8px 32px rgba(28, 25, 23, 0.1), 0 2px 8px rgba(28, 25, 23, 0.05);
-  --shadow-accent: 0 4px 20px var(--color-accent-glow);
+  --shadow-warm-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-warm-md: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-warm-lg: 0 4px 16px rgba(28, 25, 23, 0.08), 0 2px 4px rgba(28, 25, 23, 0.04);
+  --shadow-warm-xl: 0 8px 32px rgba(28, 25, 23, 0.1), 0 2px 8px rgba(28, 25, 23, 0.05);
+  --shadow-warm-accent: 0 4px 20px var(--color-accent-glow);
 }
 
 /* ------------------------------------------------------------------

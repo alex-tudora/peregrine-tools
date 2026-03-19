@@ -80,7 +80,7 @@ export default function Home() {
               <a
                 key={`${c.from}-${c.to}`}
                 href={c.href}
-                className={`animate-slide-up delay-${Math.min((i % 4) + 1, 6)} group relative flex items-center gap-2.5 px-4 py-3.5 rounded-xl bg-white border border-[color:var(--color-border)] hover:border-[color:var(--color-accent)]/30 hover:shadow-lg hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 transition-all duration-200`}
+                className={`animate-slide-up delay-${Math.min((i % 4) + 1, 6)} group relative flex items-center gap-2.5 px-4 py-3.5 rounded-xl bg-white border border-[color:var(--color-border)] hover:border-[color:var(--color-accent)]/30 hover:shadow-lg hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5 transition-all duration-200`}
               >
                 <span className="text-sm font-semibold text-[color:var(--color-text-primary)]">{c.from}</span>
                 <svg className="w-3.5 h-3.5 text-[color:var(--color-accent)] shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
@@ -191,7 +191,7 @@ export default function Home() {
           </p>
           <a
             href="/"
-            className="inline-flex items-center gap-2 mt-8 px-8 py-4 border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] font-bold rounded-2xl hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-[var(--shadow-accent)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+            className="inline-flex items-center gap-2 mt-8 px-8 py-4 border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] font-bold rounded-2xl hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-[var(--shadow-warm-accent)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
           >
             Start converting
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">

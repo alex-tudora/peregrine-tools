@@ -33,7 +33,7 @@ export function ToolActionButton({
   const variantClasses = {
     primary: isDisabled
       ? "border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] opacity-40 bg-transparent"
-      : "border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] bg-transparent hover:bg-[color:var(--color-accent)] hover:text-white hover:-translate-y-px hover:shadow-[var(--shadow-accent)] active:translate-y-0",
+      : "border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] bg-transparent hover:bg-[color:var(--color-accent)] hover:text-white hover:-translate-y-px hover:shadow-[var(--shadow-warm-accent)] active:translate-y-0",
     secondary: isDisabled
       ? "border border-[color:var(--color-border)] text-[color:var(--color-text-muted)] opacity-40 bg-transparent"
       : "border border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] bg-transparent hover:border-[color:var(--color-border-hover)] hover:text-[color:var(--color-text-primary)] hover:bg-[color:var(--color-bg-elevated)]",

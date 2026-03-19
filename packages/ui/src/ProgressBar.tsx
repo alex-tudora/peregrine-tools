@@ -52,7 +52,7 @@ export function ProgressBar({ progress, className = "" }: ProgressBarProps) {
           style={{
             width: `${clampedProgress}%`,
             background: "var(--color-accent)",
-            boxShadow: "var(--shadow-accent)",
+            boxShadow: "var(--shadow-warm-accent)",
           }}
           aria-hidden="true"
         />

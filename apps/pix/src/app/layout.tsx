@@ -53,7 +53,7 @@ export default function RootLayout({
       <body className="font-sans antialiased overflow-x-hidden">
         <Header
           siteName="Peregrine Pix"
-          accentColor="#7C3AED"
+          currentSite="pix"
           currentTools={pixTools}
         />
         <main className="min-h-screen">{children}</main>

@@ -2,7 +2,6 @@ import React from "react";
 
 interface FalconLogoProps {
   size?: number;
-  color?: string;
   className?: string;
 }
 
@@ -16,7 +15,7 @@ export function FalconLogo({
       alt="Peregrine falcon logo"
       width={size}
       height={size}
-      className={`object-contain mix-blend-multiply ${className}`}
+      className={`object-contain ${className}`}
       style={{ width: size, height: size }}
     />
   );

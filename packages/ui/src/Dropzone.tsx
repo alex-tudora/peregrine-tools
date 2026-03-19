@@ -164,21 +164,13 @@ export function Dropzone({
               : "border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] hover:border-[color:var(--color-border-hover)]"
           }
         `}
-        style={
-          !isDragging
-            ? {
-                backgroundImage:
-                  "radial-gradient(ellipse at center, var(--color-bg-elevated) 0%, var(--color-bg) 100%)",
-              }
-            : undefined
-        }
       >
-        {/* Upload icon — cloud with arrow */}
+        {/* Upload icon */}
         <div
-          className={`mb-5 transition-all duration-300 ${
+          className={`mb-5 transition-colors duration-300 ${
             isDragging
-              ? "text-[color:var(--color-accent)] animate-stoop"
-              : "text-[color:var(--color-text-muted)] animate-float"
+              ? "text-[color:var(--color-accent)]"
+              : "text-[color:var(--color-text-muted)]"
           }`}
         >
           <svg
@@ -202,7 +194,7 @@ export function Dropzone({
           </svg>
         </div>
 
-        <p className="font-serif text-lg font-medium text-[color:var(--color-text-secondary)]">
+        <p className="text-lg font-medium text-[color:var(--color-text-secondary)]">
           {isDragging ? "Release to upload" : label}
         </p>
         <p className="mt-1.5 text-sm text-[color:var(--color-text-muted)]">

@@ -23,11 +23,11 @@ export function DownloadButton({
 
   const variantClasses = {
     primary: isDisabled
-      ? "border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] opacity-40 bg-transparent cursor-not-allowed"
-      : "border-2 border-[color:var(--color-accent)] text-[color:var(--color-accent)] bg-transparent hover:bg-[color:var(--color-accent)] hover:text-white hover:-translate-y-px hover:shadow-[var(--shadow-accent)] active:translate-y-0 active:shadow-[var(--shadow-md)]",
+      ? "bg-[color:var(--color-accent)] text-white opacity-40 cursor-not-allowed"
+      : "bg-[color:var(--color-accent)] text-white hover:bg-[color:var(--color-accent-hover)] hover:-translate-y-px hover:shadow-[var(--shadow-warm-lg)] active:translate-y-0",
     secondary: isDisabled
-      ? "border border-[color:var(--color-border)] text-[color:var(--color-text-muted)] opacity-40 bg-transparent cursor-not-allowed"
-      : "border border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] bg-transparent hover:border-[color:var(--color-border-hover)] hover:text-[color:var(--color-text-primary)] hover:bg-[color:var(--color-bg-elevated)]",
+      ? "bg-[color:var(--color-bg-elevated)] text-[color:var(--color-text-muted)] opacity-40 cursor-not-allowed"
+      : "bg-[color:var(--color-bg-elevated)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-border)] hover:text-[color:var(--color-text-primary)]",
     ghost: isDisabled
       ? "text-[color:var(--color-text-muted)] opacity-40 cursor-not-allowed"
       : "text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent-light)]",

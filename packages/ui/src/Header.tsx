@@ -11,16 +11,18 @@ interface Tool {
 
 interface HeaderProps {
   siteName: string;
-  accentColor?: string;
   currentSite?: string;
   currentTools?: Tool[];
+  logo?: React.ReactNode;
+  brandHref?: string;
 }
 
 export function Header({
   siteName,
-  accentColor = "#0ea5e9",
   currentSite,
   currentTools = [],
+  logo,
+  brandHref = "/",
 }: HeaderProps) {
   const [toolsOpen, setToolsOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -72,28 +74,18 @@ export function Header({
 
   return (
     <>
-      <header className="sticky top-0 z-50 h-16 bg-white/80 backdrop-blur-xl">
-        {/* Gradient bottom border */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, var(--color-border), transparent)",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-          {/* Left: Logo + site name */}
-          <a href="/" className="flex shrink-0 items-center gap-2.5">
-            <FalconLogo size={28} color={accentColor} />
-            <span className="font-serif text-lg font-semibold tracking-tight text-[color:var(--color-text-primary)]">
+      <header className="sticky top-0 z-50 h-14 border-b border-[color:var(--color-border)] bg-white/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 lg:px-8">
+          {/* Brand */}
+          <a href={brandHref} className="flex shrink-0 items-center gap-2.5">
+            {logo || <FalconLogo size={36} className="-ml-1.5 mix-blend-multiply" />}
+            <span className="text-[15px] font-medium tracking-tight text-[color:var(--color-text-primary)]">
               {siteName}
             </span>
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden shrink-0 items-center gap-1 md:flex">
             {currentTools.length > 0 && (
               <div ref={toolsRef} className="relative">
                 <button
@@ -101,38 +93,37 @@ export function Header({
                     setToolsOpen((prev) => !prev);
                     setFamilyOpen(false);
                   }}
-                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                  className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                    toolsOpen
+                      ? "text-[color:var(--color-text-primary)]"
+                      : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]"
+                  }`}
                   aria-expanded={toolsOpen}
                   aria-haspopup="true"
                 >
                   Tools
                   <svg
-                    className={`h-3.5 w-3.5 text-[color:var(--color-text-muted)] transition-transform duration-200 ease-[var(--ease-peregrine)] ${toolsOpen ? "rotate-180" : ""}`}
+                    className={`h-3 w-3 transition-transform duration-200 ${toolsOpen ? "rotate-180" : ""}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth={2.5}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
 
-                {/* Tools dropdown panel */}
                 {toolsOpen && (
                   <div
-                    className="absolute left-0 top-full mt-2 w-[28rem] rounded-xl border border-[color:var(--color-border)] bg-white p-4 shadow-[var(--shadow-xl)] animate-stoop"
+                    className="absolute left-1/2 top-full mt-3 w-[26rem] -translate-x-1/2 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
                     style={{ transformOrigin: "top center" }}
                   >
-                    <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
+                    <div className="grid grid-cols-2 gap-0.5 sm:grid-cols-3">
                       {currentTools.map((tool) => (
                         <a
                           key={tool.href}
                           href={tool.href}
-                          className="rounded-lg px-3 py-2.5 text-sm text-[color:var(--color-text-secondary)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                          className="rounded-lg px-3 py-2 text-[13px] text-[color:var(--color-text-secondary)] transition-colors duration-150 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
                           onClick={closeAll}
                         >
                           {tool.name}
@@ -144,36 +135,39 @@ export function Header({
               </div>
             )}
 
-            {/* Peregrine Family dropdown */}
+            {/* Divider */}
+            <span className="mx-1 h-4 w-px bg-[color:var(--color-border)]" aria-hidden="true" />
+
+            {/* Peregrine Family */}
             <div ref={familyRef} className="relative">
               <button
                 onClick={() => {
                   setFamilyOpen((prev) => !prev);
                   setToolsOpen(false);
                 }}
-                className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-all duration-200 ease-[var(--ease-peregrine)] hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                  familyOpen
+                    ? "text-[color:var(--color-text-primary)]"
+                    : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]"
+                }`}
                 aria-expanded={familyOpen}
                 aria-haspopup="true"
               >
-                Peregrine Family
+                All Sites
                 <svg
-                  className={`h-3.5 w-3.5 text-[color:var(--color-text-muted)] transition-transform duration-200 ease-[var(--ease-peregrine)] ${familyOpen ? "rotate-180" : ""}`}
+                  className={`h-3 w-3 transition-transform duration-200 ${familyOpen ? "rotate-180" : ""}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2}
+                  strokeWidth={2.5}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
               {familyOpen && (
                 <div
-                  className="absolute right-0 top-full mt-2 w-80 rounded-xl border border-[color:var(--color-border)] bg-white p-4 shadow-[var(--shadow-xl)] animate-stoop"
+                  className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
                   style={{ transformOrigin: "top center" }}
                 >
                   <CrossSiteNav currentSite={currentSite} />
@@ -185,86 +179,59 @@ export function Header({
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="relative flex h-10 w-10 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)] md:hidden"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:text-[color:var(--color-text-primary)] md:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
-            <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
-                mobileOpen
-                  ? "translate-y-0 rotate-45"
-                  : "-translate-y-[5px] rotate-0"
-              }`}
-            />
-            <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
-                mobileOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${
-                mobileOpen
-                  ? "translate-y-0 -rotate-45"
-                  : "translate-y-[5px] rotate-0"
-              }`}
-            />
+            <span className={`absolute h-[1.5px] w-[18px] rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${mobileOpen ? "translate-y-0 rotate-45" : "-translate-y-[5px]"}`} />
+            <span className={`absolute h-[1.5px] w-[18px] rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${mobileOpen ? "scale-x-0 opacity-0" : ""}`} />
+            <span className={`absolute h-[1.5px] w-[18px] rounded-full bg-current transition-all duration-200 ease-[var(--ease-peregrine)] ${mobileOpen ? "translate-y-0 -rotate-45" : "translate-y-[5px]"}`} />
           </button>
         </div>
       </header>
 
-      {/* Mobile slide-out panel */}
+      {/* Mobile panel */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 z-[60] md:hidden"
-          aria-hidden={!mobileOpen}
-        >
+        <div className="fixed inset-0 z-[60] md:hidden">
+          {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-[color:var(--color-text-primary)]/20 backdrop-blur-sm"
+            className="absolute inset-0 bg-[color:var(--color-text-primary)]/15 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
 
-          <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white shadow-[var(--shadow-xl)] animate-descend">
+          {/* Panel */}
+          <div className="absolute right-0 top-0 flex h-full w-full max-w-[320px] flex-col bg-white shadow-[var(--shadow-warm-xl)] animate-descend">
             {/* Panel header */}
-            <div className="flex h-16 shrink-0 items-center justify-between px-6" style={{ borderBottom: "1px solid var(--color-border)" }}>
+            <div className="flex h-14 shrink-0 items-center justify-between border-b border-[color:var(--color-border)] px-5">
               <div className="flex items-center gap-2.5">
-                <FalconLogo size={24} color={accentColor} />
-                <span className="font-serif text-lg font-semibold tracking-tight text-[color:var(--color-text-primary)]">
+                {logo || <FalconLogo size={36} className="-ml-1.5 mix-blend-multiply" />}
+                <span className="text-[15px] font-medium tracking-tight text-[color:var(--color-text-primary)]">
                   {siteName}
                 </span>
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-[color:var(--color-text-muted)] transition-colors hover:text-[color:var(--color-text-primary)]"
                 aria-label="Close menu"
               >
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
             {/* Panel content */}
-            <div className="flex-1 overflow-y-auto px-6 py-8">
+            <div className="flex-1 overflow-y-auto px-5 py-6">
               {currentTools.length > 0 && (
-                <div className="mb-10">
-                  <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[color:var(--color-text-muted)]">
+                <div className="mb-8">
+                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)]">
                     Tools
                   </p>
-                  <div className="grid grid-cols-2 gap-1">
+                  <div className="grid grid-cols-2 gap-0.5">
                     {currentTools.map((tool) => (
                       <a
                         key={tool.href}
                         href={tool.href}
-                        className="rounded-lg px-3 py-2.5 text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors duration-200 hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+                        className="rounded-lg px-3 py-2 text-[13px] font-medium text-[color:var(--color-text-secondary)] transition-colors hover:text-[color:var(--color-text-primary)]"
                         onClick={() => setMobileOpen(false)}
                       >
                         {tool.name}
@@ -275,7 +242,7 @@ export function Header({
               )}
 
               <div>
-                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[color:var(--color-text-muted)]">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)]">
                   Peregrine Family
                 </p>
                 <CrossSiteNav currentSite={currentSite} />
