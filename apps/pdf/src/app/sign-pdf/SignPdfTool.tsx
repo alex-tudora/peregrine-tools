@@ -1,17 +1,21 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { Dropzone, DownloadButton, ProgressBar } from "@peregrine/ui";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { downloadFile, readFileAsArrayBuffer, formatFileSize } from "@/lib/download";
+import * as pdfjsLib from "pdfjs-dist";
+import {
+  downloadFile,
+  readFileAsArrayBuffer,
+  formatFileSize,
+} from "@/lib/download";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.mjs",
+  import.meta.url
+).toString();
 
 type SignatureMode = "draw" | "type";
-type SignaturePosition =
-  | "bottom-right"
-  | "bottom-left"
-  | "bottom-center"
-  | "top-right"
-  | "top-left";
 
 interface PdfFile {
   buffer: ArrayBuffer;
@@ -20,19 +24,22 @@ interface PdfFile {
   pageCount: number;
 }
 
-const POSITION_OPTIONS: { value: SignaturePosition; label: string }[] = [
-  { value: "bottom-right", label: "Bottom Right" },
-  { value: "bottom-left", label: "Bottom Left" },
-  { value: "bottom-center", label: "Bottom Center" },
-  { value: "top-right", label: "Top Right" },
-  { value: "top-left", label: "Top Left" },
-];
+interface SignaturePlacement {
+  pageIndex: number;
+  // Position as fraction of page dimensions (0–1), anchored at top-left of signature
+  xRatio: number;
+  yRatio: number;
+}
 
 const FONT_STYLES: { value: string; label: string; className: string }[] = [
   { value: "cursive-1", label: "Elegant", className: "italic" },
   { value: "cursive-2", label: "Formal", className: "italic font-bold" },
   { value: "cursive-3", label: "Casual", className: "italic font-light" },
-  { value: "cursive-4", label: "Classic", className: "italic font-semibold tracking-wide" },
+  {
+    value: "cursive-4",
+    label: "Classic",
+    className: "italic font-semibold tracking-wide",
+  },
 ];
 
 export function SignPdfTool() {
@@ -40,20 +47,61 @@ export function SignPdfTool() {
   const [mode, setMode] = useState<SignatureMode>("draw");
   const [typedName, setTypedName] = useState("");
   const [fontStyle, setFontStyle] = useState("cursive-1");
-  const [targetPage, setTargetPage] = useState(1);
-  const [position, setPosition] = useState<SignaturePosition>("bottom-right");
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<Uint8Array | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // PDF preview state
+  const [pageImages, setPageImages] = useState<string[]>([]);
+  const [pageDimensions, setPageDimensions] = useState<
+    { width: number; height: number }[]
+  >([]);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Signature canvas
+  const sigCanvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawingRef = useRef(false);
   const hasDrawnRef = useRef(false);
+  const [signatureDataUrl, setSignatureDataUrl] = useState<string | null>(null);
 
-  // Set up canvas for drawing
+  // Placement state — the signature overlay on the PDF
+  const [placement, setPlacement] = useState<SignaturePlacement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+
+  // Signature size as fraction of page width
+  const SIG_WIDTH_RATIO = 0.25;
+  const SIG_HEIGHT_RATIO = 0.08;
+
+  // ─── PDF rendering ────────────────────────────────────────────────
+  const renderPages = useCallback(async (buffer: ArrayBuffer) => {
+    const data = new Uint8Array(buffer);
+    const pdf = await pdfjsLib.getDocument({ data }).promise;
+    const images: string[] = [];
+    const dims: { width: number; height: number }[] = [];
+    const scale = 1.5;
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d")!;
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      images.push(canvas.toDataURL("image/png"));
+      dims.push({ width: viewport.width, height: viewport.height });
+    }
+
+    setPageImages(images);
+    setPageDimensions(dims);
+  }, []);
+
+  // ─── Signature canvas setup ───────────────────────────────────────
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = sigCanvasRef.current;
     if (!canvas || mode !== "draw") return;
 
     const ctx = canvas.getContext("2d");
@@ -66,6 +114,7 @@ export function SignPdfTool() {
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     hasDrawnRef.current = false;
+    setSignatureDataUrl(null);
   }, [mode, file]);
 
   const getCanvasCoords = (
@@ -82,18 +131,16 @@ export function SignPdfTool() {
     };
   };
 
-  const handlePointerDown = useCallback(
+  const handleSigPointerDown = useCallback(
     (e: React.PointerEvent<HTMLCanvasElement>) => {
-      const canvas = canvasRef.current;
+      const canvas = sigCanvasRef.current;
       if (!canvas) return;
-
       canvas.setPointerCapture(e.pointerId);
       isDrawingRef.current = true;
       hasDrawnRef.current = true;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
-
       const { x, y } = getCanvasCoords(canvas, e.clientX, e.clientY);
       ctx.beginPath();
       ctx.moveTo(x, y);
@@ -101,16 +148,13 @@ export function SignPdfTool() {
     []
   );
 
-  const handlePointerMove = useCallback(
+  const handleSigPointerMove = useCallback(
     (e: React.PointerEvent<HTMLCanvasElement>) => {
       if (!isDrawingRef.current) return;
-
-      const canvas = canvasRef.current;
+      const canvas = sigCanvasRef.current;
       if (!canvas) return;
-
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
-
       const { x, y } = getCanvasCoords(canvas, e.clientX, e.clientY);
       ctx.lineTo(x, y);
       ctx.stroke();
@@ -118,68 +162,176 @@ export function SignPdfTool() {
     []
   );
 
-  const handlePointerUp = useCallback(() => {
+  const handleSigPointerUp = useCallback(() => {
     isDrawingRef.current = false;
+    // Capture the drawn signature as a data URL
+    const canvas = sigCanvasRef.current;
+    if (canvas && hasDrawnRef.current) {
+      setSignatureDataUrl(canvas.toDataURL("image/png"));
+    }
   }, []);
 
   const handleClearCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
+    const canvas = sigCanvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     hasDrawnRef.current = false;
+    setSignatureDataUrl(null);
+    setPlacement(null);
   }, []);
 
-  const handleFiles = useCallback(async (files: File[]) => {
-    const selected = files[0];
-    if (!selected) return;
+  // ─── Typed signature data URL ─────────────────────────────────────
+  const typedSignatureDataUrl = useMemo(() => {
+    const text = typedName.trim();
+    if (!text) return null;
 
-    setError(null);
-    setResult(null);
-    setProgress(0);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
 
-    try {
-      const buffer = await readFileAsArrayBuffer(selected);
-      const pdf = await PDFDocument.load(buffer);
-      const pageCount = pdf.getPageCount();
+    const fontSize = 48;
+    ctx.font = `italic ${fontSize}px Georgia, "Times New Roman", serif`;
+    const metrics = ctx.measureText(text);
+    const textWidth = metrics.width;
+    const textHeight = fontSize * 1.4;
 
-      setFile({ buffer, name: selected.name, size: selected.size, pageCount });
-      setTargetPage(pageCount); // Default to last page
-    } catch {
-      setError("Failed to read the selected PDF. The file may be corrupted or password-protected.");
-    }
-  }, []);
+    canvas.width = textWidth + 20;
+    canvas.height = textHeight + 10;
+
+    // Re-set font after resize
+    ctx.font = `italic ${fontSize}px Georgia, "Times New Roman", serif`;
+    ctx.fillStyle = "#1e293b";
+    ctx.textBaseline = "top";
+    ctx.fillText(text, 10, 8);
+
+    return canvas.toDataURL("image/png");
+  }, [typedName]);
+
+  const activeSignatureUrl =
+    mode === "draw" ? signatureDataUrl : typedSignatureDataUrl;
+
+  // ─── File handling ────────────────────────────────────────────────
+  const handleFiles = useCallback(
+    async (files: File[]) => {
+      const selected = files[0];
+      if (!selected) return;
+
+      setError(null);
+      setResult(null);
+      setProgress(0);
+      setPlacement(null);
+
+      try {
+        const buffer = await readFileAsArrayBuffer(selected);
+        const pdf = await PDFDocument.load(buffer);
+        const pageCount = pdf.getPageCount();
+        setFile({ buffer, name: selected.name, size: selected.size, pageCount });
+        setCurrentPage(0);
+        await renderPages(buffer);
+      } catch {
+        setError(
+          "Failed to read the selected PDF. The file may be corrupted or password-protected."
+        );
+      }
+    },
+    [renderPages]
+  );
 
   const handleReset = useCallback(() => {
     setFile(null);
     setMode("draw");
     setTypedName("");
     setFontStyle("cursive-1");
-    setTargetPage(1);
-    setPosition("bottom-right");
     setIsProcessing(false);
     setProgress(0);
     setResult(null);
     setError(null);
+    setPageImages([]);
+    setPageDimensions([]);
+    setCurrentPage(0);
+    setPlacement(null);
+    setSignatureDataUrl(null);
     hasDrawnRef.current = false;
   }, []);
 
+  // ─── Drag to place signature on PDF preview ───────────────────────
+  const handlePageClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!activeSignatureUrl || isDragging) return;
+      const container = pageContainerRef.current;
+      if (!container) return;
+
+      const rect = container.getBoundingClientRect();
+      const xRatio = (e.clientX - rect.left) / rect.width - SIG_WIDTH_RATIO / 2;
+      const yRatio = (e.clientY - rect.top) / rect.height - SIG_HEIGHT_RATIO / 2;
+
+      setPlacement({
+        pageIndex: currentPage,
+        xRatio: Math.max(0, Math.min(1 - SIG_WIDTH_RATIO, xRatio)),
+        yRatio: Math.max(0, Math.min(1 - SIG_HEIGHT_RATIO, yRatio)),
+      });
+    },
+    [activeSignatureUrl, currentPage, isDragging]
+  );
+
+  const handleOverlayPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const el = e.currentTarget;
+      el.setPointerCapture(e.pointerId);
+
+      const container = pageContainerRef.current;
+      if (!container || !placement) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const overlayX = placement.xRatio * containerRect.width;
+      const overlayY = placement.yRatio * containerRect.height;
+
+      dragOffsetRef.current = {
+        x: e.clientX - containerRect.left - overlayX,
+        y: e.clientY - containerRect.top - overlayY,
+      };
+      setIsDragging(true);
+    },
+    [placement]
+  );
+
+  const handleOverlayPointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!isDragging) return;
+      const container = pageContainerRef.current;
+      if (!container) return;
+
+      const rect = container.getBoundingClientRect();
+      const xRatio =
+        (e.clientX - rect.left - dragOffsetRef.current.x) / rect.width;
+      const yRatio =
+        (e.clientY - rect.top - dragOffsetRef.current.y) / rect.height;
+
+      setPlacement((prev) =>
+        prev
+          ? {
+              ...prev,
+              xRatio: Math.max(0, Math.min(1 - SIG_WIDTH_RATIO, xRatio)),
+              yRatio: Math.max(0, Math.min(1 - SIG_HEIGHT_RATIO, yRatio)),
+            }
+          : null
+      );
+    },
+    [isDragging]
+  );
+
+  const handleOverlayPointerUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // ─── Sign PDF ─────────────────────────────────────────────────────
   const handleSign = useCallback(async () => {
-    if (!file) return;
-
-    if (mode === "draw" && !hasDrawnRef.current) {
-      setError("Please draw your signature on the canvas first.");
-      return;
-    }
-
-    if (mode === "type" && !typedName.trim()) {
-      setError("Please type your name for the signature.");
-      return;
-    }
+    if (!file || !placement || !activeSignatureUrl) return;
 
     setIsProcessing(true);
     setProgress(0);
@@ -192,42 +344,32 @@ export function SignPdfTool() {
 
       const pdf = await PDFDocument.load(file.buffer);
       const pages = pdf.getPages();
-      const pageIndex = Math.max(0, Math.min(targetPage - 1, pages.length - 1));
-      const page = pages[pageIndex];
+      const page = pages[placement.pageIndex];
       const { width: pageWidth, height: pageHeight } = page.getSize();
 
       setProgress(40);
 
-      const margin = 40;
-
       if (mode === "draw") {
-        // Get canvas data as PNG
-        const canvas = canvasRef.current;
+        const canvas = sigCanvasRef.current;
         if (!canvas) throw new Error("Canvas not available");
 
         const pngDataUrl = canvas.toDataURL("image/png");
         const pngBase64 = pngDataUrl.split(",")[1];
-        const pngBytes = Uint8Array.from(atob(pngBase64), (c) => c.charCodeAt(0));
+        const pngBytes = Uint8Array.from(atob(pngBase64), (c) =>
+          c.charCodeAt(0)
+        );
 
         const sigImage = await pdf.embedPng(pngBytes);
 
-        // Scale the signature to a reasonable size (max 200px wide, proportional)
-        const maxWidth = 200;
-        const maxHeight = 100;
-        const scale = Math.min(maxWidth / sigImage.width, maxHeight / sigImage.height, 1);
-        const sigWidth = sigImage.width * scale;
-        const sigHeight = sigImage.height * scale;
+        const sigWidth = pageWidth * SIG_WIDTH_RATIO;
+        const sigHeight = pageHeight * SIG_HEIGHT_RATIO;
+
+        // Convert from top-left screen coordinates to PDF bottom-left origin
+        const x = placement.xRatio * pageWidth;
+        const y =
+          pageHeight - placement.yRatio * pageHeight - sigHeight;
 
         setProgress(60);
-
-        const { x, y } = calculatePosition(
-          position,
-          pageWidth,
-          pageHeight,
-          sigWidth,
-          sigHeight,
-          margin
-        );
 
         page.drawImage(sigImage, {
           x,
@@ -236,23 +378,19 @@ export function SignPdfTool() {
           height: sigHeight,
         });
       } else {
-        // Typed signature
         const font = await pdf.embedFont(StandardFonts.TimesRomanItalic);
-        const fontSize = 24;
         const text = typedName.trim();
-        const textWidth = font.widthOfTextAtSize(text, fontSize);
+
+        // Calculate font size to fit the signature box
+        const sigWidth = pageWidth * SIG_WIDTH_RATIO;
+        const fontSize = Math.min(24, (sigWidth / font.widthOfTextAtSize(text, 24)) * 24);
         const textHeight = fontSize;
 
-        setProgress(60);
+        const x = placement.xRatio * pageWidth;
+        const y =
+          pageHeight - placement.yRatio * pageHeight - textHeight;
 
-        const { x, y } = calculatePosition(
-          position,
-          pageWidth,
-          pageHeight,
-          textWidth,
-          textHeight,
-          margin
-        );
+        setProgress(60);
 
         page.drawText(text, {
           x,
@@ -270,16 +408,17 @@ export function SignPdfTool() {
       setResult(signedBytes);
       setProgress(100);
     } catch {
-      setError("Something went wrong while signing the PDF. Please check your file and try again.");
+      setError(
+        "Something went wrong while signing the PDF. Please check your file and try again."
+      );
       setProgress(0);
     } finally {
       setIsProcessing(false);
     }
-  }, [file, mode, typedName, targetPage, position]);
+  }, [file, mode, typedName, placement, activeSignatureUrl]);
 
   const handleDownload = useCallback(() => {
     if (!result || !file) return;
-
     const baseName = file.name.replace(/\.pdf$/i, "");
     downloadFile(result, `${baseName}-signed.pdf`);
   }, [result, file]);
@@ -298,201 +437,270 @@ export function SignPdfTool() {
         />
       )}
 
-      {/* File info + signature controls */}
+      {/* Main UI after file upload */}
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
-          {/* Uploaded file summary */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
-                {file.name}
-              </p>
-              <p className="mt-0.5 text-xs text-slate-500">
-                {formatFileSize(file.size)} &middot; {file.pageCount} page
-                {file.pageCount !== 1 ? "s" : ""}
-              </p>
-            </div>
-            <button
-              onClick={handleReset}
-              disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Change file
-            </button>
-          </div>
-
-          {/* Signature mode tabs */}
-          <div className="mt-5">
-            <div className="flex rounded-lg border border-slate-200 p-1">
-              <button
-                onClick={() => setMode("draw")}
-                className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                  mode === "draw"
-                    ? "bg-[color:var(--color-accent)] text-white shadow-sm"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                Draw Signature
-              </button>
-              <button
-                onClick={() => setMode("type")}
-                className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                  mode === "type"
-                    ? "bg-[color:var(--color-accent)] text-white shadow-sm"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                Type Signature
-              </button>
-            </div>
-          </div>
-
-          {/* Draw mode */}
-          {mode === "draw" && (
-            <div className="mt-4">
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Draw your signature below
-              </label>
-              <canvas
-                ref={canvasRef}
-                width={600}
-                height={300}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerLeave={handlePointerUp}
-                className="w-full max-w-[600px] cursor-crosshair touch-none rounded-lg border-2 border-dashed border-slate-300 bg-white"
-                style={{ aspectRatio: "2 / 1" }}
-              />
-              <button
-                onClick={handleClearCanvas}
-                className="mt-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
-              >
-                Clear
-              </button>
-            </div>
-          )}
-
-          {/* Type mode */}
-          {mode === "type" && (
-            <div className="mt-4 space-y-4">
-              <div>
-                <label
-                  htmlFor="signature-text"
-                  className="mb-2 block text-sm font-medium text-slate-700"
-                >
-                  Type your name
-                </label>
-                <input
-                  id="signature-text"
-                  type="text"
-                  value={typedName}
-                  onChange={(e) => setTypedName(e.target.value)}
-                  placeholder="Your name"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
-                />
+        <div className="space-y-5">
+          {/* File info */}
+          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-slate-900">
+                  {file.name}
+                </p>
+                <p className="mt-0.5 text-xs text-slate-500">
+                  {formatFileSize(file.size)} &middot; {file.pageCount} page
+                  {file.pageCount !== 1 ? "s" : ""}
+                </p>
               </div>
+              <button
+                onClick={handleReset}
+                disabled={isProcessing}
+                className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Change file
+              </button>
+            </div>
+          </div>
 
-              {/* Font style selector */}
-              <fieldset>
-                <legend className="mb-2 text-sm font-medium text-slate-700">
-                  Font style
-                </legend>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                  {FONT_STYLES.map((style) => {
-                    const isSelected = fontStyle === style.value;
-                    return (
-                      <label
-                        key={style.value}
-                        className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
-                          isSelected
-                            ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
-                            : "border-slate-200 bg-white hover:border-slate-300"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="font-style"
-                          value={style.value}
-                          checked={isSelected}
-                          onChange={() => setFontStyle(style.value)}
-                          className="sr-only"
-                        />
-                        <span className={`text-xs text-slate-500`}>
-                          {style.label}
-                        </span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </fieldset>
+          {/* Step 1: Create signature */}
+          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+            <h3 className="text-sm font-semibold text-slate-900">
+              1. Create your signature
+            </h3>
 
-              {/* Typed signature preview */}
-              {typedName.trim() && (
-                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <p className="mb-1 text-xs text-slate-500">Preview</p>
-                  <p
-                    className={`text-2xl text-slate-800 ${currentFontStyle?.className ?? "italic"}`}
-                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            {/* Mode tabs */}
+            <div className="mt-3">
+              <div className="flex rounded-lg border border-slate-200 p-1">
+                <button
+                  onClick={() => setMode("draw")}
+                  className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                    mode === "draw"
+                      ? "bg-[color:var(--color-accent)] text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  Draw Signature
+                </button>
+                <button
+                  onClick={() => setMode("type")}
+                  className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                    mode === "type"
+                      ? "bg-[color:var(--color-accent)] text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  Type Signature
+                </button>
+              </div>
+            </div>
+
+            {/* Draw mode */}
+            {mode === "draw" && (
+              <div className="mt-4">
+                <label className="mb-2 block text-sm font-medium text-slate-700">
+                  Draw your signature below
+                </label>
+                <canvas
+                  ref={sigCanvasRef}
+                  width={600}
+                  height={200}
+                  onPointerDown={handleSigPointerDown}
+                  onPointerMove={handleSigPointerMove}
+                  onPointerUp={handleSigPointerUp}
+                  onPointerLeave={handleSigPointerUp}
+                  className="w-full max-w-[600px] cursor-crosshair touch-none rounded-lg border-2 border-dashed border-slate-300 bg-white"
+                  style={{ aspectRatio: "3 / 1" }}
+                />
+                <button
+                  onClick={handleClearCanvas}
+                  className="mt-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                >
+                  Clear
+                </button>
+              </div>
+            )}
+
+            {/* Type mode */}
+            {mode === "type" && (
+              <div className="mt-4 space-y-4">
+                <div>
+                  <label
+                    htmlFor="signature-text"
+                    className="mb-2 block text-sm font-medium text-slate-700"
                   >
-                    {typedName}
-                  </p>
+                    Type your name
+                  </label>
+                  <input
+                    id="signature-text"
+                    type="text"
+                    value={typedName}
+                    onChange={(e) => setTypedName(e.target.value)}
+                    placeholder="Your name"
+                    className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+                  />
                 </div>
-              )}
-            </div>
-          )}
 
-          {/* Page selector */}
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="target-page"
-                className="mb-2 block text-sm font-medium text-slate-700"
-              >
-                Place on page
-              </label>
-              <select
-                id="target-page"
-                value={targetPage}
-                onChange={(e) => setTargetPage(Number(e.target.value))}
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
-              >
-                {Array.from({ length: file.pageCount }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    Page {i + 1}
-                    {i + 1 === file.pageCount ? " (last)" : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
+                {/* Font style selector */}
+                <fieldset>
+                  <legend className="mb-2 text-sm font-medium text-slate-700">
+                    Font style
+                  </legend>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {FONT_STYLES.map((style) => {
+                      const isSelected = fontStyle === style.value;
+                      return (
+                        <label
+                          key={style.value}
+                          className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
+                            isSelected
+                              ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
+                              : "border-slate-200 bg-white hover:border-slate-300"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="font-style"
+                            value={style.value}
+                            checked={isSelected}
+                            onChange={() => setFontStyle(style.value)}
+                            className="sr-only"
+                          />
+                          <span className="text-xs text-slate-500">
+                            {style.label}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </fieldset>
 
-            <div>
-              <label
-                htmlFor="position"
-                className="mb-2 block text-sm font-medium text-slate-700"
+                {/* Typed signature preview */}
+                {typedName.trim() && (
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                    <p className="mb-1 text-xs text-slate-500">Preview</p>
+                    <p
+                      className={`text-2xl text-slate-800 ${currentFontStyle?.className ?? "italic"}`}
+                      style={{
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                      }}
+                    >
+                      {typedName}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Step 2: Place signature on document */}
+          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+            <h3 className="text-sm font-semibold text-slate-900">
+              2. Click on the document to place your signature
+            </h3>
+
+            {!activeSignatureUrl && (
+              <p className="mt-2 text-xs text-slate-500">
+                {mode === "draw"
+                  ? "Draw your signature above first, then click on the page to place it."
+                  : "Type your name above first, then click on the page to place it."}
+              </p>
+            )}
+
+            {activeSignatureUrl && !placement && (
+              <p className="mt-2 text-xs text-slate-500">
+                Click anywhere on the page below to place your signature. You
+                can drag it to reposition.
+              </p>
+            )}
+
+            {placement && (
+              <p className="mt-2 text-xs text-slate-500">
+                Drag the signature to reposition it. Click elsewhere to move it.
+              </p>
+            )}
+
+            {/* Page navigation */}
+            {file.pageCount > 1 && (
+              <div className="mt-3 flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    setCurrentPage((p) => Math.max(0, p - 1));
+                    if (placement?.pageIndex !== currentPage - 1)
+                      setPlacement(null);
+                  }}
+                  disabled={currentPage === 0}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <span className="text-xs text-slate-500">
+                  Page {currentPage + 1} of {file.pageCount}
+                </span>
+                <button
+                  onClick={() => {
+                    setCurrentPage((p) =>
+                      Math.min(file.pageCount - 1, p + 1)
+                    );
+                    if (placement?.pageIndex !== currentPage + 1)
+                      setPlacement(null);
+                  }}
+                  disabled={currentPage === file.pageCount - 1}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            {/* PDF page preview with signature overlay */}
+            {pageImages[currentPage] && (
+              <div
+                ref={pageContainerRef}
+                onClick={activeSignatureUrl ? handlePageClick : undefined}
+                className={`relative mt-3 overflow-hidden rounded-lg border border-slate-200 shadow-sm ${
+                  activeSignatureUrl
+                    ? "cursor-crosshair"
+                    : "cursor-default"
+                }`}
               >
-                Position
-              </label>
-              <select
-                id="position"
-                value={position}
-                onChange={(e) =>
-                  setPosition(e.target.value as SignaturePosition)
-                }
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
-              >
-                {POSITION_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+                {/* Rendered PDF page */}
+                <img
+                  src={pageImages[currentPage]}
+                  alt={`Page ${currentPage + 1}`}
+                  className="block w-full select-none"
+                  draggable={false}
+                />
+
+                {/* Signature overlay */}
+                {placement && placement.pageIndex === currentPage && activeSignatureUrl && (
+                  <div
+                    onPointerDown={handleOverlayPointerDown}
+                    onPointerMove={handleOverlayPointerMove}
+                    onPointerUp={handleOverlayPointerUp}
+                    onPointerLeave={handleOverlayPointerUp}
+                    className="absolute touch-none border-2 border-dashed border-blue-400 bg-white/60 backdrop-blur-[1px] cursor-grab active:cursor-grabbing"
+                    style={{
+                      left: `${placement.xRatio * 100}%`,
+                      top: `${placement.yRatio * 100}%`,
+                      width: `${SIG_WIDTH_RATIO * 100}%`,
+                      height: `${SIG_HEIGHT_RATIO * 100}%`,
+                    }}
+                  >
+                    <img
+                      src={activeSignatureUrl}
+                      alt="Signature"
+                      className="h-full w-full object-contain pointer-events-none"
+                      draggable={false}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Progress bar */}
           {isProcessing && (
-            <div className="mt-5">
+            <div>
               <ProgressBar progress={progress} />
               <p className="mt-1.5 text-center text-xs text-slate-500">
                 Signing...
@@ -504,8 +712,8 @@ export function SignPdfTool() {
           {!result && (
             <button
               onClick={handleSign}
-              disabled={isProcessing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
+              disabled={isProcessing || !placement || !activeSignatureUrl}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-500/25 transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md hover:shadow-sky-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-[color:var(--color-accent)]"
             >
               {isProcessing ? (
                 <>
@@ -539,7 +747,7 @@ export function SignPdfTool() {
 
           {/* Results */}
           {result && (
-            <div className="mt-5 space-y-4">
+            <div className="space-y-4">
               <div className="flex flex-col gap-3 sm:flex-row">
                 <DownloadButton
                   onClick={handleDownload}
@@ -569,45 +777,4 @@ export function SignPdfTool() {
       )}
     </div>
   );
-}
-
-/**
- * Calculate x/y coordinates for a given position on the page.
- * Coordinates are in PDF coordinate space (origin at bottom-left).
- */
-function calculatePosition(
-  position: SignaturePosition,
-  pageWidth: number,
-  pageHeight: number,
-  elementWidth: number,
-  elementHeight: number,
-  margin: number
-): { x: number; y: number } {
-  switch (position) {
-    case "bottom-right":
-      return {
-        x: pageWidth - elementWidth - margin,
-        y: margin,
-      };
-    case "bottom-left":
-      return {
-        x: margin,
-        y: margin,
-      };
-    case "bottom-center":
-      return {
-        x: (pageWidth - elementWidth) / 2,
-        y: margin,
-      };
-    case "top-right":
-      return {
-        x: pageWidth - elementWidth - margin,
-        y: pageHeight - elementHeight - margin,
-      };
-    case "top-left":
-      return {
-        x: margin,
-        y: pageHeight - elementHeight - margin,
-      };
-  }
 }

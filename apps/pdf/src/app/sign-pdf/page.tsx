@@ -22,7 +22,7 @@ export const metadata = generateToolMetadata({
 const howTo = [
   "Upload your PDF file using the drop zone above or click to browse",
   "Draw your signature on the canvas or type it using one of the signature fonts",
-  "Choose the page and position where you want the signature placed",
+  "Click directly on the document preview to place your signature, then drag to reposition",
   "Click \"Sign PDF\" and download your signed document",
 ];
 
@@ -67,7 +67,7 @@ const faqs = [
   {
     question: "Can I choose where the signature appears on the page?",
     answer:
-      "Yes. You can select which page the signature is placed on and choose from several preset positions including bottom right, bottom left, bottom center, top right, and top left.",
+      "Yes. After creating your signature, click directly on the document preview to place it exactly where you want. You can drag the signature to reposition it, and navigate between pages for multi-page documents.",
   },
   {
     question: "What is the difference between drawing and typing a signature?",
