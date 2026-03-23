@@ -68,12 +68,14 @@ export function SignPdfTool() {
   // Placement state — the signature overlay on the PDF
   const [placement, setPlacement] = useState<SignaturePlacement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const resizeStartRef = useRef({ width: 0, height: 0, clientX: 0, clientY: 0 });
   const pageContainerRef = useRef<HTMLDivElement>(null);
 
-  // Signature size as fraction of page width
-  const SIG_WIDTH_RATIO = 0.25;
-  const SIG_HEIGHT_RATIO = 0.08;
+  // Signature size as fraction of page dimensions (resizable)
+  const [sigWidthRatio, setSigWidthRatio] = useState(0.25);
+  const [sigHeightRatio, setSigHeightRatio] = useState(0.08);
 
   // ─── PDF rendering ────────────────────────────────────────────────
   const renderPages = useCallback(async (buffer: ArrayBuffer) => {
@@ -107,8 +109,8 @@ export function SignPdfTool() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Transparent canvas — the visual white bg comes from CSS bg-white
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "#1e293b";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
@@ -176,8 +178,7 @@ export function SignPdfTool() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     hasDrawnRef.current = false;
     setSignatureDataUrl(null);
     setPlacement(null);
@@ -254,27 +255,29 @@ export function SignPdfTool() {
     setCurrentPage(0);
     setPlacement(null);
     setSignatureDataUrl(null);
+    setSigWidthRatio(0.25);
+    setSigHeightRatio(0.08);
     hasDrawnRef.current = false;
   }, []);
 
   // ─── Drag to place signature on PDF preview ───────────────────────
   const handlePageClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!activeSignatureUrl || isDragging) return;
+      if (!activeSignatureUrl || isDragging || isResizing) return;
       const container = pageContainerRef.current;
       if (!container) return;
 
       const rect = container.getBoundingClientRect();
-      const xRatio = (e.clientX - rect.left) / rect.width - SIG_WIDTH_RATIO / 2;
-      const yRatio = (e.clientY - rect.top) / rect.height - SIG_HEIGHT_RATIO / 2;
+      const xRatio = (e.clientX - rect.left) / rect.width - sigWidthRatio / 2;
+      const yRatio = (e.clientY - rect.top) / rect.height - sigHeightRatio / 2;
 
       setPlacement({
         pageIndex: currentPage,
-        xRatio: Math.max(0, Math.min(1 - SIG_WIDTH_RATIO, xRatio)),
-        yRatio: Math.max(0, Math.min(1 - SIG_HEIGHT_RATIO, yRatio)),
+        xRatio: Math.max(0, Math.min(1 - sigWidthRatio, xRatio)),
+        yRatio: Math.max(0, Math.min(1 - sigHeightRatio, yRatio)),
       });
     },
-    [activeSignatureUrl, currentPage, isDragging]
+    [activeSignatureUrl, currentPage, isDragging, isResizing, sigWidthRatio, sigHeightRatio]
   );
 
   const handleOverlayPointerDown = useCallback(
@@ -316,18 +319,76 @@ export function SignPdfTool() {
         prev
           ? {
               ...prev,
-              xRatio: Math.max(0, Math.min(1 - SIG_WIDTH_RATIO, xRatio)),
-              yRatio: Math.max(0, Math.min(1 - SIG_HEIGHT_RATIO, yRatio)),
+              xRatio: Math.max(0, Math.min(1 - sigWidthRatio, xRatio)),
+              yRatio: Math.max(0, Math.min(1 - sigHeightRatio, yRatio)),
             }
           : null
       );
     },
-    [isDragging]
+    [isDragging, sigWidthRatio, sigHeightRatio]
   );
 
   const handleOverlayPointerUp = useCallback(() => {
     setIsDragging(false);
+    setIsResizing(false);
   }, []);
+
+  // ─── Resize handle ────────────────────────────────────────────────
+  const handleResizePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const el = e.currentTarget;
+      el.setPointerCapture(e.pointerId);
+
+      const container = pageContainerRef.current;
+      if (!container) return;
+
+      const containerRect = container.getBoundingClientRect();
+      resizeStartRef.current = {
+        width: sigWidthRatio * containerRect.width,
+        height: sigHeightRatio * containerRect.height,
+        clientX: e.clientX,
+        clientY: e.clientY,
+      };
+      setIsResizing(true);
+    },
+    [sigWidthRatio, sigHeightRatio]
+  );
+
+  const handleResizePointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!isResizing) return;
+      const container = pageContainerRef.current;
+      if (!container) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const start = resizeStartRef.current;
+      const dx = e.clientX - start.clientX;
+      const dy = e.clientY - start.clientY;
+
+      const newWidthPx = Math.max(40, start.width + dx);
+      const newHeightPx = Math.max(20, start.height + dy);
+
+      const newWidthRatio = Math.min(1, newWidthPx / containerRect.width);
+      const newHeightRatio = Math.min(1, newHeightPx / containerRect.height);
+
+      setSigWidthRatio(newWidthRatio);
+      setSigHeightRatio(newHeightRatio);
+
+      // Clamp placement so overlay stays in bounds
+      setPlacement((prev) =>
+        prev
+          ? {
+              ...prev,
+              xRatio: Math.min(prev.xRatio, 1 - newWidthRatio),
+              yRatio: Math.min(prev.yRatio, 1 - newHeightRatio),
+            }
+          : null
+      );
+    },
+    [isResizing]
+  );
 
   // ─── Sign PDF ─────────────────────────────────────────────────────
   const handleSign = useCallback(async () => {
@@ -361,8 +422,8 @@ export function SignPdfTool() {
 
         const sigImage = await pdf.embedPng(pngBytes);
 
-        const sigWidth = pageWidth * SIG_WIDTH_RATIO;
-        const sigHeight = pageHeight * SIG_HEIGHT_RATIO;
+        const sigWidth = pageWidth * sigWidthRatio;
+        const sigHeight = pageHeight * sigHeightRatio;
 
         // Convert from top-left screen coordinates to PDF bottom-left origin
         const x = placement.xRatio * pageWidth;
@@ -382,7 +443,7 @@ export function SignPdfTool() {
         const text = typedName.trim();
 
         // Calculate font size to fit the signature box
-        const sigWidth = pageWidth * SIG_WIDTH_RATIO;
+        const sigWidth = pageWidth * sigWidthRatio;
         const fontSize = Math.min(24, (sigWidth / font.widthOfTextAtSize(text, 24)) * 24);
         const textHeight = fontSize;
 
@@ -415,7 +476,7 @@ export function SignPdfTool() {
     } finally {
       setIsProcessing(false);
     }
-  }, [file, mode, typedName, placement, activeSignatureUrl]);
+  }, [file, mode, typedName, placement, activeSignatureUrl, sigWidthRatio, sigHeightRatio]);
 
   const handleDownload = useCallback(() => {
     if (!result || !file) return;
@@ -678,12 +739,12 @@ export function SignPdfTool() {
                     onPointerMove={handleOverlayPointerMove}
                     onPointerUp={handleOverlayPointerUp}
                     onPointerLeave={handleOverlayPointerUp}
-                    className="absolute touch-none border-2 border-dashed border-blue-400 bg-white/60 backdrop-blur-[1px] cursor-grab active:cursor-grabbing"
+                    className="absolute touch-none border-2 border-dashed border-blue-400 cursor-grab active:cursor-grabbing"
                     style={{
                       left: `${placement.xRatio * 100}%`,
                       top: `${placement.yRatio * 100}%`,
-                      width: `${SIG_WIDTH_RATIO * 100}%`,
-                      height: `${SIG_HEIGHT_RATIO * 100}%`,
+                      width: `${sigWidthRatio * 100}%`,
+                      height: `${sigHeightRatio * 100}%`,
                     }}
                   >
                     <img
@@ -691,6 +752,14 @@ export function SignPdfTool() {
                       alt="Signature"
                       className="h-full w-full object-contain pointer-events-none"
                       draggable={false}
+                    />
+                    {/* Resize handle — bottom-right corner */}
+                    <div
+                      onPointerDown={handleResizePointerDown}
+                      onPointerMove={handleResizePointerMove}
+                      onPointerUp={handleOverlayPointerUp}
+                      onPointerLeave={handleOverlayPointerUp}
+                      className="absolute -bottom-1.5 -right-1.5 h-3.5 w-3.5 cursor-nwse-resize rounded-sm border-2 border-blue-500 bg-white touch-none"
                     />
                   </div>
                 )}
