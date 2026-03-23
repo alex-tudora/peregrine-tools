@@ -67,13 +67,16 @@ export function SignPdfTool() {
 
   // Placement state — the signature overlay on the PDF
   const [placement, setPlacement] = useState<SignaturePlacement | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
+  const isDraggingRef = useRef(false);
+  const isResizingRef = useRef(false);
+  const didDragRef = useRef(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const resizeStartRef = useRef({ width: 0, height: 0, clientX: 0, clientY: 0 });
   const pageContainerRef = useRef<HTMLDivElement>(null);
+  const sigWidthRef = useRef(0.25);
+  const sigHeightRef = useRef(0.08);
 
-  // Signature size as fraction of page dimensions (resizable)
+  // Signature size as fraction of page dimensions (resizable) — state drives re-renders
   const [sigWidthRatio, setSigWidthRatio] = useState(0.25);
   const [sigHeightRatio, setSigHeightRatio] = useState(0.08);
 
@@ -261,56 +264,70 @@ export function SignPdfTool() {
     hasDrawnRef.current = false;
   }, []);
 
-  // ─── Drag to place signature on PDF preview ───────────────────────
+  // Keep refs in sync with state for use in event handlers
+  useEffect(() => {
+    sigWidthRef.current = sigWidthRatio;
+  }, [sigWidthRatio]);
+  useEffect(() => {
+    sigHeightRef.current = sigHeightRatio;
+  }, [sigHeightRatio]);
+
+  // ─── Click to place signature on PDF preview ──────────────────────
   const handlePageClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!activeSignatureUrl || isDragging || isResizing) return;
+      // Skip click if it came from a drag/resize that just ended
+      if (didDragRef.current) {
+        didDragRef.current = false;
+        return;
+      }
+      if (!activeSignatureUrl) return;
       const container = pageContainerRef.current;
       if (!container) return;
 
+      const w = sigWidthRef.current;
+      const h = sigHeightRef.current;
       const rect = container.getBoundingClientRect();
-      const xRatio = (e.clientX - rect.left) / rect.width - sigWidthRatio / 2;
-      const yRatio = (e.clientY - rect.top) / rect.height - sigHeightRatio / 2;
+      const xRatio = (e.clientX - rect.left) / rect.width - w / 2;
+      const yRatio = (e.clientY - rect.top) / rect.height - h / 2;
 
       setPlacement({
         pageIndex: currentPage,
-        xRatio: Math.max(0, Math.min(1 - sigWidthRatio, xRatio)),
-        yRatio: Math.max(0, Math.min(1 - sigHeightRatio, yRatio)),
+        xRatio: Math.max(0, Math.min(1 - w, xRatio)),
+        yRatio: Math.max(0, Math.min(1 - h, yRatio)),
       });
     },
-    [activeSignatureUrl, currentPage, isDragging, isResizing, sigWidthRatio, sigHeightRatio]
+    [activeSignatureUrl, currentPage]
   );
 
+  // ─── Drag overlay ─────────────────────────────────────────────────
   const handleOverlayPointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.stopPropagation();
       e.preventDefault();
-      const el = e.currentTarget;
-      el.setPointerCapture(e.pointerId);
+      e.currentTarget.setPointerCapture(e.pointerId);
 
       const container = pageContainerRef.current;
-      if (!container || !placement) return;
+      if (!container) return;
 
-      const containerRect = container.getBoundingClientRect();
-      const overlayX = placement.xRatio * containerRect.width;
-      const overlayY = placement.yRatio * containerRect.height;
-
+      const overlayRect = e.currentTarget.getBoundingClientRect();
       dragOffsetRef.current = {
-        x: e.clientX - containerRect.left - overlayX,
-        y: e.clientY - containerRect.top - overlayY,
+        x: e.clientX - overlayRect.left,
+        y: e.clientY - overlayRect.top,
       };
-      setIsDragging(true);
+      isDraggingRef.current = true;
     },
-    [placement]
+    []
   );
 
   const handleOverlayPointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!isDragging) return;
+      if (!isDraggingRef.current) return;
       const container = pageContainerRef.current;
       if (!container) return;
 
       const rect = container.getBoundingClientRect();
+      const w = sigWidthRef.current;
+      const h = sigHeightRef.current;
       const xRatio =
         (e.clientX - rect.left - dragOffsetRef.current.x) / rect.width;
       const yRatio =
@@ -320,18 +337,21 @@ export function SignPdfTool() {
         prev
           ? {
               ...prev,
-              xRatio: Math.max(0, Math.min(1 - sigWidthRatio, xRatio)),
-              yRatio: Math.max(0, Math.min(1 - sigHeightRatio, yRatio)),
+              xRatio: Math.max(0, Math.min(1 - w, xRatio)),
+              yRatio: Math.max(0, Math.min(1 - h, yRatio)),
             }
           : null
       );
     },
-    [isDragging, sigWidthRatio, sigHeightRatio]
+    []
   );
 
   const handleOverlayPointerUp = useCallback(() => {
-    setIsDragging(false);
-    setIsResizing(false);
+    if (isDraggingRef.current || isResizingRef.current) {
+      didDragRef.current = true;
+    }
+    isDraggingRef.current = false;
+    isResizingRef.current = false;
   }, []);
 
   // ─── Resize handle ────────────────────────────────────────────────
@@ -339,27 +359,26 @@ export function SignPdfTool() {
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.stopPropagation();
       e.preventDefault();
-      const el = e.currentTarget;
-      el.setPointerCapture(e.pointerId);
+      e.currentTarget.setPointerCapture(e.pointerId);
 
       const container = pageContainerRef.current;
       if (!container) return;
 
       const containerRect = container.getBoundingClientRect();
       resizeStartRef.current = {
-        width: sigWidthRatio * containerRect.width,
-        height: sigHeightRatio * containerRect.height,
+        width: sigWidthRef.current * containerRect.width,
+        height: sigHeightRef.current * containerRect.height,
         clientX: e.clientX,
         clientY: e.clientY,
       };
-      setIsResizing(true);
+      isResizingRef.current = true;
     },
-    [sigWidthRatio, sigHeightRatio]
+    []
   );
 
   const handleResizePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!isResizing) return;
+      if (!isResizingRef.current) return;
       const container = pageContainerRef.current;
       if (!container) return;
 
@@ -371,24 +390,25 @@ export function SignPdfTool() {
       const newWidthPx = Math.max(40, start.width + dx);
       const newHeightPx = Math.max(20, start.height + dy);
 
-      const newWidthRatio = Math.min(1, newWidthPx / containerRect.width);
-      const newHeightRatio = Math.min(1, newHeightPx / containerRect.height);
+      const newW = Math.min(1, newWidthPx / containerRect.width);
+      const newH = Math.min(1, newHeightPx / containerRect.height);
 
-      setSigWidthRatio(newWidthRatio);
-      setSigHeightRatio(newHeightRatio);
+      sigWidthRef.current = newW;
+      sigHeightRef.current = newH;
+      setSigWidthRatio(newW);
+      setSigHeightRatio(newH);
 
-      // Clamp placement so overlay stays in bounds
       setPlacement((prev) =>
         prev
           ? {
               ...prev,
-              xRatio: Math.min(prev.xRatio, 1 - newWidthRatio),
-              yRatio: Math.min(prev.yRatio, 1 - newHeightRatio),
+              xRatio: Math.min(prev.xRatio, 1 - newW),
+              yRatio: Math.min(prev.yRatio, 1 - newH),
             }
           : null
       );
     },
-    [isResizing]
+    []
   );
 
   // ─── Sign PDF ─────────────────────────────────────────────────────
