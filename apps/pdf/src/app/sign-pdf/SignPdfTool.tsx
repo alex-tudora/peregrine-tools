@@ -79,7 +79,8 @@ export function SignPdfTool() {
 
   // ─── PDF rendering ────────────────────────────────────────────────
   const renderPages = useCallback(async (buffer: ArrayBuffer) => {
-    const data = new Uint8Array(buffer);
+    // Copy so pdfjs worker doesn't detach the original ArrayBuffer
+    const data = new Uint8Array(buffer.slice(0));
     const pdf = await pdfjsLib.getDocument({ data }).promise;
     const images: string[] = [];
     const dims: { width: number; height: number }[] = [];
@@ -403,7 +404,7 @@ export function SignPdfTool() {
       setProgress(20);
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      const pdf = await PDFDocument.load(file.buffer);
+      const pdf = await PDFDocument.load(file.buffer.slice(0));
       const pages = pdf.getPages();
       const page = pages[placement.pageIndex];
       const { width: pageWidth, height: pageHeight } = page.getSize();
@@ -468,7 +469,8 @@ export function SignPdfTool() {
       const signedBytes = await pdf.save();
       setResult(signedBytes);
       setProgress(100);
-    } catch {
+    } catch (err) {
+      console.error("Sign PDF error:", err);
       setError(
         "Something went wrong while signing the PDF. Please check your file and try again."
       );
