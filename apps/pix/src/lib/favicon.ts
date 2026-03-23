@@ -42,7 +42,7 @@ export async function generateFavicons(file: File): Promise<FaviconResult> {
   // Pre-scale the source using step-down halving for high-quality downsampling.
   // Canvas drawImage produces poor results when jumping from a large source
   // directly to a small target (e.g. 1024→16). Halving iteratively avoids this.
-  const steppedSource = stepDownScale(img, Math.max(...FAVICON_SIZES));
+  const steppedSource = stepDownScale(img, Math.min(...FAVICON_SIZES));
 
   const sizes = await Promise.all(
     FAVICON_SIZES.map(async (size) => {

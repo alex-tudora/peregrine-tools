@@ -25,6 +25,7 @@ export function generateToolMetadata({
 }: ToolMetadataOptions): Metadata {
   const title = `${toolName} — Free Online Tool | ${siteName}`;
   const canonicalUrl = `${siteUrl}${path}`;
+  const ogImageUrl = `${siteUrl}${path}/opengraph-image`;
 
   return {
     title,
@@ -36,9 +37,13 @@ export function generateToolMetadata({
       url: canonicalUrl,
       siteName,
       type: "website",
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: toolName }],
     },
     twitter: {
       card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
     },
     alternates: {
       canonical: canonicalUrl,
@@ -55,6 +60,8 @@ export function generateSiteMetadata({
   description,
   siteUrl,
 }: SiteMetadataOptions): Metadata {
+  const ogImageUrl = `${siteUrl}/opengraph-image`;
+
   return {
     title: siteName,
     description,
@@ -65,9 +72,13 @@ export function generateSiteMetadata({
       url: siteUrl,
       siteName,
       type: "website",
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: siteName }],
     },
     twitter: {
       card: "summary_large_image",
+      title: siteName,
+      description,
+      images: [ogImageUrl],
     },
     alternates: {
       canonical: siteUrl,

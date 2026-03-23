@@ -3,7 +3,7 @@ import { conversions } from '@/data/conversions';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://convert-a-lot.com';
-  const lastModified = new Date();
+  const lastModified = "2026-03-23";
 
   const staticPages: MetadataRoute.Sitemap = [
     {

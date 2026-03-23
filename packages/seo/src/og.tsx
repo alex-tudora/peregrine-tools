@@ -77,8 +77,8 @@ export function createOGImageResponse({
                 lineHeight: 1.5,
               }}
             >
-              {description.length > 120
-                ? `${description.slice(0, 117)}...`
+              {description.length > 160
+                ? `${description.slice(0, 157)}...`
                 : description}
             </div>
           )}

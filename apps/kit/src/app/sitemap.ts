@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://peregrinekit.com';
-  const lastModified = new Date();
+  const lastModified = "2026-03-23";
 
   const toolRoutes = [
     '/word-counter',

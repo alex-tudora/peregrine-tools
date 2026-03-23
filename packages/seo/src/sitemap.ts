@@ -14,8 +14,9 @@ export interface SitemapEntry {
 export function generateSitemapEntries(
   siteUrl: string,
   tools: ToolEntry[],
+  lastModifiedDate?: string,
 ): SitemapEntry[] {
-  const lastModified = new Date().toISOString().split("T")[0];
+  const lastModified = lastModifiedDate ?? "2026-03-23";
 
   const homepage: SitemapEntry = {
     url: siteUrl,
