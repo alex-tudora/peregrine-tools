@@ -48,6 +48,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <Script
+          defer
+          data-domain="convert-a-lot.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Convert-a-Lot"
           logo={<KnightLogo size={34} className="-mr-1" />}

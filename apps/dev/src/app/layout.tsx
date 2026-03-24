@@ -69,6 +69,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <Script
+          defer
+          data-domain="peregrinedev.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         <Header
           siteName="Peregrine Dev"
           currentSite="dev"
