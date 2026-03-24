@@ -113,6 +113,7 @@ export default function WatermarkPdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Protect with password?", description: "Add password protection to your watermarked PDF", href: "/protect-pdf" }}
       >
         <WatermarkPdfTool />
       </ToolLayout>

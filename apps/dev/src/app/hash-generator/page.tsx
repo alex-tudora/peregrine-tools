@@ -108,6 +108,7 @@ export default function HashGeneratorPage() {
           { name: "JWT Decoder", href: "/jwt-decoder" },
           { name: "URL Encode/Decode", href: "/url-encode" },
         ]}
+        nextStep={{ label: "Base64 encode?", description: "Encode the hash for embedding", href: "/base64" }}
       >
         <HashGeneratorTool />
       </ToolLayout>

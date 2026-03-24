@@ -111,6 +111,7 @@ export default function Base64Page() {
             href: "https://peregrinepix.com/image-to-base64",
           },
         ]}
+        nextStep={{ label: "URL encode the result?", description: "Make it safe for URLs", href: "/url-encode" }}
       >
         <Base64Tool />
       </ToolLayout>

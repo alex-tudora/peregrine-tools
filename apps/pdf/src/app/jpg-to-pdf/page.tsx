@@ -112,6 +112,7 @@ export default function JpgToPdfPage() {
             href: "https://peregrinepix.com/resize-image",
           },
         ]}
+        nextStep={{ label: "Compress the PDF?", description: "Reduce the file size of your new PDF", href: "/compress-pdf" }}
       >
         <JpgToPdfTool />
       </ToolLayout>

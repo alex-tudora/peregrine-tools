@@ -94,6 +94,7 @@ export default function AgeCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate date difference?", description: "Find the gap between any two dates", href: "/date-difference" }}
       >
         <AgeCalculatorTool />
       </ToolLayout>

@@ -108,6 +108,7 @@ export default function SitemapGeneratorPage() {
           { name: "Open Graph Preview", href: "/open-graph-preview" },
           { name: "UTM Builder", href: "/utm-builder" },
         ]}
+        nextStep={{ label: "Generate robots.txt?", description: "Control search engine crawling", href: "/robots-txt-generator" }}
       >
         <SitemapGeneratorTool />
       </ToolLayout>

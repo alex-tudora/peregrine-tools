@@ -20,12 +20,17 @@ const dmSans = DM_Sans({
   variable: "--font-sans",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Convert-a-Lot",
-  description:
-    "The fastest free online file converter. Convert between PDF, images, video, audio, and data formats instantly. No sign-up, no upload — files never leave your device.",
-  siteUrl: "https://convert-a-lot.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Convert-a-Lot",
+    description:
+      "The fastest free online file converter. Convert between PDF, images, video, audio, and data formats instantly. No sign-up, no upload — files never leave your device.",
+    siteUrl: "https://convert-a-lot.com",
+  }),
+  appleWebApp: {
+    title: "Convert-a-Lot",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#EA580C" };
 

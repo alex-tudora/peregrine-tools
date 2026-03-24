@@ -113,6 +113,7 @@ export default function ScreenRecorderPage() {
           { name: "Video to GIF", href: "/video-to-gif" },
           { name: "Trim Video", href: "/trim-video" },
         ]}
+        nextStep={{ label: "Trim the recording?", description: "Cut out the parts you don't need", href: "/trim-video" }}
       >
         <ScreenRecorderTool />
       </ToolLayout>

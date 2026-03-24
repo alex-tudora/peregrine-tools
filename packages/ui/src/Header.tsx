@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { FalconLogo } from "./FalconLogo";
 import { CrossSiteNav } from "./CrossSiteNav";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface Tool {
   name: string;
@@ -76,7 +77,7 @@ export function Header({
 
   return (
     <>
-      <header className="sticky top-0 z-50 h-14 border-b border-[color:var(--color-border)] bg-white/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 h-14 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 lg:px-8">
           {/* Brand */}
           <a href={brandHref} className="flex shrink-0 items-center gap-2.5">
@@ -117,7 +118,7 @@ export function Header({
 
                 {toolsOpen && (
                   <div
-                    className="absolute right-0 top-full mt-3 w-[26rem] rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
+                    className="absolute right-0 top-full mt-3 w-[26rem] rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
                     style={{ transformOrigin: "top right" }}
                   >
                     <div className="grid grid-cols-2 gap-0.5 sm:grid-cols-3">
@@ -171,7 +172,7 @@ export function Header({
 
                   {familyOpen && (
                     <div
-                      className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-[color:var(--color-border)] bg-white p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
+                      className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-2 shadow-[var(--shadow-warm-xl)] animate-stoop"
                       style={{ transformOrigin: "top center" }}
                     >
                       <CrossSiteNav currentSite={currentSite} />
@@ -181,6 +182,9 @@ export function Header({
               </>
             )}
           </nav>
+
+          {/* Theme toggle */}
+          <ThemeToggle />
 
           {/* Mobile hamburger */}
           <button
@@ -205,7 +209,7 @@ export function Header({
           />
 
           {/* Panel */}
-          <div className="absolute right-0 top-0 flex h-full w-full max-w-[320px] flex-col bg-white shadow-[var(--shadow-warm-xl)] animate-descend">
+          <div className="absolute right-0 top-0 flex h-full w-full max-w-[320px] flex-col bg-[color:var(--color-bg-card)] shadow-[var(--shadow-warm-xl)] animate-descend">
             {/* Panel header */}
             <div className="flex h-14 shrink-0 items-center justify-between border-b border-[color:var(--color-border)] px-5">
               <div className="flex items-center gap-2.5">

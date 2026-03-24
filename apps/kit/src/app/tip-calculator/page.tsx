@@ -95,6 +95,7 @@ export default function TipCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate percentages?", description: "Quick percentage calculations", href: "/percentage-calculator" }}
       >
         <TipCalculatorTool />
       </ToolLayout>

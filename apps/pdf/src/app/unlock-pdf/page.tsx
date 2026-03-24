@@ -122,6 +122,7 @@ export default function UnlockPdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Compress the PDF?", description: "Reduce file size of the unlocked PDF", href: "/compress-pdf" }}
       >
         <UnlockPdfTool />
       </ToolLayout>

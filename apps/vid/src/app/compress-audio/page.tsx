@@ -106,6 +106,7 @@ export default function CompressAudioPage() {
           { name: "Audio to MP3", href: "/convert-to-mp3" },
           { name: "Extract Audio", href: "/extract-audio" },
         ]}
+        nextStep={{ label: "Convert to WAV?", description: "Get lossless audio format", href: "/mp3-to-wav" }}
       >
         <CompressAudioTool />
       </ToolLayout>

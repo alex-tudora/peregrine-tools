@@ -106,6 +106,7 @@ export default function ConvertToMp4Page() {
           { name: "Video to GIF", href: "/video-to-gif" },
           { name: "Video to WebM", href: "/video-to-webm" },
         ]}
+        nextStep={{ label: "Compress the video?", description: "Reduce file size while keeping quality", href: "/compress-video" }}
       >
         <ConvertToMp4Tool />
       </ToolLayout>

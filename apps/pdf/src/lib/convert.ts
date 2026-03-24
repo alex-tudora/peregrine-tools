@@ -27,11 +27,11 @@ export async function pdfToImages(
   pdfBuffer: ArrayBuffer,
   format: ImageFormat = 'png',
   quality: number = 0.85,
+  scale: number = 2,
 ): Promise<RenderedPage[]> {
-  const pdfData = new Uint8Array(pdfBuffer);
+  const pdfData = new Uint8Array(pdfBuffer.slice(0));
   const pdfDoc = await pdfjsLib.getDocument({ data: pdfData }).promise;
   const results: RenderedPage[] = [];
-  const scale = 2; // 2x for retina-quality output
 
   for (let i = 1; i <= pdfDoc.numPages; i++) {
     const page = await pdfDoc.getPage(i);

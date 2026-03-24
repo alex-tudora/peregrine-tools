@@ -110,6 +110,7 @@ export default function RemoveLineBreaksPage() {
           { name: "Find & Replace", href: "/find-and-replace" },
           { name: "Text to Slug", href: "/text-to-slug" },
         ]}
+        nextStep={{ label: "Count words?", description: "Get detailed text statistics", href: "/word-counter" }}
       >
         <RemoveLineBreaksTool />
       </ToolLayout>

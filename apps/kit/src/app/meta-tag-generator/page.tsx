@@ -107,6 +107,7 @@ export default function MetaTagGeneratorPage() {
           { name: "Sitemap Generator", href: "/sitemap-generator" },
           { name: "Heading Checker", href: "/heading-checker" },
         ]}
+        nextStep={{ label: "Preview Open Graph?", description: "See how your page looks when shared", href: "/open-graph-preview" }}
       >
         <MetaTagGeneratorTool />
       </ToolLayout>

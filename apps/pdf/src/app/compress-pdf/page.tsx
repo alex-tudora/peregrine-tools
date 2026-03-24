@@ -124,6 +124,7 @@ export default function CompressPdfPage() {
             href: "https://peregrinepix.com/compress-image",
           },
         ]}
+        nextStep={{ label: "Need to split pages?", description: "Extract specific pages from the compressed PDF", href: "/split-pdf" }}
       >
         <CompressPdfTool />
       </ToolLayout>

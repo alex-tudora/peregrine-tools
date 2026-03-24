@@ -102,6 +102,7 @@ export default function PercentageCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate compound interest?", description: "See how percentages grow over time", href: "/compound-interest" }}
       >
         <PercentageCalculatorTool />
       </ToolLayout>

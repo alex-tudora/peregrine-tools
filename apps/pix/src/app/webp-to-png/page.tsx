@@ -107,6 +107,7 @@ export default function WebpToPngPage() {
           { name: "Compress Image", href: "/compress-image" },
           { name: "JPG to PNG", href: "/jpg-to-png" },
         ]}
+        nextStep={{ label: "Compress the PNG?", description: "Reduce file size further", href: "/compress-image" }}
       >
         <WebpToPngTool />
       </ToolLayout>

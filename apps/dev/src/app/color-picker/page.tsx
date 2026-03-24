@@ -113,6 +113,7 @@ export default function ColorPickerPage() {
             href: "https://peregrinepix.com/image-to-base64",
           },
         ]}
+        nextStep={{ label: "Convert HEX to RGB?", description: "Get exact RGB values", href: "/hex-to-rgb" }}
       >
         <ColorPickerTool />
       </ToolLayout>

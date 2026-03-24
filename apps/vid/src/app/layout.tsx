@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine Vid",
-  description:
-    "Free online video and audio tools. Convert, compress, trim, and extract audio from videos instantly in your browser. No sign-up required.",
-  siteUrl: "https://peregrinevid.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine Vid",
+    description:
+      "Free online video and audio tools. Convert, compress, trim, and extract audio from videos instantly in your browser. No sign-up required.",
+    siteUrl: "https://peregrinevid.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine Vid",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#E11D48" };
 

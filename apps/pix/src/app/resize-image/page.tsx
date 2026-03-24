@@ -122,6 +122,7 @@ export default function ResizeImagePage() {
             href: "https://peregrinepdf.com/resize-pdf",
           },
         ]}
+        nextStep={{ label: "Compress the result?", description: "Reduce file size without losing quality", href: "/compress-image" }}
       >
         <ResizeImageTool />
       </ToolLayout>

@@ -106,6 +106,7 @@ export default function TrimVideoPage() {
           { name: "Video to MP4", href: "/convert-to-mp4" },
           { name: "Extract Audio", href: "/extract-audio" },
         ]}
+        nextStep={{ label: "Compress the clip?", description: "Reduce file size of the trimmed video", href: "/compress-video" }}
       >
         <TrimVideoTool />
       </ToolLayout>

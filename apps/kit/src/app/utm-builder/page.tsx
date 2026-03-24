@@ -108,6 +108,7 @@ export default function UtmBuilderPage() {
           { name: "QR Code Generator", href: "/qr-code-generator" },
           { name: "Sitemap Generator", href: "/sitemap-generator" },
         ]}
+        nextStep={{ label: "Generate a QR code?", description: "Create a QR code for your UTM link", href: "/qr-code-generator" }}
       >
         <UtmBuilderTool />
       </ToolLayout>

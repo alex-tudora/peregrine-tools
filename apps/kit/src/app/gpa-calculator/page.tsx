@@ -96,6 +96,7 @@ export default function GpaCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate percentages?", description: "Convert grades to percentages", href: "/percentage-calculator" }}
       >
         <GpaCalculatorTool />
       </ToolLayout>

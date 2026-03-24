@@ -113,6 +113,7 @@ export default function RotatePdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Compress the PDF?", description: "Reduce file size after rotating", href: "/compress-pdf" }}
       >
         <RotatePdfTool />
       </ToolLayout>

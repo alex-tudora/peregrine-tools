@@ -102,6 +102,7 @@ export default function OpenGraphPreviewPage() {
           { name: "Sitemap Generator", href: "/sitemap-generator" },
           { name: "QR Code Generator", href: "/qr-code-generator" },
         ]}
+        nextStep={{ label: "Generate meta tags?", description: "Create optimized meta tags", href: "/meta-tag-generator" }}
       >
         <OpenGraphPreviewTool />
       </ToolLayout>

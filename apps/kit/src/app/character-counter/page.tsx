@@ -110,6 +110,7 @@ export default function CharacterCounterPage() {
           { name: "Text to Slug", href: "/text-to-slug" },
           { name: "Remove Duplicates", href: "/remove-duplicates" },
         ]}
+        nextStep={{ label: "Count words too?", description: "Get detailed word and sentence stats", href: "/word-counter" }}
       >
         <CharacterCounterTool />
       </ToolLayout>

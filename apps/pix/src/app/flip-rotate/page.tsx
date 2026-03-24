@@ -117,6 +117,7 @@ export default function FlipRotatePage() {
             href: "https://peregrinepdf.com/rotate-pdf",
           },
         ]}
+        nextStep={{ label: "Resize the image?", description: "Scale to exact dimensions", href: "/resize-image" }}
       >
         <FlipRotateTool />
       </ToolLayout>

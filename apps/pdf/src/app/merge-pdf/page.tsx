@@ -112,6 +112,7 @@ export default function MergePdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Reduce file size?", description: "Compress the merged PDF to save space", href: "/compress-pdf" }}
       >
         <MergePdfTool />
       </ToolLayout>

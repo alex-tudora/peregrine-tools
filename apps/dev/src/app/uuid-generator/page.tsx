@@ -109,6 +109,7 @@ export default function UuidGeneratorPage() {
           { name: "Timestamp Converter", href: "/timestamp-converter" },
           { name: "URL Encode/Decode", href: "/url-encode" },
         ]}
+        nextStep={{ label: "Generate a hash?", description: "Create MD5, SHA-1, or SHA-256 hashes", href: "/hash-generator" }}
       >
         <UuidGeneratorTool />
       </ToolLayout>

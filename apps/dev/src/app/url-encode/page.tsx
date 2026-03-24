@@ -112,6 +112,7 @@ export default function UrlEncodePage() {
           { name: "Hash Generator", href: "/hash-generator" },
           { name: "UUID Generator", href: "/uuid-generator" },
         ]}
+        nextStep={{ label: "Base64 encode?", description: "Encode data for transport", href: "/base64" }}
       >
         <UrlEncodeTool />
       </ToolLayout>

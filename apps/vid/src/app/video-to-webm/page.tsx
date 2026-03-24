@@ -107,6 +107,7 @@ export default function VideoToWebmPage() {
           { name: "Video to GIF", href: "/video-to-gif" },
           { name: "Trim Video", href: "/trim-video" },
         ]}
+        nextStep={{ label: "Compress the video?", description: "Reduce WebM file size", href: "/compress-video" }}
       >
         <VideoToWebmTool />
       </ToolLayout>

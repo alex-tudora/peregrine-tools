@@ -104,6 +104,7 @@ export default function HtmlMinifierPage() {
           { name: "HTML to Markdown", href: "https://peregrinekit.com/html-to-markdown" },
           { name: "Diff Checker", href: "/diff-checker" },
         ]}
+        nextStep={{ label: "Minify CSS too?", description: "Reduce CSS file size", href: "/css-minifier" }}
       >
         <HtmlMinifierTool />
       </ToolLayout>

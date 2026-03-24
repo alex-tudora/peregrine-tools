@@ -112,6 +112,7 @@ export default function ReadabilityScorePage() {
           { name: "Case Converter", href: "/case-converter" },
           { name: "Lorem Ipsum Generator", href: "/lorem-ipsum-generator" },
         ]}
+        nextStep={{ label: "Count words?", description: "Get detailed word statistics", href: "/word-counter" }}
       >
         <ReadabilityScoreTool />
       </ToolLayout>

@@ -102,6 +102,7 @@ export default function CronBuilderPage() {
           { name: "JSON Formatter", href: "/json-formatter" },
           { name: "UUID Generator", href: "/uuid-generator" },
         ]}
+        nextStep={{ label: "Check a timestamp?", description: "Convert between timestamp formats", href: "/timestamp-converter" }}
       >
         <CronBuilderTool />
       </ToolLayout>

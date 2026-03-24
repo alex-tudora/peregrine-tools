@@ -1,10 +1,16 @@
 import { saveAs } from "file-saver";
 
+function brandFilename(filename: string): string {
+  const dot = filename.lastIndexOf(".");
+  if (dot === -1) return `${filename}-peregrine`;
+  return `${filename.slice(0, dot)}-peregrine${filename.slice(dot)}`;
+}
+
 /**
  * Trigger a browser download for a single blob.
  */
 export function downloadBlob(blob: Blob, filename: string): void {
-  saveAs(blob, filename);
+  saveAs(blob, brandFilename(filename));
 }
 
 /**

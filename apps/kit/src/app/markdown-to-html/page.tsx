@@ -110,6 +110,7 @@ export default function MarkdownToHtmlPage() {
           { name: "Lorem Ipsum Generator", href: "/lorem-ipsum-generator" },
           { name: "Meta Tag Generator", href: "/meta-tag-generator" },
         ]}
+        nextStep={{ label: "Convert back?", description: "Turn HTML back into Markdown", href: "/html-to-markdown" }}
       >
         <MarkdownToHtmlTool />
       </ToolLayout>

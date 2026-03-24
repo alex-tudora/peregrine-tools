@@ -106,6 +106,7 @@ export default function ConvertToMp3Page() {
           { name: "Compress Audio", href: "/compress-audio" },
           { name: "Video to MP3", href: "/video-to-mp3" },
         ]}
+        nextStep={{ label: "Compress the MP3?", description: "Reduce file size while keeping quality", href: "/compress-audio" }}
       >
         <ConvertToMp3Tool />
       </ToolLayout>

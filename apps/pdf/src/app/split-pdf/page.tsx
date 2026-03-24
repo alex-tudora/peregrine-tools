@@ -112,6 +112,7 @@ export default function SplitPdfPage() {
           { name: "Rotate PDF", href: "/rotate-pdf" },
           { name: "PDF to JPG", href: "/pdf-to-jpg" },
         ]}
+        nextStep={{ label: "Need to merge later?", description: "Combine PDF files back into one document", href: "/merge-pdf" }}
       >
         <SplitPdfTool />
       </ToolLayout>

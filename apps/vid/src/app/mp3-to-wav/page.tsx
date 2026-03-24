@@ -106,6 +106,7 @@ export default function Mp3ToWavPage() {
           { name: "Extract Audio", href: "/extract-audio" },
           { name: "Compress Audio", href: "/compress-audio" },
         ]}
+        nextStep={{ label: "Trim the audio?", description: "Cut to the exact segment you need", href: "/trim-video" }}
       >
         <Mp3ToWavTool />
       </ToolLayout>

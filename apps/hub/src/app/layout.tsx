@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine Tools",
-  description:
-    "The fastest free online tools. Convert, compress, and edit any file instantly in your browser. PDF, images, video, audio, text, and developer tools. No sign-up required.",
-  siteUrl: "https://peregrine-tools.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine Tools",
+    description:
+      "The fastest free online tools. Convert, compress, and edit any file instantly in your browser. PDF, images, video, audio, text, and developer tools. No sign-up required.",
+    siteUrl: "https://peregrine-tools.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine Tools",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#2563EB" };
 

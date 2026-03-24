@@ -94,6 +94,7 @@ export default function SalaryCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate percentages?", description: "Figure out tax percentages", href: "/percentage-calculator" }}
       >
         <SalaryCalculatorTool />
       </ToolLayout>

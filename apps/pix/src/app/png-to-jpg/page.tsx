@@ -111,6 +111,7 @@ export default function PngToJpgPage() {
             href: "https://peregrinepdf.com/pdf-to-jpg",
           },
         ]}
+        nextStep={{ label: "Compress the JPG?", description: "Reduce file size further", href: "/compress-image" }}
       >
         <PngToJpgTool />
       </ToolLayout>

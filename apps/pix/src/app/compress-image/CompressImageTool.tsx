@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { Dropzone, DownloadButton, BeforeAfterComparison } from "@peregrine/ui";
 import { compressImage, type CompressOptions } from "@/lib/compress";
-import { downloadBlob, formatFileSize, readFileAsDataUrl } from "@/lib/download";
+import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl } from "@/lib/download";
 
 type OutputFormat = "jpeg" | "png" | "webp";
 
@@ -19,256 +19,322 @@ const FORMAT_EXTENSIONS: Record<OutputFormat, string> = {
   webp: "webp",
 };
 
+interface FileEntry {
+  file: File;
+  preview: string;
+  resultBlob: Blob | null;
+  resultPreview: string | null;
+  status: "pending" | "processing" | "done" | "error";
+  error?: string;
+}
+
 export default function CompressImageTool() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [entries, setEntries] = useState<FileEntry[]>([]);
   const [quality, setQuality] = useState(0.7);
   const [format, setFormat] = useState<OutputFormat>("jpeg");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFiles = useCallback(async (files: File[]) => {
-    const selected = files[0];
-    if (!selected) return;
-
     setError(null);
-    setResultBlob(null);
 
-    try {
-      const dataUrl = await readFileAsDataUrl(selected);
-      setFile(selected);
-      setPreview(dataUrl);
-    } catch {
-      setError("Failed to read the selected file. Please try again.");
+    const newEntries: FileEntry[] = [];
+    for (const file of files) {
+      try {
+        const preview = await readFileAsDataUrl(file);
+        newEntries.push({ file, preview, resultBlob: null, resultPreview: null, status: "pending" });
+      } catch {
+        // skip unreadable files
+      }
     }
+
+    if (newEntries.length === 0) {
+      setError("Failed to read the selected files. Please try again.");
+      return;
+    }
+
+    setEntries((prev) => [...prev, ...newEntries]);
   }, []);
 
   const handleCompress = useCallback(async () => {
-    if (!file) return;
-
     setIsProcessing(true);
-    setResultBlob(null);
     setError(null);
 
-    try {
-      const options: CompressOptions = { quality, format };
-      const result = await compressImage(file, options);
-      setResultBlob(result.blob);
-    } catch {
-      setError("Compression failed. The file may be corrupted or unsupported.");
-    } finally {
-      setIsProcessing(false);
+    const options: CompressOptions = { quality, format };
+
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].status === "done") continue;
+
+      setEntries((prev) =>
+        prev.map((e, j) => (j === i ? { ...e, status: "processing" } : e))
+      );
+
+      try {
+        const result = await compressImage(entries[i].file, options);
+        const resultPreview = URL.createObjectURL(result.blob);
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, resultBlob: result.blob, resultPreview, status: "done" } : e
+          )
+        );
+      } catch {
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, status: "error", error: "Compression failed" } : e
+          )
+        );
+      }
     }
-  }, [file, quality, format]);
 
-  const handleDownload = useCallback(() => {
-    if (!resultBlob || !file) return;
+    setIsProcessing(false);
+  }, [entries, quality, format]);
 
-    const baseName = file.name.replace(/\.[^.]+$/, "");
+  const doneEntries = useMemo(() => entries.filter((e) => e.status === "done"), [entries]);
+  const allDone = entries.length > 0 && doneEntries.length === entries.length;
+  const hasResults = doneEntries.length > 0;
+
+  const totalReduction = useMemo(() => {
+    if (doneEntries.length === 0) return 0;
+    const originalTotal = doneEntries.reduce((sum, e) => sum + e.file.size, 0);
+    const compressedTotal = doneEntries.reduce((sum, e) => sum + (e.resultBlob?.size ?? 0), 0);
+    return Math.round(((originalTotal - compressedTotal) / originalTotal) * 100);
+  }, [doneEntries]);
+
+  const handleDownload = useCallback(
+    (entry: FileEntry) => {
+      if (!entry.resultBlob) return;
+      const baseName = entry.file.name.replace(/\.[^.]+$/, "");
+      const ext = FORMAT_EXTENSIONS[format];
+      downloadBlob(entry.resultBlob, `${baseName}-compressed.${ext}`);
+    },
+    [format]
+  );
+
+  const handleDownloadAll = useCallback(async () => {
     const ext = FORMAT_EXTENSIONS[format];
-    downloadBlob(resultBlob, `${baseName}-compressed.${ext}`);
-  }, [resultBlob, file, format]);
+    const files = doneEntries.map((entry) => ({
+      data: entry.resultBlob!,
+      name: `${entry.file.name.replace(/\.[^.]+$/, "")}-compressed.${ext}`,
+    }));
+    await downloadAsZip(files, "compressed-images.zip");
+  }, [doneEntries, format]);
 
   const handleReset = useCallback(() => {
-    setFile(null);
-    setPreview(null);
+    setEntries([]);
     setQuality(0.7);
     setFormat("jpeg");
     setIsProcessing(false);
-    setResultBlob(null);
     setError(null);
   }, []);
 
-  const reductionPercent = useMemo(() => {
-    if (!file || !resultBlob) return 0;
-    return Math.round(((file.size - resultBlob.size) / file.size) * 100);
-  }, [file, resultBlob]);
+  const handleRemove = useCallback((index: number) => {
+    setEntries((prev) => prev.filter((_, i) => i !== index));
+  }, []);
 
   return (
     <div className="space-y-6">
-      {/* Dropzone — only visible when no file is loaded */}
-      {!file && (
+      {/* Dropzone — always visible to add more files */}
+      {!isProcessing && !allDone && (
         <Dropzone
           accept={[".jpg", ".jpeg", ".png", ".webp"]}
-          multiple={false}
+          multiple={true}
           onFiles={handleFiles}
-          label="Drop your image file here"
+          label={entries.length === 0 ? "Drop your image files here" : "Drop more images to add"}
         />
       )}
 
-      {/* File info + controls */}
-      {file && preview && (
+      {/* Files + controls */}
+      {entries.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
-          {/* Uploaded file summary */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
-                {file.name}
+          {/* File list */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-slate-900">
+                {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
-                {formatFileSize(file.size)}
-              </p>
+              {!isProcessing && (
+                <button
+                  onClick={handleReset}
+                  className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                >
+                  Clear all
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleReset}
-              disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Change file
-            </button>
-          </div>
 
-          {/* Image preview */}
-          <div className="mt-4 flex justify-center">
-            <img
-              src={preview}
-              alt="Original"
-              className="max-h-64 rounded-lg border border-slate-100 object-contain"
-            />
+            <div className="max-h-48 overflow-y-auto space-y-1.5">
+              {entries.map((entry, i) => (
+                <div
+                  key={`${entry.file.name}-${i}`}
+                  className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2"
+                >
+                  <img
+                    src={entry.preview}
+                    alt=""
+                    className="h-8 w-8 shrink-0 rounded object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-slate-900">{entry.file.name}</p>
+                    <p className="text-[10px] text-slate-500">
+                      {formatFileSize(entry.file.size)}
+                      {entry.status === "done" && entry.resultBlob && (
+                        <span className="text-emerald-600">
+                          {" → "}{formatFileSize(entry.resultBlob.size)}
+                          {" ("}-{Math.round(((entry.file.size - entry.resultBlob.size) / entry.file.size) * 100)}%{")"}
+                        </span>
+                      )}
+                      {entry.status === "processing" && (
+                        <span className="text-[color:var(--color-accent)]"> Compressing...</span>
+                      )}
+                      {entry.status === "error" && (
+                        <span className="text-red-500"> Failed</span>
+                      )}
+                    </p>
+                  </div>
+                  {!isProcessing && entry.status !== "processing" && (
+                    <button
+                      onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
+                      className="shrink-0 text-xs font-medium text-slate-500 hover:text-slate-700"
+                    >
+                      {entry.status === "done" ? "↓" : "✕"}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Quality slider */}
-          <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
-              Quality: {quality.toFixed(1)}
-            </legend>
-            <input
-              type="range"
-              min="0.1"
-              max="1"
-              step="0.1"
-              value={quality}
-              onChange={(e) => setQuality(parseFloat(e.target.value))}
-              className="w-full accent-violet-500"
-            />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
-              <span>Smaller file</span>
-              <span>Higher quality</span>
-            </div>
-          </fieldset>
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+                Quality: {quality.toFixed(1)}
+              </legend>
+              <input
+                type="range"
+                min="0.1"
+                max="1"
+                step="0.1"
+                value={quality}
+                onChange={(e) => setQuality(parseFloat(e.target.value))}
+                className="w-full accent-[color:var(--color-accent)]"
+              />
+              <div className="mt-1 flex justify-between text-xs text-slate-400">
+                <span>Smaller file</span>
+                <span>Higher quality</span>
+              </div>
+            </fieldset>
+          )}
 
           {/* Output format selector */}
-          <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
-              Output format
-            </legend>
-            <div className="grid grid-cols-3 gap-2.5">
-              {FORMAT_OPTIONS.map((option) => {
-                const isSelected = format === option.value;
-                return (
-                  <label
-                    key={option.value}
-                    className={`
-                      flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
-                      ${
-                        isSelected
-                          ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                          : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
-                      }
-                    `}
-                  >
-                    <input
-                      type="radio"
-                      name="format"
-                      value={option.value}
-                      checked={isSelected}
-                      onChange={() => setFormat(option.value)}
-                      className="sr-only"
-                    />
-                    {option.label}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+                Output format
+              </legend>
+              <div className="grid grid-cols-3 gap-2.5">
+                {FORMAT_OPTIONS.map((option) => {
+                  const isSelected = format === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`
+                        flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
+                        ${
+                          isSelected
+                            ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] ring-1 ring-[color:var(--color-accent-glow)]"
+                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                        }
+                      `}
+                    >
+                      <input
+                        type="radio"
+                        name="format"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => setFormat(option.value)}
+                        className="sr-only"
+                      />
+                      {option.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {/* Compress button */}
-          {!resultBlob && (
+          {!allDone && (
             <button
               onClick={handleCompress}
-              disabled={isProcessing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-violet-500/25 transition-all duration-200 hover:bg-violet-600 hover:shadow-md hover:shadow-violet-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-violet-500"
+              disabled={isProcessing || entries.length === 0}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             >
               {isProcessing ? (
                 <>
-                  <svg
-                    className="h-4 w-4 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
+                  <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Compressing...
+                  Compressing {doneEntries.length + 1} of {entries.length}...
                 </>
               ) : (
-                "Compress Image"
+                `Compress ${entries.length} Image${entries.length !== 1 ? "s" : ""}`
               )}
             </button>
           )}
 
           {/* Results */}
-          {resultBlob && (
+          {allDone && (
             <div className="mt-5 space-y-4">
-              {/* Size comparison */}
+              {/* Before/after for single file */}
+              {entries.length === 1 && entries[0].resultPreview && (
+                <BeforeAfterComparison
+                  beforeSrc={entries[0].preview}
+                  afterSrc={entries[0].resultPreview}
+                  beforeSize={formatFileSize(entries[0].file.size)}
+                  afterSize={formatFileSize(entries[0].resultBlob!.size)}
+                />
+              )}
+
+              {/* Total summary */}
               <div className="rounded-lg bg-slate-50 p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Original size</span>
-                  <span className="font-medium text-slate-900">
-                    {formatFileSize(file.size)}
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Compressed size</span>
-                  <span className="font-medium text-slate-900">
-                    {formatFileSize(resultBlob.size)}
-                  </span>
-                </div>
-                <div className="mt-3 border-t border-slate-200 pt-3 flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700">
-                    Reduction
+                  <span className="text-slate-600">
+                    {entries.length} file{entries.length !== 1 ? "s" : ""} compressed
                   </span>
                   <span
                     className={`text-lg font-bold ${
-                      reductionPercent > 0
-                        ? "text-emerald-600"
-                        : "text-amber-600"
+                      totalReduction > 0 ? "text-emerald-600" : "text-amber-600"
                     }`}
                   >
-                    {reductionPercent > 0
-                      ? `Reduced by ${reductionPercent}%`
-                      : reductionPercent === 0
-                        ? "No size change"
-                        : `Increased by ${Math.abs(reductionPercent)}%`}
+                    {totalReduction > 0
+                      ? `Reduced by ${totalReduction}%`
+                      : "No size change"}
                   </span>
                 </div>
               </div>
 
-              {/* Download + reset actions */}
+              {/* Download actions */}
               <div className="flex flex-col gap-3 sm:flex-row">
-                <DownloadButton
-                  onClick={handleDownload}
-                  label="Download Compressed Image"
-                  className="flex-1"
-                />
+                {entries.length > 1 ? (
+                  <DownloadButton
+                    onClick={handleDownloadAll}
+                    label="Download All as ZIP"
+                    className="flex-1"
+                  />
+                ) : (
+                  <DownloadButton
+                    onClick={() => handleDownload(entries[0])}
+                    label="Download Compressed Image"
+                    className="flex-1"
+                  />
+                )}
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
-                  Compress another
+                  Compress more
                 </button>
               </div>
             </div>

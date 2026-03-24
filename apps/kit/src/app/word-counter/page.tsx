@@ -111,6 +111,7 @@ export default function WordCounterPage() {
           { name: "Case Converter", href: "/case-converter" },
           { name: "Remove Line Breaks", href: "/remove-line-breaks" },
         ]}
+        nextStep={{ label: "Check readability?", description: "Analyze reading level and complexity", href: "/readability-score" }}
       >
         <WordCounterTool />
       </ToolLayout>

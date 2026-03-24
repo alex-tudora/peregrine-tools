@@ -118,6 +118,7 @@ export default function CropImagePage() {
           { name: "Flip & Rotate", href: "/flip-rotate" },
           { name: "Add Watermark", href: "/add-watermark" },
         ]}
+        nextStep={{ label: "Resize to exact dimensions?", description: "Scale the cropped image to any size", href: "/resize-image" }}
       >
         <CropImageTool />
       </ToolLayout>

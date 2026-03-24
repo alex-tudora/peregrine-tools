@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine Dev",
-  description:
-    "Free online developer tools. JSON formatter, regex tester, base64 encoder, hash generator, and more. No sign-up required.",
-  siteUrl: "https://peregrinedev.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine Dev",
+    description:
+      "Free online developer tools. JSON formatter, regex tester, base64 encoder, hash generator, and more. No sign-up required.",
+    siteUrl: "https://peregrinedev.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine Dev",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#D97706" };
 

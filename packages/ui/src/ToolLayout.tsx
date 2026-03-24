@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { AdPlacement } from "./AdPlacement";
+import { PwaInstallPrompt } from "./PwaInstallPrompt";
 
 interface FAQ {
   question: string;
@@ -10,6 +11,12 @@ interface FAQ {
 
 interface RelatedTool {
   name: string;
+  href: string;
+}
+
+interface NextStep {
+  label: string;
+  description: string;
   href: string;
 }
 
@@ -22,6 +29,7 @@ interface ToolLayoutProps {
   faqs?: FAQ[];
   relatedTools?: RelatedTool[];
   keyword?: string;
+  nextStep?: NextStep;
 }
 
 function FAQItem({ question, answer }: FAQ) {
@@ -65,6 +73,47 @@ function FAQItem({ question, answer }: FAQ) {
   );
 }
 
+function ShareButton({ toolName }: { toolName: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const text = `Free tool: ${toolName} — 100% private, no upload required!`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: toolName, text, url });
+        return;
+      } catch {
+        // User cancelled or API unavailable — fall through to clipboard
+      }
+    }
+
+    await navigator.clipboard.writeText(`${text}\n${url}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] hover:text-[color:var(--color-text-primary)]"
+    >
+      {copied ? (
+        <>
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+          Copied!
+        </>
+      ) : (
+        <>
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+          Share this tool
+        </>
+      )}
+    </button>
+  );
+}
+
 export function ToolLayout({
   title,
   subtitle,
@@ -74,6 +123,7 @@ export function ToolLayout({
   faqs = [],
   relatedTools = [],
   keyword,
+  nextStep,
 }: ToolLayoutProps) {
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -91,6 +141,35 @@ export function ToolLayout({
       <div className="mt-10 animate-slide-up delay-2">
         {children}
       </div>
+
+      {/* Next step suggestion + share */}
+      {nextStep && (
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <a
+            href={nextStep.href}
+            className="group flex items-center gap-3 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-5 py-3.5 transition-all hover:border-[color:var(--color-accent)] hover:shadow-sm"
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)] group-hover:text-[color:var(--color-accent)]">
+                {nextStep.label}
+              </p>
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
+                {nextStep.description}
+              </p>
+            </div>
+            <svg className="h-4 w-4 shrink-0 text-[color:var(--color-text-muted)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </a>
+          <ShareButton toolName={title} />
+        </div>
+      )}
+      {!nextStep && (
+        <div className="mt-6 flex justify-end">
+          <ShareButton toolName={title} />
+        </div>
+      )}
+
+      {/* PWA install prompt */}
+      <PwaInstallPrompt />
 
       {/* Ad placement */}
       <AdPlacement className="mt-12" />

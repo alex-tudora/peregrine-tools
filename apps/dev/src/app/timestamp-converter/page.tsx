@@ -103,6 +103,7 @@ export default function TimestampConverterPage() {
           { name: "UUID Generator", href: "/uuid-generator" },
           { name: "Timezone Converter", href: "https://peregrinekit.com/timezone-converter" },
         ]}
+        nextStep={{ label: "Build a cron schedule?", description: "Create cron expressions visually", href: "/cron-builder" }}
       >
         <TimestampConverterTool />
       </ToolLayout>

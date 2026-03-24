@@ -111,6 +111,7 @@ export default function HtmlToMarkdownPage() {
           { name: "Find & Replace", href: "/find-and-replace" },
           { name: "Heading Checker", href: "/heading-checker" },
         ]}
+        nextStep={{ label: "Convert back?", description: "Turn Markdown back into HTML", href: "/markdown-to-html" }}
       >
         <HtmlToMarkdownTool />
       </ToolLayout>

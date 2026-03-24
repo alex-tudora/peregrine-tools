@@ -113,6 +113,7 @@ export default function PdfToPngPage() {
             href: "https://peregrinepix.com/compress-image",
           },
         ]}
+        nextStep={{ label: "Compress the images?", description: "Reduce PNG file sizes without losing quality", href: "https://peregrinepix.com/compress-image" }}
       >
         <PdfToPngTool />
       </ToolLayout>

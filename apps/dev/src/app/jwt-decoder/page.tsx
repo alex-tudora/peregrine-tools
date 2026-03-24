@@ -102,6 +102,7 @@ export default function JwtDecoderPage() {
           { name: "JSON Formatter", href: "/json-formatter" },
           { name: "URL Encode/Decode", href: "/url-encode" },
         ]}
+        nextStep={{ label: "Base64 decode payload?", description: "Decode the JWT payload separately", href: "/base64" }}
       >
         <JwtDecoderTool />
       </ToolLayout>

@@ -111,6 +111,7 @@ export default function LoremIpsumGeneratorPage() {
           { name: "Markdown to HTML", href: "/markdown-to-html" },
           { name: "Text Diff", href: "/text-diff" },
         ]}
+        nextStep={{ label: "Count the words?", description: "Check word and character counts", href: "/word-counter" }}
       >
         <LoremIpsumGeneratorTool />
       </ToolLayout>

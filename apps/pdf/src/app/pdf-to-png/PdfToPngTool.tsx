@@ -10,6 +10,7 @@ export function PdfToPngTool() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [images, setImages] = useState<RenderedPage[]>([]);
+  const [resolution, setResolution] = useState(2);
   const [error, setError] = useState<string | null>(null);
   const previewUrlsRef = useRef<string[]>([]);
 
@@ -49,7 +50,7 @@ export function PdfToPngTool() {
       const buffer = await readFileAsArrayBuffer(file);
       setProgress(30);
 
-      const rendered = await pdfToImages(buffer, "png", 1.0);
+      const rendered = await pdfToImages(buffer, "png", 1.0, resolution);
       setProgress(90);
 
       // Create preview URLs
@@ -63,7 +64,7 @@ export function PdfToPngTool() {
     } finally {
       setIsProcessing(false);
     }
-  }, [file, revokeUrls]);
+  }, [file, resolution, revokeUrls]);
 
   const handleDownloadSingle = useCallback(
     (image: RenderedPage) => {
@@ -126,6 +127,45 @@ export function PdfToPngTool() {
               Remove
             </button>
           </div>
+
+          {/* Resolution selector */}
+          <fieldset className="mt-5">
+            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+              Resolution
+            </legend>
+            <div className="grid grid-cols-3 gap-2.5">
+              {[
+                { value: 1, label: "Standard", desc: "1×" },
+                { value: 2, label: "High", desc: "2×" },
+                { value: 3, label: "Ultra", desc: "3×" },
+              ].map((opt) => {
+                const isSelected = resolution === opt.value;
+                return (
+                  <label
+                    key={opt.value}
+                    className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
+                      isSelected
+                        ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
+                        : "border-slate-200 bg-white hover:border-slate-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="resolution"
+                      value={opt.value}
+                      checked={isSelected}
+                      onChange={() => setResolution(opt.value)}
+                      className="sr-only"
+                    />
+                    <span className={`text-sm font-semibold ${isSelected ? "text-[color:var(--color-accent)]" : "text-slate-800"}`}>
+                      {opt.label}
+                    </span>
+                    <span className="text-xs text-slate-500">{opt.desc}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
 
           {/* Progress bar */}
           {isProcessing && <ProgressBar progress={progress} className="mt-5" />}

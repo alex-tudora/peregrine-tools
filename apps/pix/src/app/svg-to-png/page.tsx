@@ -112,6 +112,7 @@ export default function SvgToPngPage() {
           { name: "Compress Image", href: "/compress-image" },
           { name: "Favicon Generator", href: "/favicon-generator" },
         ]}
+        nextStep={{ label: "Resize the PNG?", description: "Scale to exact dimensions", href: "/resize-image" }}
       >
         <SvgToPngTool />
       </ToolLayout>

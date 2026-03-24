@@ -106,6 +106,7 @@ export default function WavToMp3Page() {
           { name: "Compress Audio", href: "/compress-audio" },
           { name: "Extract Audio", href: "/extract-audio" },
         ]}
+        nextStep={{ label: "Compress the MP3?", description: "Reduce file size further", href: "/compress-audio" }}
       >
         <WavToMp3Tool />
       </ToolLayout>

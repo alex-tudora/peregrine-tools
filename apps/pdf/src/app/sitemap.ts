@@ -34,6 +34,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    ...['/blog/how-to-reduce-pdf-file-size', '/blog/merge-pdf-files-guide', '/blog/pdf-vs-image-formats'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...['/compare/ilovepdf', '/compare/smallpdf'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    {
       url: `${baseUrl}/privacy`,
       lastModified,
       changeFrequency: 'monthly',

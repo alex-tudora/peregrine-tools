@@ -113,6 +113,7 @@ export default function ImageToBase64Page() {
           { name: "SVG to PNG", href: "/svg-to-png" },
           { name: "Favicon Generator", href: "/favicon-generator" },
         ]}
+        nextStep={{ label: "Compress first?", description: "Reduce image size before encoding", href: "/compress-image" }}
       >
         <ImageToBase64Tool />
       </ToolLayout>

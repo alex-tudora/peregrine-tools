@@ -114,6 +114,7 @@ export default function FaviconGeneratorPage() {
           { name: "Compress Image", href: "/compress-image" },
           { name: "Image to Base64", href: "/image-to-base64" },
         ]}
+        nextStep={{ label: "Compress your images?", description: "Optimize images for faster page loads", href: "/compress-image" }}
       >
         <FaviconGeneratorTool />
       </ToolLayout>

@@ -113,6 +113,7 @@ export default function PdfToJpgPage() {
             href: "https://peregrinepix.com/compress-image",
           },
         ]}
+        nextStep={{ label: "Compress the images?", description: "Reduce image file sizes without losing quality", href: "https://peregrinepix.com/compress-image" }}
       >
         <PdfToJpgTool />
       </ToolLayout>

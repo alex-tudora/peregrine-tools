@@ -95,6 +95,7 @@ export default function UnitConverterPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate percentages?", description: "Quick percentage calculations", href: "/percentage-calculator" }}
       >
         <UnitConverterTool />
       </ToolLayout>

@@ -95,6 +95,7 @@ export default function TimezoneConverterPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate date difference?", description: "Find the gap between two dates", href: "/date-difference" }}
       >
         <TimezoneConverterTool />
       </ToolLayout>

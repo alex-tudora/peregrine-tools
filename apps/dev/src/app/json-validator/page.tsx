@@ -110,6 +110,7 @@ export default function JsonValidatorPage() {
           { name: "CSV to JSON", href: "/csv-to-json" },
           { name: "Regex Tester", href: "/regex-tester" },
         ]}
+        nextStep={{ label: "Format the JSON?", description: "Pretty-print with proper indentation", href: "/json-formatter" }}
       >
         <JsonValidatorTool />
       </ToolLayout>

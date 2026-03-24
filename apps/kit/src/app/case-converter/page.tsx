@@ -111,6 +111,7 @@ export default function CaseConverterPage() {
           { name: "Remove Line Breaks", href: "/remove-line-breaks" },
           { name: "Character Counter", href: "/character-counter" },
         ]}
+        nextStep={{ label: "Convert to slug?", description: "Generate a URL-friendly slug", href: "/text-to-slug" }}
       >
         <CaseConverterTool />
       </ToolLayout>

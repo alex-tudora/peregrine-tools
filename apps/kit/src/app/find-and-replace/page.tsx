@@ -110,6 +110,7 @@ export default function FindAndReplacePage() {
           { name: "Case Converter", href: "/case-converter" },
           { name: "Word Counter", href: "/word-counter" },
         ]}
+        nextStep={{ label: "Compare the diff?", description: "See what changed side by side", href: "/text-diff" }}
       >
         <FindAndReplaceTool />
       </ToolLayout>

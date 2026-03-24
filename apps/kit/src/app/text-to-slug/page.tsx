@@ -111,6 +111,7 @@ export default function TextToSlugPage() {
           { name: "URL Encode/Decode", href: "https://peregrinedev.com/url-encode" },
           { name: "Meta Tag Generator", href: "/meta-tag-generator" },
         ]}
+        nextStep={{ label: "Build a UTM link?", description: "Add campaign tracking to your URL", href: "/utm-builder" }}
       >
         <TextToSlugTool />
       </ToolLayout>

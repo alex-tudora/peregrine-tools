@@ -108,6 +108,7 @@ export default function JsonFormatterPage() {
           { name: "SQL Formatter", href: "/sql-formatter" },
           { name: "Diff Checker", href: "/diff-checker" },
         ]}
+        nextStep={{ label: "Validate the JSON?", description: "Check for syntax errors and structural issues", href: "/json-validator" }}
       >
         <JsonFormatterTool />
       </ToolLayout>

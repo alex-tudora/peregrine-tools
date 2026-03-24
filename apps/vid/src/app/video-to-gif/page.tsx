@@ -107,6 +107,7 @@ export default function VideoToGifPage() {
           { name: "Video to MP4", href: "/convert-to-mp4" },
           { name: "Video to WebM", href: "/video-to-webm" },
         ]}
+        nextStep={{ label: "Trim the source video?", description: "Cut to the exact clip you want", href: "/trim-video" }}
       >
         <VideoToGifTool />
       </ToolLayout>

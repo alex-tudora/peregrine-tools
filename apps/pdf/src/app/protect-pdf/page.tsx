@@ -122,6 +122,7 @@ export default function ProtectPdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Add a watermark?", description: "Add visual watermark to your protected PDF", href: "/watermark-pdf" }}
       >
         <ProtectPdfTool />
       </ToolLayout>

@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine Pix",
-  description:
-    "Free online image tools. Compress, resize, crop, convert, and edit images instantly in your browser. No sign-up required.",
-  siteUrl: "https://peregrinepix.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine Pix",
+    description:
+      "Free online image tools. Compress, resize, crop, convert, and edit images instantly in your browser. No sign-up required.",
+    siteUrl: "https://peregrinepix.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine Pix",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#7C3AED" };
 

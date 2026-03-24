@@ -114,6 +114,7 @@ export default function RemoveBackgroundPage() {
           { name: "PNG to JPG", href: "/png-to-jpg" },
           { name: "Add Watermark", href: "/add-watermark" },
         ]}
+        nextStep={{ label: "Convert to PNG?", description: "Save with transparent background", href: "/jpg-to-png" }}
       >
         <RemoveBackgroundTool />
       </ToolLayout>

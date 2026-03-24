@@ -98,6 +98,7 @@ export default function CompoundInterestPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate mortgage?", description: "Estimate monthly payments", href: "/mortgage-calculator" }}
       >
         <CompoundInterestTool />
       </ToolLayout>

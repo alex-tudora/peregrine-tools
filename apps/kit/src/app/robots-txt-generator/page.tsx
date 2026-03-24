@@ -108,6 +108,7 @@ export default function RobotsTxtGeneratorPage() {
           { name: "Heading Checker", href: "/heading-checker" },
           { name: "Open Graph Preview", href: "/open-graph-preview" },
         ]}
+        nextStep={{ label: "Generate a sitemap?", description: "Create an XML sitemap for your site", href: "/sitemap-generator" }}
       >
         <RobotsTxtGeneratorTool />
       </ToolLayout>

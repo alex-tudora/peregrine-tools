@@ -109,6 +109,7 @@ export default function TextDiffPage() {
           { name: "Remove Duplicates", href: "/remove-duplicates" },
           { name: "Character Counter", href: "/character-counter" },
         ]}
+        nextStep={{ label: "Find and replace?", description: "Search and replace text patterns", href: "/find-and-replace" }}
       >
         <TextDiffTool />
       </ToolLayout>

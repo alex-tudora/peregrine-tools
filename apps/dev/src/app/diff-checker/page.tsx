@@ -101,6 +101,7 @@ export default function DiffCheckerPage() {
           { name: "SQL Formatter", href: "/sql-formatter" },
           { name: "Regex Tester", href: "/regex-tester" },
         ]}
+        nextStep={{ label: "Format as JSON?", description: "Pretty-print JSON data", href: "/json-formatter" }}
       >
         <DiffCheckerTool />
       </ToolLayout>

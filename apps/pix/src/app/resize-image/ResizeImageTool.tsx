@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
-import { resizeImage } from "@/lib/resize";
-import { downloadBlob, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { Dropzone, DownloadButton, BeforeAfterComparison } from "@peregrine/ui";
+import { resizeImage, type ResizeOptions } from "@/lib/resize";
+import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
 
 type ResizeMode = "dimensions" | "percentage";
 type OutputFormat = "jpeg" | "png" | "webp";
@@ -20,11 +20,19 @@ const FORMAT_EXTENSIONS: Record<OutputFormat, string> = {
   webp: "webp",
 };
 
+interface FileEntry {
+  file: File;
+  preview: string;
+  originalWidth: number;
+  originalHeight: number;
+  resultBlob: Blob | null;
+  resultPreview: string | null;
+  status: "pending" | "processing" | "done" | "error";
+  error?: string;
+}
+
 export default function ResizeImageTool() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [originalWidth, setOriginalWidth] = useState(0);
-  const [originalHeight, setOriginalHeight] = useState(0);
+  const [entries, setEntries] = useState<FileEntry[]>([]);
 
   const [mode, setMode] = useState<ResizeMode>("dimensions");
   const [width, setWidth] = useState(0);
@@ -34,36 +42,51 @@ export default function ResizeImageTool() {
   const [format, setFormat] = useState<OutputFormat>("png");
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
-  const [resultPreview, setResultPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Aspect ratio derived from the first entry (used for linked dimension inputs)
+  const firstEntry = entries[0] ?? null;
   const aspectRatio =
-    originalWidth > 0 && originalHeight > 0
-      ? originalWidth / originalHeight
+    firstEntry && firstEntry.originalWidth > 0 && firstEntry.originalHeight > 0
+      ? firstEntry.originalWidth / firstEntry.originalHeight
       : 1;
 
   const handleFiles = useCallback(async (files: File[]) => {
-    const selected = files[0];
-    if (!selected) return;
-
     setError(null);
-    setResultBlob(null);
-    setResultPreview(null);
 
-    try {
-      const dataUrl = await readFileAsDataUrl(selected);
-      const img = await loadImage(dataUrl);
-
-      setFile(selected);
-      setPreview(dataUrl);
-      setOriginalWidth(img.width);
-      setOriginalHeight(img.height);
-      setWidth(img.width);
-      setHeight(img.height);
-    } catch {
-      setError("Failed to read the selected file. Please try again.");
+    const newEntries: FileEntry[] = [];
+    for (const file of files) {
+      try {
+        const dataUrl = await readFileAsDataUrl(file);
+        const img = await loadImage(dataUrl);
+        newEntries.push({
+          file,
+          preview: dataUrl,
+          originalWidth: img.width,
+          originalHeight: img.height,
+          resultBlob: null,
+          resultPreview: null,
+          status: "pending",
+        });
+      } catch {
+        // skip unreadable files
+      }
     }
+
+    if (newEntries.length === 0) {
+      setError("Failed to read the selected files. Please try again.");
+      return;
+    }
+
+    setEntries((prev) => {
+      const combined = [...prev, ...newEntries];
+      // When the first file is added, seed width/height from it
+      if (prev.length === 0 && newEntries.length > 0) {
+        setWidth(newEntries[0].originalWidth);
+        setHeight(newEntries[0].originalHeight);
+      }
+      return combined;
+    });
   }, []);
 
   const handleWidthChange = useCallback(
@@ -94,47 +117,73 @@ export default function ResizeImageTool() {
   }, [maintainAspectRatio]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleResize = useCallback(async () => {
-    if (!file) return;
-
     setIsProcessing(true);
-    setResultBlob(null);
-    setResultPreview(null);
     setError(null);
 
-    try {
-      const blob = await resizeImage(file, {
-        ...(mode === "percentage"
-          ? { percentage }
-          : { width, height }),
-        maintainAspectRatio,
-        format,
-        quality: 0.9,
-      });
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].status === "done") continue;
 
-      const url = URL.createObjectURL(blob);
-      setResultBlob(blob);
-      setResultPreview(url);
-    } catch {
-      setError("Resize failed. The file may be corrupted or unsupported.");
-    } finally {
-      setIsProcessing(false);
+      setEntries((prev) =>
+        prev.map((e, j) => (j === i ? { ...e, status: "processing" } : e))
+      );
+
+      try {
+        const blob = await resizeImage(entries[i].file, {
+          ...(mode === "percentage"
+            ? { percentage }
+            : { width, height }),
+          maintainAspectRatio,
+          format,
+          quality: 0.9,
+        });
+
+        const resultPreview = URL.createObjectURL(blob);
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, resultBlob: blob, resultPreview, status: "done" } : e
+          )
+        );
+      } catch {
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, status: "error", error: "Resize failed" } : e
+          )
+        );
+      }
     }
-  }, [file, mode, width, height, percentage, maintainAspectRatio, format]);
 
-  const handleDownload = useCallback(() => {
-    if (!resultBlob || !file) return;
+    setIsProcessing(false);
+  }, [entries, mode, width, height, percentage, maintainAspectRatio, format]);
 
-    const baseName = file.name.replace(/\.[^.]+$/, "");
+  const doneEntries = useMemo(() => entries.filter((e) => e.status === "done"), [entries]);
+  const allDone = entries.length > 0 && doneEntries.length === entries.length;
+  const hasMultiple = entries.length > 1;
+
+  const handleDownload = useCallback(
+    (entry: FileEntry) => {
+      if (!entry.resultBlob) return;
+      const baseName = entry.file.name.replace(/\.[^.]+$/, "");
+      const ext = FORMAT_EXTENSIONS[format];
+      downloadBlob(entry.resultBlob, `${baseName}-resized.${ext}`);
+    },
+    [format]
+  );
+
+  const handleDownloadAll = useCallback(async () => {
     const ext = FORMAT_EXTENSIONS[format];
-    downloadBlob(resultBlob, `${baseName}-resized.${ext}`);
-  }, [resultBlob, file, format]);
+    const files = doneEntries.map((entry) => ({
+      data: entry.resultBlob!,
+      name: `${entry.file.name.replace(/\.[^.]+$/, "")}-resized.${ext}`,
+    }));
+    await downloadAsZip(files, "resized-images.zip");
+  }, [doneEntries, format]);
 
   const handleReset = useCallback(() => {
-    if (resultPreview) URL.revokeObjectURL(resultPreview);
-    setFile(null);
-    setPreview(null);
-    setOriginalWidth(0);
-    setOriginalHeight(0);
+    // Revoke all object URLs
+    for (const entry of entries) {
+      if (entry.resultPreview) URL.revokeObjectURL(entry.resultPreview);
+    }
+    setEntries([]);
     setWidth(0);
     setHeight(0);
     setPercentage(50);
@@ -142,92 +191,124 @@ export default function ResizeImageTool() {
     setMode("dimensions");
     setFormat("png");
     setIsProcessing(false);
-    setResultBlob(null);
-    setResultPreview(null);
     setError(null);
-  }, [resultPreview]);
+  }, [entries]);
+
+  const handleRemove = useCallback((index: number) => {
+    setEntries((prev) => prev.filter((_, i) => i !== index));
+  }, []);
 
   return (
     <div className="space-y-6">
-      {/* Dropzone — only visible when no file is loaded */}
-      {!file && (
+      {/* Dropzone -- always visible to add more files */}
+      {!isProcessing && !allDone && (
         <Dropzone
           accept={[".jpg", ".jpeg", ".png", ".webp"]}
-          multiple={false}
+          multiple={true}
           onFiles={handleFiles}
-          label="Drop your image file here"
+          label={entries.length === 0 ? "Drop your image files here" : "Drop more images to add"}
         />
       )}
 
-      {/* File info + controls */}
-      {file && preview && (
+      {/* Files + controls */}
+      {entries.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
-          {/* Uploaded file summary */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
-                {file.name}
+          {/* File list */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-slate-900">
+                {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
-                {formatFileSize(file.size)} &middot; {originalWidth} &times;{" "}
-                {originalHeight} px
-              </p>
+              {!isProcessing && (
+                <button
+                  onClick={handleReset}
+                  className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                >
+                  Clear all
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleReset}
-              disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Change file
-            </button>
-          </div>
 
-          {/* Image preview */}
-          <div className="mt-4 flex justify-center">
-            <img
-              src={preview}
-              alt="Original"
-              className="max-h-64 rounded-lg border border-slate-100 object-contain"
-            />
+            <div className="max-h-48 overflow-y-auto space-y-1.5">
+              {entries.map((entry, i) => (
+                <div
+                  key={`${entry.file.name}-${i}`}
+                  className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2"
+                >
+                  <img
+                    src={entry.preview}
+                    alt=""
+                    className="h-8 w-8 shrink-0 rounded object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-slate-900">{entry.file.name}</p>
+                    <p className="text-[10px] text-slate-500">
+                      {formatFileSize(entry.file.size)} &middot; {entry.originalWidth} &times; {entry.originalHeight} px
+                      {entry.status === "done" && entry.resultBlob && (
+                        <span className="text-emerald-600">
+                          {" → "}{formatFileSize(entry.resultBlob.size)}
+                        </span>
+                      )}
+                      {entry.status === "processing" && (
+                        <span className="text-violet-500"> Resizing...</span>
+                      )}
+                      {entry.status === "error" && (
+                        <span className="text-red-500"> Failed</span>
+                      )}
+                    </p>
+                  </div>
+                  {!isProcessing && entry.status !== "processing" && (
+                    <button
+                      onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
+                      className="shrink-0 text-xs font-medium text-slate-500 hover:text-slate-700"
+                    >
+                      {entry.status === "done" ? "↓" : "✕"}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Resize mode selector */}
-          <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
-              Resize mode
-            </legend>
-            <div className="grid grid-cols-2 gap-2.5">
-              {(["dimensions", "percentage"] as const).map((m) => {
-                const isSelected = mode === m;
-                return (
-                  <label
-                    key={m}
-                    className={`
-                      flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
-                      ${
-                        isSelected
-                          ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                          : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
-                      }
-                    `}
-                  >
-                    <input
-                      type="radio"
-                      name="resizeMode"
-                      value={m}
-                      checked={isSelected}
-                      onChange={() => setMode(m)}
-                      className="sr-only"
-                    />
-                    {m === "dimensions" ? "By Dimensions" : "By Percentage"}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+                Resize mode
+              </legend>
+              <div className="grid grid-cols-2 gap-2.5">
+                {(["dimensions", "percentage"] as const).map((m) => {
+                  const isSelected = mode === m;
+                  return (
+                    <label
+                      key={m}
+                      className={`
+                        flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
+                        ${
+                          isSelected
+                            ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
+                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                        }
+                      `}
+                    >
+                      <input
+                        type="radio"
+                        name="resizeMode"
+                        value={m}
+                        checked={isSelected}
+                        onChange={() => setMode(m)}
+                        className="sr-only"
+                      />
+                      {m === "dimensions" ? "By Dimensions" : "By Percentage"}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {/* Dimension inputs */}
-          {mode === "dimensions" && (
+          {!allDone && mode === "dimensions" && (
             <div className="mt-5 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -281,7 +362,7 @@ export default function ResizeImageTool() {
           )}
 
           {/* Percentage input */}
-          {mode === "percentage" && (
+          {!allDone && mode === "percentage" && firstEntry && (
             <div className="mt-5">
               <label
                 htmlFor="resize-percentage"
@@ -301,55 +382,62 @@ export default function ResizeImageTool() {
                   }
                   className="w-28 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
-                <span className="text-sm text-slate-500">
-                  %&ensp;&rarr;&ensp;
-                  {Math.round(originalWidth * (percentage / 100))} &times;{" "}
-                  {Math.round(originalHeight * (percentage / 100))} px
-                </span>
+                {!hasMultiple && (
+                  <span className="text-sm text-slate-500">
+                    %&ensp;&rarr;&ensp;
+                    {Math.round(firstEntry.originalWidth * (percentage / 100))} &times;{" "}
+                    {Math.round(firstEntry.originalHeight * (percentage / 100))} px
+                  </span>
+                )}
+                {hasMultiple && (
+                  <span className="text-sm text-slate-500">%</span>
+                )}
               </div>
             </div>
           )}
 
           {/* Output format selector */}
-          <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
-              Output format
-            </legend>
-            <div className="grid grid-cols-3 gap-2.5">
-              {FORMAT_OPTIONS.map((option) => {
-                const isSelected = format === option.value;
-                return (
-                  <label
-                    key={option.value}
-                    className={`
-                      flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
-                      ${
-                        isSelected
-                          ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                          : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
-                      }
-                    `}
-                  >
-                    <input
-                      type="radio"
-                      name="outputFormat"
-                      value={option.value}
-                      checked={isSelected}
-                      onChange={() => setFormat(option.value)}
-                      className="sr-only"
-                    />
-                    {option.label}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+                Output format
+              </legend>
+              <div className="grid grid-cols-3 gap-2.5">
+                {FORMAT_OPTIONS.map((option) => {
+                  const isSelected = format === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`
+                        flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
+                        ${
+                          isSelected
+                            ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
+                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                        }
+                      `}
+                    >
+                      <input
+                        type="radio"
+                        name="outputFormat"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => setFormat(option.value)}
+                        className="sr-only"
+                      />
+                      {option.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {/* Resize button */}
-          {!resultBlob && (
+          {!allDone && (
             <button
               onClick={handleResize}
-              disabled={isProcessing}
+              disabled={isProcessing || entries.length === 0}
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-violet-500/25 transition-all duration-200 hover:bg-violet-600 hover:shadow-md hover:shadow-violet-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-violet-500"
             >
               {isProcessing ? (
@@ -374,55 +462,62 @@ export default function ResizeImageTool() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Resizing...
+                  Resizing {doneEntries.length + 1} of {entries.length}...
                 </>
               ) : (
-                "Resize Image"
+                `Resize ${entries.length} Image${entries.length !== 1 ? "s" : ""}`
               )}
             </button>
           )}
 
           {/* Results */}
-          {resultBlob && resultPreview && (
+          {allDone && (
             <div className="mt-5 space-y-4">
-              {/* Result preview */}
-              <div className="flex justify-center">
-                <img
-                  src={resultPreview}
-                  alt="Resized"
-                  className="max-h-64 rounded-lg border border-slate-100 object-contain"
+              {/* Before/after for single file */}
+              {entries.length === 1 && entries[0].resultPreview && (
+                <BeforeAfterComparison
+                  beforeSrc={entries[0].preview}
+                  afterSrc={entries[0].resultPreview}
+                  beforeSize={formatFileSize(entries[0].file.size)}
+                  afterSize={formatFileSize(entries[0].resultBlob!.size)}
                 />
-              </div>
+              )}
 
-              {/* Size info */}
+              {/* Total summary */}
               <div className="rounded-lg bg-slate-50 p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Original</span>
-                  <span className="font-medium text-slate-900">
-                    {originalWidth} &times; {originalHeight} px &middot;{" "}
-                    {formatFileSize(file.size)}
+                  <span className="text-slate-600">
+                    {entries.length} file{entries.length !== 1 ? "s" : ""} resized
                   </span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Resized</span>
                   <span className="font-medium text-slate-900">
-                    {formatFileSize(resultBlob.size)}
+                    {mode === "dimensions"
+                      ? `${width} × ${height} px`
+                      : `${percentage}%`}
+                    {" · "}{format.toUpperCase()}
                   </span>
                 </div>
               </div>
 
-              {/* Download + reset actions */}
+              {/* Download actions */}
               <div className="flex flex-col gap-3 sm:flex-row">
-                <DownloadButton
-                  onClick={handleDownload}
-                  label="Download Resized Image"
-                  className="flex-1"
-                />
+                {entries.length > 1 ? (
+                  <DownloadButton
+                    onClick={handleDownloadAll}
+                    label="Download All as ZIP"
+                    className="flex-1"
+                  />
+                ) : (
+                  <DownloadButton
+                    onClick={() => handleDownload(entries[0])}
+                    label="Download Resized Image"
+                    className="flex-1"
+                  />
+                )}
                 <button
                   onClick={handleReset}
                   className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                 >
-                  Resize another
+                  Resize more
                 </button>
               </div>
             </div>

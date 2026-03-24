@@ -114,6 +114,7 @@ export default function PngToPdfPage() {
             href: "https://peregrinepix.com/compress-image",
           },
         ]}
+        nextStep={{ label: "Compress the PDF?", description: "Reduce the file size of your new PDF", href: "/compress-pdf" }}
       >
         <PngToPdfTool />
       </ToolLayout>

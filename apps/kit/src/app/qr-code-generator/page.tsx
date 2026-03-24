@@ -108,6 +108,7 @@ export default function QrCodeGeneratorPage() {
           { name: "Image to Base64", href: "https://peregrinepix.com/image-to-base64" },
           { name: "Open Graph Preview", href: "/open-graph-preview" },
         ]}
+        nextStep={{ label: "Build a UTM link?", description: "Add campaign tracking to your URL", href: "/utm-builder" }}
       >
         <QrCodeGeneratorTool />
       </ToolLayout>

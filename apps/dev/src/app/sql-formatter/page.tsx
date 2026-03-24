@@ -100,6 +100,7 @@ export default function SqlFormatterPage() {
           { name: "HTML Minifier", href: "/html-minifier" },
           { name: "Regex Tester", href: "/regex-tester" },
         ]}
+        nextStep={{ label: "Check a diff?", description: "Compare formatted vs original SQL", href: "/diff-checker" }}
       >
         <SqlFormatterTool />
       </ToolLayout>

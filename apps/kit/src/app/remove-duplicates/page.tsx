@@ -110,6 +110,7 @@ export default function RemoveDuplicatesPage() {
           { name: "Word Counter", href: "/word-counter" },
           { name: "Find & Replace", href: "/find-and-replace" },
         ]}
+        nextStep={{ label: "Count remaining lines?", description: "Get word and character stats", href: "/word-counter" }}
       >
         <RemoveDuplicatesTool />
       </ToolLayout>

@@ -98,6 +98,7 @@ export default function MortgageCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Calculate compound interest?", description: "Understand how interest accumulates", href: "/compound-interest" }}
       >
         <MortgageCalculatorTool />
       </ToolLayout>

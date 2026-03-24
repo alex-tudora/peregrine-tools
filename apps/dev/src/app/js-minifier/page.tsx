@@ -101,6 +101,7 @@ export default function JsMinifierPage() {
           { name: "JSON Formatter", href: "/json-formatter" },
           { name: "Diff Checker", href: "/diff-checker" },
         ]}
+        nextStep={{ label: "Minify HTML too?", description: "Reduce HTML file size", href: "/html-minifier" }}
       >
         <JsMinifierTool />
       </ToolLayout>

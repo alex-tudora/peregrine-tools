@@ -101,6 +101,7 @@ export default function CssMinifierPage() {
           { name: "Color Picker", href: "/color-picker" },
           { name: "Diff Checker", href: "/diff-checker" },
         ]}
+        nextStep={{ label: "Minify JS too?", description: "Reduce JavaScript file size", href: "/js-minifier" }}
       >
         <CssMinifierTool />
       </ToolLayout>

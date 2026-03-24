@@ -1,6 +1,12 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 
+function brandFilename(filename: string): string {
+  const dot = filename.lastIndexOf('.');
+  if (dot === -1) return `${filename}-peregrine`;
+  return `${filename.slice(0, dot)}-peregrine${filename.slice(dot)}`;
+}
+
 /**
  * Trigger a browser download for a single blob.
  *
@@ -8,7 +14,7 @@ import JSZip from 'jszip';
  * @param filename - The name the browser will give the downloaded file
  */
 export function downloadBlob(blob: Blob, filename: string): void {
-  saveAs(blob, filename);
+  saveAs(blob, brandFilename(filename));
 }
 
 /**

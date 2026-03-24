@@ -96,6 +96,7 @@ export default function DateDifferencePage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Convert timezones?", description: "See this date in other timezones", href: "/timezone-converter" }}
       >
         <DateDifferenceTool />
       </ToolLayout>

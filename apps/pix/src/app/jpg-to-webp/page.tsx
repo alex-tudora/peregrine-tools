@@ -108,6 +108,7 @@ export default function JpgToWebpPage() {
           { name: "Compress Image", href: "/compress-image" },
           { name: "JPG to PNG", href: "/jpg-to-png" },
         ]}
+        nextStep={{ label: "Resize the image?", description: "Scale to exact dimensions", href: "/resize-image" }}
       >
         <JpgToWebpTool />
       </ToolLayout>

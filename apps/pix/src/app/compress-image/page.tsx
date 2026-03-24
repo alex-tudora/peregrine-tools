@@ -122,6 +122,7 @@ export default function CompressImagePage() {
             href: "https://peregrinepdf.com/compress-pdf",
           },
         ]}
+        nextStep={{ label: "Need a different format?", description: "Convert to PNG, JPG, or WebP", href: "/png-to-jpg" }}
       >
         <CompressImageTool />
       </ToolLayout>

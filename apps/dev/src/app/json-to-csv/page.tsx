@@ -108,6 +108,7 @@ export default function JsonToCsvPage() {
           { name: "JSON Validator", href: "/json-validator" },
           { name: "Diff Checker", href: "/diff-checker" },
         ]}
+        nextStep={{ label: "Convert back to JSON?", description: "Transform CSV data back to JSON", href: "/csv-to-json" }}
       >
         <JsonToCsvTool />
       </ToolLayout>

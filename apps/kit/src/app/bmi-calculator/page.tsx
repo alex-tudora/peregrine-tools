@@ -96,6 +96,7 @@ export default function BmiCalculatorPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Convert units?", description: "Convert between kg/lbs and cm/inches", href: "/unit-converter" }}
       >
         <BmiCalculatorTool />
       </ToolLayout>

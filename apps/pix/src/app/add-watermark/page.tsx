@@ -116,6 +116,7 @@ export default function AddWatermarkPage() {
             href: "https://peregrinepdf.com/watermark-pdf",
           },
         ]}
+        nextStep={{ label: "Compress the result?", description: "Reduce file size without losing quality", href: "/compress-image" }}
       >
         <AddWatermarkTool />
       </ToolLayout>

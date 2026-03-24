@@ -113,6 +113,7 @@ export default function SignPdfPage() {
         about={about}
         faqs={faqs}
         relatedTools={relatedTools}
+        nextStep={{ label: "Compress the PDF?", description: "Reduce file size before sharing", href: "/compress-pdf" }}
       >
         <SignPdfTool />
       </ToolLayout>

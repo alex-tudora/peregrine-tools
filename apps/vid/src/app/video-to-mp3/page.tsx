@@ -106,6 +106,7 @@ export default function VideoToMp3Page() {
           { name: "Compress Audio", href: "/compress-audio" },
           { name: "WAV to MP3", href: "/wav-to-mp3" },
         ]}
+        nextStep={{ label: "Compress the audio?", description: "Reduce MP3 file size", href: "/compress-audio" }}
       >
         <VideoToMp3Tool />
       </ToolLayout>

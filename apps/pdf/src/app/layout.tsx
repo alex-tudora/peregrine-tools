@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine PDF",
-  description:
-    "The fastest free online PDF tools. Merge, split, compress, and convert PDF files instantly in your browser. No sign-up required.",
-  siteUrl: "https://peregrinepdf.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine PDF",
+    description:
+      "The fastest free online PDF tools. Merge, split, compress, and convert PDF files instantly in your browser. No sign-up required.",
+    siteUrl: "https://peregrinepdf.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine PDF",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#2563EB" };
 

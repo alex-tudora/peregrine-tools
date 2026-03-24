@@ -19,12 +19,17 @@ const playfair = Playfair_Display({
   variable: "--font-serif",
 });
 
-export const metadata: Metadata = generateSiteMetadata({
-  siteName: "Peregrine Kit",
-  description:
-    "Free online text tools, calculators, and SEO utilities. Word counter, case converter, percentage calculator, meta tag generator, and more. No sign-up required.",
-  siteUrl: "https://peregrinekit.com",
-});
+export const metadata: Metadata = {
+  ...generateSiteMetadata({
+    siteName: "Peregrine Kit",
+    description:
+      "Free online text tools, calculators, and SEO utilities. Word counter, case converter, percentage calculator, meta tag generator, and more. No sign-up required.",
+    siteUrl: "https://peregrinekit.com",
+  }),
+  appleWebApp: {
+    title: "Peregrine Kit",
+  },
+};
 
 export const viewport: Viewport = { themeColor: "#059669" };
 

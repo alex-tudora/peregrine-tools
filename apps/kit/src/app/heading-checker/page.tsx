@@ -111,6 +111,7 @@ export default function HeadingCheckerPage() {
           { name: "Open Graph Preview", href: "/open-graph-preview" },
           { name: "Sitemap Generator", href: "/sitemap-generator" },
         ]}
+        nextStep={{ label: "Generate meta tags?", description: "Create optimized meta tags for SEO", href: "/meta-tag-generator" }}
       >
         <HeadingCheckerTool />
       </ToolLayout>

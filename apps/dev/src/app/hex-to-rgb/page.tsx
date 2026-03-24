@@ -101,6 +101,7 @@ export default function HexToRgbPage() {
           { name: "Base64 Encode/Decode", href: "/base64" },
           { name: "Image to Base64", href: "https://peregrinepix.com/image-to-base64" },
         ]}
+        nextStep={{ label: "Pick a new color?", description: "Visual color picker with all formats", href: "/color-picker" }}
       >
         <HexToRgbTool />
       </ToolLayout>

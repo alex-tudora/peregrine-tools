@@ -111,6 +111,7 @@ export default function CompressVideoPage() {
             href: "https://peregrinepdf.com/compress-pdf",
           },
         ]}
+        nextStep={{ label: "Extract just the audio?", description: "Get the audio track as MP3", href: "/extract-audio" }}
       >
         <CompressVideoTool />
       </ToolLayout>

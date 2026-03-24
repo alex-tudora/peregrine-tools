@@ -113,6 +113,7 @@ export default function RegexTesterPage() {
           { name: "JSON Validator", href: "/json-validator" },
           { name: "Base64 Encode/Decode", href: "/base64" },
         ]}
+        nextStep={{ label: "Test with a diff?", description: "Compare regex match results side by side", href: "/diff-checker" }}
       >
         <RegexTesterTool />
       </ToolLayout>
