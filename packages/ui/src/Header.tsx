@@ -181,10 +181,10 @@ export function Header({
                 </div>
               </>
             )}
-          </nav>
 
-          {/* Theme toggle */}
-          <ThemeToggle />
+            {/* Theme toggle */}
+            <ThemeToggle />
+          </nav>
 
           {/* Mobile hamburger */}
           <button
