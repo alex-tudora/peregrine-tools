@@ -51,6 +51,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    ...['/blog/improve-your-writing-with-readability-scores', '/blog/meta-tags-seo-guide', '/blog/compound-interest-explained'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...['/compare/counttool', '/compare/calculatorsoup'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    {
       url: `${baseUrl}/privacy`,
       lastModified,
       changeFrequency: 'monthly',
