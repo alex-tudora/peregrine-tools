@@ -64,7 +64,7 @@ export function JsonValidatorTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="json-validate-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="json-validate-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           JSON Input
         </label>
         <textarea
@@ -74,7 +74,7 @@ export function JsonValidatorTool() {
           placeholder='{"name": "value", "items": [1, 2, 3]}'
           rows={12}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -106,17 +106,17 @@ export function JsonValidatorTool() {
 
           {result.valid ? (
             <div className="mt-3 grid grid-cols-3 gap-3">
-              <div className="rounded-lg border border-emerald-200 bg-white p-3 text-center">
-                <p className="text-lg font-semibold text-slate-900 capitalize">{result.rootType}</p>
-                <p className="mt-0.5 text-xs text-slate-500">Root Type</p>
+              <div className="rounded-lg border border-emerald-200 bg-[color:var(--color-bg-card)] p-3 text-center">
+                <p className="text-lg font-semibold text-[color:var(--color-text-primary)] capitalize">{result.rootType}</p>
+                <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">Root Type</p>
               </div>
-              <div className="rounded-lg border border-emerald-200 bg-white p-3 text-center">
-                <p className="text-lg font-semibold text-slate-900">{result.keyCount}</p>
-                <p className="mt-0.5 text-xs text-slate-500">Total Keys</p>
+              <div className="rounded-lg border border-emerald-200 bg-[color:var(--color-bg-card)] p-3 text-center">
+                <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">{result.keyCount}</p>
+                <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">Total Keys</p>
               </div>
-              <div className="rounded-lg border border-emerald-200 bg-white p-3 text-center">
-                <p className="text-lg font-semibold text-slate-900">{result.depth}</p>
-                <p className="mt-0.5 text-xs text-slate-500">Max Depth</p>
+              <div className="rounded-lg border border-emerald-200 bg-[color:var(--color-bg-card)] p-3 text-center">
+                <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">{result.depth}</p>
+                <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">Max Depth</p>
               </div>
             </div>
           ) : (

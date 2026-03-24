@@ -65,7 +65,7 @@ export function FindAndReplaceTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="fnr-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="fnr-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input text
         </label>
         <textarea
@@ -74,14 +74,14 @@ export function FindAndReplaceTool() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your text here..."
           rows={10}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-4">
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="fnr-find" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="fnr-find" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Find
             </label>
             <input
@@ -90,11 +90,11 @@ export function FindAndReplaceTool() {
               value={findText}
               onChange={(e) => setFindText(e.target.value)}
               placeholder="Text to find..."
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
           <div>
-            <label htmlFor="fnr-replace" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="fnr-replace" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Replace with
             </label>
             <input
@@ -103,7 +103,7 @@ export function FindAndReplaceTool() {
               value={replaceText}
               onChange={(e) => setReplaceText(e.target.value)}
               placeholder="Replacement text..."
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </div>
@@ -114,18 +114,18 @@ export function FindAndReplaceTool() {
               type="checkbox"
               checked={caseSensitive}
               onChange={(e) => setCaseSensitive(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Case sensitive</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Case sensitive</span>
           </label>
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={useRegex}
               onChange={(e) => setUseRegex(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Use regex</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Use regex</span>
           </label>
         </div>
       </div>
@@ -152,7 +152,7 @@ export function FindAndReplaceTool() {
       {output && !error && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="fnr-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="fnr-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Result
             </label>
             <button
@@ -167,7 +167,7 @@ export function FindAndReplaceTool() {
             value={output}
             readOnly
             rows={10}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

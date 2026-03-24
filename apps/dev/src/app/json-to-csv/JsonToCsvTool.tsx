@@ -105,7 +105,7 @@ export function JsonToCsvTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="json-csv-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="json-csv-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           JSON Input (array of objects)
         </label>
         <textarea
@@ -115,7 +115,7 @@ export function JsonToCsvTool() {
           placeholder={'[\n  {"name": "Alice", "age": 30, "city": "London"},\n  {"name": "Bob", "age": 25, "city": "Paris"}\n]'}
           rows={10}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -136,7 +136,7 @@ export function JsonToCsvTool() {
       {output && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="csv-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="csv-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               CSV Output
             </label>
             <div className="flex gap-2">
@@ -159,7 +159,7 @@ export function JsonToCsvTool() {
             value={output}
             readOnly
             rows={10}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

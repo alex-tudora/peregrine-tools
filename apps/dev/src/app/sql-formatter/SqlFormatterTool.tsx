@@ -116,7 +116,7 @@ function CopyButton({ text }: { text: string }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -139,13 +139,13 @@ export function SqlFormatterTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-xs font-medium text-slate-500 mb-1.5">Input SQL</label>
+        <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Input SQL</label>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="SELECT u.id, u.name, o.total FROM users u JOIN orders o ON u.id = o.user_id WHERE o.total > 100 ORDER BY o.total DESC"
           rows={8}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
         />
       </div>
 
@@ -162,8 +162,8 @@ export function SqlFormatterTool() {
 
       {output && (
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Formatted SQL</label>
-          <div className="rounded-xl border border-slate-200 bg-slate-900 p-4 overflow-x-auto">
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Formatted SQL</label>
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-slate-900 p-4 overflow-x-auto">
             <pre
               className="text-sm font-mono leading-relaxed text-slate-100"
               dangerouslySetInnerHTML={{ __html: highlighted }}

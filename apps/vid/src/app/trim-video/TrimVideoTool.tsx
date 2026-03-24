@@ -103,20 +103,20 @@ export function TrimVideoTool() {
       )}
 
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -125,7 +125,7 @@ export function TrimVideoTool() {
           {/* Time inputs */}
           <div className="mt-5 grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Start time (HH:MM:SS)
               </label>
               <input
@@ -134,11 +134,11 @@ export function TrimVideoTool() {
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="00:00:00"
                 disabled={isProcessing}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm font-mono text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
                 End time (HH:MM:SS)
               </label>
               <input
@@ -147,12 +147,12 @@ export function TrimVideoTool() {
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="00:00:30"
                 disabled={isProcessing}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm font-mono text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
               />
             </div>
           </div>
 
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-[color:var(--color-text-muted)]">
             Uses stream copy for instant trimming without re-encoding. Quality is preserved.
           </p>
 
@@ -183,22 +183,22 @@ export function TrimVideoTool() {
 
           {resultBlob && (
             <div className="mt-5 space-y-4">
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Original size</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Original size</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(file.size)}
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Trimmed size</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Trimmed size</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(resultBlob.size)}
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Clip range</span>
-                  <span className="font-medium font-mono text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Clip range</span>
+                  <span className="font-medium font-mono text-[color:var(--color-text-primary)]">
                     {startTime} → {endTime}
                   </span>
                 </div>
@@ -212,7 +212,7 @@ export function TrimVideoTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Trim another
                 </button>

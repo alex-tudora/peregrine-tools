@@ -137,21 +137,21 @@ export default function UnlockPdfTool() {
 
       {/* File info + controls */}
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -162,7 +162,7 @@ export default function UnlockPdfTool() {
             <div className="mt-5">
               <label
                 htmlFor="pdf-password"
-                className="mb-2 block text-sm font-medium text-slate-700"
+                className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 PDF password
               </label>
@@ -174,7 +174,7 @@ export default function UnlockPdfTool() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter the document password"
                   disabled={isProcessing}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2.5 pr-20 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 disabled:cursor-not-allowed disabled:opacity-50"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && password && !isProcessing) {
                       handleUnlock();
@@ -184,7 +184,7 @@ export default function UnlockPdfTool() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-slate-500 transition-colors hover:text-slate-700"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:text-[color:var(--color-text-secondary)]"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -196,7 +196,7 @@ export default function UnlockPdfTool() {
           {isProcessing && (
             <div className="mt-5">
               <ProgressBar progress={progress} />
-              <p className="mt-1.5 text-center text-xs text-slate-500">
+              <p className="mt-1.5 text-center text-xs text-[color:var(--color-text-muted)]">
                 Unlocking...
               </p>
             </div>
@@ -296,7 +296,7 @@ export default function UnlockPdfTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Unlock another
                 </button>

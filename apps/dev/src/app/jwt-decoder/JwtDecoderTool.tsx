@@ -49,7 +49,7 @@ function CopyButton({ text }: { text: string }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -99,25 +99,25 @@ export function JwtDecoderTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-xs font-medium text-slate-500 mb-1.5">JWT Token</label>
+        <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">JWT Token</label>
         <textarea
           value={token}
           onChange={(e) => setToken(e.target.value)}
           placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           rows={4}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
         />
       </div>
 
       {/* Color-coded raw token */}
       {result?.parts && result.parts.length === 3 && (
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 overflow-x-auto">
-          <p className="text-xs font-medium text-slate-500 mb-2">Encoded Token</p>
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 overflow-x-auto">
+          <p className="text-xs font-medium text-[color:var(--color-text-muted)] mb-2">Encoded Token</p>
           <p className="font-mono text-sm break-all leading-relaxed">
             <span className="text-[color:var(--color-error)]">{result.parts[0]}</span>
-            <span className="text-slate-400">.</span>
+            <span className="text-[color:var(--color-text-muted)]">.</span>
             <span className="text-purple-600">{result.parts[1]}</span>
-            <span className="text-slate-400">.</span>
+            <span className="text-[color:var(--color-text-muted)]">.</span>
             <span className="text-blue-600">{result.parts[2]}</span>
           </p>
         </div>
@@ -163,7 +163,7 @@ export function JwtDecoderTool() {
               <span className="text-emerald-700">Token is valid (not expired)</span>
             )}
           </p>
-          <p className="text-xs text-slate-600 mt-1">
+          <p className="text-xs text-[color:var(--color-text-secondary)] mt-1">
             Expires: {expStatus.expDate.toLocaleString()}
           </p>
         </div>
@@ -171,23 +171,23 @@ export function JwtDecoderTool() {
 
       {/* Claims table */}
       {result?.payload && (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-          <p className="text-xs font-medium text-slate-500 px-4 pt-3 pb-2">Decoded Claims</p>
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] overflow-hidden">
+          <p className="text-xs font-medium text-[color:var(--color-text-muted)] px-4 pt-3 pb-2">Decoded Claims</p>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-100">
-                <th className="text-left px-4 py-2 text-xs font-medium text-slate-500">Claim</th>
-                <th className="text-left px-4 py-2 text-xs font-medium text-slate-500">Value</th>
+              <tr className="border-b border-[color:var(--color-border)]">
+                <th className="text-left px-4 py-2 text-xs font-medium text-[color:var(--color-text-muted)]">Claim</th>
+                <th className="text-left px-4 py-2 text-xs font-medium text-[color:var(--color-text-muted)]">Value</th>
               </tr>
             </thead>
             <tbody>
               {Object.entries(result.payload).map(([key, value]) => (
                 <tr key={key} className="border-b border-slate-50 last:border-b-0">
-                  <td className="px-4 py-2 font-mono text-slate-700 font-medium">{key}</td>
-                  <td className="px-4 py-2 font-mono text-slate-600 break-all">
+                  <td className="px-4 py-2 font-mono text-[color:var(--color-text-secondary)] font-medium">{key}</td>
+                  <td className="px-4 py-2 font-mono text-[color:var(--color-text-secondary)] break-all">
                     {typeof value === "object" ? JSON.stringify(value) : String(value)}
                     {(key === "exp" || key === "iat" || key === "nbf") && typeof value === "number" && (
-                      <span className="ml-2 text-xs text-slate-400">
+                      <span className="ml-2 text-xs text-[color:var(--color-text-muted)]">
                         ({new Date(value * 1000).toLocaleString()})
                       </span>
                     )}

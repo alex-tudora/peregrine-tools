@@ -61,12 +61,12 @@ export function MetaTagGeneratorTool() {
     <div className="space-y-8">
       {/* Basic Meta Tags */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-slate-900">Basic Meta Tags</h2>
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Basic Meta Tags</h2>
         <div className="space-y-3">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-sm font-medium text-slate-700">Page Title</label>
-              <span className={`text-xs ${title.length > 60 ? "text-red-500 font-semibold" : "text-slate-400"}`}>
+              <label className="text-sm font-medium text-[color:var(--color-text-secondary)]">Page Title</label>
+              <span className={`text-xs ${title.length > 60 ? "text-red-500 font-semibold" : "text-[color:var(--color-text-muted)]"}`}>
                 {title.length}/60
               </span>
             </div>
@@ -75,14 +75,14 @@ export function MetaTagGeneratorTool() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Your page title"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-sm font-medium text-slate-700">Meta Description</label>
-              <span className={`text-xs ${description.length > 160 ? "text-red-500 font-semibold" : "text-slate-400"}`}>
+              <label className="text-sm font-medium text-[color:var(--color-text-secondary)]">Meta Description</label>
+              <span className={`text-xs ${description.length > 160 ? "text-red-500 font-semibold" : "text-[color:var(--color-text-muted)]"}`}>
                 {description.length}/160
               </span>
             </div>
@@ -91,60 +91,60 @@ export function MetaTagGeneratorTool() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="A brief description of your page"
               rows={3}
-              className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Keywords</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Keywords</label>
             <input
               type="text"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
               placeholder="keyword1, keyword2, keyword3"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Author</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Author</label>
             <input
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
               placeholder="Author name"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Viewport</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Viewport</label>
             <input
               type="text"
               value={viewport}
               onChange={(e) => setViewport(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-2 block">Robots</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-2 block">Robots</label>
             <div className="flex gap-6">
-              <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-[color:var(--color-text-secondary)] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={robotsIndex}
                   onChange={(e) => setRobotsIndex(e.target.checked)}
-                  className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+                  className="rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
                 />
                 Index
               </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-[color:var(--color-text-secondary)] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={robotsFollow}
                   onChange={(e) => setRobotsFollow(e.target.checked)}
-                  className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+                  className="rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
                 />
                 Follow
               </label>
@@ -152,13 +152,13 @@ export function MetaTagGeneratorTool() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Canonical URL</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Canonical URL</label>
             <input
               type="url"
               value={canonical}
               onChange={(e) => setCanonical(e.target.value)}
               placeholder="https://example.com/page"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </div>
@@ -166,47 +166,47 @@ export function MetaTagGeneratorTool() {
 
       {/* Open Graph Tags */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-slate-900">Open Graph Tags</h2>
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Open Graph Tags</h2>
         <div className="space-y-3">
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">OG Title</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Title</label>
             <input
               type="text"
               value={ogTitle}
               onChange={(e) => setOgTitle(e.target.value)}
               placeholder="Defaults to page title if empty"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">OG Description</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Description</label>
             <textarea
               value={ogDescription}
               onChange={(e) => setOgDescription(e.target.value)}
               placeholder="Defaults to meta description if empty"
               rows={2}
-              className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">OG Image URL</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Image URL</label>
             <input
               type="url"
               value={ogImage}
               onChange={(e) => setOgImage(e.target.value)}
               placeholder="https://example.com/image.jpg"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">OG Type</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Type</label>
             <select
               value={ogType}
               onChange={(e) => setOgType(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             >
               <option value="website">website</option>
               <option value="article">article</option>
@@ -222,13 +222,13 @@ export function MetaTagGeneratorTool() {
 
       {/* Twitter Card */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-slate-900">Twitter Card</h2>
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Twitter Card</h2>
         <div>
-          <label className="text-sm font-medium text-slate-700 mb-1 block">Card Type</label>
+          <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Card Type</label>
           <select
             value={twitterCard}
             onChange={(e) => setTwitterCard(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="summary">summary</option>
             <option value="summary_large_image">summary_large_image</option>
@@ -241,7 +241,7 @@ export function MetaTagGeneratorTool() {
       {/* Generated Output */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Generated Meta Tags</h2>
+          <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Generated Meta Tags</h2>
           <button
             onClick={handleCopy}
             className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600"
@@ -249,7 +249,7 @@ export function MetaTagGeneratorTool() {
             {copied ? "Copied!" : "Copy HTML"}
           </button>
         </div>
-        <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed text-slate-700">
+        <pre className="overflow-x-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 text-xs leading-relaxed text-[color:var(--color-text-secondary)]">
           <code>{generatedTags}</code>
         </pre>
       </section>

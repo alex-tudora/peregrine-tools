@@ -124,23 +124,23 @@ export function DiffCheckerTool() {
       {/* Input areas */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Original</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Original</label>
           <textarea
             value={original}
             onChange={(e) => setOriginal(e.target.value)}
             placeholder="Paste original text here..."
             rows={10}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Modified</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Modified</label>
           <textarea
             value={modified}
             onChange={(e) => setModified(e.target.value)}
             placeholder="Paste modified text here..."
             rows={10}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
       </div>
@@ -155,13 +155,13 @@ export function DiffCheckerTool() {
           Compare
         </button>
         {hasCompared && (
-          <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+          <div className="flex rounded-lg border border-[color:var(--color-border)] overflow-hidden">
             <button
               onClick={() => setView("inline")}
               className={`px-4 py-2 text-xs font-medium transition-colors ${
                 view === "inline"
                   ? "bg-amber-500 text-white"
-                  : "bg-white text-slate-600 hover:bg-slate-50"
+                  : "bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-bg-elevated)]"
               }`}
             >
               Inline
@@ -171,7 +171,7 @@ export function DiffCheckerTool() {
               className={`px-4 py-2 text-xs font-medium transition-colors ${
                 view === "side-by-side"
                   ? "bg-amber-500 text-white"
-                  : "bg-white text-slate-600 hover:bg-slate-50"
+                  : "bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-bg-elevated)]"
               }`}
             >
               Side by Side
@@ -191,35 +191,35 @@ export function DiffCheckerTool() {
             <p className="text-lg font-semibold text-[color:var(--color-error)]">{stats.removed}</p>
             <p className="text-xs text-[color:var(--color-error)]">Removed</p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-3 text-center">
-            <p className="text-lg font-semibold text-slate-700">{stats.unchanged}</p>
-            <p className="text-xs text-slate-500">Unchanged</p>
+          <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3 text-center">
+            <p className="text-lg font-semibold text-[color:var(--color-text-secondary)]">{stats.unchanged}</p>
+            <p className="text-xs text-[color:var(--color-text-muted)]">Unchanged</p>
           </div>
         </div>
       )}
 
       {/* Diff output */}
       {hasCompared && view === "inline" && (
-        <div className="rounded-xl border border-slate-200 overflow-hidden">
+        <div className="rounded-xl border border-[color:var(--color-border)] overflow-hidden">
           <div className="max-h-[500px] overflow-auto">
             {diff.length === 0 ? (
-              <p className="p-4 text-sm text-slate-500">No differences found.</p>
+              <p className="p-4 text-sm text-[color:var(--color-text-muted)]">No differences found.</p>
             ) : (
               diff.map((line, i) => (
                 <div
                   key={i}
                   className={`flex font-mono text-sm ${bgClass(line.type)}`}
                 >
-                  <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-slate-400 select-none border-r border-slate-100">
+                  <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-[color:var(--color-text-muted)] select-none border-r border-[color:var(--color-border)]">
                     {line.leftNum ?? ""}
                   </span>
-                  <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-slate-400 select-none border-r border-slate-100">
+                  <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-[color:var(--color-text-muted)] select-none border-r border-[color:var(--color-border)]">
                     {line.rightNum ?? ""}
                   </span>
-                  <span className="w-5 shrink-0 text-center py-0.5 text-xs text-slate-400 select-none">
+                  <span className="w-5 shrink-0 text-center py-0.5 text-xs text-[color:var(--color-text-muted)] select-none">
                     {prefixChar(line.type)}
                   </span>
-                  <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-slate-800">
+                  <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-[color:var(--color-text-primary)]">
                     {line.text}
                   </span>
                 </div>
@@ -230,8 +230,8 @@ export function DiffCheckerTool() {
       )}
 
       {hasCompared && view === "side-by-side" && (
-        <div className="grid grid-cols-2 gap-0 rounded-xl border border-slate-200 overflow-hidden">
-          <div className="max-h-[500px] overflow-auto border-r border-slate-200">
+        <div className="grid grid-cols-2 gap-0 rounded-xl border border-[color:var(--color-border)] overflow-hidden">
+          <div className="max-h-[500px] overflow-auto border-r border-[color:var(--color-border)]">
             {sideBySide.left.map((line, i) => (
               <div
                 key={i}
@@ -239,10 +239,10 @@ export function DiffCheckerTool() {
                   line.type === "removed" ? "bg-[color:var(--color-error-bg,#fef2f2)]" : ""
                 }`}
               >
-                <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-slate-400 select-none border-r border-slate-100">
+                <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-[color:var(--color-text-muted)] select-none border-r border-[color:var(--color-border)]">
                   {line.num ?? ""}
                 </span>
-                <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-slate-800">
+                <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-[color:var(--color-text-primary)]">
                   {line.text}
                 </span>
               </div>
@@ -256,10 +256,10 @@ export function DiffCheckerTool() {
                   line.type === "added" ? "bg-emerald-50" : ""
                 }`}
               >
-                <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-slate-400 select-none border-r border-slate-100">
+                <span className="w-10 shrink-0 px-2 py-0.5 text-right text-xs text-[color:var(--color-text-muted)] select-none border-r border-[color:var(--color-border)]">
                   {line.num ?? ""}
                 </span>
-                <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-slate-800">
+                <span className="flex-1 px-2 py-0.5 whitespace-pre-wrap break-all text-[color:var(--color-text-primary)]">
                   {line.text}
                 </span>
               </div>

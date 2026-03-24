@@ -92,7 +92,7 @@ export function RegexTesterTool() {
       <div className="grid gap-6 lg:grid-cols-[1fr_220px]">
         <div className="space-y-4">
           <div>
-            <label htmlFor="regex-pattern" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="regex-pattern" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Pattern
             </label>
             <input
@@ -102,7 +102,7 @@ export function RegexTesterTool() {
               onChange={(e) => setPattern(e.target.value)}
               placeholder="Enter regex pattern..."
               spellCheck={false}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
@@ -113,12 +113,12 @@ export function RegexTesterTool() {
               { flag: "m", label: "Multiline (m)", state: flagM, setter: setFlagM },
               { flag: "s", label: "DotAll (s)", state: flagS, setter: setFlagS },
             ].map((item) => (
-              <label key={item.flag} className="flex items-center gap-1.5 text-sm text-slate-700">
+              <label key={item.flag} className="flex items-center gap-1.5 text-sm text-[color:var(--color-text-secondary)]">
                 <input
                   type="checkbox"
                   checked={item.state}
                   onChange={(e) => item.setter(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+                  className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
                 />
                 {item.label}
               </label>
@@ -126,7 +126,7 @@ export function RegexTesterTool() {
           </div>
 
           <div>
-            <label htmlFor="regex-test" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="regex-test" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Test String
             </label>
             <textarea
@@ -136,23 +136,23 @@ export function RegexTesterTool() {
               placeholder="Enter test string..."
               rows={6}
               spellCheck={false}
-              className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-medium text-slate-700">Common Patterns</p>
+          <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">Common Patterns</p>
           <div className="space-y-1.5">
             {commonPatterns.map((cp) => (
               <button
                 key={cp.label}
                 onClick={() => handleLoadPattern(cp.pattern, cp.flags)}
-                className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-xs text-slate-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50"
+                className="block w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-left text-xs text-[color:var(--color-text-secondary)] transition-colors hover:border-emerald-300 hover:bg-emerald-50"
               >
-                <span className="font-medium text-slate-800">{cp.label}</span>
+                <span className="font-medium text-[color:var(--color-text-primary)]">{cp.label}</span>
                 <br />
-                <span className="font-mono text-slate-400">{cp.pattern}</span>
+                <span className="font-mono text-[color:var(--color-text-muted)]">{cp.pattern}</span>
               </button>
             ))}
           </div>
@@ -169,13 +169,13 @@ export function RegexTesterTool() {
       {highlightedHtml && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <p className="text-sm font-medium text-slate-700">Highlighted Matches</p>
-            <span className="text-xs text-slate-500">
+            <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">Highlighted Matches</p>
+            <span className="text-xs text-[color:var(--color-text-muted)]">
               {matches.length} match{matches.length !== 1 ? "es" : ""}
             </span>
           </div>
           <div
-            className="whitespace-pre-wrap break-all rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700"
+            className="whitespace-pre-wrap break-all rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)]"
             dangerouslySetInnerHTML={{ __html: highlightedHtml }}
           />
         </div>
@@ -183,23 +183,23 @@ export function RegexTesterTool() {
 
       {matches.length > 0 && (
         <div>
-          <p className="mb-1.5 text-sm font-medium text-slate-700">Match Details</p>
-          <div className="max-h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white divide-y divide-slate-100">
+          <p className="mb-1.5 text-sm font-medium text-[color:var(--color-text-secondary)]">Match Details</p>
+          <div className="max-h-64 overflow-y-auto rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] divide-y divide-slate-100">
             {matches.map((m, idx) => (
               <div key={idx} className="px-4 py-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-500">
+                  <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-[color:var(--color-text-muted)]">
                     #{idx + 1}
                   </span>
-                  <span className="font-mono text-slate-800 break-all">{m.fullMatch}</span>
-                  <span className="shrink-0 text-xs text-slate-400">index {m.index}</span>
+                  <span className="font-mono text-[color:var(--color-text-primary)] break-all">{m.fullMatch}</span>
+                  <span className="shrink-0 text-xs text-[color:var(--color-text-muted)]">index {m.index}</span>
                 </div>
                 {m.groups.length > 0 && (
                   <div className="mt-1 ml-8 space-y-0.5">
                     {m.groups.map((g, gi) => (
-                      <p key={gi} className="text-xs text-slate-500">
+                      <p key={gi} className="text-xs text-[color:var(--color-text-muted)]">
                         Group {gi + 1}:{" "}
-                        <span className="font-mono text-slate-700">{g ?? "(undefined)"}</span>
+                        <span className="font-mono text-[color:var(--color-text-secondary)]">{g ?? "(undefined)"}</span>
                       </p>
                     ))}
                   </div>

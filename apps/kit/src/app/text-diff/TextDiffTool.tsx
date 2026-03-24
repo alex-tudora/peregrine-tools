@@ -64,7 +64,7 @@ export function TextDiffTool() {
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="diff-original" className="mb-1.5 block text-sm font-medium text-slate-700">
+          <label htmlFor="diff-original" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
             Original text
           </label>
           <textarea
@@ -73,11 +73,11 @@ export function TextDiffTool() {
             onChange={(e) => setOriginal(e.target.value)}
             placeholder="Paste original text here..."
             rows={12}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div>
-          <label htmlFor="diff-modified" className="mb-1.5 block text-sm font-medium text-slate-700">
+          <label htmlFor="diff-modified" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
             Modified text
           </label>
           <textarea
@@ -86,7 +86,7 @@ export function TextDiffTool() {
             onChange={(e) => setModified(e.target.value)}
             placeholder="Paste modified text here..."
             rows={12}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       </div>
@@ -99,10 +99,10 @@ export function TextDiffTool() {
       </button>
 
       {diff !== null && (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-          <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
-            <p className="text-sm font-medium text-slate-700">Differences</p>
-            <p className="mt-0.5 text-xs text-slate-500">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] overflow-hidden">
+          <div className="border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3">
+            <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">Differences</p>
+            <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
               <span className="inline-block rounded bg-[color:var(--color-error-bg,#fef2f2)] px-1.5 py-0.5 text-[color:var(--color-error)]">Removed</span>
               {" "}
               <span className="inline-block rounded bg-emerald-100 px-1.5 py-0.5 text-emerald-700">Added</span>
@@ -110,7 +110,7 @@ export function TextDiffTool() {
           </div>
           <div className="max-h-96 overflow-y-auto">
             {diff.length === 0 ? (
-              <p className="px-4 py-6 text-center text-sm text-slate-500">
+              <p className="px-4 py-6 text-center text-sm text-[color:var(--color-text-muted)]">
                 Both texts are identical.
               </p>
             ) : (
@@ -123,7 +123,7 @@ export function TextDiffTool() {
                         ? "bg-emerald-50 text-emerald-800"
                         : line.type === "removed"
                         ? "bg-[color:var(--color-error-bg,#fef2f2)] text-[color:var(--color-error)]"
-                        : "text-slate-600"
+                        : "text-[color:var(--color-text-secondary)]"
                     }`}
                   >
                     <span className="shrink-0 w-5 text-right select-none opacity-60">

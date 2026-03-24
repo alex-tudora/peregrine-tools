@@ -113,7 +113,7 @@ export function SignPdfTool() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Transparent canvas — the visual white bg comes from CSS bg-white
+    // Transparent canvas — the visual white bg comes from CSS bg-[color:var(--color-bg-card)]
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "#1e293b";
     ctx.lineWidth = 2;
@@ -524,13 +524,13 @@ export function SignPdfTool() {
       {file && (
         <div className="space-y-5">
           {/* File info */}
-          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-slate-900">
+                <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                   {file.name}
                 </p>
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                   {formatFileSize(file.size)} &middot; {file.pageCount} page
                   {file.pageCount !== 1 ? "s" : ""}
                 </p>
@@ -538,7 +538,7 @@ export function SignPdfTool() {
               <button
                 onClick={handleReset}
                 disabled={isProcessing}
-                className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Change file
               </button>
@@ -546,20 +546,20 @@ export function SignPdfTool() {
           </div>
 
           {/* Step 1: Create signature */}
-          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
-            <h3 className="text-sm font-semibold text-slate-900">
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
+            <h3 className="text-sm font-semibold text-[color:var(--color-text-primary)]">
               1. Create your signature
             </h3>
 
             {/* Mode tabs */}
             <div className="mt-3">
-              <div className="flex rounded-lg border border-slate-200 p-1">
+              <div className="flex rounded-lg border border-[color:var(--color-border)] p-1">
                 <button
                   onClick={() => setMode("draw")}
                   className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                     mode === "draw"
                       ? "bg-[color:var(--color-accent)] text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
+                      : "text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]"
                   }`}
                 >
                   Draw Signature
@@ -569,7 +569,7 @@ export function SignPdfTool() {
                   className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                     mode === "type"
                       ? "bg-[color:var(--color-accent)] text-white shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
+                      : "text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]"
                   }`}
                 >
                   Type Signature
@@ -580,7 +580,7 @@ export function SignPdfTool() {
             {/* Draw mode */}
             {mode === "draw" && (
               <div className="mt-4">
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]">
                   Draw your signature below
                 </label>
                 <canvas
@@ -591,12 +591,12 @@ export function SignPdfTool() {
                   onPointerMove={handleSigPointerMove}
                   onPointerUp={handleSigPointerUp}
                   onPointerLeave={handleSigPointerUp}
-                  className="w-full max-w-[600px] cursor-crosshair touch-none rounded-lg border-2 border-dashed border-slate-300 bg-white"
+                  className="w-full max-w-[600px] cursor-crosshair touch-none rounded-lg border-2 border-dashed border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)]"
                   style={{ aspectRatio: "3 / 1" }}
                 />
                 <button
                   onClick={handleClearCanvas}
-                  className="mt-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                  className="mt-2 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
                 >
                   Clear
                 </button>
@@ -609,7 +609,7 @@ export function SignPdfTool() {
                 <div>
                   <label
                     htmlFor="signature-text"
-                    className="mb-2 block text-sm font-medium text-slate-700"
+                    className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
                   >
                     Type your name
                   </label>
@@ -619,13 +619,13 @@ export function SignPdfTool() {
                     value={typedName}
                     onChange={(e) => setTypedName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+                    className="w-full rounded-lg border border-[color:var(--color-border-hover)] px-4 py-2.5 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
                   />
                 </div>
 
                 {/* Font style selector */}
                 <fieldset>
-                  <legend className="mb-2 text-sm font-medium text-slate-700">
+                  <legend className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">
                     Font style
                   </legend>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -637,7 +637,7 @@ export function SignPdfTool() {
                           className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
                             isSelected
                               ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
-                              : "border-slate-200 bg-white hover:border-slate-300"
+                              : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] hover:border-[color:var(--color-border-hover)]"
                           }`}
                         >
                           <input
@@ -648,7 +648,7 @@ export function SignPdfTool() {
                             onChange={() => setFontStyle(style.value)}
                             className="sr-only"
                           />
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-[color:var(--color-text-muted)]">
                             {style.label}
                           </span>
                         </label>
@@ -659,10 +659,10 @@ export function SignPdfTool() {
 
                 {/* Typed signature preview */}
                 {typedName.trim() && (
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <p className="mb-1 text-xs text-slate-500">Preview</p>
+                  <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4">
+                    <p className="mb-1 text-xs text-[color:var(--color-text-muted)]">Preview</p>
                     <p
-                      className={`text-2xl text-slate-800 ${currentFontStyle?.className ?? "italic"}`}
+                      className={`text-2xl text-[color:var(--color-text-primary)] ${currentFontStyle?.className ?? "italic"}`}
                       style={{
                         fontFamily: "Georgia, 'Times New Roman', serif",
                       }}
@@ -676,13 +676,13 @@ export function SignPdfTool() {
           </div>
 
           {/* Step 2: Place signature on document */}
-          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
-            <h3 className="text-sm font-semibold text-slate-900">
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
+            <h3 className="text-sm font-semibold text-[color:var(--color-text-primary)]">
               2. Click on the document to place your signature
             </h3>
 
             {!activeSignatureUrl && (
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-[color:var(--color-text-muted)]">
                 {mode === "draw"
                   ? "Draw your signature above first, then click on the page to place it."
                   : "Type your name above first, then click on the page to place it."}
@@ -690,14 +690,14 @@ export function SignPdfTool() {
             )}
 
             {activeSignatureUrl && !placement && (
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-[color:var(--color-text-muted)]">
                 Click anywhere on the page below to place your signature. You
                 can drag it to reposition.
               </p>
             )}
 
             {placement && (
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-[color:var(--color-text-muted)]">
                 Drag the signature to reposition it. Click elsewhere to move it.
               </p>
             )}
@@ -712,11 +712,11 @@ export function SignPdfTool() {
                       setPlacement(null);
                   }}
                   disabled={currentPage === 0}
-                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Previous
                 </button>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-[color:var(--color-text-muted)]">
                   Page {currentPage + 1} of {file.pageCount}
                 </span>
                 <button
@@ -728,7 +728,7 @@ export function SignPdfTool() {
                       setPlacement(null);
                   }}
                   disabled={currentPage === file.pageCount - 1}
-                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Next
                 </button>
@@ -740,7 +740,7 @@ export function SignPdfTool() {
               <div
                 ref={pageContainerRef}
                 onClick={activeSignatureUrl ? handlePageClick : undefined}
-                className={`relative mt-3 overflow-hidden rounded-lg border border-slate-200 shadow-sm ${
+                className={`relative mt-3 overflow-hidden rounded-lg border border-[color:var(--color-border)] shadow-sm ${
                   activeSignatureUrl
                     ? "cursor-crosshair"
                     : "cursor-default"
@@ -781,7 +781,7 @@ export function SignPdfTool() {
                       onPointerMove={handleResizePointerMove}
                       onPointerUp={handleOverlayPointerUp}
                       onPointerLeave={handleOverlayPointerUp}
-                      className="absolute -bottom-1.5 -right-1.5 h-3.5 w-3.5 cursor-nwse-resize rounded-sm border-2 border-blue-500 bg-white touch-none"
+                      className="absolute -bottom-1.5 -right-1.5 h-3.5 w-3.5 cursor-nwse-resize rounded-sm border-2 border-blue-500 bg-[color:var(--color-bg-card)] touch-none"
                     />
                   </div>
                 )}
@@ -793,7 +793,7 @@ export function SignPdfTool() {
           {isProcessing && (
             <div>
               <ProgressBar progress={progress} />
-              <p className="mt-1.5 text-center text-xs text-slate-500">
+              <p className="mt-1.5 text-center text-xs text-[color:var(--color-text-muted)]">
                 Signing...
               </p>
             </div>
@@ -847,7 +847,7 @@ export function SignPdfTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Sign another
                 </button>

@@ -39,7 +39,7 @@ function CopyButton({ text }: { text: string }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -61,13 +61,13 @@ export function CssMinifierTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-xs font-medium text-slate-500 mb-1.5">Input CSS</label>
+        <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Input CSS</label>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your CSS code here..."
           rows={10}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
         />
       </div>
 
@@ -85,23 +85,23 @@ export function CssMinifierTool() {
       {output && (
         <>
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1.5">Minified Output</label>
+            <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Minified Output</label>
             <textarea
               value={output}
               readOnly
               rows={6}
-              className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-mono text-slate-700"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)]"
             />
           </div>
 
           <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-lg font-semibold text-slate-900">{formatBytes(inputSize)}</p>
-              <p className="mt-1 text-xs text-slate-500">Original</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">{formatBytes(inputSize)}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Original</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-lg font-semibold text-slate-900">{formatBytes(outputSize)}</p>
-              <p className="mt-1 text-xs text-slate-500">Minified</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">{formatBytes(outputSize)}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Minified</p>
             </div>
             <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-center">
               <p className="text-lg font-semibold text-emerald-700">{savings}%</p>

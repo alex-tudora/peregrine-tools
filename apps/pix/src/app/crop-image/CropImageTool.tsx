@@ -203,14 +203,14 @@ export default function CropImageTool() {
 
       {/* File info + controls */}
       {file && preview && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)} &middot; {originalWidth} &times;{" "}
                 {originalHeight} px
               </p>
@@ -218,7 +218,7 @@ export default function CropImageTool() {
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -238,7 +238,7 @@ export default function CropImageTool() {
               />
               {/* Highlighted crop region */}
               <div
-                className="pointer-events-none absolute border-2 border-dashed border-violet-400 bg-white/20"
+                className="pointer-events-none absolute border-2 border-dashed border-violet-400 bg-[color:var(--color-bg-card)]/20"
                 style={overlayStyle}
               />
             </div>
@@ -246,7 +246,7 @@ export default function CropImageTool() {
 
           {/* Preset ratio buttons */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Aspect ratio
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -261,7 +261,7 @@ export default function CropImageTool() {
                       ${
                         isSelected
                           ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                          : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                          : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
                       }
                     `}
                   >
@@ -277,7 +277,7 @@ export default function CropImageTool() {
             <div>
               <label
                 htmlFor="crop-x"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 X
               </label>
@@ -295,13 +295,13 @@ export default function CropImageTool() {
                     ),
                   )
                 }
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
             <div>
               <label
                 htmlFor="crop-y"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Y
               </label>
@@ -319,13 +319,13 @@ export default function CropImageTool() {
                     ),
                   )
                 }
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
             <div>
               <label
                 htmlFor="crop-w"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Width
               </label>
@@ -338,13 +338,13 @@ export default function CropImageTool() {
                 onChange={(e) =>
                   handleCropWChange(parseInt(e.target.value, 10) || 1)
                 }
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
             <div>
               <label
                 htmlFor="crop-h"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Height
               </label>
@@ -357,7 +357,7 @@ export default function CropImageTool() {
                 onChange={(e) =>
                   handleCropHChange(parseInt(e.target.value, 10) || 1)
                 }
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
               />
             </div>
           </div>
@@ -407,22 +407,22 @@ export default function CropImageTool() {
                 <img
                   src={resultPreview}
                   alt="Cropped"
-                  className="max-h-64 rounded-lg border border-slate-100 object-contain"
+                  className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
                 />
               </div>
 
               {/* Size info */}
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Original</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Original</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {originalWidth} &times; {originalHeight} px &middot;{" "}
                     {formatFileSize(file.size)}
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Cropped</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Cropped</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {cropW} &times; {cropH} px &middot;{" "}
                     {formatFileSize(resultBlob.size)}
                   </span>
@@ -438,7 +438,7 @@ export default function CropImageTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                 >
                   Crop another
                 </button>

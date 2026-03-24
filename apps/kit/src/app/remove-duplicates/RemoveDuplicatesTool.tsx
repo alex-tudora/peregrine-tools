@@ -57,7 +57,7 @@ export function RemoveDuplicatesTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="dedup-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="dedup-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input text (one item per line)
         </label>
         <textarea
@@ -66,39 +66,39 @@ export function RemoveDuplicatesTool() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your text here, one item per line..."
           rows={10}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
-        <p className="text-sm font-medium text-slate-700 mb-3">Options</p>
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
+        <p className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-3">Options</p>
         <div className="flex flex-wrap gap-x-6 gap-y-3">
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={caseSensitive}
               onChange={(e) => setCaseSensitive(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Case sensitive</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Case sensitive</span>
           </label>
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={trimWhitespace}
               onChange={(e) => setTrimWhitespace(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Trim whitespace</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Trim whitespace</span>
           </label>
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={sortOutput}
               onChange={(e) => setSortOutput(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Sort output</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Sort output</span>
           </label>
         </div>
       </div>
@@ -112,17 +112,17 @@ export function RemoveDuplicatesTool() {
 
       {stats && (
         <div className="grid grid-cols-3 gap-3">
-          <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-            <p className="text-2xl font-semibold text-slate-900">{stats.original}</p>
-            <p className="mt-1 text-xs text-slate-500">Original Lines</p>
+          <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+            <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.original}</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Original Lines</p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
+          <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
             <p className="text-2xl font-semibold text-[color:var(--color-error)]">{stats.duplicates}</p>
-            <p className="mt-1 text-xs text-slate-500">Duplicates Removed</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Duplicates Removed</p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
+          <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
             <p className="text-2xl font-semibold text-emerald-600">{stats.unique}</p>
-            <p className="mt-1 text-xs text-slate-500">Unique Lines</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Unique Lines</p>
           </div>
         </div>
       )}
@@ -130,7 +130,7 @@ export function RemoveDuplicatesTool() {
       {output && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="dedup-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="dedup-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Result
             </label>
             <button
@@ -145,7 +145,7 @@ export function RemoveDuplicatesTool() {
             value={output}
             readOnly
             rows={10}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

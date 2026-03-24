@@ -183,10 +183,10 @@ export function WatermarkPdfTool() {
       {file && (
         <div className="space-y-5">
           {/* File info header */}
-          <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">{file.name}</p>
-              <p className="text-xs text-slate-500">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">{file.name}</p>
+              <p className="text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)} &middot; {totalPages}{" "}
                 {totalPages === 1 ? "page" : "pages"}
               </p>
@@ -194,7 +194,7 @@ export function WatermarkPdfTool() {
             <button
               type="button"
               onClick={resetTool}
-              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-slate-100 hover:text-[color:var(--color-text-secondary)]"
             >
               Change file
             </button>
@@ -204,7 +204,7 @@ export function WatermarkPdfTool() {
           <div>
             <label
               htmlFor="watermark-text"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Watermark text
             </label>
@@ -217,7 +217,7 @@ export function WatermarkPdfTool() {
                 setText(e.target.value);
                 setResult(null);
               }}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+              className="w-full rounded-lg border border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
             />
           </div>
 
@@ -225,7 +225,7 @@ export function WatermarkPdfTool() {
           <div>
             <label
               htmlFor="font-size"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Font size: {fontSize}px
             </label>
@@ -242,7 +242,7 @@ export function WatermarkPdfTool() {
               }}
               className="w-full accent-[color:var(--color-accent)]"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>20px</span>
               <span>100px</span>
             </div>
@@ -252,7 +252,7 @@ export function WatermarkPdfTool() {
           <div>
             <label
               htmlFor="opacity"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Opacity: {Math.round(opacity * 100)}%
             </label>
@@ -269,7 +269,7 @@ export function WatermarkPdfTool() {
               }}
               className="w-full accent-[color:var(--color-accent)]"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>10%</span>
               <span>100%</span>
             </div>
@@ -277,7 +277,7 @@ export function WatermarkPdfTool() {
 
           {/* Color selector */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Color
             </label>
             <div className="flex flex-wrap gap-3">
@@ -289,7 +289,7 @@ export function WatermarkPdfTool() {
                     color[1] === opt.value[1] &&
                     color[2] === opt.value[2]
                       ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                      : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                   }`}
                 >
                   <input
@@ -307,7 +307,7 @@ export function WatermarkPdfTool() {
                     className="sr-only"
                   />
                   <span
-                    className="inline-block h-3.5 w-3.5 rounded-full border border-slate-300"
+                    className="inline-block h-3.5 w-3.5 rounded-full border border-[color:var(--color-border-hover)]"
                     style={{
                       backgroundColor: `rgb(${Math.round(opt.value[0] * 255)}, ${Math.round(opt.value[1] * 255)}, ${Math.round(opt.value[2] * 255)})`,
                     }}
@@ -320,7 +320,7 @@ export function WatermarkPdfTool() {
 
           {/* Position selector */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Position
             </label>
             <div className="flex gap-4">
@@ -328,7 +328,7 @@ export function WatermarkPdfTool() {
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   position === "diagonal"
                     ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                 }`}
               >
                 <input
@@ -348,7 +348,7 @@ export function WatermarkPdfTool() {
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   position === "center"
                     ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                 }`}
               >
                 <input

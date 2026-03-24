@@ -44,20 +44,20 @@ export function RemoveBackgroundTool() {
 
       {/* File info + preview */}
       {file && preview && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               Change file
             </button>
@@ -68,7 +68,7 @@ export function RemoveBackgroundTool() {
             <img
               src={preview}
               alt="Uploaded image"
-              className="max-h-64 rounded-lg border border-slate-100 object-contain"
+              className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
             />
           </div>
 
@@ -106,26 +106,26 @@ export function RemoveBackgroundTool() {
           <button
             type="button"
             disabled
-            className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-slate-300 px-6 py-3 text-sm font-semibold text-slate-500"
+            className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-slate-300 px-6 py-3 text-sm font-semibold text-[color:var(--color-text-muted)]"
           >
             Remove Background — Coming Soon
           </button>
 
           {/* Links to other useful tools */}
-          <div className="mt-5 rounded-lg bg-slate-50 p-4">
-            <p className="mb-2 text-sm font-medium text-slate-700">
+          <div className="mt-5 rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
+            <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Try these tools while you wait
             </p>
             <div className="flex flex-wrap gap-2">
               <a
                 href="/crop-image"
-                className="rounded-md bg-white px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
+                className="rounded-md bg-[color:var(--color-bg-card)] px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
               >
                 Crop Image
               </a>
               <a
                 href="/add-watermark"
-                className="rounded-md bg-white px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
+                className="rounded-md bg-[color:var(--color-bg-card)] px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
               >
                 Add Watermark
               </a>

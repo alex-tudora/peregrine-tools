@@ -18,7 +18,7 @@ function syntaxHighlight(json: string): string {
       } else if (/true|false/.test(match)) {
         cls = "text-blue-600"; // boolean
       } else if (/null/.test(match)) {
-        cls = "text-slate-400"; // null
+        cls = "text-[color:var(--color-text-muted)]"; // null
       }
       return `<span class="${cls}">${match}</span>`;
     }
@@ -85,7 +85,7 @@ export function JsonFormatterTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="json-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="json-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input JSON
         </label>
         <textarea
@@ -95,20 +95,20 @@ export function JsonFormatterTool() {
           placeholder='{"name": "value", "items": [1, 2, 3]}'
           rows={10}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
-          <label htmlFor="indent-select" className="text-sm font-medium text-slate-700">
+          <label htmlFor="indent-select" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
             Indent:
           </label>
           <select
             id="indent-select"
             value={indent}
             onChange={(e) => setIndent(e.target.value as IndentType)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="2">2 Spaces</option>
             <option value="4">4 Spaces</option>
@@ -134,7 +134,7 @@ export function JsonFormatterTool() {
       {highlighted && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label className="text-sm font-medium text-slate-700">Formatted JSON</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)]">Formatted JSON</label>
             <div className="flex gap-2">
               <button
                 onClick={() => setCollapsed(!collapsed)}
@@ -150,9 +150,9 @@ export function JsonFormatterTool() {
               </button>
             </div>
           </div>
-          <div className="max-h-[32rem] overflow-auto rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div className="max-h-[32rem] overflow-auto rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3">
             {collapsed ? (
-              <pre className="whitespace-pre-wrap break-all font-mono text-sm text-slate-700">
+              <pre className="whitespace-pre-wrap break-all font-mono text-sm text-[color:var(--color-text-secondary)]">
                 {collapsedOutput()}
               </pre>
             ) : (

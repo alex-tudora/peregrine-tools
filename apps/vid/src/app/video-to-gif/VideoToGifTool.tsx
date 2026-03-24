@@ -122,20 +122,20 @@ export function VideoToGifTool() {
       )}
 
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -144,7 +144,7 @@ export function VideoToGifTool() {
           {/* Start time and duration */}
           <div className="mt-5 grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Start time (seconds)
               </label>
               <input
@@ -154,11 +154,11 @@ export function VideoToGifTool() {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 disabled={isProcessing}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Duration (seconds)
               </label>
               <input
@@ -169,14 +169,14 @@ export function VideoToGifTool() {
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 disabled={isProcessing}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
+                className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)] disabled:opacity-50"
               />
             </div>
           </div>
 
           {/* Width slider */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Width: {width}px
             </legend>
             <input
@@ -189,7 +189,7 @@ export function VideoToGifTool() {
               disabled={isProcessing}
               className="w-full accent-[color:var(--color-accent)]"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>160px</span>
               <span>640px</span>
             </div>
@@ -197,7 +197,7 @@ export function VideoToGifTool() {
 
           {/* FPS slider */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Frame rate: {fps} FPS
             </legend>
             <input
@@ -210,7 +210,7 @@ export function VideoToGifTool() {
               disabled={isProcessing}
               className="w-full accent-[color:var(--color-accent)]"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>5 FPS</span>
               <span>30 FPS</span>
             </div>
@@ -243,16 +243,16 @@ export function VideoToGifTool() {
 
           {resultBlob && (
             <div className="mt-5 space-y-4">
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Video size</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Video size</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(file.size)}
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">GIF size</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">GIF size</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(resultBlob.size)}
                   </span>
                 </div>
@@ -263,7 +263,7 @@ export function VideoToGifTool() {
                 <img
                   src={URL.createObjectURL(resultBlob)}
                   alt="Generated GIF"
-                  className="max-h-64 rounded-lg border border-slate-100"
+                  className="max-h-64 rounded-lg border border-[color:var(--color-border)]"
                 />
               </div>
 
@@ -275,7 +275,7 @@ export function VideoToGifTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Create another
                 </button>

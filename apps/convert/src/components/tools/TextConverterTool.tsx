@@ -131,7 +131,7 @@ export function TextConverterTool({
               placeholder={placeholder}
               rows={16}
               spellCheck={false}
-              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-white px-4 py-3 font-mono text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
             />
           </div>
           <div>
@@ -178,7 +178,7 @@ export function TextConverterTool({
               placeholder={placeholder}
               rows={10}
               spellCheck={false}
-              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-white px-4 py-3 font-mono text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
             />
           </div>
 
@@ -201,7 +201,7 @@ export function TextConverterTool({
                 <select
                   value={delimiter}
                   onChange={(e) => setDelimiter(e.target.value as Delimiter)}
-                  className="rounded-lg border border-[color:var(--color-border)] bg-white px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+                  className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
                 >
                   {delimiterOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>

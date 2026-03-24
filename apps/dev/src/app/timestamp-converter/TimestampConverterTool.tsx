@@ -36,7 +36,7 @@ function CopyButton({ text }: { text: string }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="shrink-0 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -45,10 +45,10 @@ function CopyButton({ text }: { text: string }) {
 
 function OutputRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3">
-      <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">{label}</span>
+    <div className="flex items-center justify-between gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
+      <span className="text-xs font-medium text-[color:var(--color-text-muted)] uppercase tracking-wide">{label}</span>
       <div className="flex items-center gap-2">
-        <code className="text-sm font-mono text-slate-800">{value}</code>
+        <code className="text-sm font-mono text-[color:var(--color-text-primary)]">{value}</code>
         <CopyButton text={value} />
       </div>
     </div>
@@ -122,12 +122,12 @@ export function TimestampConverterTool() {
 
       {/* Toggle ms/s */}
       <div className="flex items-center gap-3">
-        <label className="text-sm text-slate-600">Unit:</label>
-        <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+        <label className="text-sm text-[color:var(--color-text-secondary)]">Unit:</label>
+        <div className="flex rounded-lg border border-[color:var(--color-border)] overflow-hidden">
           <button
             onClick={() => setUseMs(false)}
             className={`px-4 py-2 text-xs font-medium transition-colors ${
-              !useMs ? "bg-amber-500 text-white" : "bg-white text-slate-600 hover:bg-slate-50"
+              !useMs ? "bg-amber-500 text-white" : "bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-bg-elevated)]"
             }`}
           >
             Seconds
@@ -135,7 +135,7 @@ export function TimestampConverterTool() {
           <button
             onClick={() => setUseMs(true)}
             className={`px-4 py-2 text-xs font-medium transition-colors ${
-              useMs ? "bg-amber-500 text-white" : "bg-white text-slate-600 hover:bg-slate-50"
+              useMs ? "bg-amber-500 text-white" : "bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-bg-elevated)]"
             }`}
           >
             Milliseconds
@@ -145,11 +145,11 @@ export function TimestampConverterTool() {
 
       {/* Timestamp to Date */}
       <div className="space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-secondary)] uppercase tracking-wide">
           Timestamp to Date
         </h2>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">
             Unix Timestamp ({useMs ? "milliseconds" : "seconds"})
           </label>
           <input
@@ -160,7 +160,7 @@ export function TimestampConverterTool() {
               setIsLive(false);
             }}
             placeholder={useMs ? "1700000000000" : "1700000000"}
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
 
@@ -190,20 +190,20 @@ export function TimestampConverterTool() {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-slate-200" />
+      <div className="border-t border-[color:var(--color-border)]" />
 
       {/* Date to Timestamp */}
       <div className="space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-secondary)] uppercase tracking-wide">
           Date to Timestamp
         </h2>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Date & Time</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Date & Time</label>
           <input
             type="datetime-local"
             value={dateInput}
             onChange={(e) => setDateInput(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
 

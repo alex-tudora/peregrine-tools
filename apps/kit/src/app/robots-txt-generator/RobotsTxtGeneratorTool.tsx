@@ -99,10 +99,10 @@ export function RobotsTxtGeneratorTool() {
       {groups.map((group, index) => (
         <section
           key={group.id}
-          className="space-y-3 rounded-xl border border-slate-200 bg-white p-5"
+          className="space-y-3 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5"
         >
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-900">
+            <h2 className="text-sm font-semibold text-[color:var(--color-text-primary)]">
               Rule Group {index + 1}
             </h2>
             {groups.length > 1 && (
@@ -116,45 +116,45 @@ export function RobotsTxtGeneratorTool() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">User-agent</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">User-agent</label>
             <input
               type="text"
               value={group.userAgent}
               onChange={(e) => updateGroup(group.id, "userAgent", e.target.value)}
               placeholder="*"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">
-              Allow paths <span className="text-slate-400 font-normal">(one per line)</span>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">
+              Allow paths <span className="text-[color:var(--color-text-muted)] font-normal">(one per line)</span>
             </label>
             <textarea
               value={group.allow}
               onChange={(e) => updateGroup(group.id, "allow", e.target.value)}
               placeholder={"/\n/public/"}
               rows={3}
-              className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">
-              Disallow paths <span className="text-slate-400 font-normal">(one per line)</span>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">
+              Disallow paths <span className="text-[color:var(--color-text-muted)] font-normal">(one per line)</span>
             </label>
             <textarea
               value={group.disallow}
               onChange={(e) => updateGroup(group.id, "disallow", e.target.value)}
               placeholder={"/admin/\n/private/\n/tmp/"}
               rows={3}
-              className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">
-              Crawl-delay <span className="text-slate-400 font-normal">(seconds)</span>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">
+              Crawl-delay <span className="text-[color:var(--color-text-muted)] font-normal">(seconds)</span>
             </label>
             <input
               type="number"
@@ -162,7 +162,7 @@ export function RobotsTxtGeneratorTool() {
               value={group.crawlDelay}
               onChange={(e) => updateGroup(group.id, "crawlDelay", e.target.value)}
               placeholder="e.g. 10"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </section>
@@ -170,31 +170,31 @@ export function RobotsTxtGeneratorTool() {
 
       <button
         onClick={addGroup}
-        className="w-full rounded-lg border border-dashed border-slate-300 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:border-emerald-400 hover:text-emerald-600"
+        className="w-full rounded-lg border border-dashed border-[color:var(--color-border-hover)] py-2.5 text-sm font-medium text-[color:var(--color-text-muted)] transition-colors hover:border-emerald-400 hover:text-emerald-600"
       >
         + Add Rule Group
       </button>
 
       {/* Sitemap URL */}
       <div>
-        <label className="text-sm font-medium text-slate-700 mb-1 block">Sitemap URL</label>
+        <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Sitemap URL</label>
         <input
           type="url"
           value={sitemapUrl}
           onChange={(e) => setSitemapUrl(e.target.value)}
           placeholder="https://example.com/sitemap.xml"
-          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
       {/* Preview */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Generated robots.txt</h2>
+          <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Generated robots.txt</h2>
           <div className="flex gap-2">
             <button
               onClick={handleDownload}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+              className="rounded-lg border border-[color:var(--color-border)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               Download
             </button>
@@ -206,7 +206,7 @@ export function RobotsTxtGeneratorTool() {
             </button>
           </div>
         </div>
-        <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed text-slate-700 font-mono">
+        <pre className="overflow-x-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 text-xs leading-relaxed text-[color:var(--color-text-secondary)] font-mono">
           <code>{robotsTxt}</code>
         </pre>
       </section>

@@ -41,7 +41,7 @@ export function RemoveLineBreaksTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="rlb-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="rlb-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input text
         </label>
         <textarea
@@ -50,12 +50,12 @@ export function RemoveLineBreaksTool() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your text with line breaks here..."
           rows={10}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
-        <p className="text-sm font-medium text-slate-700 mb-3">Replace line breaks with:</p>
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
+        <p className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-3">Replace line breaks with:</p>
         <div className="flex flex-wrap gap-3">
           {(
             [
@@ -70,7 +70,7 @@ export function RemoveLineBreaksTool() {
               className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
                 mode === opt.value
                   ? "border-emerald-500 bg-emerald-500 text-white"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50"
+                  : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-emerald-300 hover:bg-emerald-50"
               }`}
             >
               {opt.label}
@@ -89,7 +89,7 @@ export function RemoveLineBreaksTool() {
       {output && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="rlb-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="rlb-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Result
             </label>
             <button
@@ -104,7 +104,7 @@ export function RemoveLineBreaksTool() {
             value={output}
             readOnly
             rows={6}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

@@ -212,17 +212,17 @@ export default function ResizeImageTool() {
 
       {/* Files + controls */}
       {entries.length > 0 && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* File list */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-slate-900">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
                 {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
               {!isProcessing && (
                 <button
                   onClick={handleReset}
-                  className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                  className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
                 >
                   Clear all
                 </button>
@@ -233,7 +233,7 @@ export default function ResizeImageTool() {
               {entries.map((entry, i) => (
                 <div
                   key={`${entry.file.name}-${i}`}
-                  className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2"
+                  className="flex items-center gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2"
                 >
                   <img
                     src={entry.preview}
@@ -241,8 +241,8 @@ export default function ResizeImageTool() {
                     className="h-8 w-8 shrink-0 rounded object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-medium text-slate-900">{entry.file.name}</p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="truncate text-xs font-medium text-[color:var(--color-text-primary)]">{entry.file.name}</p>
+                    <p className="text-[10px] text-[color:var(--color-text-muted)]">
                       {formatFileSize(entry.file.size)} &middot; {entry.originalWidth} &times; {entry.originalHeight} px
                       {entry.status === "done" && entry.resultBlob && (
                         <span className="text-emerald-600">
@@ -260,7 +260,7 @@ export default function ResizeImageTool() {
                   {!isProcessing && entry.status !== "processing" && (
                     <button
                       onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
-                      className="shrink-0 text-xs font-medium text-slate-500 hover:text-slate-700"
+                      className="shrink-0 text-xs font-medium text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-secondary)]"
                     >
                       {entry.status === "done" ? "↓" : "✕"}
                     </button>
@@ -273,7 +273,7 @@ export default function ResizeImageTool() {
           {/* Resize mode selector */}
           {!allDone && (
             <fieldset className="mt-5">
-              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Resize mode
               </legend>
               <div className="grid grid-cols-2 gap-2.5">
@@ -287,7 +287,7 @@ export default function ResizeImageTool() {
                         ${
                           isSelected
                             ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                            : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
                         }
                       `}
                     >
@@ -314,7 +314,7 @@ export default function ResizeImageTool() {
                 <div>
                   <label
                     htmlFor="resize-width"
-                    className="mb-1.5 block text-sm font-medium text-slate-700"
+                    className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
                   >
                     Width (px)
                   </label>
@@ -326,13 +326,13 @@ export default function ResizeImageTool() {
                     onChange={(e) =>
                       handleWidthChange(parseInt(e.target.value, 10) || 0)
                     }
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                    className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="resize-height"
-                    className="mb-1.5 block text-sm font-medium text-slate-700"
+                    className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
                   >
                     Height (px)
                   </label>
@@ -344,17 +344,17 @@ export default function ResizeImageTool() {
                     onChange={(e) =>
                       handleHeightChange(parseInt(e.target.value, 10) || 0)
                     }
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                    className="w-full rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                   />
                 </div>
               </div>
 
-              <label className="flex items-center gap-2 text-sm text-slate-700">
+              <label className="flex items-center gap-2 text-sm text-[color:var(--color-text-secondary)]">
                 <input
                   type="checkbox"
                   checked={maintainAspectRatio}
                   onChange={(e) => setMaintainAspectRatio(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-violet-500 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-violet-500 focus:ring-violet-500"
                 />
                 Maintain aspect ratio
               </label>
@@ -366,7 +366,7 @@ export default function ResizeImageTool() {
             <div className="mt-5">
               <label
                 htmlFor="resize-percentage"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Scale percentage
               </label>
@@ -380,17 +380,17 @@ export default function ResizeImageTool() {
                   onChange={(e) =>
                     setPercentage(parseInt(e.target.value, 10) || 50)
                   }
-                  className="w-28 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                  className="w-28 rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                 />
                 {!hasMultiple && (
-                  <span className="text-sm text-slate-500">
+                  <span className="text-sm text-[color:var(--color-text-muted)]">
                     %&ensp;&rarr;&ensp;
                     {Math.round(firstEntry.originalWidth * (percentage / 100))} &times;{" "}
                     {Math.round(firstEntry.originalHeight * (percentage / 100))} px
                   </span>
                 )}
                 {hasMultiple && (
-                  <span className="text-sm text-slate-500">%</span>
+                  <span className="text-sm text-[color:var(--color-text-muted)]">%</span>
                 )}
               </div>
             </div>
@@ -399,7 +399,7 @@ export default function ResizeImageTool() {
           {/* Output format selector */}
           {!allDone && (
             <fieldset className="mt-5">
-              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Output format
               </legend>
               <div className="grid grid-cols-3 gap-2.5">
@@ -413,7 +413,7 @@ export default function ResizeImageTool() {
                         ${
                           isSelected
                             ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                            : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
                         }
                       `}
                     >
@@ -484,12 +484,12 @@ export default function ResizeImageTool() {
               )}
 
               {/* Total summary */}
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">
+                  <span className="text-[color:var(--color-text-secondary)]">
                     {entries.length} file{entries.length !== 1 ? "s" : ""} resized
                   </span>
-                  <span className="font-medium text-slate-900">
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {mode === "dimensions"
                       ? `${width} × ${height} px`
                       : `${percentage}%`}
@@ -515,7 +515,7 @@ export default function ResizeImageTool() {
                 )}
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                 >
                   Resize more
                 </button>

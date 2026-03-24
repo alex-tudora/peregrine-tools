@@ -66,13 +66,13 @@ export function QrCodeGeneratorTool() {
     <div className="space-y-6">
       {/* Input */}
       <div>
-        <label className="text-sm font-medium text-slate-700 mb-1 block">URL or Text</label>
+        <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">URL or Text</label>
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="https://example.com or any text"
-          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -80,8 +80,8 @@ export function QrCodeGeneratorTool() {
       <div className="space-y-4">
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-sm font-medium text-slate-700">Size</label>
-            <span className="text-xs text-slate-400">{size}px</span>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)]">Size</label>
+            <span className="text-xs text-[color:var(--color-text-muted)]">{size}px</span>
           </div>
           <input
             type="range"
@@ -92,7 +92,7 @@ export function QrCodeGeneratorTool() {
             onChange={(e) => setSize(Number(e.target.value))}
             className="w-full accent-emerald-500"
           />
-          <div className="flex justify-between text-xs text-slate-400 mt-0.5">
+          <div className="flex justify-between text-xs text-[color:var(--color-text-muted)] mt-0.5">
             <span>128px</span>
             <span>512px</span>
           </div>
@@ -100,36 +100,36 @@ export function QrCodeGeneratorTool() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Foreground Color</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Foreground Color</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
                 value={fgColor}
                 onChange={(e) => setFgColor(e.target.value)}
-                className="h-9 w-12 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+                className="h-9 w-12 cursor-pointer rounded border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-0.5"
               />
               <input
                 type="text"
                 value={fgColor}
                 onChange={(e) => setFgColor(e.target.value)}
-                className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="flex-1 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               />
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Background Color</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Background Color</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
                 value={bgColor}
                 onChange={(e) => setBgColor(e.target.value)}
-                className="h-9 w-12 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+                className="h-9 w-12 cursor-pointer rounded border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-0.5"
               />
               <input
                 type="text"
                 value={bgColor}
                 onChange={(e) => setBgColor(e.target.value)}
-                className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="flex-1 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export function QrCodeGeneratorTool() {
 
       {/* QR Code Preview */}
       <div className="flex flex-col items-center gap-4">
-        <div className="rounded-xl border border-slate-200 bg-white p-4 inline-block">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 inline-block">
           <canvas ref={canvasRef} />
         </div>
         <button

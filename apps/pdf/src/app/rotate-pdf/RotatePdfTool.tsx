@@ -157,10 +157,10 @@ export function RotatePdfTool() {
       {file && (
         <div className="space-y-5">
           {/* File info header */}
-          <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">{file.name}</p>
-              <p className="text-xs text-slate-500">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">{file.name}</p>
+              <p className="text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)} &middot; {totalPages}{" "}
                 {totalPages === 1 ? "page" : "pages"}
               </p>
@@ -168,7 +168,7 @@ export function RotatePdfTool() {
             <button
               type="button"
               onClick={resetTool}
-              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-slate-100 hover:text-[color:var(--color-text-secondary)]"
             >
               Change file
             </button>
@@ -176,7 +176,7 @@ export function RotatePdfTool() {
 
           {/* Rotation angle selector */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Rotation angle
             </label>
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
@@ -186,7 +186,7 @@ export function RotatePdfTool() {
                   className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                     angle === opt.value
                       ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                      : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                   }`}
                 >
                   <input
@@ -208,7 +208,7 @@ export function RotatePdfTool() {
 
           {/* Page selection mode */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Pages to rotate
             </label>
             <div className="flex gap-4">
@@ -216,7 +216,7 @@ export function RotatePdfTool() {
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   pageMode === "all"
                     ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                 }`}
               >
                 <input
@@ -236,7 +236,7 @@ export function RotatePdfTool() {
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                   pageMode === "specific"
                     ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                 }`}
               >
                 <input
@@ -258,10 +258,10 @@ export function RotatePdfTool() {
           {/* Page checkboxes — shown only when "specific" mode is selected */}
           {pageMode === "specific" && (
             <div className="space-y-2">
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-[color:var(--color-text-muted)]">
                 {selectedPages.size} of {totalPages} selected
               </span>
-              <div className="max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white p-3">
+              <div className="max-h-72 overflow-y-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3">
                 <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <label
@@ -269,7 +269,7 @@ export function RotatePdfTool() {
                       className={`flex cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-sm transition-colors select-none ${
                         selectedPages.has(page)
                           ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                          : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                          : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                       }`}
                     >
                       <input

@@ -120,10 +120,10 @@ export function LoremIpsumGeneratorTool() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
         <div className="flex flex-wrap items-end gap-4">
           <div>
-            <label htmlFor="lorem-count" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="lorem-count" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Number
             </label>
             <input
@@ -133,19 +133,19 @@ export function LoremIpsumGeneratorTool() {
               max={type === "words" ? 500 : 20}
               value={count}
               onChange={(e) => setCount(Math.max(1, Math.min(type === "words" ? 500 : 20, parseInt(e.target.value, 10) || 1)))}
-              className="w-24 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-24 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label htmlFor="lorem-type" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="lorem-type" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Type
             </label>
             <select
               id="lorem-type"
               value={type}
               onChange={(e) => setType(e.target.value as "paragraphs" | "sentences" | "words")}
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             >
               <option value="paragraphs">Paragraphs</option>
               <option value="sentences">Sentences</option>
@@ -158,9 +158,9 @@ export function LoremIpsumGeneratorTool() {
               type="checkbox"
               checked={startWithLorem}
               onChange={(e) => setStartWithLorem(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Start with &quot;Lorem ipsum...&quot;</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Start with &quot;Lorem ipsum...&quot;</span>
           </label>
         </div>
 
@@ -175,7 +175,7 @@ export function LoremIpsumGeneratorTool() {
       {output && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="lorem-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="lorem-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Generated text
             </label>
             <button
@@ -190,7 +190,7 @@ export function LoremIpsumGeneratorTool() {
             value={output}
             readOnly
             rows={12}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

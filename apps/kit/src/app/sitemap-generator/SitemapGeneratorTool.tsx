@@ -111,28 +111,28 @@ export function SitemapGeneratorTool() {
         {entries.map((entry, index) => (
           <div
             key={entry.id}
-            className="flex flex-col gap-2 rounded-lg border border-slate-200 bg-white p-3 sm:flex-row sm:items-end sm:gap-3"
+            className="flex flex-col gap-2 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3 sm:flex-row sm:items-end sm:gap-3"
           >
             <div className="flex-1">
               {index === 0 && (
-                <label className="text-xs font-medium text-slate-500 mb-1 block">URL</label>
+                <label className="text-xs font-medium text-[color:var(--color-text-muted)] mb-1 block">URL</label>
               )}
               <input
                 type="url"
                 value={entry.url}
                 onChange={(e) => updateEntry(entry.id, "url", e.target.value)}
                 placeholder="https://example.com/page"
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               />
             </div>
             <div className="w-full sm:w-24">
               {index === 0 && (
-                <label className="text-xs font-medium text-slate-500 mb-1 block">Priority</label>
+                <label className="text-xs font-medium text-[color:var(--color-text-muted)] mb-1 block">Priority</label>
               )}
               <select
                 value={entry.priority}
                 onChange={(e) => updateEntry(entry.id, "priority", e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-2 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               >
                 {PRIORITY_OPTIONS.map((p) => (
                   <option key={p} value={p}>
@@ -143,12 +143,12 @@ export function SitemapGeneratorTool() {
             </div>
             <div className="w-full sm:w-28">
               {index === 0 && (
-                <label className="text-xs font-medium text-slate-500 mb-1 block">Frequency</label>
+                <label className="text-xs font-medium text-[color:var(--color-text-muted)] mb-1 block">Frequency</label>
               )}
               <select
                 value={entry.changefreq}
                 onChange={(e) => updateEntry(entry.id, "changefreq", e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-2 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               >
                 {CHANGEFREQ_OPTIONS.map((cf) => (
                   <option key={cf} value={cf}>
@@ -160,7 +160,7 @@ export function SitemapGeneratorTool() {
             <button
               onClick={() => removeEntry(entry.id)}
               disabled={entries.length <= 1}
-              className="self-end rounded-lg p-2 text-slate-400 transition-colors hover:text-red-500 disabled:opacity-30 disabled:hover:text-slate-400"
+              className="self-end rounded-lg p-2 text-[color:var(--color-text-muted)] transition-colors hover:text-red-500 disabled:opacity-30 disabled:hover:text-[color:var(--color-text-muted)]"
               aria-label="Remove URL"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -174,13 +174,13 @@ export function SitemapGeneratorTool() {
       <div className="flex gap-2">
         <button
           onClick={addEntry}
-          className="rounded-lg border border-dashed border-slate-300 px-4 py-2 text-sm font-medium text-slate-500 transition-colors hover:border-emerald-400 hover:text-emerald-600"
+          className="rounded-lg border border-dashed border-[color:var(--color-border-hover)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-colors hover:border-emerald-400 hover:text-emerald-600"
         >
           + Add URL
         </button>
         <button
           onClick={() => setShowBulk(!showBulk)}
-          className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50"
+          className="rounded-lg border border-[color:var(--color-border)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
         >
           {showBulk ? "Hide Bulk Add" : "Bulk Add"}
         </button>
@@ -189,15 +189,15 @@ export function SitemapGeneratorTool() {
       {/* Bulk Add */}
       {showBulk && (
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700 block">
-            Paste URLs <span className="text-slate-400 font-normal">(one per line)</span>
+          <label className="text-sm font-medium text-[color:var(--color-text-secondary)] block">
+            Paste URLs <span className="text-[color:var(--color-text-muted)] font-normal">(one per line)</span>
           </label>
           <textarea
             value={bulkText}
             onChange={(e) => setBulkText(e.target.value)}
             placeholder={"https://example.com/\nhttps://example.com/about\nhttps://example.com/blog"}
             rows={5}
-            className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
           <button
             onClick={handleBulkAdd}
@@ -212,11 +212,11 @@ export function SitemapGeneratorTool() {
       {/* XML Preview */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Generated Sitemap</h2>
+          <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Generated Sitemap</h2>
           <div className="flex gap-2">
             <button
               onClick={handleDownload}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+              className="rounded-lg border border-[color:var(--color-border)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               Download
             </button>
@@ -228,7 +228,7 @@ export function SitemapGeneratorTool() {
             </button>
           </div>
         </div>
-        <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed text-slate-700 font-mono">
+        <pre className="overflow-x-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 text-xs leading-relaxed text-[color:var(--color-text-secondary)] font-mono">
           <code>{xmlContent}</code>
         </pre>
       </section>

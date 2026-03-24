@@ -108,21 +108,21 @@ export function AddWatermarkTool() {
 
       {/* File info + controls */}
       {file && preview && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -133,7 +133,7 @@ export function AddWatermarkTool() {
             <img
               src={preview}
               alt="Original"
-              className="max-h-64 rounded-lg border border-slate-100 object-contain"
+              className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
             />
           </div>
 
@@ -141,7 +141,7 @@ export function AddWatermarkTool() {
           <div className="mt-5">
             <label
               htmlFor="watermark-text"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Watermark text
             </label>
@@ -154,7 +154,7 @@ export function AddWatermarkTool() {
                 setText(e.target.value);
                 setResultBlob(null);
               }}
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 
@@ -162,7 +162,7 @@ export function AddWatermarkTool() {
           <div className="mt-5">
             <label
               htmlFor="font-size"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Font size: {fontSize}px
             </label>
@@ -179,7 +179,7 @@ export function AddWatermarkTool() {
               }}
               className="w-full accent-violet-500"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>16px</span>
               <span>72px</span>
             </div>
@@ -189,7 +189,7 @@ export function AddWatermarkTool() {
           <div className="mt-5">
             <label
               htmlFor="opacity"
-              className="mb-1.5 block text-sm font-medium text-slate-700"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Opacity: {Math.round(opacity * 100)}%
             </label>
@@ -206,7 +206,7 @@ export function AddWatermarkTool() {
               }}
               className="w-full accent-violet-500"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>10%</span>
               <span>100%</span>
             </div>
@@ -214,7 +214,7 @@ export function AddWatermarkTool() {
 
           {/* Color selector */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Color
             </legend>
             <div className="flex flex-wrap gap-3">
@@ -226,7 +226,7 @@ export function AddWatermarkTool() {
                     className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                       isSelected
                         ? "border-violet-300 bg-violet-50 text-violet-700 font-medium"
-                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                     }`}
                   >
                     <input
@@ -240,7 +240,7 @@ export function AddWatermarkTool() {
                       className="sr-only"
                     />
                     <span
-                      className="inline-block h-3.5 w-3.5 rounded-full border border-slate-300"
+                      className="inline-block h-3.5 w-3.5 rounded-full border border-[color:var(--color-border-hover)]"
                       style={{ backgroundColor: opt.value }}
                     />
                     {opt.label}
@@ -252,7 +252,7 @@ export function AddWatermarkTool() {
 
           {/* Position selector */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Position
             </legend>
             <div className="flex flex-wrap gap-3">
@@ -264,7 +264,7 @@ export function AddWatermarkTool() {
                     className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
                       isSelected
                         ? "border-violet-300 bg-violet-50 text-violet-700 font-medium"
-                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                     }`}
                   >
                     <input
@@ -325,16 +325,16 @@ export function AddWatermarkTool() {
           {/* Result */}
           {resultBlob && (
             <div className="mt-5 space-y-4">
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Original</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Original</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(file.size)}
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-600">Watermarked</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[color:var(--color-text-secondary)]">Watermarked</span>
+                  <span className="font-medium text-[color:var(--color-text-primary)]">
                     {formatFileSize(resultBlob.size)}
                   </span>
                 </div>
@@ -348,7 +348,7 @@ export function AddWatermarkTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                 >
                   Watermark another
                 </button>

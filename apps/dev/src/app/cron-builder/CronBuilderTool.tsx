@@ -127,7 +127,7 @@ function CopyButton({ text }: { text: string }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -169,14 +169,14 @@ export function CronBuilderTool() {
   );
 
   const selectClass =
-    "w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-700 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500";
+    "w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-3 text-sm text-[color:var(--color-text-secondary)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500";
 
   return (
     <div className="space-y-6">
       {/* Dropdowns */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Minute</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Minute</label>
           <select value={minute} onChange={handleDropdownChange(setMinute)} className={selectClass}>
             {MINUTES.map((v) => (
               <option key={v} value={v}>{v}</option>
@@ -184,7 +184,7 @@ export function CronBuilderTool() {
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Hour</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Hour</label>
           <select value={hour} onChange={handleDropdownChange(setHour)} className={selectClass}>
             {HOURS.map((v) => (
               <option key={v} value={v}>{v}</option>
@@ -192,7 +192,7 @@ export function CronBuilderTool() {
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Day (Month)</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Day (Month)</label>
           <select value={dom} onChange={handleDropdownChange(setDom)} className={selectClass}>
             {DAYS.map((v) => (
               <option key={v} value={v}>{v}</option>
@@ -200,7 +200,7 @@ export function CronBuilderTool() {
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Month</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Month</label>
           <select value={month} onChange={handleDropdownChange(setMonth)} className={selectClass}>
             {MONTHS.map((v) => (
               <option key={v} value={v}>{v === "*" ? "*" : `${v} - ${MONTH_NAMES[parseInt(v)]}`}</option>
@@ -208,7 +208,7 @@ export function CronBuilderTool() {
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">Day (Week)</label>
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Day (Week)</label>
           <select value={dow} onChange={handleDropdownChange(setDow)} className={selectClass}>
             {DOW.map((v) => (
               <option key={v} value={v}>{v === "*" ? "*" : `${v} - ${DOW_NAMES[parseInt(v)]}`}</option>
@@ -218,37 +218,37 @@ export function CronBuilderTool() {
       </div>
 
       {/* Generated expression */}
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <label className="block text-xs font-medium text-slate-500 mb-2">Cron Expression</label>
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4">
+        <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-2">Cron Expression</label>
         <div className="flex items-center gap-3">
           <input
             type="text"
             value={manualInput || expression}
             onChange={(e) => handleManualChange(e.target.value)}
             placeholder="* * * * *"
-            className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2.5 font-mono text-lg text-slate-800 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="flex-1 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2.5 font-mono text-lg text-[color:var(--color-text-primary)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
           <CopyButton text={expression} />
         </div>
       </div>
 
       {/* Description */}
-      <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <p className="text-xs font-medium text-slate-500 mb-1">Human-Readable</p>
-        <p className="text-base text-slate-800 font-medium">{description}</p>
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4">
+        <p className="text-xs font-medium text-[color:var(--color-text-muted)] mb-1">Human-Readable</p>
+        <p className="text-base text-[color:var(--color-text-primary)] font-medium">{description}</p>
       </div>
 
       {/* Next executions */}
       {nextRuns.length > 0 && (
-        <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium text-slate-500 mb-3">Next 5 Execution Times</p>
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4">
+          <p className="text-xs font-medium text-[color:var(--color-text-muted)] mb-3">Next 5 Execution Times</p>
           <ul className="space-y-2">
             {nextRuns.map((date, i) => (
               <li key={i} className="flex items-center gap-3 text-sm">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700 text-xs font-semibold">
                   {i + 1}
                 </span>
-                <span className="font-mono text-slate-700">
+                <span className="font-mono text-[color:var(--color-text-secondary)]">
                   {date.toLocaleString(undefined, {
                     weekday: "short",
                     year: "numeric",

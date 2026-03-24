@@ -116,7 +116,7 @@ export function HtmlToMarkdownTool() {
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="html-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+          <label htmlFor="html-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
             HTML
           </label>
           <textarea
@@ -125,12 +125,12 @@ export function HtmlToMarkdownTool() {
             onChange={(e) => setHtml(e.target.value)}
             placeholder="Paste your HTML here..."
             rows={16}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="md-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="md-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Markdown
             </label>
             {markdown && (
@@ -148,7 +148,7 @@ export function HtmlToMarkdownTool() {
             readOnly
             rows={16}
             placeholder="Markdown output will appear here..."
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       </div>

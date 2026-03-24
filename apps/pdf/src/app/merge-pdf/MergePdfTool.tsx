@@ -112,7 +112,7 @@ export function MergePdfTool() {
             onReorder={handleReorder}
           />
 
-          <div className="flex items-center justify-between text-sm text-slate-500">
+          <div className="flex items-center justify-between text-sm text-[color:var(--color-text-muted)]">
             <span>
               {files.length} file{files.length !== 1 ? "s" : ""} selected
             </span>

@@ -82,20 +82,20 @@ export function ImageToBase64Tool() {
 
       {/* File info + results */}
       {file && preview && base64String && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               Change file
             </button>
@@ -106,21 +106,21 @@ export function ImageToBase64Tool() {
             <img
               src={preview}
               alt="Preview"
-              className="max-h-48 rounded-lg border border-slate-100 object-contain"
+              className="max-h-48 rounded-lg border border-[color:var(--color-border)] object-contain"
             />
           </div>
 
           {/* Size info */}
-          <div className="mt-4 rounded-lg bg-slate-50 p-4">
+          <div className="mt-4 rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-600">String length</span>
-              <span className="font-medium text-slate-900">
+              <span className="text-[color:var(--color-text-secondary)]">String length</span>
+              <span className="font-medium text-[color:var(--color-text-primary)]">
                 {base64String.length.toLocaleString()} characters
               </span>
             </div>
             <div className="mt-2 flex items-center justify-between text-sm">
-              <span className="text-slate-600">Approximate size</span>
-              <span className="font-medium text-slate-900">
+              <span className="text-[color:var(--color-text-secondary)]">Approximate size</span>
+              <span className="font-medium text-[color:var(--color-text-primary)]">
                 {formatFileSize(base64Size)}
               </span>
             </div>
@@ -131,7 +131,7 @@ export function ImageToBase64Tool() {
             <div className="mb-1.5 flex items-center justify-between">
               <label
                 htmlFor="base64-output"
-                className="text-sm font-medium text-slate-700"
+                className="text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Base64 data URL
               </label>
@@ -147,14 +147,14 @@ export function ImageToBase64Tool() {
               readOnly
               value={base64String}
               rows={5}
-              className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-700 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              className="w-full resize-none rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2 font-mono text-xs text-[color:var(--color-text-secondary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 
           {/* HTML snippet */}
           <div className="mt-5">
             <div className="mb-1.5 flex items-center justify-between">
-              <p className="text-sm font-medium text-slate-700">
+              <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">
                 HTML img tag
               </p>
               <button
@@ -168,14 +168,14 @@ export function ImageToBase64Tool() {
               readOnly
               value={htmlSnippet}
               rows={3}
-              className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-700 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              className="w-full resize-none rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2 font-mono text-xs text-[color:var(--color-text-secondary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 
           {/* CSS snippet */}
           <div className="mt-5">
             <div className="mb-1.5 flex items-center justify-between">
-              <p className="text-sm font-medium text-slate-700">
+              <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">
                 CSS background-image
               </p>
               <button
@@ -189,7 +189,7 @@ export function ImageToBase64Tool() {
               readOnly
               value={cssSnippet}
               rows={3}
-              className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-700 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              className="w-full resize-none rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2 font-mono text-xs text-[color:var(--color-text-secondary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
 

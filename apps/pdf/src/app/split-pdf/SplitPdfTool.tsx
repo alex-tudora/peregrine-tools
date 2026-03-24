@@ -240,10 +240,10 @@ export default function SplitPdfTool() {
       {file && (
         <div className="space-y-5">
           {/* File info header */}
-          <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">{file.name}</p>
-              <p className="text-xs text-slate-500">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">{file.name}</p>
+              <p className="text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)} &middot; {totalPages}{" "}
                 {totalPages === 1 ? "page" : "pages"}
               </p>
@@ -251,7 +251,7 @@ export default function SplitPdfTool() {
             <button
               type="button"
               onClick={resetTool}
-              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-slate-100 hover:text-[color:var(--color-text-secondary)]"
             >
               Change file
             </button>
@@ -262,7 +262,7 @@ export default function SplitPdfTool() {
             <div className="flex-1">
               <label
                 htmlFor="page-range"
-                className="mb-1.5 block text-sm font-medium text-slate-700"
+                className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Page range
               </label>
@@ -275,14 +275,14 @@ export default function SplitPdfTool() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") applyRange();
                 }}
-                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+                className="w-full rounded-lg border border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               />
             </div>
             <button
               type="button"
               onClick={applyRange}
               disabled={!rangeInput.trim()}
-              className="shrink-0 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)] px-4 py-2 text-sm font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-40"
             >
               Apply
             </button>
@@ -300,17 +300,17 @@ export default function SplitPdfTool() {
             <button
               type="button"
               onClick={deselectAll}
-              className="rounded-md px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100"
+              className="rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-slate-100"
             >
               Deselect All
             </button>
-            <span className="ml-auto text-xs text-slate-500">
+            <span className="ml-auto text-xs text-[color:var(--color-text-muted)]">
               {selectedPages.size} of {totalPages} selected
             </span>
           </div>
 
           {/* Page checkboxes grid */}
-          <div className="max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white p-3">
+          <div className="max-h-72 overflow-y-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3">
             <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <label
@@ -318,7 +318,7 @@ export default function SplitPdfTool() {
                   className={`flex cursor-pointer items-center justify-center gap-1.5 rounded-md border px-2 py-2 text-sm transition-colors select-none ${
                     selectedPages.has(page)
                       ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                      : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                   }`}
                 >
                   <input
@@ -347,7 +347,7 @@ export default function SplitPdfTool() {
               type="button"
               onClick={handleDownloadAsZip}
               disabled={isProcessing || selectedPages.size === 0}
-              className="flex-1 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex-1 rounded-lg border border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)] px-5 py-2.5 text-sm font-semibold text-[color:var(--color-text-secondary)] shadow-sm transition-colors hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isProcessing ? "Processing..." : "Download as ZIP"}
             </button>

@@ -169,8 +169,8 @@ export function PngToPdfTool() {
           />
 
           {/* Page size selector */}
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-700 mb-3">Page Size</p>
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
+            <p className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-3">Page Size</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {PAGE_SIZE_OPTIONS.map((option) => (
                 <label
@@ -178,7 +178,7 @@ export function PngToPdfTool() {
                   className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all ${
                     pageSize === option.value
                       ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-[color:var(--color-accent)]"
-                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                      : "border-[color:var(--color-border)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
                   }`}
                 >
                   <input
@@ -193,10 +193,10 @@ export function PngToPdfTool() {
                     className="accent-[color:var(--color-accent)]"
                   />
                   <div>
-                    <p className="text-sm font-medium text-slate-900">
+                    <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
                       {option.label}
                     </p>
-                    <p className="text-xs text-slate-400">{option.description}</p>
+                    <p className="text-xs text-[color:var(--color-text-muted)]">{option.description}</p>
                   </div>
                 </label>
               ))}
@@ -220,7 +220,7 @@ export function PngToPdfTool() {
                 <DownloadButton onClick={handleDownload} label="Download PDF" />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-300"
+                  className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-5 py-3 text-sm font-medium text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] hover:border-[color:var(--color-border-hover)]"
                 >
                   Start Over
                 </button>

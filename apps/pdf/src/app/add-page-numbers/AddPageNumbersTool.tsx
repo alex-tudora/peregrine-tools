@@ -176,14 +176,14 @@ export function AddPageNumbersTool() {
 
       {/* File info + controls */}
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)} &middot; {file.pageCount} page
                 {file.pageCount !== 1 ? "s" : ""}
               </p>
@@ -191,7 +191,7 @@ export function AddPageNumbersTool() {
             <button
               onClick={handleReset}
               disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Change file
             </button>
@@ -199,7 +199,7 @@ export function AddPageNumbersTool() {
 
           {/* Position selector */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Position
             </legend>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -211,7 +211,7 @@ export function AddPageNumbersTool() {
                     className={`flex cursor-pointer items-center justify-center rounded-lg border-2 px-3 py-2.5 text-sm font-medium transition-all ${
                       isSelected
                         ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] ring-1 ring-sky-500/20"
-                        : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)]"
                     }`}
                   >
                     <input
@@ -231,7 +231,7 @@ export function AddPageNumbersTool() {
 
           {/* Format selector */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Format
             </legend>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -243,7 +243,7 @@ export function AddPageNumbersTool() {
                     className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
                       isSelected
                         ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
-                        : "border-slate-200 bg-white hover:border-slate-300"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] hover:border-[color:var(--color-border-hover)]"
                     }`}
                   >
                     <input
@@ -256,12 +256,12 @@ export function AddPageNumbersTool() {
                     />
                     <span
                       className={`text-sm font-medium ${
-                        isSelected ? "text-[color:var(--color-accent)]" : "text-slate-700"
+                        isSelected ? "text-[color:var(--color-accent)]" : "text-[color:var(--color-text-secondary)]"
                       }`}
                     >
                       {option.label}
                     </span>
-                    <span className="mt-0.5 text-xs text-slate-400">
+                    <span className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                       e.g. {option.example}
                     </span>
                   </label>
@@ -276,7 +276,7 @@ export function AddPageNumbersTool() {
             <div>
               <label
                 htmlFor="start-number"
-                className="mb-2 block text-sm font-medium text-slate-700"
+                className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Starting number
               </label>
@@ -288,7 +288,7 @@ export function AddPageNumbersTool() {
                 onChange={(e) =>
                   setStartNumber(Math.max(1, parseInt(e.target.value, 10) || 1))
                 }
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
+                className="w-full rounded-lg border border-[color:var(--color-border-hover)] bg-[color:var(--color-bg-card)] px-4 py-2.5 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               />
             </div>
 
@@ -296,7 +296,7 @@ export function AddPageNumbersTool() {
             <div>
               <label
                 htmlFor="font-size"
-                className="mb-2 block text-sm font-medium text-slate-700"
+                className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Font size: {fontSize}pt
               </label>
@@ -309,7 +309,7 @@ export function AddPageNumbersTool() {
                 onChange={(e) => setFontSize(parseInt(e.target.value, 10))}
                 className="mt-1.5 w-full accent-[color:var(--color-accent)]"
               />
-              <div className="mt-1 flex justify-between text-xs text-slate-400">
+              <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
                 <span>8pt</span>
                 <span>24pt</span>
               </div>
@@ -323,9 +323,9 @@ export function AddPageNumbersTool() {
                 type="checkbox"
                 checked={skipFirst}
                 onChange={(e) => setSkipFirst(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-[color:var(--color-accent)] focus:ring-[color:var(--color-accent)]"
+                className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-[color:var(--color-accent)] focus:ring-[color:var(--color-accent)]"
               />
-              <span className="text-sm text-slate-700">
+              <span className="text-sm text-[color:var(--color-text-secondary)]">
                 Skip first page (useful for title pages)
               </span>
             </label>
@@ -335,7 +335,7 @@ export function AddPageNumbersTool() {
           {isProcessing && (
             <div className="mt-5">
               <ProgressBar progress={progress} />
-              <p className="mt-1.5 text-center text-xs text-slate-500">
+              <p className="mt-1.5 text-center text-xs text-[color:var(--color-text-muted)]">
                 Adding page numbers...
               </p>
             </div>
@@ -389,7 +389,7 @@ export function AddPageNumbersTool() {
                 />
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Number another
                 </button>

@@ -147,7 +147,7 @@ export function ImageConverterTool({
             {results.map((r) => (
               <div
                 key={r.id}
-                className="flex items-center justify-between gap-4 rounded-xl border border-[color:var(--color-border)] bg-white px-4 py-3"
+                className="flex items-center justify-between gap-4 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3"
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">{r.name}</p>

@@ -39,7 +39,7 @@ export function TextToSlugTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="slug-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="slug-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input text
         </label>
         <input
@@ -48,21 +48,21 @@ export function TextToSlugTool() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your title or phrase here..."
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <div>
-            <label htmlFor="slug-separator" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="slug-separator" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Separator
             </label>
             <select
               id="slug-separator"
               value={separator}
               onChange={(e) => setSeparator(e.target.value as "-" | "_")}
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             >
               <option value="-">Hyphen (-)</option>
               <option value="_">Underscore (_)</option>
@@ -73,16 +73,16 @@ export function TextToSlugTool() {
               type="checkbox"
               checked={lowercase}
               onChange={(e) => setLowercase(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+              className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
             />
-            <span className="text-sm text-slate-700">Lowercase</span>
+            <span className="text-sm text-[color:var(--color-text-secondary)]">Lowercase</span>
           </label>
         </div>
       </div>
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <label htmlFor="slug-output" className="text-sm font-medium text-slate-700">
+          <label htmlFor="slug-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
             Generated slug
           </label>
           {slug && (
@@ -94,8 +94,8 @@ export function TextToSlugTool() {
             </button>
           )}
         </div>
-        <div className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-mono text-slate-700 min-h-[44px]">
-          {slug || <span className="text-slate-400">Your slug will appear here...</span>}
+        <div className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] min-h-[44px]">
+          {slug || <span className="text-[color:var(--color-text-muted)]">Your slug will appear here...</span>}
         </div>
       </div>
     </div>

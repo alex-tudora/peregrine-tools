@@ -96,13 +96,13 @@ export function HeadingCheckerTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label className="text-sm font-medium text-slate-700 mb-1 block">Paste your HTML</label>
+        <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Paste your HTML</label>
         <textarea
           value={html}
           onChange={(e) => setHtml(e.target.value)}
           placeholder={'<h1>Main Title</h1>\n<h2>Section</h2>\n<h3>Subsection</h3>\n<h2>Another Section</h2>'}
           rows={10}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-mono placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] font-mono placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -145,15 +145,15 @@ export function HeadingCheckerTool() {
 
           {/* Counts */}
           <div>
-            <h2 className="text-sm font-semibold text-slate-900 mb-2">Heading Counts</h2>
+            <h2 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">Heading Counts</h2>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
               {([1, 2, 3, 4, 5, 6] as const).map((level) => (
                 <div
                   key={level}
-                  className="rounded-lg border border-slate-200 bg-white p-3 text-center"
+                  className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3 text-center"
                 >
-                  <p className="text-lg font-semibold text-slate-900">{counts[level]}</p>
-                  <p className="text-xs text-slate-500">H{level}</p>
+                  <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">{counts[level]}</p>
+                  <p className="text-xs text-[color:var(--color-text-muted)]">H{level}</p>
                 </div>
               ))}
             </div>
@@ -161,8 +161,8 @@ export function HeadingCheckerTool() {
 
           {/* Heading Tree */}
           <div>
-            <h2 className="text-sm font-semibold text-slate-900 mb-2">Heading Hierarchy</h2>
-            <div className="rounded-lg border border-slate-200 bg-white divide-y divide-slate-100">
+            <h2 className="text-sm font-semibold text-[color:var(--color-text-primary)] mb-2">Heading Hierarchy</h2>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] divide-y divide-slate-100">
               {headings.map((h) => {
                 const indent = (h.level - 1) * 20;
                 const levelColors: Record<number, string> = {
@@ -171,7 +171,7 @@ export function HeadingCheckerTool() {
                   3: "bg-violet-500",
                   4: "bg-amber-500",
                   5: "bg-pink-500",
-                  6: "bg-slate-500",
+                  6: "bg-[color:var(--color-bg-elevated)]0",
                 };
                 return (
                   <div
@@ -184,8 +184,8 @@ export function HeadingCheckerTool() {
                     >
                       H{h.level}
                     </span>
-                    <span className="text-sm text-slate-700 truncate">{h.text}</span>
-                    <span className="ml-auto shrink-0 text-xs text-slate-400">
+                    <span className="text-sm text-[color:var(--color-text-secondary)] truncate">{h.text}</span>
+                    <span className="ml-auto shrink-0 text-xs text-[color:var(--color-text-muted)]">
                       {h.text.length} chars
                     </span>
                   </div>
@@ -197,8 +197,8 @@ export function HeadingCheckerTool() {
       )}
 
       {html.trim() && headings.length === 0 && (
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-center">
-          <p className="text-sm text-slate-500">
+        <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 text-center">
+          <p className="text-sm text-[color:var(--color-text-muted)]">
             No heading tags (H1-H6) found in the provided HTML.
           </p>
         </div>

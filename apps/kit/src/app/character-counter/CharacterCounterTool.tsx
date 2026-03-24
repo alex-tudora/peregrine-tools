@@ -27,11 +27,11 @@ export function CharacterCounterTool() {
         onChange={(e) => setText(e.target.value)}
         placeholder="Start typing or paste your text here..."
         rows={10}
-        className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
       />
 
       <div className="flex items-center gap-3">
-        <label htmlFor="char-limit" className="text-sm font-medium text-slate-700 shrink-0">
+        <label htmlFor="char-limit" className="text-sm font-medium text-[color:var(--color-text-secondary)] shrink-0">
           Character limit (optional):
         </label>
         <input
@@ -41,7 +41,7 @@ export function CharacterCounterTool() {
           value={charLimit}
           onChange={(e) => setCharLimit(e.target.value)}
           placeholder="e.g. 280"
-          className="w-32 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-32 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -77,9 +77,9 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-      <p className="text-2xl font-semibold text-slate-900">{value}</p>
-      <p className="mt-1 text-xs text-slate-500">{label}</p>
+    <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+      <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{value}</p>
+      <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">{label}</p>
     </div>
   );
 }

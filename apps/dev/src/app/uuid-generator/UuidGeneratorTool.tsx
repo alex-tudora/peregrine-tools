@@ -57,7 +57,7 @@ export function UuidGeneratorTool() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end gap-4">
         <div>
-          <label htmlFor="uuid-count" className="mb-1.5 block text-sm font-medium text-slate-700">
+          <label htmlFor="uuid-count" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
             Quantity
           </label>
           <input
@@ -67,26 +67,26 @@ export function UuidGeneratorTool() {
             max={100}
             value={count}
             onChange={(e) => setCount(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
-            className="w-24 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-24 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2.5 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
 
-        <label className="flex items-center gap-2 pb-1 text-sm text-slate-700">
+        <label className="flex items-center gap-2 pb-1 text-sm text-[color:var(--color-text-secondary)]">
           <input
             type="checkbox"
             checked={uppercase}
             onChange={(e) => setUppercase(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+            className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
           />
           Uppercase
         </label>
 
-        <label className="flex items-center gap-2 pb-1 text-sm text-slate-700">
+        <label className="flex items-center gap-2 pb-1 text-sm text-[color:var(--color-text-secondary)]">
           <input
             type="checkbox"
             checked={hyphens}
             onChange={(e) => setHyphens(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+            className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
           />
           Include hyphens
         </label>
@@ -102,7 +102,7 @@ export function UuidGeneratorTool() {
       {uuids.length > 0 && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="uuid-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="uuid-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Generated UUID{uuids.length > 1 ? "s" : ""}
             </label>
             <button
@@ -117,7 +117,7 @@ export function UuidGeneratorTool() {
             value={formattedOutput}
             readOnly
             rows={Math.min(uuids.length + 1, 15)}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

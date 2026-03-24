@@ -58,7 +58,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-amber-400 hover:text-amber-600"
+      className="shrink-0 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-amber-400 hover:text-amber-600"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -67,10 +67,10 @@ function CopyButton({ text }: { text: string }) {
 
 function OutputRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3">
-      <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">{label}</span>
+    <div className="flex items-center justify-between gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
+      <span className="text-xs font-medium text-[color:var(--color-text-muted)] uppercase tracking-wide">{label}</span>
       <div className="flex items-center gap-2">
-        <code className="text-sm font-mono text-slate-800">{value}</code>
+        <code className="text-sm font-mono text-[color:var(--color-text-primary)]">{value}</code>
         <CopyButton text={value} />
       </div>
     </div>
@@ -107,10 +107,10 @@ export function HexToRgbTool() {
     <div className="space-y-8">
       {/* Hex to RGB Section */}
       <div className="space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Hex to RGB</h2>
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-secondary)] uppercase tracking-wide">Hex to RGB</h2>
         <div className="flex gap-3 items-start">
           <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-500 mb-1.5">Hex Color</label>
+            <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">Hex Color</label>
             <input
               type="text"
               value={hexInput}
@@ -120,12 +120,12 @@ export function HexToRgbTool() {
                 setHexInput(v);
               }}
               placeholder="#FF5733"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
             />
           </div>
           <div className="pt-6">
             <div
-              className="h-12 w-12 rounded-lg border border-slate-200 shadow-sm"
+              className="h-12 w-12 rounded-lg border border-[color:var(--color-border)] shadow-sm"
               style={{ backgroundColor: previewColor }}
               title="Color preview"
             />
@@ -133,7 +133,7 @@ export function HexToRgbTool() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1.5">
+          <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">
             Alpha: {alpha}
           </label>
           <input
@@ -172,11 +172,11 @@ export function HexToRgbTool() {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-slate-200" />
+      <div className="border-t border-[color:var(--color-border)]" />
 
       {/* RGB to Hex Section */}
       <div className="space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">RGB to Hex</h2>
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-secondary)] uppercase tracking-wide">RGB to Hex</h2>
         <div className="grid grid-cols-3 gap-3">
           {[
             { label: "R", value: rgbR, set: setRgbR },
@@ -184,14 +184,14 @@ export function HexToRgbTool() {
             { label: "B", value: rgbB, set: setRgbB },
           ].map(({ label, value, set }) => (
             <div key={label}>
-              <label className="block text-xs font-medium text-slate-500 mb-1.5">{label}</label>
+              <label className="block text-xs font-medium text-[color:var(--color-text-muted)] mb-1.5">{label}</label>
               <input
                 type="number"
                 min={0}
                 max={255}
                 value={value}
                 onChange={(e) => set(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-mono text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm font-mono text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
               />
             </div>
           ))}
@@ -200,7 +200,7 @@ export function HexToRgbTool() {
           <div className="flex items-center gap-3">
             <OutputRow label="Hex" value={rgbHex} />
             <div
-              className="h-10 w-10 rounded-lg border border-slate-200 shadow-sm shrink-0"
+              className="h-10 w-10 rounded-lg border border-[color:var(--color-border)] shadow-sm shrink-0"
               style={{ backgroundColor: rgbHex }}
             />
           </div>

@@ -61,7 +61,7 @@ export function UrlEncodeTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="url-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="url-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input
         </label>
         <textarea
@@ -71,7 +71,7 @@ export function UrlEncodeTool() {
           placeholder={mode === "encode" ? "Enter text or URL to encode..." : "Enter percent-encoded text to decode..."}
           rows={6}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -81,7 +81,7 @@ export function UrlEncodeTool() {
           className={`inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 active:scale-[0.98] ${
             mode === "encode"
               ? "bg-emerald-500 text-white shadow-sm shadow-emerald-500/25 hover:bg-emerald-600 hover:shadow-md hover:shadow-emerald-500/30"
-              : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50"
+              : "border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-emerald-300 hover:bg-emerald-50"
           }`}
         >
           Encode
@@ -91,7 +91,7 @@ export function UrlEncodeTool() {
           className={`inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 active:scale-[0.98] ${
             mode === "decode"
               ? "bg-emerald-500 text-white shadow-sm shadow-emerald-500/25 hover:bg-emerald-600 hover:shadow-md hover:shadow-emerald-500/30"
-              : "border border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50"
+              : "border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-emerald-300 hover:bg-emerald-50"
           }`}
         >
           Decode
@@ -109,7 +109,7 @@ export function UrlEncodeTool() {
         <div className="space-y-4">
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label htmlFor="url-output-component" className="text-sm font-medium text-slate-700">
+              <label htmlFor="url-output-component" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
                 {mode === "encode" ? "encodeURIComponent" : "decodeURIComponent"}
               </label>
               <button
@@ -124,13 +124,13 @@ export function UrlEncodeTool() {
               value={outputComponent}
               readOnly
               rows={4}
-              className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label htmlFor="url-output-uri" className="text-sm font-medium text-slate-700">
+              <label htmlFor="url-output-uri" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
                 {mode === "encode" ? "encodeURI" : "decodeURI"}
               </label>
               <button
@@ -145,7 +145,7 @@ export function UrlEncodeTool() {
               value={outputUri}
               readOnly
               rows={4}
-              className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </div>

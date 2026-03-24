@@ -122,7 +122,7 @@ export function ReadabilityScoreTool() {
         onChange={(e) => setText(e.target.value)}
         placeholder="Paste your text here to analyze its readability..."
         rows={10}
-        className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
       />
 
       {stats.words > 0 && (
@@ -131,7 +131,7 @@ export function ReadabilityScoreTool() {
           <div className={`rounded-xl p-5 ${getReadabilityBgColor(stats.fleschReadingEase)}`}>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <p className="text-sm font-medium text-slate-700">Flesch Reading Ease</p>
+                <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">Flesch Reading Ease</p>
                 <p className={`text-3xl font-bold ${getReadabilityTextColor(stats.fleschReadingEase)}`}>
                   {stats.fleschReadingEase}
                 </p>
@@ -142,13 +142,13 @@ export function ReadabilityScoreTool() {
                 {getReadabilityLabel(stats.fleschReadingEase)}
               </span>
             </div>
-            <div className="h-3 w-full rounded-full bg-white/60 overflow-hidden">
+            <div className="h-3 w-full rounded-full bg-[color:var(--color-bg-card)]/60 overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${getReadabilityColor(stats.fleschReadingEase)}`}
                 style={{ width: `${Math.min(100, stats.fleschReadingEase)}%` }}
               />
             </div>
-            <div className="mt-2 flex justify-between text-xs text-slate-500">
+            <div className="mt-2 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>Difficult</span>
               <span>Standard</span>
               <span>Easy</span>
@@ -157,36 +157,36 @@ export function ReadabilityScoreTool() {
 
           {/* Stats grid */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.fleschKincaidGrade}</p>
-              <p className="mt-1 text-xs text-slate-500">Grade Level</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.fleschKincaidGrade}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Grade Level</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.avgSentenceLength}</p>
-              <p className="mt-1 text-xs text-slate-500">Avg Sentence Length</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.avgSentenceLength}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Avg Sentence Length</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.avgSyllablesPerWord}</p>
-              <p className="mt-1 text-xs text-slate-500">Avg Syllables/Word</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.avgSyllablesPerWord}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Avg Syllables/Word</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.words}</p>
-              <p className="mt-1 text-xs text-slate-500">Words</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.words}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Words</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.sentences}</p>
-              <p className="mt-1 text-xs text-slate-500">Sentences</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.sentences}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Sentences</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4 text-center">
-              <p className="text-2xl font-semibold text-slate-900">{stats.syllables}</p>
-              <p className="mt-1 text-xs text-slate-500">Syllables</p>
+            <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
+              <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.syllables}</p>
+              <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Syllables</p>
             </div>
           </div>
 
           {/* Score interpretation */}
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-700 mb-3">Reading Ease Scale</p>
-            <div className="space-y-2 text-xs text-slate-600">
+          <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5">
+            <p className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-3">Reading Ease Scale</p>
+            <div className="space-y-2 text-xs text-[color:var(--color-text-secondary)]">
               <div className="flex justify-between"><span>90-100: Very Easy (5th grade)</span><span className="text-emerald-600 font-medium">Easy</span></div>
               <div className="flex justify-between"><span>80-89: Easy (6th grade)</span><span className="text-emerald-600 font-medium">Easy</span></div>
               <div className="flex justify-between"><span>70-79: Fairly Easy (7th grade)</span><span className="text-emerald-600 font-medium">Easy</span></div>

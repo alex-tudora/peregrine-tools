@@ -109,19 +109,19 @@ export function PdfToPngTool() {
 
       {/* File info & controls */}
       {file && images.length === 0 && (
-        <div className="rounded-xl border border-slate-200 bg-white p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-6">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[color:var(--color-text-muted)]">
                 {(file.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="text-sm text-slate-400 hover:text-red-500 transition-colors"
+              className="text-sm text-[color:var(--color-text-muted)] hover:text-red-500 transition-colors"
               aria-label="Remove file"
             >
               Remove
@@ -130,7 +130,7 @@ export function PdfToPngTool() {
 
           {/* Resolution selector */}
           <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-slate-700">
+            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Resolution
             </legend>
             <div className="grid grid-cols-3 gap-2.5">
@@ -146,7 +146,7 @@ export function PdfToPngTool() {
                     className={`flex cursor-pointer flex-col items-center rounded-lg border-2 px-3 py-2.5 transition-all ${
                       isSelected
                         ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] ring-1 ring-sky-500/20"
-                        : "border-slate-200 bg-white hover:border-slate-300"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] hover:border-[color:var(--color-border-hover)]"
                     }`}
                   >
                     <input
@@ -157,10 +157,10 @@ export function PdfToPngTool() {
                       onChange={() => setResolution(opt.value)}
                       className="sr-only"
                     />
-                    <span className={`text-sm font-semibold ${isSelected ? "text-[color:var(--color-accent)]" : "text-slate-800"}`}>
+                    <span className={`text-sm font-semibold ${isSelected ? "text-[color:var(--color-accent)]" : "text-[color:var(--color-text-primary)]"}`}>
                       {opt.label}
                     </span>
-                    <span className="text-xs text-slate-500">{opt.desc}</span>
+                    <span className="text-xs text-[color:var(--color-text-muted)]">{opt.desc}</span>
                   </label>
                 );
               })}
@@ -227,7 +227,7 @@ export function PdfToPngTool() {
             />
             <button
               onClick={handleReset}
-              className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-300"
+              className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-5 py-3 text-sm font-medium text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] hover:border-[color:var(--color-border-hover)]"
             >
               Convert Another
             </button>
@@ -238,10 +238,10 @@ export function PdfToPngTool() {
             {images.map((image, index) => (
               <div
                 key={image.pageNumber}
-                className="group overflow-hidden rounded-xl border border-slate-200 bg-white"
+                className="group overflow-hidden rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]"
               >
                 {/* Thumbnail */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-slate-50">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[color:var(--color-bg-elevated)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={previewUrlsRef.current[index]}
@@ -252,7 +252,7 @@ export function PdfToPngTool() {
 
                 {/* Info + download */}
                 <div className="flex items-center justify-between gap-2 px-3 py-2.5">
-                  <span className="text-xs font-medium text-slate-500">
+                  <span className="text-xs font-medium text-[color:var(--color-text-muted)]">
                     Page {image.pageNumber}
                   </span>
                   <button

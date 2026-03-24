@@ -46,56 +46,56 @@ export function OpenGraphPreviewTool() {
     <div className="space-y-8">
       {/* Inputs */}
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">Open Graph Details</h2>
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Open Graph Details</h2>
         <div>
-          <label className="text-sm font-medium text-slate-700 mb-1 block">OG Title</label>
+          <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Title</label>
           <input
             type="text"
             value={ogTitle}
             onChange={(e) => setOgTitle(e.target.value)}
             placeholder="Your page title"
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-slate-700 mb-1 block">OG Description</label>
+          <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Description</label>
           <textarea
             value={ogDescription}
             onChange={(e) => setOgDescription(e.target.value)}
             placeholder="A short description of your page"
             rows={2}
-            className="w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-slate-700 mb-1 block">OG Image URL</label>
+          <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">OG Image URL</label>
           <input
             type="url"
             value={ogImage}
             onChange={(e) => setOgImage(e.target.value)}
             placeholder="https://example.com/image.jpg"
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Site Name</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Site Name</label>
             <input
               type="text"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
               placeholder="My Website"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1 block">Page URL</label>
+            <label className="text-sm font-medium text-[color:var(--color-text-secondary)] mb-1 block">Page URL</label>
             <input
               type="url"
               value={pageUrl}
               onChange={(e) => setPageUrl(e.target.value)}
               placeholder="https://example.com/page"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
         </div>
@@ -103,12 +103,12 @@ export function OpenGraphPreviewTool() {
 
       {/* Preview Cards */}
       <section className="space-y-6">
-        <h2 className="text-lg font-semibold text-slate-900">Platform Previews</h2>
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Platform Previews</h2>
 
         {/* Facebook Preview */}
         <div>
-          <h3 className="text-sm font-medium text-slate-500 mb-2">Facebook</h3>
-          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <h3 className="text-sm font-medium text-[color:var(--color-text-muted)] mb-2">Facebook</h3>
+          <div className="overflow-hidden rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]">
             <div className="aspect-[1.91/1] bg-slate-100 relative">
               {ogImage ? (
                 <img
@@ -120,17 +120,17 @@ export function OpenGraphPreviewTool() {
                   }}
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+                <div className="flex items-center justify-center h-full text-[color:var(--color-text-muted)] text-sm">
                   No image provided
                 </div>
               )}
             </div>
-            <div className="px-3 py-2.5 border-t border-slate-100 bg-slate-50">
-              <p className="text-xs text-slate-500 uppercase tracking-wide">{displayDomain}</p>
-              <p className="text-sm font-semibold text-slate-900 mt-0.5 line-clamp-1">
+            <div className="px-3 py-2.5 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+              <p className="text-xs text-[color:var(--color-text-muted)] uppercase tracking-wide">{displayDomain}</p>
+              <p className="text-sm font-semibold text-[color:var(--color-text-primary)] mt-0.5 line-clamp-1">
                 {ogTitle || "Page Title"}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
+              <p className="text-xs text-[color:var(--color-text-muted)] mt-0.5 line-clamp-2">
                 {ogDescription || "Page description will appear here."}
               </p>
             </div>
@@ -139,8 +139,8 @@ export function OpenGraphPreviewTool() {
 
         {/* Twitter Preview */}
         <div>
-          <h3 className="text-sm font-medium text-slate-500 mb-2">Twitter / X</h3>
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+          <h3 className="text-sm font-medium text-[color:var(--color-text-muted)] mb-2">Twitter / X</h3>
+          <div className="overflow-hidden rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]">
             <div className="aspect-[2/1] bg-slate-100 relative">
               {ogImage ? (
                 <img
@@ -152,27 +152,27 @@ export function OpenGraphPreviewTool() {
                   }}
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+                <div className="flex items-center justify-center h-full text-[color:var(--color-text-muted)] text-sm">
                   No image provided
                 </div>
               )}
             </div>
-            <div className="px-3 py-2.5 border-t border-slate-100">
-              <p className="text-sm font-semibold text-slate-900 line-clamp-1">
+            <div className="px-3 py-2.5 border-t border-[color:var(--color-border)]">
+              <p className="text-sm font-semibold text-[color:var(--color-text-primary)] line-clamp-1">
                 {ogTitle || "Page Title"}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
+              <p className="text-xs text-[color:var(--color-text-muted)] mt-0.5 line-clamp-2">
                 {ogDescription || "Page description will appear here."}
               </p>
-              <p className="text-xs text-slate-400 mt-1">{displayDomain}</p>
+              <p className="text-xs text-[color:var(--color-text-muted)] mt-1">{displayDomain}</p>
             </div>
           </div>
         </div>
 
         {/* LinkedIn Preview */}
         <div>
-          <h3 className="text-sm font-medium text-slate-500 mb-2">LinkedIn</h3>
-          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <h3 className="text-sm font-medium text-[color:var(--color-text-muted)] mb-2">LinkedIn</h3>
+          <div className="overflow-hidden rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]">
             <div className="aspect-[1.91/1] bg-slate-100 relative">
               {ogImage ? (
                 <img
@@ -184,16 +184,16 @@ export function OpenGraphPreviewTool() {
                   }}
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+                <div className="flex items-center justify-center h-full text-[color:var(--color-text-muted)] text-sm">
                   No image provided
                 </div>
               )}
             </div>
-            <div className="px-3 py-2.5 border-t border-slate-100 bg-slate-50">
-              <p className="text-sm font-semibold text-slate-900 line-clamp-2">
+            <div className="px-3 py-2.5 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+              <p className="text-sm font-semibold text-[color:var(--color-text-primary)] line-clamp-2">
                 {ogTitle || "Page Title"}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">{displayDomain}</p>
+              <p className="text-xs text-[color:var(--color-text-muted)] mt-0.5">{displayDomain}</p>
             </div>
           </div>
         </div>
@@ -202,7 +202,7 @@ export function OpenGraphPreviewTool() {
       {/* Generated Tags */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Generated Meta Tags</h2>
+          <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">Generated Meta Tags</h2>
           <button
             onClick={handleCopyTags}
             className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600"
@@ -210,7 +210,7 @@ export function OpenGraphPreviewTool() {
             {copiedTags ? "Copied!" : "Copy HTML"}
           </button>
         </div>
-        <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed text-slate-700">
+        <pre className="overflow-x-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] p-4 text-xs leading-relaxed text-[color:var(--color-text-secondary)]">
           <code>{generatedTags}</code>
         </pre>
       </section>

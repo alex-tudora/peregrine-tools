@@ -218,20 +218,20 @@ export function ColorPickerTool() {
       <div className="grid gap-6 sm:grid-cols-[auto_1fr]">
         <div className="flex flex-col items-center gap-3">
           <div
-            className="h-40 w-40 rounded-2xl border-2 border-slate-200 shadow-sm"
+            className="h-40 w-40 rounded-2xl border-2 border-[color:var(--color-border)] shadow-sm"
             style={{ backgroundColor: hex }}
           />
           <input
             type="color"
             value={hex}
             onChange={handlePickerChange}
-            className="h-10 w-40 cursor-pointer rounded-lg border border-slate-200"
+            className="h-10 w-40 cursor-pointer rounded-lg border border-[color:var(--color-border)]"
           />
         </div>
 
         <div className="space-y-4">
           <div>
-            <label htmlFor="color-manual" className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="color-manual" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
               Enter a color (HEX, RGB, or HSL)
             </label>
             <input
@@ -240,7 +240,7 @@ export function ColorPickerTool() {
               value={manualInput}
               onChange={(e) => handleManualInput(e.target.value)}
               placeholder="#3b82f6 or rgb(59, 130, 246) or hsl(217, 91%, 60%)"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
@@ -253,11 +253,11 @@ export function ColorPickerTool() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-2.5"
+                className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2.5"
               >
                 <div>
-                  <span className="mr-3 text-xs font-semibold text-slate-500">{item.label}</span>
-                  <span className="font-mono text-sm text-slate-800">{item.value}</span>
+                  <span className="mr-3 text-xs font-semibold text-[color:var(--color-text-muted)]">{item.label}</span>
+                  <span className="font-mono text-sm text-[color:var(--color-text-primary)]">{item.value}</span>
                 </div>
                 <CopyButton text={item.value} />
               </div>
@@ -267,15 +267,15 @@ export function ColorPickerTool() {
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-medium text-slate-700">Complementary Color</p>
-        <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4">
+        <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">Complementary Color</p>
+        <div className="flex items-center gap-4 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4">
           <div
-            className="h-12 w-12 shrink-0 rounded-lg border border-slate-200"
+            className="h-12 w-12 shrink-0 rounded-lg border border-[color:var(--color-border)]"
             style={{ backgroundColor: complementaryHex }}
           />
           <div className="flex flex-wrap gap-x-6 gap-y-1">
-            <span className="font-mono text-sm text-slate-700">{complementaryHex.toUpperCase()}</span>
-            <span className="font-mono text-sm text-slate-500">
+            <span className="font-mono text-sm text-[color:var(--color-text-secondary)]">{complementaryHex.toUpperCase()}</span>
+            <span className="font-mono text-sm text-[color:var(--color-text-muted)]">
               rgb({complementaryRgb.r}, {complementaryRgb.g}, {complementaryRgb.b})
             </span>
           </div>
@@ -284,10 +284,10 @@ export function ColorPickerTool() {
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-medium text-slate-700">Shade Palette</p>
+        <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">Shade Palette</p>
         <div className="space-y-3">
           <div>
-            <p className="mb-1.5 text-xs text-slate-500">Lighter</p>
+            <p className="mb-1.5 text-xs text-[color:var(--color-text-muted)]">Lighter</p>
             <div className="flex gap-2">
               {shades.lighter.map((shade, i) => (
                 <button
@@ -297,10 +297,10 @@ export function ColorPickerTool() {
                     setManualInput("");
                   }}
                   title={shade.toUpperCase()}
-                  className="group relative h-12 flex-1 rounded-lg border border-slate-200 transition-transform hover:scale-105"
+                  className="group relative h-12 flex-1 rounded-lg border border-[color:var(--color-border)] transition-transform hover:scale-105"
                   style={{ backgroundColor: shade }}
                 >
-                  <span className="absolute inset-x-0 -bottom-5 text-center text-[10px] font-mono text-slate-400 opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="absolute inset-x-0 -bottom-5 text-center text-[10px] font-mono text-[color:var(--color-text-muted)] opacity-0 transition-opacity group-hover:opacity-100">
                     {shade.toUpperCase()}
                   </span>
                 </button>
@@ -317,7 +317,7 @@ export function ColorPickerTool() {
           </div>
 
           <div>
-            <p className="mb-1.5 text-xs text-slate-500">Darker</p>
+            <p className="mb-1.5 text-xs text-[color:var(--color-text-muted)]">Darker</p>
             <div className="flex gap-2">
               {shades.darker.map((shade, i) => (
                 <button
@@ -327,10 +327,10 @@ export function ColorPickerTool() {
                     setManualInput("");
                   }}
                   title={shade.toUpperCase()}
-                  className="group relative h-12 flex-1 rounded-lg border border-slate-200 transition-transform hover:scale-105"
+                  className="group relative h-12 flex-1 rounded-lg border border-[color:var(--color-border)] transition-transform hover:scale-105"
                   style={{ backgroundColor: shade }}
                 >
-                  <span className="absolute inset-x-0 -bottom-5 text-center text-[10px] font-mono text-slate-400 opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="absolute inset-x-0 -bottom-5 text-center text-[10px] font-mono text-[color:var(--color-text-muted)] opacity-0 transition-opacity group-hover:opacity-100">
                     {shade.toUpperCase()}
                   </span>
                 </button>

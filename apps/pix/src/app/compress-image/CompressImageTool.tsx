@@ -145,17 +145,17 @@ export default function CompressImageTool() {
 
       {/* Files + controls */}
       {entries.length > 0 && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* File list */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-slate-900">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
                 {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
               {!isProcessing && (
                 <button
                   onClick={handleReset}
-                  className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+                  className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
                 >
                   Clear all
                 </button>
@@ -166,7 +166,7 @@ export default function CompressImageTool() {
               {entries.map((entry, i) => (
                 <div
                   key={`${entry.file.name}-${i}`}
-                  className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2"
+                  className="flex items-center gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2"
                 >
                   <img
                     src={entry.preview}
@@ -174,8 +174,8 @@ export default function CompressImageTool() {
                     className="h-8 w-8 shrink-0 rounded object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-medium text-slate-900">{entry.file.name}</p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="truncate text-xs font-medium text-[color:var(--color-text-primary)]">{entry.file.name}</p>
+                    <p className="text-[10px] text-[color:var(--color-text-muted)]">
                       {formatFileSize(entry.file.size)}
                       {entry.status === "done" && entry.resultBlob && (
                         <span className="text-emerald-600">
@@ -194,7 +194,7 @@ export default function CompressImageTool() {
                   {!isProcessing && entry.status !== "processing" && (
                     <button
                       onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
-                      className="shrink-0 text-xs font-medium text-slate-500 hover:text-slate-700"
+                      className="shrink-0 text-xs font-medium text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-secondary)]"
                     >
                       {entry.status === "done" ? "↓" : "✕"}
                     </button>
@@ -207,7 +207,7 @@ export default function CompressImageTool() {
           {/* Quality slider */}
           {!allDone && (
             <fieldset className="mt-5">
-              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Quality: {quality.toFixed(1)}
               </legend>
               <input
@@ -219,7 +219,7 @@ export default function CompressImageTool() {
                 onChange={(e) => setQuality(parseFloat(e.target.value))}
                 className="w-full accent-[color:var(--color-accent)]"
               />
-              <div className="mt-1 flex justify-between text-xs text-slate-400">
+              <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
                 <span>Smaller file</span>
                 <span>Higher quality</span>
               </div>
@@ -229,7 +229,7 @@ export default function CompressImageTool() {
           {/* Output format selector */}
           {!allDone && (
             <fieldset className="mt-5">
-              <legend className="mb-2.5 text-sm font-medium text-slate-700">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Output format
               </legend>
               <div className="grid grid-cols-3 gap-2.5">
@@ -243,7 +243,7 @@ export default function CompressImageTool() {
                         ${
                           isSelected
                             ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] ring-1 ring-[color:var(--color-accent-glow)]"
-                            : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
+                            : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
                         }
                       `}
                     >
@@ -298,9 +298,9 @@ export default function CompressImageTool() {
               )}
 
               {/* Total summary */}
-              <div className="rounded-lg bg-slate-50 p-4">
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">
+                  <span className="text-[color:var(--color-text-secondary)]">
                     {entries.length} file{entries.length !== 1 ? "s" : ""} compressed
                   </span>
                   <span
@@ -332,7 +332,7 @@ export default function CompressImageTool() {
                 )}
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
                   Compress more
                 </button>

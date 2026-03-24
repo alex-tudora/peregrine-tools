@@ -114,20 +114,20 @@ export default function ProtectPdfTool() {
 
       {/* File info + controls */}
       {file && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">
+              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 {formatFileSize(file.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               Change file
             </button>
@@ -137,7 +137,7 @@ export default function ProtectPdfTool() {
           <div className="mt-5">
             <label
               htmlFor="protect-password"
-              className="mb-2 block text-sm font-medium text-slate-700"
+              className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Password
             </label>
@@ -148,12 +148,12 @@ export default function ProtectPdfTool() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter a password"
-                className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20"
+                className="w-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-2.5 pr-20 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-slate-500 transition-colors hover:text-slate-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:text-[color:var(--color-text-secondary)]"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
@@ -178,7 +178,7 @@ export default function ProtectPdfTool() {
           <div className="mt-4">
             <label
               htmlFor="protect-confirm-password"
-              className="mb-2 block text-sm font-medium text-slate-700"
+              className="mb-2 block text-sm font-medium text-[color:var(--color-text-secondary)]"
             >
               Confirm password
             </label>
@@ -189,16 +189,16 @@ export default function ProtectPdfTool() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter the password"
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 pr-20 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 ${
+                className={`w-full rounded-lg border bg-[color:var(--color-bg-card)] px-4 py-2.5 pr-20 text-sm text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-accent)]/20 ${
                   confirmPassword.length > 0 && !passwordsMatch
                     ? "border-red-300 focus:border-[color:var(--color-error)]"
-                    : "border-slate-200 focus:border-[color:var(--color-accent)]"
+                    : "border-[color:var(--color-border)] focus:border-[color:var(--color-accent)]"
                 }`}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-slate-500 transition-colors hover:text-slate-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2.5 py-1 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:text-[color:var(--color-text-secondary)]"
               >
                 {showConfirmPassword ? "Hide" : "Show"}
               </button>

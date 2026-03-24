@@ -114,7 +114,7 @@ export function CaseConverterTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="case-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="case-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input text
         </label>
         <textarea
@@ -123,7 +123,7 @@ export function CaseConverterTool() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type or paste your text here..."
           rows={6}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
@@ -135,7 +135,7 @@ export function CaseConverterTool() {
             className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
               activeCase === btn.type
                 ? "border-emerald-500 bg-emerald-500 text-white"
-                : "border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50"
+                : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-emerald-300 hover:bg-emerald-50"
             }`}
           >
             {btn.label}
@@ -145,7 +145,7 @@ export function CaseConverterTool() {
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <label htmlFor="case-output" className="text-sm font-medium text-slate-700">
+          <label htmlFor="case-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
             Converted text
           </label>
           {output && (
@@ -163,7 +163,7 @@ export function CaseConverterTool() {
           readOnly
           placeholder="Converted text will appear here..."
           rows={6}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
     </div>

@@ -159,10 +159,10 @@ export function ScreenRecorderTool() {
     <div className="space-y-6">
       {/* Idle state */}
       {state === "idle" && !resultBlob && (
-        <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-6 sm:p-8">
           <div className="flex flex-col items-center text-center">
             {/* Screen icon */}
-            <div className="mb-6 text-slate-400">
+            <div className="mb-6 text-[color:var(--color-text-muted)]">
               <svg
                 className="h-16 w-16"
                 fill="none"
@@ -187,14 +187,14 @@ export function ScreenRecorderTool() {
                   className="sr-only peer"
                 />
                 <div className="h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-[color:var(--color-accent)] transition-colors" />
-                <div className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform peer-checked:translate-x-5" />
+                <div className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-[color:var(--color-bg-card)] shadow-sm transition-transform peer-checked:translate-x-5" />
               </div>
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-[color:var(--color-text-secondary)]">
                 Include audio
               </span>
             </label>
 
-            <p className="mb-6 text-xs text-slate-400">
+            <p className="mb-6 text-xs text-[color:var(--color-text-muted)]">
               A 3-second countdown will appear before recording starts.
             </p>
 
@@ -218,14 +218,14 @@ export function ScreenRecorderTool() {
 
       {/* Countdown state */}
       {state === "countdown" && (
-        <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-6 sm:p-8">
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-[color:var(--color-accent-light)]">
               <span className="text-5xl font-bold text-[color:var(--color-accent)] animate-pulse">
                 {countdown}
               </span>
             </div>
-            <p className="text-sm font-medium text-slate-600">
+            <p className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               Recording starts in {countdown}...
             </p>
           </div>
@@ -234,7 +234,7 @@ export function ScreenRecorderTool() {
 
       {/* Recording state */}
       {state === "recording" && (
-        <div className="rounded-xl border-2 border-[color:var(--color-error)] bg-white p-6 sm:p-8">
+        <div className="rounded-xl border-2 border-[color:var(--color-error)] bg-[color:var(--color-bg-card)] p-6 sm:p-8">
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex items-center gap-3">
               <span className="relative flex h-4 w-4">
@@ -246,7 +246,7 @@ export function ScreenRecorderTool() {
               </span>
             </div>
 
-            <p className="mb-6 text-3xl font-mono font-bold text-slate-900">
+            <p className="mb-6 text-3xl font-mono font-bold text-[color:var(--color-text-primary)]">
               {formatTime(recordingTime)}
             </p>
 
@@ -270,27 +270,27 @@ export function ScreenRecorderTool() {
 
       {/* Done state */}
       {state === "done" && resultBlob && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
-              <p className="text-sm font-medium text-slate-900">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
                 Recording complete
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
                 Duration: {formatTime(recordingTime)} &middot;{" "}
                 {formatFileSize(resultBlob.size)}
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
             >
               New recording
             </button>
           </div>
 
           {/* Video preview */}
-          <div className="overflow-hidden rounded-lg border border-slate-100 bg-black">
+          <div className="overflow-hidden rounded-lg border border-[color:var(--color-border)] bg-black">
             <video
               ref={videoRef}
               controls
@@ -307,7 +307,7 @@ export function ScreenRecorderTool() {
             />
             <button
               onClick={handleReset}
-              className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+              className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
             >
               Record another
             </button>

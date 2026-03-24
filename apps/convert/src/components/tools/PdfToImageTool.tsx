@@ -138,7 +138,7 @@ export function PdfToImageTool({ targetFormat }: PdfToImageToolProps) {
                 <button
                   key={page.pageNumber}
                   onClick={() => handleDownloadPage(page)}
-                  className="group relative overflow-hidden rounded-xl border border-[color:var(--color-border)] bg-white transition-all hover:shadow-lg hover:-translate-y-0.5"
+                  className="group relative overflow-hidden rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] transition-all hover:shadow-lg hover:-translate-y-0.5"
                 >
                   <img
                     src={thumbUrl}

@@ -114,7 +114,7 @@ export function CsvToJsonTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="csv-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="csv-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           CSV Input
         </label>
         <textarea
@@ -124,30 +124,30 @@ export function CsvToJsonTool() {
           placeholder={"name,age,city\nAlice,30,London\nBob,25,Paris"}
           rows={10}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-[color:var(--color-text-secondary)]">
           <input
             type="checkbox"
             checked={hasHeaders}
             onChange={(e) => setHasHeaders(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500"
+            className="h-4 w-4 rounded border-[color:var(--color-border-hover)] text-emerald-500 focus:ring-emerald-500"
           />
           Has header row
         </label>
 
         <div className="flex items-center gap-2">
-          <label htmlFor="delimiter-select" className="text-sm font-medium text-slate-700">
+          <label htmlFor="delimiter-select" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
             Delimiter:
           </label>
           <select
             id="delimiter-select"
             value={delimiter}
             onChange={(e) => setDelimiter(e.target.value as Delimiter)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-3 py-2 text-sm text-[color:var(--color-text-secondary)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             {delimiterOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -175,7 +175,7 @@ export function CsvToJsonTool() {
       {output && (
         <div>
           <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="json-output" className="text-sm font-medium text-slate-700">
+            <label htmlFor="json-output" className="text-sm font-medium text-[color:var(--color-text-secondary)]">
               JSON Output
             </label>
             <div className="flex gap-2">
@@ -198,7 +198,7 @@ export function CsvToJsonTool() {
             value={output}
             readOnly
             rows={12}
-            className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 font-mono text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
       )}

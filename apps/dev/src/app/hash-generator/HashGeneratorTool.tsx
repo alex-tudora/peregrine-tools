@@ -57,7 +57,7 @@ export function HashGeneratorTool() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="hash-input" className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor="hash-input" className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
           Input Text
         </label>
         <textarea
@@ -67,12 +67,12 @@ export function HashGeneratorTool() {
           placeholder="Type or paste text to hash..."
           rows={6}
           spellCheck={false}
-          className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full resize-y rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3 text-sm text-[color:var(--color-text-secondary)] placeholder:text-[color:var(--color-text-muted)] focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-        <span className="font-medium text-slate-600">Note:</span> MD5 is not available in the
+      <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-4 py-3 text-xs text-[color:var(--color-text-muted)]">
+        <span className="font-medium text-[color:var(--color-text-secondary)]">Note:</span> MD5 is not available in the
         Web Crypto API because it is considered cryptographically broken. The SHA variants below
         are the recommended alternatives.
       </div>
@@ -80,9 +80,9 @@ export function HashGeneratorTool() {
       {hashes && (
         <div className="space-y-3">
           {algorithms.map((algo) => (
-            <div key={algo} className="rounded-xl border border-slate-200 bg-white p-4">
+            <div key={algo} className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4">
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">{algo}</span>
+                <span className="text-sm font-medium text-[color:var(--color-text-secondary)]">{algo}</span>
                 <button
                   onClick={() => handleCopy(algo, hashes[algo])}
                   className="rounded-md px-2.5 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-50"
@@ -90,7 +90,7 @@ export function HashGeneratorTool() {
                   {copiedAlgo === algo ? "Copied!" : "Copy"}
                 </button>
               </div>
-              <p className="break-all font-mono text-xs text-slate-600">{hashes[algo]}</p>
+              <p className="break-all font-mono text-xs text-[color:var(--color-text-secondary)]">{hashes[algo]}</p>
             </div>
           ))}
         </div>

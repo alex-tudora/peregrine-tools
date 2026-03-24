@@ -89,7 +89,7 @@ export function PngToWebpTool() {
 
       {/* File list & controls */}
       {files.length > 0 && results.length === 0 && (
-        <div className="rounded-xl border border-slate-200 bg-white p-6">
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-6">
           {/* File list */}
           <div className="space-y-2">
             {files.map((file, i) => (
@@ -97,10 +97,10 @@ export function PngToWebpTool() {
                 key={`${file.name}-${i}`}
                 className="flex items-center justify-between gap-4"
               >
-                <p className="min-w-0 truncate text-sm font-medium text-slate-900">
+                <p className="min-w-0 truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                   {file.name}
                 </p>
-                <p className="shrink-0 text-xs text-slate-400">
+                <p className="shrink-0 text-xs text-[color:var(--color-text-muted)]">
                   {formatFileSize(file.size)}
                 </p>
               </div>
@@ -108,12 +108,12 @@ export function PngToWebpTool() {
           </div>
 
           <div className="mt-3 flex items-center justify-between">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[color:var(--color-text-muted)]">
               {files.length} {files.length === 1 ? "file" : "files"} selected
             </p>
             <button
               onClick={handleReset}
-              className="text-sm text-slate-400 transition-colors hover:text-red-500"
+              className="text-sm text-[color:var(--color-text-muted)] transition-colors hover:text-red-500"
               aria-label="Remove files"
             >
               Remove
@@ -125,7 +125,7 @@ export function PngToWebpTool() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="quality-slider"
-                className="text-sm font-medium text-slate-700"
+                className="text-sm font-medium text-[color:var(--color-text-secondary)]"
               >
                 Image Quality
               </label>
@@ -144,7 +144,7 @@ export function PngToWebpTool() {
               disabled={isProcessing}
               className="mt-2 w-full accent-[color:var(--color-accent)]"
             />
-            <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <div className="mt-1 flex justify-between text-xs text-[color:var(--color-text-muted)]">
               <span>Smaller file</span>
               <span>Higher quality</span>
             </div>
@@ -220,7 +220,7 @@ export function PngToWebpTool() {
             )}
             <button
               onClick={handleReset}
-              className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50"
+              className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-5 py-3 text-sm font-medium text-[color:var(--color-text-secondary)] transition-all hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
             >
               Convert More
             </button>
@@ -231,13 +231,13 @@ export function PngToWebpTool() {
             {results.map((result, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-white px-4 py-3"
+                className="flex items-center justify-between gap-4 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3"
               >
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-slate-900">
+                  <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
                     {result.name}
                   </p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[color:var(--color-text-muted)]">
                     {formatFileSize(result.blob.size)}
                   </p>
                 </div>
