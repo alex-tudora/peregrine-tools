@@ -14,7 +14,7 @@ export function ToolCard({ icon, name, description, href, className = "" }: Tool
       href={href}
       className={`
         group relative flex items-start justify-between gap-4 rounded-2xl
-        bg-white p-6
+        bg-[color:var(--color-bg-card)] p-6
         shadow-[var(--shadow-warm-sm)]
         transition-all duration-300 ease-[var(--ease-peregrine)]
         hover:-translate-y-1 hover:shadow-[var(--shadow-warm-lg)]

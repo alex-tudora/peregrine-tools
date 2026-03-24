@@ -160,7 +160,7 @@ export default function Home() {
           {sites.map((site, i) => (
             <div
               key={site.name}
-              className={`animate-arrive delay-${i + 1} rounded-2xl bg-white shadow-[var(--shadow-warm-sm)] transition-all duration-300 ease-[var(--ease-peregrine)] hover:-translate-y-1 hover:shadow-[var(--shadow-warm-lg)] overflow-hidden`}
+              className={`animate-arrive delay-${i + 1} rounded-2xl bg-[color:var(--color-bg-card)] shadow-[var(--shadow-warm-sm)] transition-all duration-300 ease-[var(--ease-peregrine)] hover:-translate-y-1 hover:shadow-[var(--shadow-warm-lg)] overflow-hidden`}
             >
               {/* Accent top border */}
               <div className="h-[3px]" style={{ backgroundColor: site.accent }} />

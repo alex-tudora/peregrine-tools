@@ -44,7 +44,7 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-16 md:pt-28 md:pb-24">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="animate-descend inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[color:var(--color-border)] bg-white text-xs font-medium text-[color:var(--color-text-secondary)] mb-8">
+            <div className="animate-descend inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-xs font-medium text-[color:var(--color-text-secondary)] mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--color-success)]" />
               Free &middot; No sign-up &middot; 100% private
             </div>
