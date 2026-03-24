@@ -61,7 +61,7 @@ const sites = [
 
 export function Footer({ siteName = "Peregrine Tools", logo }: FooterProps) {
   return (
-    <footer className="bg-[#111827]">
+    <footer className="bg-[color:var(--color-bg-dark)]">
       {/* Brand row */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-12 pb-8">
         <div className="flex items-center gap-2.5">

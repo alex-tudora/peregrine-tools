@@ -81,7 +81,7 @@ export function Header({
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 lg:px-8">
           {/* Brand */}
           <a href={brandHref} className="flex shrink-0 items-center gap-2.5">
-            {logo || <FalconLogo size={36} className="-ml-1.5 mix-blend-multiply" />}
+            {logo || <FalconLogo size={36} className="-ml-1.5 logo-blend" />}
             <span className="text-[15px] font-medium tracking-tight text-[color:var(--color-text-primary)]">
               {siteName}
             </span>
@@ -213,7 +213,7 @@ export function Header({
             {/* Panel header */}
             <div className="flex h-14 shrink-0 items-center justify-between border-b border-[color:var(--color-border)] px-5">
               <div className="flex items-center gap-2.5">
-                {logo || <FalconLogo size={36} className="-ml-1.5 mix-blend-multiply" />}
+                {logo || <FalconLogo size={36} className="-ml-1.5 logo-blend" />}
                 <span className="text-[15px] font-medium tracking-tight text-[color:var(--color-text-primary)]">
                   {siteName}
                 </span>
