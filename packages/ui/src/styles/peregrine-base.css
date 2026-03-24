@@ -184,16 +184,13 @@
   outline: none;
 }
 
-/* Logo blend — multiply on light, normal on dark */
-.logo-blend {
-  mix-blend-mode: multiply;
-}
-html.dark .logo-blend {
-  mix-blend-mode: normal;
+/* Logo — invert on dark backgrounds so it stays visible */
+html.dark .logo-invert {
+  filter: brightness(0) invert(1);
 }
 @media (prefers-color-scheme: dark) {
-  html:not(.light) .logo-blend {
-    mix-blend-mode: normal;
+  html:not(.light) .logo-invert {
+    filter: brightness(0) invert(1);
   }
 }
 
