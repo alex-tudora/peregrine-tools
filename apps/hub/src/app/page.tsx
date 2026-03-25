@@ -27,7 +27,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinepdf.com",
     accent: "#2563EB",
     tagline: "Merge, split & compress documents",
-    toolCount: 14,
+    toolCount: 15,
     highlights: [
       { name: "Merge PDF", href: "https://peregrinepdf.com/merge-pdf" },
       { name: "Compress PDF", href: "https://peregrinepdf.com/compress-pdf" },

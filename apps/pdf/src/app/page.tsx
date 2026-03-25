@@ -22,6 +22,8 @@ const tools = [
   { icon: "\ud83d\udd12", name: "Protect PDF", description: "Add password protection to your PDFs", href: "/protect-pdf" },
   { icon: "\u270d\ufe0f", name: "Sign PDF", description: "Add your signature to PDF documents", href: "/sign-pdf" },
   { icon: "\ud83d\udd22", name: "Page Numbers", description: "Add page numbers to PDF documents", href: "/add-page-numbers" },
+  { icon: "\ud83d\udd0d", name: "OCR PDF", description: "Extract text from scanned PDFs", href: "/ocr-pdf" },
+  { icon: "\ud83d\udcdd", name: "PDF to Text", description: "Extract text from digital PDFs instantly", href: "/pdf-to-text" },
 ];
 
 const siblingHighlights = [
