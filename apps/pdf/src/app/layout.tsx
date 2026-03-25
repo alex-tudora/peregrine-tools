@@ -48,6 +48,7 @@ const pdfTools = [
   { name: "Sign PDF", href: "/sign-pdf" },
   { name: "Page Numbers", href: "/add-page-numbers" },
   { name: "OCR PDF", href: "/ocr-pdf" },
+  { name: "PDF to Text", href: "/pdf-to-text" },
 ];
 
 export default function RootLayout({

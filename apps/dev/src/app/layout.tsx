@@ -55,6 +55,7 @@ const devTools = [
   { name: "Timestamp Converter", href: "/timestamp-converter" },
   { name: "Markdown Preview", href: "/markdown-preview" },
   { name: "Password Generator", href: "/password-generator" },
+  { name: "Color Palette Generator", href: "/color-palette" },
 ];
 
 export default function RootLayout({

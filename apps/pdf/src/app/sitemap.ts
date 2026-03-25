@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/sign-pdf',
     '/add-page-numbers',
     '/ocr-pdf',
+    '/pdf-to-text',
   ];
 
   return [

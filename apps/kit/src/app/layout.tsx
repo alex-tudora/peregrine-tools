@@ -64,6 +64,7 @@ const kitTools = [
   { name: "UTM Builder", href: "/utm-builder" },
   { name: "QR Code Generator", href: "/qr-code-generator" },
   { name: "Heading Checker", href: "/heading-checker" },
+  { name: "Text to Speech", href: "/text-to-speech" },
 ];
 
 export default function RootLayout({

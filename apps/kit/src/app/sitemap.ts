@@ -35,6 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/utm-builder',
     '/qr-code-generator',
     '/heading-checker',
+    '/text-to-speech',
   ];
 
   return [

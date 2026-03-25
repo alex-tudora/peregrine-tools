@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/timestamp-converter',
     '/markdown-preview',
     '/password-generator',
+    '/color-palette',
   ];
 
   return [
