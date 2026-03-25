@@ -53,6 +53,8 @@ const devTools = [
   { name: "SQL Formatter", href: "/sql-formatter" },
   { name: "Diff Checker", href: "/diff-checker" },
   { name: "Timestamp Converter", href: "/timestamp-converter" },
+  { name: "Markdown Preview", href: "/markdown-preview" },
+  { name: "Password Generator", href: "/password-generator" },
 ];
 
 export default function RootLayout({

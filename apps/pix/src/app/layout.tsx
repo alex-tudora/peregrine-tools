@@ -49,6 +49,7 @@ const pixTools = [
   { name: "Flip & Rotate", href: "/flip-rotate" },
   { name: "Favicon Generator", href: "/favicon-generator" },
   { name: "Image to Base64", href: "/image-to-base64" },
+  { name: "Image Filters", href: "/image-filters" },
 ];
 
 export default function RootLayout({

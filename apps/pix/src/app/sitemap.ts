@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/flip-rotate',
     '/favicon-generator',
     '/image-to-base64',
+    '/image-filters',
   ];
 
   return [

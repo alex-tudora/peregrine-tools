@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/sql-formatter',
     '/diff-checker',
     '/timestamp-converter',
+    '/markdown-preview',
+    '/password-generator',
   ];
 
   return [
