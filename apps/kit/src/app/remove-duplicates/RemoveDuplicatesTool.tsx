@@ -111,7 +111,7 @@ export function RemoveDuplicatesTool() {
       </button>
 
       {stats && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
           <div className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-4 text-center">
             <p className="text-2xl font-semibold text-[color:var(--color-text-primary)]">{stats.original}</p>
             <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">Original Lines</p>

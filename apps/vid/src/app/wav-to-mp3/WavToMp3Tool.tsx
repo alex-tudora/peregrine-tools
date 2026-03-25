@@ -126,7 +126,7 @@ export function WavToMp3Tool() {
             <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Output bitrate
             </legend>
-            <div className="grid grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5">
               {BITRATE_OPTIONS.map((option) => {
                 const isSelected = bitrate === option.value;
                 return (

@@ -105,7 +105,7 @@ export function JsonValidatorTool() {
           </div>
 
           {result.valid ? (
-            <div className="mt-3 grid grid-cols-3 gap-3">
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
               <div className="rounded-lg border border-emerald-200 bg-[color:var(--color-bg-card)] p-3 text-center">
                 <p className="text-lg font-semibold text-[color:var(--color-text-primary)] capitalize">{result.rootType}</p>
                 <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">Root Type</p>

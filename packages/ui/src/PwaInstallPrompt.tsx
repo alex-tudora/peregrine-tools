@@ -58,7 +58,7 @@ export function PwaInstallPrompt() {
       </div>
       <button
         onClick={handleInstall}
-        className="shrink-0 rounded-lg bg-[color:var(--color-accent)] px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-[color:var(--color-accent-hover)]"
+        className="shrink-0 rounded-lg bg-[color:var(--color-accent)] px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-[color:var(--color-accent-hover)]"
       >
         Install
       </button>

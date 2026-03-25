@@ -177,7 +177,7 @@ export function HexToRgbTool() {
       {/* RGB to Hex Section */}
       <div className="space-y-4">
         <h2 className="text-sm font-semibold text-[color:var(--color-text-secondary)] uppercase tracking-wide">RGB to Hex</h2>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
           {[
             { label: "R", value: rgbR, set: setRgbR },
             { label: "G", value: rgbG, set: setRgbG },

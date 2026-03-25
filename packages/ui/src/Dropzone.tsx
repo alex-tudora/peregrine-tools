@@ -154,8 +154,8 @@ export function Dropzone({
           }
         }}
         className={`
-          relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center
-          rounded-2xl border-2 border-dashed p-8 text-center
+          relative flex min-h-[160px] sm:min-h-[220px] cursor-pointer flex-col items-center justify-center
+          rounded-2xl border-2 border-dashed p-5 sm:p-8 text-center
           transition-all duration-300 ease-[var(--ease-peregrine)]
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2
           ${

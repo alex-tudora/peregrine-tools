@@ -61,7 +61,7 @@ export default async function ComparePage({
       {/* Comparison table */}
       <div className="mt-12 rounded-xl border border-[color:var(--color-border)] overflow-hidden">
         {/* Table header */}
-        <div className="grid grid-cols-[1fr_1fr_1fr] bg-[color:var(--color-bg-elevated)] border-b border-[color:var(--color-border)]">
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] bg-[color:var(--color-bg-elevated)] border-b border-[color:var(--color-border)]">
           <div className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)]">
             Feature
           </div>
@@ -77,7 +77,7 @@ export default async function ComparePage({
         {data.features.map((feature, i) => (
           <div
             key={feature.category}
-            className={`grid grid-cols-[1fr_1fr_1fr] ${
+            className={`grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] ${
               i < data.features.length - 1 ? "border-b border-[color:var(--color-border)]" : ""
             }`}
           >

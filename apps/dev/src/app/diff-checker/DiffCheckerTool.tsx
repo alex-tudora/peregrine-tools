@@ -182,7 +182,7 @@ export function DiffCheckerTool() {
 
       {/* Stats */}
       {hasCompared && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
           <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-center">
             <p className="text-lg font-semibold text-emerald-700">{stats.added}</p>
             <p className="text-xs text-emerald-600">Added</p>

@@ -109,7 +109,7 @@ export function DateDifferenceTool() {
           </div>
 
           {/* Totals */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
             <div className="rounded-lg border border-[color:var(--color-border)] p-3 text-center">
               <p className="text-xs text-[color:var(--color-text-muted)] mb-1">Total Days</p>
               <p className="text-lg font-semibold text-[color:var(--color-text-primary)]">

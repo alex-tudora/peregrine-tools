@@ -101,7 +101,7 @@ export function BeforeAfterComparison({
           style={{ left: `${position}%`, transform: "translateX(-50%)" }}
         >
           {/* Handle */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[color:var(--color-accent)] shadow-lg">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-[color:var(--color-accent)] shadow-lg">
             <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l4-4 4 4M8 15l4 4 4-4" />
             </svg>
@@ -109,7 +109,7 @@ export function BeforeAfterComparison({
         </div>
       </div>
 
-      <p className="text-center text-[10px] text-[color:var(--color-text-muted)]">
+      <p className="text-center text-xs text-[color:var(--color-text-muted)]">
         Drag the slider to compare
       </p>
     </div>
