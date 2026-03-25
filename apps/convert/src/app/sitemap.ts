@@ -13,6 +13,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    ...['/blog/file-conversion-guide', '/blog/video-audio-format-differences', '/blog/image-format-conversion-tips'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...['/compare/zamzar', '/compare/onlineconvert'].map((route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    {
       url: `${baseUrl}/privacy`,
       lastModified,
       changeFrequency: 'monthly',
