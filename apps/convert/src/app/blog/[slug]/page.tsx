@@ -74,18 +74,7 @@ export default async function BlogPostPage({
 
       {/* Content */}
       <div
-        className="mt-10 prose prose-slate max-w-none
-          prose-headings:font-semibold prose-headings:text-[color:var(--color-text-primary)]
-          prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3
-          prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-2
-          prose-p:text-[color:var(--color-text-secondary)] prose-p:leading-relaxed
-          prose-a:text-[color:var(--color-accent)] prose-a:no-underline hover:prose-a:underline
-          prose-li:text-[color:var(--color-text-secondary)]
-          prose-strong:text-[color:var(--color-text-primary)]
-          prose-table:text-sm
-          prose-th:text-left prose-th:py-2 prose-th:px-3 prose-th:bg-[color:var(--color-bg-elevated)] prose-th:text-[color:var(--color-text-primary)]
-          prose-td:py-2 prose-td:px-3 prose-td:text-[color:var(--color-text-secondary)] prose-td:border-t prose-td:border-[color:var(--color-border)]
-        "
+        className="mt-10 blog-content"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 

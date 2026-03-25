@@ -207,7 +207,7 @@ export function ToolLayout({
               About This Tool
             </h2>
             <div
-              className="prose prose-sm max-w-none text-[color:var(--color-text-secondary)] leading-relaxed"
+              className="blog-content max-w-none text-sm"
               dangerouslySetInnerHTML={{ __html: about }}
             />
           </section>
