@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Dropzone, DownloadButton, ProgressBar, logActivity } from "@peregrine/ui";
+import { Dropzone, DownloadButton, ProgressBar, logActivity, usePreference } from "@peregrine/ui";
 import { compressPdf, type CompressionQuality } from "@/lib/compress";
 import { downloadFile, downloadAsZip, formatFileSize, readFileAsArrayBuffer } from "@/lib/download";
 
@@ -37,7 +37,7 @@ interface FileEntry {
 
 export default function CompressPdfTool() {
   const [entries, setEntries] = useState<FileEntry[]>([]);
-  const [quality, setQuality] = useState<CompressionQuality>("medium");
+  const [quality, setQuality] = usePreference<CompressionQuality>("compress-pdf-quality", "medium");
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -148,7 +148,6 @@ export default function CompressPdfTool() {
 
   const handleReset = useCallback(() => {
     setEntries([]);
-    setQuality("medium");
     setIsProcessing(false);
     setProgress(0);
     setError(null);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity } from "@peregrine/ui";
+import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity, usePreference } from "@peregrine/ui";
 import { resizeImage, type ResizeOptions } from "@/lib/resize";
 import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
 
@@ -39,7 +39,7 @@ export default function ResizeImageTool() {
   const [height, setHeight] = useState(0);
   const [percentage, setPercentage] = useState(50);
   const [maintainAspectRatio, setMaintainAspectRatio] = useState(true);
-  const [format, setFormat] = useState<OutputFormat>("png");
+  const [format, setFormat] = usePreference<OutputFormat>("resize-image-format", "jpeg");
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -191,7 +191,6 @@ export default function ResizeImageTool() {
     setPercentage(50);
     setMaintainAspectRatio(true);
     setMode("dimensions");
-    setFormat("png");
     setIsProcessing(false);
     setError(null);
   }, [entries]);

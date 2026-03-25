@@ -21,3 +21,7 @@ export { PwaInstallPrompt } from "./PwaInstallPrompt";
 export { RecentActivity } from "./RecentActivity";
 export { useRecentActivity, logActivity } from "./useRecentActivity";
 export type { ActivityEntry } from "./useRecentActivity";
+export { usePreference } from "./usePreferences";
+export { CommandPalette } from "./CommandPalette";
+export { allTools, siteOrder } from "./toolIndex";
+export type { ToolEntry } from "./toolIndex";

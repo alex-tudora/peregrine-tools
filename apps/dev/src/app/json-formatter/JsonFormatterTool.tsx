@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { logActivity } from "@peregrine/ui";
+import { logActivity, usePreference } from "@peregrine/ui";
 
 type IndentType = "2" | "4" | "tab";
 
@@ -31,7 +31,7 @@ export function JsonFormatterTool() {
   const [output, setOutput] = useState("");
   const [highlighted, setHighlighted] = useState("");
   const [error, setError] = useState("");
-  const [indent, setIndent] = useState<IndentType>("2");
+  const [indent, setIndent] = usePreference<IndentType>("json-formatter-indent", "2");
   const [collapsed, setCollapsed] = useState(false);
   const [copied, setCopied] = useState(false);
 

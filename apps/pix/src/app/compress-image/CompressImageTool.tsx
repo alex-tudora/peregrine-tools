@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity } from "@peregrine/ui";
+import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity, usePreference } from "@peregrine/ui";
 import { compressImage, type CompressOptions } from "@/lib/compress";
 import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl } from "@/lib/download";
 
@@ -30,8 +30,8 @@ interface FileEntry {
 
 export default function CompressImageTool() {
   const [entries, setEntries] = useState<FileEntry[]>([]);
-  const [quality, setQuality] = useState(0.7);
-  const [format, setFormat] = useState<OutputFormat>("jpeg");
+  const [quality, setQuality] = usePreference("compress-image-quality", 0.7);
+  const [format, setFormat] = usePreference<OutputFormat>("compress-image-format", "jpeg");
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -123,8 +123,6 @@ export default function CompressImageTool() {
 
   const handleReset = useCallback(() => {
     setEntries([]);
-    setQuality(0.7);
-    setFormat("jpeg");
     setIsProcessing(false);
     setError(null);
   }, []);

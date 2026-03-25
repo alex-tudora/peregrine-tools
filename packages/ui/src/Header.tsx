@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { FalconLogo } from "./FalconLogo";
 import { CrossSiteNav } from "./CrossSiteNav";
 import { ThemeToggle } from "./ThemeToggle";
+import { CommandPalette } from "./CommandPalette";
 
 interface Tool {
   name: string;
@@ -30,6 +31,7 @@ export function Header({
   const [toolsOpen, setToolsOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cmdkOpen, setCmdkOpen] = useState(false);
 
   const toolsRef = useRef<HTMLDivElement>(null);
   const familyRef = useRef<HTMLDivElement>(null);
@@ -74,6 +76,18 @@ export function Header({
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [closeAll]);
+
+  /* Cmd+K / Ctrl+K to toggle command palette */
+  useEffect(() => {
+    function handleCmdK(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setCmdkOpen((prev) => !prev);
+      }
+    }
+    document.addEventListener("keydown", handleCmdK);
+    return () => document.removeEventListener("keydown", handleCmdK);
+  }, []);
 
   return (
     <>
@@ -182,6 +196,25 @@ export function Header({
               </>
             )}
 
+            {/* Command palette trigger */}
+            <button
+              onClick={() => setCmdkOpen(true)}
+              className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border)] px-2.5 py-1.5 text-[12px] font-medium text-[color:var(--color-text-muted)] transition-colors duration-200 hover:border-[color:var(--color-border-hover)] hover:text-[color:var(--color-text-secondary)]"
+              aria-label="Search all tools"
+            >
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+              <kbd className="font-sans text-[11px]">{"\u2318"}K</kbd>
+            </button>
+
             {/* Theme toggle */}
             <ThemeToggle />
           </nav>
@@ -198,6 +231,9 @@ export function Header({
           </button>
         </div>
       </header>
+
+      {/* Command palette */}
+      <CommandPalette open={cmdkOpen} onClose={() => setCmdkOpen(false)} />
 
       {/* Mobile panel */}
       {mobileOpen && (
