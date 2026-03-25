@@ -35,6 +35,7 @@ const calculatorTools = [
   { icon: "\ud83d\udcc8", name: "Compound Interest", description: "Calculate compound interest growth", href: "/compound-interest" },
   { icon: "\ud83d\udcb5", name: "Salary Calculator", description: "Convert salary to hourly and back", href: "/salary-calculator" },
   { icon: "\ud83c\udf93", name: "GPA Calculator", description: "Calculate grade point average", href: "/gpa-calculator" },
+  { icon: "\ud83c\udf45", name: "Pomodoro Timer", description: "Focus timer with work/break cycles", href: "/pomodoro-timer" },
 ];
 
 const seoTools = [

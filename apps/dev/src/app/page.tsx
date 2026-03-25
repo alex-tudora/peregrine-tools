@@ -17,6 +17,7 @@ const dataFormatTools = [
   { icon: "\ud83d\udce6", name: "YAML Formatter", description: "Format and validate YAML", href: "/yaml-formatter" },
   { icon: "\u27a1\ufe0f", name: "JSON to YAML", description: "Convert JSON to YAML", href: "/json-to-yaml" },
   { icon: "\u2b05\ufe0f", name: "YAML to JSON", description: "Convert YAML to JSON", href: "/yaml-to-json" },
+  { icon: "\ud83d\udd37", name: "JSON to TypeScript", description: "Generate TypeScript types from JSON", href: "/json-to-typescript" },
 ];
 
 const encodeGenerateTools = [

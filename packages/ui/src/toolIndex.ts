@@ -73,6 +73,7 @@ export const allTools: ToolEntry[] = [
   { name: "QR Code Generator", href: "https://peregrinekit.com/qr-code-generator", site: "Kit", siteColor: "#059669" },
   { name: "Heading Checker", href: "https://peregrinekit.com/heading-checker", site: "Kit", siteColor: "#059669" },
   { name: "Text to Speech", href: "https://peregrinekit.com/text-to-speech", site: "Kit", siteColor: "#059669" },
+  { name: "Pomodoro Timer", href: "https://peregrinekit.com/pomodoro-timer", site: "Kit", siteColor: "#059669" },
 
   // Peregrine Vid (13)
   { name: "Video to MP4", href: "https://peregrinevid.com/convert-to-mp4", site: "Vid", siteColor: "#E11D48" },
@@ -116,6 +117,7 @@ export const allTools: ToolEntry[] = [
   { name: "JSON to YAML", href: "https://peregrinedev.com/json-to-yaml", site: "Dev", siteColor: "#D97706" },
   { name: "YAML to JSON", href: "https://peregrinedev.com/yaml-to-json", site: "Dev", siteColor: "#D97706" },
   { name: "Color Contrast Checker", href: "https://peregrinedev.com/contrast-checker", site: "Dev", siteColor: "#D97706" },
+  { name: "JSON to TypeScript", href: "https://peregrinedev.com/json-to-typescript", site: "Dev", siteColor: "#D97706" },
 ];
 
 /** Site order for grouping results */
