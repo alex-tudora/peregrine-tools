@@ -14,6 +14,9 @@ const dataFormatTools = [
   { icon: "\ud83d\udccb", name: "CSV to JSON", description: "Convert CSV to JSON format", href: "/csv-to-json" },
   { icon: "\ud83d\udcdd", name: "SQL Formatter", description: "Format SQL queries", href: "/sql-formatter" },
   { icon: "\ud83d\udd00", name: "Diff Checker", description: "Compare two texts", href: "/diff-checker" },
+  { icon: "\ud83d\udce6", name: "YAML Formatter", description: "Format and validate YAML", href: "/yaml-formatter" },
+  { icon: "\u27a1\ufe0f", name: "JSON to YAML", description: "Convert JSON to YAML", href: "/json-to-yaml" },
+  { icon: "\u2b05\ufe0f", name: "YAML to JSON", description: "Convert YAML to JSON", href: "/yaml-to-json" },
 ];
 
 const encodeGenerateTools = [
@@ -36,6 +39,7 @@ const webColorTools = [
   { icon: "\ud83c\udfa8", name: "CSS Minifier", description: "Minify CSS code", href: "/css-minifier" },
   { icon: "\u26a1", name: "JS Minifier", description: "Minify JavaScript code", href: "/js-minifier" },
   { icon: "\ud83d\udcdd", name: "Markdown Preview", description: "Preview Markdown as HTML", href: "/markdown-preview" },
+  { icon: "\ud83d\udd32", name: "Contrast Checker", description: "Check WCAG color contrast", href: "/contrast-checker" },
 ];
 
 const allTools = [...dataFormatTools, ...encodeGenerateTools, ...webColorTools];

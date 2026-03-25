@@ -4,7 +4,7 @@ import { generateOrganizationStructuredData, generateWebSiteStructuredData } fro
 import { ToolSearch } from "./ToolSearch";
 
 export const metadata: Metadata = {
-  description: "97 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
+  description: "102 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
   keywords: ["free online tools", "PDF tools", "image tools", "video tools", "developer tools", "text tools", "browser-based tools", "Peregrine Tools"],
 };
 
@@ -66,7 +66,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinevid.com",
     accent: "#E11D48",
     tagline: "Compress, trim & convert video",
-    toolCount: 12,
+    toolCount: 13,
     highlights: [
       { name: "Compress Video", href: "https://peregrinevid.com/compress-video" },
       { name: "Video to MP3", href: "https://peregrinevid.com/video-to-mp3" },
@@ -79,7 +79,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinedev.com",
     accent: "#D97706",
     tagline: "JSON, regex & developer utilities",
-    toolCount: 21,
+    toolCount: 26,
     highlights: [
       { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter" },
       { name: "Regex Tester", href: "https://peregrinedev.com/regex-tester" },
@@ -181,7 +181,7 @@ export default function Home() {
             </h1>
 
             <p className="animate-arrive delay-1 mt-6 text-lg md:text-xl text-[color:var(--color-text-secondary)] leading-relaxed max-w-xl mx-auto">
-              97 free tools for documents, images, video, text, and code.
+              102 free tools for documents, images, video, text, and code.
               Processed in your browser.
             </p>
 
@@ -365,7 +365,7 @@ export default function Home() {
       <section className="border-t border-[color:var(--color-border)]">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
           <p className="text-2xl md:text-3xl font-medium leading-relaxed text-[color:var(--color-text-primary)]">
-            97 tools. 5 sites. Zero uploads. Always free.
+            102 tools. 5 sites. Zero uploads. Always free.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-8 text-sm text-[color:var(--color-text-muted)]">
             <span>100% browser-based</span>

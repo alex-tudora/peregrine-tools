@@ -91,8 +91,9 @@ const allTools: Tool[] = [
   { name: "Compress Audio", href: "https://peregrinevid.com/compress-audio", site: "Vid", siteColor: "#E11D48" },
   { name: "Video to WebM", href: "https://peregrinevid.com/video-to-webm", site: "Vid", siteColor: "#E11D48" },
   { name: "Screen Recorder", href: "https://peregrinevid.com/screen-recorder", site: "Vid", siteColor: "#E11D48" },
+  { name: "Trim Audio", href: "https://peregrinevid.com/trim-audio", site: "Vid", siteColor: "#E11D48" },
 
-  // Peregrine Dev (22)
+  // Peregrine Dev (26)
   { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter", site: "Dev", siteColor: "#D97706" },
   { name: "JSON Validator", href: "https://peregrinedev.com/json-validator", site: "Dev", siteColor: "#D97706" },
   { name: "JSON to CSV", href: "https://peregrinedev.com/json-to-csv", site: "Dev", siteColor: "#D97706" },
@@ -115,6 +116,10 @@ const allTools: Tool[] = [
   { name: "Password Generator", href: "https://peregrinedev.com/password-generator", site: "Dev", siteColor: "#D97706" },
   { name: "Markdown Preview", href: "https://peregrinedev.com/markdown-preview", site: "Dev", siteColor: "#D97706" },
   { name: "Color Palette Generator", href: "https://peregrinedev.com/color-palette", site: "Dev", siteColor: "#D97706" },
+  { name: "YAML Formatter", href: "https://peregrinedev.com/yaml-formatter", site: "Dev", siteColor: "#D97706" },
+  { name: "JSON to YAML", href: "https://peregrinedev.com/json-to-yaml", site: "Dev", siteColor: "#D97706" },
+  { name: "YAML to JSON", href: "https://peregrinedev.com/yaml-to-json", site: "Dev", siteColor: "#D97706" },
+  { name: "Color Contrast Checker", href: "https://peregrinedev.com/contrast-checker", site: "Dev", siteColor: "#D97706" },
 ];
 
 const placeholders = [

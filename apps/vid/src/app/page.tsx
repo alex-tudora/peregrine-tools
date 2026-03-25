@@ -23,6 +23,7 @@ const audioTools = [
   { icon: "\uD83D\uDD04", name: "MP3 to WAV", description: "Convert MP3 audio to WAV", href: "/mp3-to-wav" },
   { icon: "\uD83C\uDFA4", name: "Extract Audio", description: "Extract audio track from video", href: "/extract-audio" },
   { icon: "\uD83D\uDDDC\uFE0F", name: "Compress Audio", description: "Reduce audio file size", href: "/compress-audio" },
+  { icon: "\u2702\uFE0F", name: "Trim Audio", description: "Cut audio files to specific times", href: "/trim-audio" },
 ];
 
 const allTools = [...videoTools, ...audioTools];
