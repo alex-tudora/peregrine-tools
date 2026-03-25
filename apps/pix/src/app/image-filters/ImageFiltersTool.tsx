@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import { Dropzone, DownloadButton, logActivity } from "@peregrine/ui";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { Dropzone, DownloadButton, logActivity, BeforeAfterComparison } from "@peregrine/ui";
 import { downloadBlob, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
 
 interface Filters {
@@ -20,6 +20,40 @@ const defaultFilters: Filters = {
   blur: 0,
   grayscale: 0,
   sepia: 0,
+};
+
+interface Preset {
+  name: string;
+  values: Partial<Filters>;
+}
+
+const presets: Preset[] = [
+  { name: "Original", values: {} },
+  { name: "B&W", values: { grayscale: 100, saturation: 0 } },
+  { name: "Vintage", values: { sepia: 60, contrast: 1.1, brightness: 0.9, saturation: 0.8 } },
+  { name: "Warm", values: { sepia: 20, brightness: 1.1, saturation: 1.2 } },
+  { name: "Cool", values: { brightness: 1.05, contrast: 1.1, saturation: 0.8 } },
+  { name: "HDR", values: { contrast: 1.3, saturation: 1.4, brightness: 1.1 } },
+  { name: "Cinema", values: { contrast: 1.2, saturation: 0.9, brightness: 0.95, sepia: 10 } },
+];
+
+function resolvePreset(preset: Preset): Filters {
+  return { ...defaultFilters, ...preset.values };
+}
+
+function filtersMatch(a: Filters, b: Filters): boolean {
+  return (Object.keys(defaultFilters) as (keyof Filters)[]).every(
+    (k) => a[k] === b[k],
+  );
+}
+
+const sliderLabels: Record<keyof Filters, [string, string]> = {
+  brightness: ["Darker", "Brighter"],
+  contrast: ["Flat", "Punchy"],
+  saturation: ["Muted", "Vivid"],
+  blur: ["Sharp", "Soft"],
+  grayscale: ["Color", "Mono"],
+  sepia: ["None", "Warm"],
 };
 
 function buildFilterString(filters: Filters): string {
@@ -41,6 +75,16 @@ export function ImageFiltersTool() {
   const [error, setError] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const [filteredDataUrl, setFilteredDataUrl] = useState<string | null>(null);
+
+  const activePreset = useMemo(() => {
+    const match = presets.find((p) => filtersMatch(filters, resolvePreset(p)));
+    return match ? match.name : "Custom";
+  }, [filters]);
+
+  const applyPreset = useCallback((preset: Preset) => {
+    setFilters(resolvePreset(preset));
+  }, []);
 
   const handleFiles = useCallback(async (files: File[]) => {
     const selected = files[0];
@@ -75,6 +119,13 @@ export function ImageFiltersTool() {
     ctx.filter = buildFilterString(filters);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0);
+
+    // Generate a data URL for the before/after comparison
+    try {
+      setFilteredDataUrl(canvas.toDataURL("image/png"));
+    } catch {
+      setFilteredDataUrl(null);
+    }
   }, [filters, preview]);
 
   const updateFilter = useCallback(
@@ -92,6 +143,7 @@ export function ImageFiltersTool() {
     setFile(null);
     setPreview(null);
     setFilters({ ...defaultFilters });
+    setFilteredDataUrl(null);
     setIsProcessing(false);
     setError(null);
     imageRef.current = null;
@@ -153,6 +205,8 @@ export function ImageFiltersTool() {
     { key: "sepia", label: "Sepia", min: 0, max: 100, step: 1, unit: "%" },
   ];
 
+  const showComparison = filtersChanged && preview && filteredDataUrl;
+
   return (
     <div className="space-y-6">
       {/* Dropzone — only visible when no file is loaded */}
@@ -195,37 +249,90 @@ export function ImageFiltersTool() {
             />
           </div>
 
+          {/* Before / After comparison */}
+          {showComparison && (
+            <div className="mt-4">
+              <BeforeAfterComparison
+                beforeSrc={preview}
+                afterSrc={filteredDataUrl}
+                beforeLabel="Original"
+                afterLabel="Filtered"
+              />
+            </div>
+          )}
+
+          {/* Preset buttons */}
+          <div className="mt-5">
+            <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">
+              Presets
+            </p>
+            <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2">
+              {presets.map((preset) => {
+                const isActive = activePreset === preset.name;
+                return (
+                  <button
+                    key={preset.name}
+                    onClick={() => applyPreset(preset)}
+                    className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                      isActive
+                        ? "border-violet-500 bg-violet-500 text-white"
+                        : "border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-bg-elevated)]"
+                    }`}
+                  >
+                    {preset.name}
+                  </button>
+                );
+              })}
+              {activePreset === "Custom" && (
+                <span className="shrink-0 rounded-full border border-violet-500 bg-violet-500 px-3 py-1 text-xs font-medium text-white">
+                  Custom
+                </span>
+              )}
+            </div>
+          </div>
+
           {/* Filter sliders */}
           <fieldset className="mt-5 space-y-4">
             <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
               Adjustments
             </legend>
-            {sliders.map(({ key, label, min, max, step, unit }) => (
-              <div key={key}>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor={`filter-${key}`}
-                    className="text-sm font-medium text-[color:var(--color-text-secondary)]"
-                  >
-                    {label}
-                  </label>
-                  <span className="text-xs tabular-nums text-[color:var(--color-text-muted)]">
-                    {filters[key]}
-                    {unit}
-                  </span>
+            {sliders.map(({ key, label, min, max, step, unit }) => {
+              const [lowLabel, highLabel] = sliderLabels[key];
+              return (
+                <div key={key}>
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor={`filter-${key}`}
+                      className="text-sm font-medium text-[color:var(--color-text-secondary)]"
+                    >
+                      {label}
+                    </label>
+                    <span className="text-xs tabular-nums text-[color:var(--color-text-muted)]">
+                      {filters[key]}
+                      {unit}
+                    </span>
+                  </div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="w-14 shrink-0 text-right text-[10px] text-[color:var(--color-text-muted)]">
+                      {lowLabel}
+                    </span>
+                    <input
+                      id={`filter-${key}`}
+                      type="range"
+                      min={min}
+                      max={max}
+                      step={step}
+                      value={filters[key]}
+                      onChange={(e) => updateFilter(key, parseFloat(e.target.value))}
+                      className="w-full accent-violet-500"
+                    />
+                    <span className="w-14 shrink-0 text-[10px] text-[color:var(--color-text-muted)]">
+                      {highLabel}
+                    </span>
+                  </div>
                 </div>
-                <input
-                  id={`filter-${key}`}
-                  type="range"
-                  min={min}
-                  max={max}
-                  step={step}
-                  value={filters[key]}
-                  onChange={(e) => updateFilter(key, parseFloat(e.target.value))}
-                  className="mt-1 w-full accent-violet-500"
-                />
-              </div>
-            ))}
+              );
+            })}
           </fieldset>
 
           {/* Reset filters button */}
