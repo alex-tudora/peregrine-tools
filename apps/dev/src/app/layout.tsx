@@ -60,6 +60,7 @@ const devTools = [
   { name: "YAML Formatter", href: "/yaml-formatter" },
   { name: "JSON to YAML", href: "/json-to-yaml" },
   { name: "YAML to JSON", href: "/yaml-to-json" },
+  { name: "JSON to TypeScript", href: "/json-to-typescript" },
 ];
 
 export default function RootLayout({

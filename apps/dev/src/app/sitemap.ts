@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/yaml-formatter',
     '/json-to-yaml',
     '/yaml-to-json',
+    '/json-to-typescript',
   ];
 
   return [

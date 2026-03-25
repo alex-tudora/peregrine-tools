@@ -65,6 +65,7 @@ const kitTools = [
   { name: "QR Code Generator", href: "/qr-code-generator" },
   { name: "Heading Checker", href: "/heading-checker" },
   { name: "Text to Speech", href: "/text-to-speech" },
+  { name: "Pomodoro Timer", href: "/pomodoro-timer" },
 ];
 
 export default function RootLayout({

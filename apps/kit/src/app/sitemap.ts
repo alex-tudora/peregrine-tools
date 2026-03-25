@@ -36,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/qr-code-generator',
     '/heading-checker',
     '/text-to-speech',
+    '/pomodoro-timer',
   ];
 
   return [
