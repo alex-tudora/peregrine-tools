@@ -10,7 +10,7 @@ interface Tool {
 }
 
 const allTools: Tool[] = [
-  // Peregrine PDF (13)
+  // Peregrine PDF (16)
   { name: "Merge PDF", href: "https://peregrinepdf.com/merge-pdf", site: "PDF", siteColor: "#2563EB" },
   { name: "Split PDF", href: "https://peregrinepdf.com/split-pdf", site: "PDF", siteColor: "#2563EB" },
   { name: "Compress PDF", href: "https://peregrinepdf.com/compress-pdf", site: "PDF", siteColor: "#2563EB" },
@@ -24,8 +24,10 @@ const allTools: Tool[] = [
   { name: "Protect PDF", href: "https://peregrinepdf.com/protect-pdf", site: "PDF", siteColor: "#2563EB" },
   { name: "Sign PDF", href: "https://peregrinepdf.com/sign-pdf", site: "PDF", siteColor: "#2563EB" },
   { name: "Page Numbers", href: "https://peregrinepdf.com/add-page-numbers", site: "PDF", siteColor: "#2563EB" },
+  { name: "OCR PDF", href: "https://peregrinepdf.com/ocr-pdf", site: "PDF", siteColor: "#2563EB" },
+  { name: "PDF to Text", href: "https://peregrinepdf.com/pdf-to-text", site: "PDF", siteColor: "#2563EB" },
 
-  // Peregrine Pix (15)
+  // Peregrine Pix (16)
   { name: "Compress Image", href: "https://peregrinepix.com/compress-image", site: "Pix", siteColor: "#7C3AED" },
   { name: "Resize Image", href: "https://peregrinepix.com/resize-image", site: "Pix", siteColor: "#7C3AED" },
   { name: "Crop Image", href: "https://peregrinepix.com/crop-image", site: "Pix", siteColor: "#7C3AED" },
@@ -41,8 +43,9 @@ const allTools: Tool[] = [
   { name: "Flip & Rotate", href: "https://peregrinepix.com/flip-rotate", site: "Pix", siteColor: "#7C3AED" },
   { name: "Favicon Generator", href: "https://peregrinepix.com/favicon-generator", site: "Pix", siteColor: "#7C3AED" },
   { name: "Image to Base64", href: "https://peregrinepix.com/image-to-base64", site: "Pix", siteColor: "#7C3AED" },
+  { name: "Image Filters", href: "https://peregrinepix.com/image-filters", site: "Pix", siteColor: "#7C3AED" },
 
-  // Peregrine Kit (30)
+  // Peregrine Kit (31)
   { name: "Word Counter", href: "https://peregrinekit.com/word-counter", site: "Kit", siteColor: "#059669" },
   { name: "Character Counter", href: "https://peregrinekit.com/character-counter", site: "Kit", siteColor: "#059669" },
   { name: "Case Converter", href: "https://peregrinekit.com/case-converter", site: "Kit", siteColor: "#059669" },
@@ -73,6 +76,7 @@ const allTools: Tool[] = [
   { name: "UTM Builder", href: "https://peregrinekit.com/utm-builder", site: "Kit", siteColor: "#059669" },
   { name: "QR Code Generator", href: "https://peregrinekit.com/qr-code-generator", site: "Kit", siteColor: "#059669" },
   { name: "Heading Checker", href: "https://peregrinekit.com/heading-checker", site: "Kit", siteColor: "#059669" },
+  { name: "Text to Speech", href: "https://peregrinekit.com/text-to-speech", site: "Kit", siteColor: "#059669" },
 
   // Peregrine Vid (12)
   { name: "Video to MP4", href: "https://peregrinevid.com/convert-to-mp4", site: "Vid", siteColor: "#E11D48" },
@@ -88,7 +92,7 @@ const allTools: Tool[] = [
   { name: "Video to WebM", href: "https://peregrinevid.com/video-to-webm", site: "Vid", siteColor: "#E11D48" },
   { name: "Screen Recorder", href: "https://peregrinevid.com/screen-recorder", site: "Vid", siteColor: "#E11D48" },
 
-  // Peregrine Dev (19)
+  // Peregrine Dev (22)
   { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter", site: "Dev", siteColor: "#D97706" },
   { name: "JSON Validator", href: "https://peregrinedev.com/json-validator", site: "Dev", siteColor: "#D97706" },
   { name: "JSON to CSV", href: "https://peregrinedev.com/json-to-csv", site: "Dev", siteColor: "#D97706" },
@@ -108,6 +112,9 @@ const allTools: Tool[] = [
   { name: "SQL Formatter", href: "https://peregrinedev.com/sql-formatter", site: "Dev", siteColor: "#D97706" },
   { name: "Diff Checker", href: "https://peregrinedev.com/diff-checker", site: "Dev", siteColor: "#D97706" },
   { name: "Timestamp Converter", href: "https://peregrinedev.com/timestamp-converter", site: "Dev", siteColor: "#D97706" },
+  { name: "Password Generator", href: "https://peregrinedev.com/password-generator", site: "Dev", siteColor: "#D97706" },
+  { name: "Markdown Preview", href: "https://peregrinedev.com/markdown-preview", site: "Dev", siteColor: "#D97706" },
+  { name: "Color Palette Generator", href: "https://peregrinedev.com/color-palette", site: "Dev", siteColor: "#D97706" },
 ];
 
 const placeholders = [
@@ -222,7 +229,7 @@ export function ToolSearch() {
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
           placeholder={placeholders[placeholderIndex]}
-          className="w-full h-14 pl-12 pr-4 rounded-2xl border border-[color:var(--color-border)] bg-white text-base text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] transition-all duration-200 hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-2 focus:ring-[color:var(--color-accent-glow)] focus:outline-none shadow-[var(--shadow-warm-sm)]"
+          className="w-full h-14 pl-12 pr-4 rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-base text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)] transition-all duration-200 hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-2 focus:ring-[color:var(--color-accent-glow)] focus:outline-none shadow-[var(--shadow-warm-sm)]"
           role="combobox"
           aria-expanded={showDropdown}
           aria-controls="tool-search-results"
@@ -236,7 +243,7 @@ export function ToolSearch() {
           id="tool-search-results"
           ref={resultsRef}
           role="listbox"
-          className="animate-stoop absolute z-50 mt-2 w-full max-h-80 overflow-y-auto rounded-2xl border border-[color:var(--color-border)] bg-white shadow-[var(--shadow-warm-xl)]"
+          className="animate-stoop absolute z-50 mt-2 w-full max-h-80 overflow-y-auto rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-[var(--shadow-warm-xl)]"
         >
           {results.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-[color:var(--color-text-muted)]">
