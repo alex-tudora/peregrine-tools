@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { Dropzone, DownloadButton, logActivity } from "@peregrine/ui";
 import { downloadBlob, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
 
 interface Filters {
@@ -124,6 +124,7 @@ export function ImageFiltersTool() {
 
       const baseName = file.name.replace(/\.[^.]+$/, "");
       downloadBlob(blob, `${baseName}-filtered.png`);
+      logActivity({ tool: "Image Filters", toolHref: "/image-filters", description: "Applied filters to an image" });
     } catch {
       setError("Failed to export the filtered image. Please try again.");
     } finally {

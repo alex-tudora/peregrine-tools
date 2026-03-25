@@ -4,7 +4,7 @@ import { generateOrganizationStructuredData, generateWebSiteStructuredData } fro
 import { ToolSearch } from "./ToolSearch";
 
 export const metadata: Metadata = {
-  description: "89 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
+  description: "93 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
   keywords: ["free online tools", "PDF tools", "image tools", "video tools", "developer tools", "text tools", "browser-based tools", "Peregrine Tools"],
 };
 
@@ -27,7 +27,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinepdf.com",
     accent: "#2563EB",
     tagline: "Merge, split & compress documents",
-    toolCount: 13,
+    toolCount: 14,
     highlights: [
       { name: "Merge PDF", href: "https://peregrinepdf.com/merge-pdf" },
       { name: "Compress PDF", href: "https://peregrinepdf.com/compress-pdf" },
@@ -40,7 +40,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinepix.com",
     accent: "#7C3AED",
     tagline: "Resize, compress & transform images",
-    toolCount: 15,
+    toolCount: 16,
     highlights: [
       { name: "Compress Image", href: "https://peregrinepix.com/compress-image" },
       { name: "Resize Image", href: "https://peregrinepix.com/resize-image" },
@@ -79,7 +79,7 @@ const sites: SiteShowcard[] = [
     url: "https://peregrinedev.com",
     accent: "#D97706",
     tagline: "JSON, regex & developer utilities",
-    toolCount: 19,
+    toolCount: 21,
     highlights: [
       { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter" },
       { name: "Regex Tester", href: "https://peregrinedev.com/regex-tester" },
@@ -94,14 +94,14 @@ const sites: SiteShowcard[] = [
 /* ------------------------------------------------------------------ */
 
 const popularTools = [
-  { icon: "\ud83d\udd00", name: "Merge PDF", description: "Combine multiple PDFs into one file", href: "https://peregrinepdf.com/merge-pdf" },
-  { icon: "\ud83d\uddbc\ufe0f", name: "Compress Image", description: "Compress images without losing quality", href: "https://peregrinepix.com/compress-image" },
-  { icon: "\ud83d\uddbc\ufe0f", name: "PDF to JPG", description: "Convert PDF pages to JPG images", href: "https://peregrinepdf.com/pdf-to-jpg" },
-  { icon: "\ud83c\udfb5", name: "Video to MP3", description: "Extract audio from video files", href: "https://peregrinevid.com/video-to-mp3" },
-  { icon: "\ud83c\udfa8", name: "JSON Formatter", description: "Format and beautify JSON data", href: "https://peregrinedev.com/json-formatter" },
-  { icon: "\ud83d\udcf1", name: "QR Code Generator", description: "Generate QR codes instantly", href: "https://peregrinekit.com/qr-code-generator" },
-  { icon: "\ud83d\uddbc\ufe0f", name: "Resize Image", description: "Resize images to any dimension", href: "https://peregrinepix.com/resize-image" },
-  { icon: "\ud83c\udfa5", name: "Compress Video", description: "Reduce video file size", href: "https://peregrinevid.com/compress-video" },
+  { icon: "📄", name: "Merge PDF", description: "Combine multiple PDFs into one file", href: "https://peregrinepdf.com/merge-pdf" },
+  { icon: "🗜️", name: "Compress Image", description: "Compress images without losing quality", href: "https://peregrinepix.com/compress-image" },
+  { icon: "🔍", name: "OCR PDF", description: "Extract text from scanned PDFs", href: "https://peregrinepdf.com/ocr-pdf" },
+  { icon: "🔐", name: "Password Generator", description: "Generate strong, secure passwords", href: "https://peregrinedev.com/password-generator" },
+  { icon: "🎨", name: "Image Filters", description: "Adjust brightness, contrast & more", href: "https://peregrinepix.com/image-filters" },
+  { icon: "📝", name: "Markdown Preview", description: "Live markdown editor with preview", href: "https://peregrinedev.com/markdown-preview" },
+  { icon: "🎵", name: "Video to MP3", description: "Extract audio from video files", href: "https://peregrinevid.com/video-to-mp3" },
+  { icon: "📱", name: "QR Code Generator", description: "Generate QR codes instantly", href: "https://peregrinekit.com/qr-code-generator" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -137,7 +137,7 @@ export default function Home() {
             </h1>
 
             <p className="animate-arrive delay-1 mt-6 text-lg md:text-xl text-[color:var(--color-text-secondary)] leading-relaxed max-w-xl mx-auto">
-              89 free tools for documents, images, video, text, and code.
+              93 free tools for documents, images, video, text, and code.
               Processed in your browser.
             </p>
 
@@ -291,7 +291,7 @@ export default function Home() {
       <section className="border-t border-[color:var(--color-border)]">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
           <p className="text-2xl md:text-3xl font-medium leading-relaxed text-[color:var(--color-text-primary)]">
-            89 tools. 5 sites. Zero uploads. Always free.
+            93 tools. 5 sites. Zero uploads. Always free.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-8 text-sm text-[color:var(--color-text-muted)]">
             <span>100% browser-based</span>

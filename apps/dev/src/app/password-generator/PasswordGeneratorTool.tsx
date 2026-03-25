@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { logActivity } from "@peregrine/ui";
 
 const UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
@@ -85,6 +86,7 @@ export function PasswordGeneratorTool() {
       await navigator.clipboard.writeText(password);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      logActivity({ tool: "Password Generator", toolHref: "/password-generator", description: "Generated a password" });
     } catch {
       /* clipboard may not be available */
     }

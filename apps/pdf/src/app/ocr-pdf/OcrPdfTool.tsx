@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Dropzone, ProgressBar } from "@peregrine/ui";
+import { Dropzone, ProgressBar, logActivity } from "@peregrine/ui";
 import { pdfToImages } from "@/lib/convert";
 import { downloadFile, readFileAsArrayBuffer } from "@/lib/download";
 import { createWorker } from "tesseract.js";
@@ -127,6 +127,7 @@ export function OcrPdfTool() {
     const baseName = file?.name.replace(/\.pdf$/i, "") ?? "ocr-result";
     const blob = new Blob([extractedText], { type: "text/plain" });
     downloadFile(blob, `${baseName}-ocr.txt`);
+    logActivity({ tool: "OCR PDF", toolHref: "/ocr-pdf", description: "Extracted text from a scanned PDF" });
   }, [extractedText, file]);
 
   const handleReset = useCallback(() => {
