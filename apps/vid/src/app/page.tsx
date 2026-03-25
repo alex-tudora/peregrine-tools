@@ -59,7 +59,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-16 md:pt-28 md:pb-24">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-8 md:pt-28 md:pb-12">
           <div className="max-w-3xl mx-auto text-center">
             <div className="animate-descend inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-xs font-medium text-[color:var(--color-text-secondary)] mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--color-success)]" />
@@ -83,7 +83,7 @@ export default function Home() {
       <RecentActivity />
 
       {/* Intro */}
-      <section className="max-w-3xl mx-auto px-6 lg:px-8 pt-16 pb-12 text-center">
+      <section className="max-w-3xl mx-auto px-6 lg:px-8 pt-4 pb-8 text-center">
         <p className="text-base md:text-lg text-[color:var(--color-text-secondary)] leading-relaxed">
           Peregrine Vid offers 12 free tools to convert, compress, trim, and extract audio from
           video and audio files — processed entirely in your browser using FFmpeg. No uploads,
