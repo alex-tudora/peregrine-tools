@@ -56,6 +56,10 @@ const devTools = [
   { name: "Markdown Preview", href: "/markdown-preview" },
   { name: "Password Generator", href: "/password-generator" },
   { name: "Color Palette Generator", href: "/color-palette" },
+  { name: "Color Contrast Checker", href: "/contrast-checker" },
+  { name: "YAML Formatter", href: "/yaml-formatter" },
+  { name: "JSON to YAML", href: "/json-to-yaml" },
+  { name: "YAML to JSON", href: "/yaml-to-json" },
 ];
 
 export default function RootLayout({

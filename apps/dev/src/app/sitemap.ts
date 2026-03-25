@@ -27,6 +27,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/markdown-preview',
     '/password-generator',
     '/color-palette',
+    '/contrast-checker',
+    '/yaml-formatter',
+    '/json-to-yaml',
+    '/yaml-to-json',
   ];
 
   return [

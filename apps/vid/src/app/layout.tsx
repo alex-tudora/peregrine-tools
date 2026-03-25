@@ -44,6 +44,7 @@ const vidTools = [
   { name: "MP3 to WAV", href: "/mp3-to-wav" },
   { name: "Extract Audio", href: "/extract-audio" },
   { name: "Compress Audio", href: "/compress-audio" },
+  { name: "Trim Audio", href: "/trim-audio" },
   { name: "Video to WebM", href: "/video-to-webm" },
   { name: "Screen Recorder", href: "/screen-recorder" },
 ];

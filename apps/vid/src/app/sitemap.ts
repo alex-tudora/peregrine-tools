@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/mp3-to-wav',
     '/extract-audio',
     '/compress-audio',
+    '/trim-audio',
     '/video-to-webm',
     '/screen-recorder',
   ];
