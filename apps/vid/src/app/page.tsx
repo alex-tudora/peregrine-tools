@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ToolCard } from "@peregrine/ui";
+import { ToolCard, RecentActivity } from "@peregrine/ui";
 
 export const metadata: Metadata = {
   description: "Free online video and audio tools. Convert, compress, trim, and extract audio from videos instantly in your browser. No sign-up required.",
@@ -55,6 +55,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <RecentActivity />
 
       {/* Tool Grid */}
       <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">

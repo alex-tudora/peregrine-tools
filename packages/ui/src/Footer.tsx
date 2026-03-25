@@ -107,6 +107,9 @@ export function Footer({ siteName = "Peregrine Tools", logo }: FooterProps) {
             &copy; 2026 {siteName}
           </span>
           <div className="flex items-center gap-5 text-xs text-white/25">
+            <a href="/blog" className="transition-colors duration-200 hover:text-white/60">
+              Blog
+            </a>
             <a href="/privacy" className="transition-colors duration-200 hover:text-white/60">
               Privacy
             </a>

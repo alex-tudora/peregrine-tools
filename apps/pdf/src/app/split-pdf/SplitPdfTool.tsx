@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { PDFDocument } from "pdf-lib";
-import { Dropzone, ProgressBar } from "@peregrine/ui";
+import { Dropzone, ProgressBar, logActivity } from "@peregrine/ui";
 import { splitPdf, extractPageRange } from "@/lib/split";
 import {
   downloadFile,
@@ -163,6 +163,7 @@ export default function SplitPdfTool() {
 
       const baseName = file.name.replace(/\.pdf$/i, "");
       downloadFile(result, `${baseName}_pages.pdf`);
+      logActivity({ tool: "Split PDF", toolHref: "/split-pdf", description: "Split a PDF" });
       setProgress(100);
     } catch {
       setError("Failed to extract pages. Please try again.");
@@ -195,6 +196,7 @@ export default function SplitPdfTool() {
 
       setProgress(85);
       await downloadAsZip(zipFiles, `${baseName}_split.zip`);
+      logActivity({ tool: "Split PDF", toolHref: "/split-pdf", description: "Split a PDF" });
       setProgress(100);
     } catch {
       setError("Failed to create ZIP. Please try again.");

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { Dropzone, DownloadButton, BeforeAfterComparison } from "@peregrine/ui";
+import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity } from "@peregrine/ui";
 import { resizeImage, type ResizeOptions } from "@/lib/resize";
 import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl, loadImage } from "@/lib/download";
 
@@ -165,6 +165,7 @@ export default function ResizeImageTool() {
       const baseName = entry.file.name.replace(/\.[^.]+$/, "");
       const ext = FORMAT_EXTENSIONS[format];
       downloadBlob(entry.resultBlob, `${baseName}-resized.${ext}`);
+      logActivity({ tool: "Resize Image", toolHref: "/resize-image", description: "Resized images" });
     },
     [format]
   );
@@ -176,6 +177,7 @@ export default function ResizeImageTool() {
       name: `${entry.file.name.replace(/\.[^.]+$/, "")}-resized.${ext}`,
     }));
     await downloadAsZip(files, "resized-images.zip");
+    logActivity({ tool: "Resize Image", toolHref: "/resize-image", description: "Resized images" });
   }, [doneEntries, format]);
 
   const handleReset = useCallback(() => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { logActivity } from "@peregrine/ui";
 
 type IndentType = "2" | "4" | "tab";
 
@@ -53,6 +54,7 @@ export function JsonFormatterTool() {
       setHighlighted(syntaxHighlight(formatted));
       setError("");
       setCollapsed(false);
+      logActivity({ tool: "JSON Formatter", toolHref: "/json-formatter", description: "Formatted JSON" });
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Invalid JSON";
       setError(msg);

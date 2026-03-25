@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ToolCard } from "@peregrine/ui";
+import { ToolCard, RecentActivity } from "@peregrine/ui";
 
 export const metadata: Metadata = {
   description: "Free online text tools, calculators, and SEO utilities. Word counter, case converter, percentage calculator, meta tag generator, and more. No sign-up required.",
@@ -79,6 +79,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <RecentActivity />
 
       {/* Text Tools */}
       <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-16">

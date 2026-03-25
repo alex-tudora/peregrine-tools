@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { Dropzone, DownloadButton, logActivity } from "@peregrine/ui";
 import { getFFmpeg, getFetchFile } from "@/lib/ffmpeg";
 import { downloadBlob, formatFileSize } from "@/lib/download";
 
@@ -108,6 +108,7 @@ export function CompressVideoTool() {
     if (!resultBlob || !file) return;
     const baseName = file.name.replace(/\.[^.]+$/, "");
     downloadBlob(resultBlob, `${baseName}-compressed.mp4`);
+    logActivity({ tool: "Compress Video", toolHref: "/compress-video", description: "Compressed a video" });
   }, [resultBlob, file]);
 
   const handleReset = useCallback(() => {

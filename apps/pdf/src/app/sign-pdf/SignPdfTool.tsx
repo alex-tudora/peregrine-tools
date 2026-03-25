@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import { Dropzone, DownloadButton, ProgressBar } from "@peregrine/ui";
+import { Dropzone, DownloadButton, ProgressBar, logActivity } from "@peregrine/ui";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -504,6 +504,7 @@ export function SignPdfTool() {
     if (!result || !file) return;
     const baseName = file.name.replace(/\.pdf$/i, "");
     downloadFile(result, `${baseName}-signed.pdf`);
+    logActivity({ tool: "Sign PDF", toolHref: "/sign-pdf", description: "Signed a PDF" });
   }, [result, file]);
 
   const currentFontStyle = FONT_STYLES.find((f) => f.value === fontStyle);

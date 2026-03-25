@@ -16,5 +16,5 @@ export { ThemeToggle } from "./ThemeToggle";
 export { BeforeAfterComparison } from "./BeforeAfterComparison";
 export { PwaInstallPrompt } from "./PwaInstallPrompt";
 export { RecentActivity } from "./RecentActivity";
-export { useRecentActivity } from "./useRecentActivity";
+export { useRecentActivity, logActivity } from "./useRecentActivity";
 export type { ActivityEntry } from "./useRecentActivity";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Dropzone, DownloadButton, BeforeAfterComparison } from "@peregrine/ui";
+import { Dropzone, DownloadButton, BeforeAfterComparison, logActivity } from "@peregrine/ui";
 import { compressImage, type CompressOptions } from "@/lib/compress";
 import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl } from "@/lib/download";
 
@@ -106,6 +106,7 @@ export default function CompressImageTool() {
       const baseName = entry.file.name.replace(/\.[^.]+$/, "");
       const ext = FORMAT_EXTENSIONS[format];
       downloadBlob(entry.resultBlob, `${baseName}-compressed.${ext}`);
+      logActivity({ tool: "Compress Image", toolHref: "/compress-image", description: "Compressed images" });
     },
     [format]
   );
@@ -117,6 +118,7 @@ export default function CompressImageTool() {
       name: `${entry.file.name.replace(/\.[^.]+$/, "")}-compressed.${ext}`,
     }));
     await downloadAsZip(files, "compressed-images.zip");
+    logActivity({ tool: "Compress Image", toolHref: "/compress-image", description: "Compressed images" });
   }, [doneEntries, format]);
 
   const handleReset = useCallback(() => {

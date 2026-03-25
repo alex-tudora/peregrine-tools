@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Dropzone, DownloadButton, ProgressBar } from "@peregrine/ui";
+import { Dropzone, DownloadButton, ProgressBar, logActivity } from "@peregrine/ui";
 import { compressPdf, type CompressionQuality } from "@/lib/compress";
 import { downloadFile, formatFileSize, readFileAsArrayBuffer } from "@/lib/download";
 
@@ -96,6 +96,7 @@ export default function CompressPdfTool() {
 
     const baseName = file.name.replace(/\.pdf$/i, "");
     downloadFile(result, `${baseName}-compressed.pdf`);
+    logActivity({ tool: "Compress PDF", toolHref: "/compress-pdf", description: "Compressed a PDF" });
   }, [result, file]);
 
   const handleReset = useCallback(() => {

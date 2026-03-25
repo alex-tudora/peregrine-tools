@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Dropzone, FileList, DownloadButton, ProgressBar } from "@peregrine/ui";
+import { Dropzone, FileList, DownloadButton, ProgressBar, logActivity } from "@peregrine/ui";
 import { mergePdfs } from "@/lib/merge";
 import { downloadFile, readFileAsArrayBuffer, formatFileSize } from "@/lib/download";
 
@@ -92,6 +92,7 @@ export function MergePdfTool() {
   const handleDownload = useCallback(() => {
     if (result) {
       downloadFile(result, "merged.pdf");
+      logActivity({ tool: "Merge PDF", toolHref: "/merge-pdf", description: "Merged PDF files" });
     }
   }, [result]);
 
