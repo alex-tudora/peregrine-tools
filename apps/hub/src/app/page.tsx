@@ -4,7 +4,7 @@ import { generateOrganizationStructuredData, generateWebSiteStructuredData } fro
 import { ToolSearch } from "./ToolSearch";
 
 export const metadata: Metadata = {
-  description: "93 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
+  description: "97 free online tools for documents, images, video, text, and code. Processed entirely in your browser — no sign-up, no uploads.",
   keywords: ["free online tools", "PDF tools", "image tools", "video tools", "developer tools", "text tools", "browser-based tools", "Peregrine Tools"],
 };
 
@@ -105,6 +105,33 @@ const popularTools = [
 ];
 
 /* ------------------------------------------------------------------ */
+/*  Blog Highlights (cross-site)                                       */
+/* ------------------------------------------------------------------ */
+
+const blogPosts = [
+  {
+    title: "How to Reduce PDF File Size",
+    description: "Practical tips for compressing PDFs without sacrificing quality.",
+    href: "https://peregrinepdf.com/blog/how-to-reduce-pdf-file-size",
+  },
+  {
+    title: "JPEG vs PNG vs WebP",
+    description: "When to use each image format — quality, size, and compatibility compared.",
+    href: "https://peregrinepix.com/blog/jpeg-vs-png-vs-webp",
+  },
+  {
+    title: "JSON Formatting Best Practices",
+    description: "Write cleaner JSON with consistent formatting, naming, and structure.",
+    href: "https://peregrinedev.com/blog/json-formatting-best-practices",
+  },
+  {
+    title: "How to Compress Video",
+    description: "Reduce video file size without losing visible quality.",
+    href: "https://peregrinevid.com/blog/how-to-compress-video-without-losing-quality",
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
@@ -118,6 +145,23 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateWebSiteStructuredData()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Popular Tools",
+            numberOfItems: popularTools.length,
+            itemListElement: popularTools.map((tool, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: tool.name,
+              url: tool.href,
+            })),
+          }),
+        }}
       />
 
       {/* ============================================================
@@ -137,7 +181,7 @@ export default function Home() {
             </h1>
 
             <p className="animate-arrive delay-1 mt-6 text-lg md:text-xl text-[color:var(--color-text-secondary)] leading-relaxed max-w-xl mx-auto">
-              93 free tools for documents, images, video, text, and code.
+              97 free tools for documents, images, video, text, and code.
               Processed in your browser.
             </p>
 
@@ -286,12 +330,42 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          5. Closing Statement
+          5. Latest from the Blog (cross-site)
+          ============================================================ */}
+      <section className="bg-[color:var(--color-bg-elevated)]">
+        <div className="max-w-5xl mx-auto px-6 py-20">
+          <h2 className="font-semibold text-2xl md:text-3xl text-[color:var(--color-text-primary)] text-center mb-12">
+            Latest from the Blog
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {blogPosts.map((post, i) => (
+              <a
+                key={post.href}
+                href={post.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`animate-arrive delay-${(i % 2) + 1} group block rounded-2xl bg-[color:var(--color-bg-card)] border border-[color:var(--color-border)] p-6 transition-all duration-200 hover:border-[color:var(--color-accent)]/30 hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5`}
+              >
+                <h3 className="font-semibold text-[15px] text-[color:var(--color-text-primary)] group-hover:text-[color:var(--color-accent)] transition-colors mb-2">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed">
+                  {post.description}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          6. Closing Statement
           ============================================================ */}
       <section className="border-t border-[color:var(--color-border)]">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
           <p className="text-2xl md:text-3xl font-medium leading-relaxed text-[color:var(--color-text-primary)]">
-            93 tools. 5 sites. Zero uploads. Always free.
+            97 tools. 5 sites. Zero uploads. Always free.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-8 text-sm text-[color:var(--color-text-muted)]">
             <span>100% browser-based</span>

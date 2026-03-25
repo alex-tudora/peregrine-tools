@@ -22,9 +22,46 @@ const popularConversions = [
   { from: "JPG", to: "PNG", label: "JPG to PNG", href: "/jpg-to-png" },
 ];
 
+const blogPosts = [
+  {
+    title: "The Ultimate Guide to File Conversion in 2026",
+    description: "Everything you need to know about converting documents, images, video, and audio files.",
+    href: "/blog/file-conversion-guide",
+  },
+  {
+    title: "Video and Audio Formats Explained",
+    description: "A clear breakdown of MP4, MP3, WAV, WebM, and more — when to use each and how to convert.",
+    href: "/blog/video-audio-format-differences",
+  },
+  {
+    title: "Image Format Conversion: PNG vs JPG vs WebP",
+    description: "Quality vs size trade-offs and practical tips for converting between image formats.",
+    href: "/blog/image-format-conversion-tips",
+  },
+];
+
 export default function Home() {
   return (
     <>
+      {/* === STRUCTURED DATA === */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Popular Conversions",
+            numberOfItems: popularConversions.length,
+            itemListElement: popularConversions.map((c, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: c.label,
+              url: `https://convert-a-lot.com${c.href}`,
+            })),
+          }),
+        }}
+      />
+
       {/* === HERO + PICKER === */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#FFF1E6] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
@@ -58,6 +95,14 @@ export default function Home() {
             <ConvertPicker />
           </div>
         </div>
+      </section>
+
+      {/* === INTRO === */}
+      <section className="max-w-3xl mx-auto px-6 py-12 text-center">
+        <p className="text-base md:text-lg text-[color:var(--color-text-secondary)] leading-relaxed">
+          Convert-a-Lot is your free, private file converter. Transform between PDF, images,
+          video, audio, and data formats — all in your browser. No uploads, no sign-up, no limits.
+        </p>
       </section>
 
       {/* === POPULAR CONVERSIONS === */}
@@ -134,6 +179,88 @@ export default function Home() {
                 Your file is processed locally. Nothing is uploaded. Finally, a knight you can trust with your files.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* === WHY CONVERT-A-LOT === */}
+      <section className="bg-[color:var(--color-bg-elevated)]">
+        <div className="max-w-5xl mx-auto px-6 py-20">
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)] text-center mb-12">
+            Why Convert-a-Lot
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+            {/* Privacy */}
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] mb-4">
+                <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg text-[color:var(--color-text-primary)] mb-2">
+                100% private
+              </h3>
+              <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed max-w-xs mx-auto">
+                Your files never leave your device. Everything is processed in your browser — no uploads, no servers.
+              </p>
+            </div>
+
+            {/* Free */}
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] mb-4">
+                <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg text-[color:var(--color-text-primary)] mb-2">
+                Instant & free
+              </h3>
+              <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed max-w-xs mx-auto">
+                No watermarks, no file-size limits, no paywalls. Convert as many files as you need, forever.
+              </p>
+            </div>
+
+            {/* No Sign-up */}
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[color:var(--color-accent-light)] mb-4">
+                <svg className="w-6 h-6 text-[color:var(--color-accent)]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg text-[color:var(--color-text-primary)] mb-2">
+                No sign-up needed
+              </h3>
+              <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed max-w-xs mx-auto">
+                No account, no email, no cookies to accept. Open the page, convert your file, and go.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* === LATEST GUIDES (Blog) === */}
+      <section className="border-t border-[color:var(--color-border)]">
+        <div className="max-w-5xl mx-auto px-6 py-20">
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)] text-center mb-12">
+            Latest Guides
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {blogPosts.map((post, i) => (
+              <a
+                key={post.href}
+                href={post.href}
+                className={`animate-arrive delay-${i + 1} group block rounded-2xl bg-[color:var(--color-bg-card)] border border-[color:var(--color-border)] p-6 transition-all duration-200 hover:border-[color:var(--color-accent)]/30 hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5`}
+              >
+                <h3 className="font-semibold text-[15px] text-[color:var(--color-text-primary)] group-hover:text-[color:var(--color-accent)] transition-colors mb-2">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed">
+                  {post.description}
+                </p>
+              </a>
+            ))}
           </div>
         </div>
       </section>
