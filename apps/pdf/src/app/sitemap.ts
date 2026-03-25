@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/protect-pdf',
     '/sign-pdf',
     '/add-page-numbers',
+    '/ocr-pdf',
   ];
 
   return [
