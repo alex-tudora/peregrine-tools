@@ -1,156 +1,226 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { useState, useCallback, useMemo } from "react";
+import { Dropzone, DownloadButton, logActivity } from "@peregrine/ui";
 import { flipImage, rotateImage } from "@/lib/transform";
-import { downloadBlob, formatFileSize, readFileAsDataUrl } from "@/lib/download";
+import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl } from "@/lib/download";
+
+interface FileEntry {
+  file: File;
+  preview: string;
+  resultBlob: Blob | null;
+  resultPreview: string | null;
+  status: "pending" | "processing" | "done" | "error";
+  error?: string;
+}
 
 export function FlipRotateTool() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [currentBlob, setCurrentBlob] = useState<Blob | null>(null);
+  const [entries, setEntries] = useState<FileEntry[]>([]);
   const [customDegrees, setCustomDegrees] = useState(45);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [hasTransformed, setHasTransformed] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleFiles = useCallback(async (files: File[]) => {
-    const selected = files[0];
-    if (!selected) return;
-
     setError(null);
-    setCurrentBlob(null);
-    setHasTransformed(false);
 
-    try {
-      const dataUrl = await readFileAsDataUrl(selected);
-      setFile(selected);
-      setPreview(dataUrl);
-    } catch {
-      setError("Failed to read the selected file. Please try again.");
+    const newEntries: FileEntry[] = [];
+    for (const file of files) {
+      try {
+        const preview = await readFileAsDataUrl(file);
+        newEntries.push({ file, preview, resultBlob: null, resultPreview: null, status: "pending" });
+      } catch {
+        // skip unreadable files
+      }
     }
+
+    if (newEntries.length === 0) {
+      setError("Failed to read the selected files. Please try again.");
+      return;
+    }
+
+    setEntries((prev) => [...prev, ...newEntries]);
   }, []);
 
   /**
-   * Get the current working file — either the transformed blob
+   * Get the current working file for an entry — either the transformed blob
    * wrapped as a File, or the original upload.
    */
-  const getCurrentFile = useCallback((): File | null => {
-    if (currentBlob && file) {
-      return new File([currentBlob], file.name, { type: currentBlob.type });
+  const getWorkingFile = useCallback((entry: FileEntry): File => {
+    if (entry.resultBlob) {
+      return new File([entry.resultBlob], entry.file.name, { type: entry.resultBlob.type });
     }
-    return file;
-  }, [currentBlob, file]);
-
-  const updatePreview = useCallback((blob: Blob) => {
-    const url = URL.createObjectURL(blob);
-    setPreview(url);
-    setCurrentBlob(blob);
-    setHasTransformed(true);
+    return entry.file;
   }, []);
 
-  const handleFlip = useCallback(
-    async (direction: "horizontal" | "vertical") => {
-      const workingFile = getCurrentFile();
-      if (!workingFile) return;
+  const applyTransform = useCallback(
+    async (transformFn: (file: File) => Promise<Blob>) => {
+      if (entries.length === 0) return;
 
       setIsProcessing(true);
       setError(null);
 
-      try {
-        const blob = await flipImage(workingFile, direction);
-        updatePreview(blob);
-      } catch {
-        setError("Flip failed. Please try again.");
-      } finally {
-        setIsProcessing(false);
+      for (let i = 0; i < entries.length; i++) {
+        setEntries((prev) =>
+          prev.map((e, j) => (j === i ? { ...e, status: "processing" } : e))
+        );
+
+        try {
+          const workingFile = getWorkingFile(entries[i]);
+          const blob = await transformFn(workingFile);
+          const resultPreview = URL.createObjectURL(blob);
+          setEntries((prev) =>
+            prev.map((e, j) =>
+              j === i ? { ...e, resultBlob: blob, resultPreview, status: "done" } : e
+            )
+          );
+        } catch {
+          setEntries((prev) =>
+            prev.map((e, j) =>
+              j === i ? { ...e, status: "error", error: "Transform failed" } : e
+            )
+          );
+        }
       }
+
+      setIsProcessing(false);
     },
-    [getCurrentFile, updatePreview],
+    [entries, getWorkingFile]
+  );
+
+  const handleFlip = useCallback(
+    (direction: "horizontal" | "vertical") => {
+      applyTransform((file) => flipImage(file, direction));
+    },
+    [applyTransform]
   );
 
   const handleRotate = useCallback(
-    async (degrees: number) => {
-      const workingFile = getCurrentFile();
-      if (!workingFile) return;
-
-      setIsProcessing(true);
-      setError(null);
-
-      try {
-        const blob = await rotateImage(workingFile, degrees);
-        updatePreview(blob);
-      } catch {
-        setError("Rotation failed. Please try again.");
-      } finally {
-        setIsProcessing(false);
-      }
+    (degrees: number) => {
+      applyTransform((file) => rotateImage(file, degrees));
     },
-    [getCurrentFile, updatePreview],
+    [applyTransform]
   );
 
-  const handleDownload = useCallback(() => {
-    if (!file) return;
+  const doneEntries = useMemo(() => entries.filter((e) => e.status === "done"), [entries]);
+  const hasTransformed = doneEntries.length > 0;
 
-    const blob = currentBlob;
-    if (!blob) return;
+  const handleDownload = useCallback(
+    (entry: FileEntry) => {
+      if (!entry.resultBlob) return;
+      const baseName = entry.file.name.replace(/\.[^.]+$/, "");
+      downloadBlob(entry.resultBlob, `${baseName}-transformed.png`);
+      logActivity({ tool: "Flip & Rotate", toolHref: "/flip-rotate", description: "Transformed images" });
+    },
+    []
+  );
 
-    const baseName = file.name.replace(/\.[^.]+$/, "");
-    downloadBlob(blob, `${baseName}-transformed.png`);
-  }, [currentBlob, file]);
+  const handleDownloadAll = useCallback(async () => {
+    const files = doneEntries.map((entry) => ({
+      data: entry.resultBlob!,
+      name: `${entry.file.name.replace(/\.[^.]+$/, "")}-transformed.png`,
+    }));
+    await downloadAsZip(files, "flip-rotate.zip");
+    logActivity({ tool: "Flip & Rotate", toolHref: "/flip-rotate", description: "Transformed images" });
+  }, [doneEntries]);
 
   const handleReset = useCallback(() => {
-    setFile(null);
-    setPreview(null);
-    setCurrentBlob(null);
+    setEntries([]);
     setCustomDegrees(45);
     setIsProcessing(false);
-    setHasTransformed(false);
     setError(null);
   }, []);
 
+  const handleRemove = useCallback((index: number) => {
+    setEntries((prev) => prev.filter((_, i) => i !== index));
+  }, []);
+
+  // Use the first entry's result preview (or original preview) for the main preview
+  const previewSrc = entries.length > 0
+    ? (entries[0].resultPreview ?? entries[0].preview)
+    : null;
+
   return (
     <div className="space-y-6">
-      {/* Dropzone — only visible when no file is loaded */}
-      {!file && (
+      {/* Dropzone — always visible to add more files */}
+      {!isProcessing && (
         <Dropzone
           accept={[".jpg", ".jpeg", ".png", ".webp"]}
-          multiple={false}
+          multiple={true}
           onFiles={handleFiles}
-          label="Drop your image file here"
+          label={entries.length === 0 ? "Drop your image files here" : "Drop more images to add"}
         />
       )}
 
-      {/* File info + controls */}
-      {file && preview && (
+      {/* Files + controls */}
+      {entries.length > 0 && (
         <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
-          {/* Uploaded file summary */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
-                {file.name}
+          {/* File list */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
+                {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
-              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
-                {formatFileSize(file.size)}
-              </p>
+              {!isProcessing && (
+                <button
+                  onClick={handleReset}
+                  className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
+                >
+                  Clear all
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleReset}
-              disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Change file
-            </button>
+
+            <div className="max-h-48 overflow-y-auto space-y-1.5">
+              {entries.map((entry, i) => (
+                <div
+                  key={`${entry.file.name}-${i}`}
+                  className="flex items-center gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2"
+                >
+                  <img
+                    src={entry.resultPreview ?? entry.preview}
+                    alt=""
+                    className="h-8 w-8 shrink-0 rounded object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-[color:var(--color-text-primary)]">{entry.file.name}</p>
+                    <p className="text-[10px] text-[color:var(--color-text-muted)]">
+                      {formatFileSize(entry.file.size)}
+                      {entry.status === "done" && entry.resultBlob && (
+                        <span className="text-[color:var(--color-text-secondary)]">
+                          {" → "}{formatFileSize(entry.resultBlob.size)}
+                        </span>
+                      )}
+                      {entry.status === "processing" && (
+                        <span className="text-[color:var(--color-accent)]"> Processing...</span>
+                      )}
+                      {entry.status === "error" && (
+                        <span className="text-red-500"> Failed</span>
+                      )}
+                    </p>
+                  </div>
+                  {!isProcessing && entry.status !== "processing" && (
+                    <button
+                      onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
+                      className="shrink-0 text-xs font-medium text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-secondary)]"
+                    >
+                      {entry.status === "done" ? "↓" : "✕"}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Image preview */}
-          <div className="mt-4 flex justify-center">
-            <img
-              src={preview}
-              alt="Preview"
-              className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
-            />
-          </div>
+          {/* Image preview (first file) */}
+          {previewSrc && (
+            <div className="mt-4 flex justify-center">
+              <img
+                src={previewSrc}
+                alt="Preview"
+                className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
+              />
+            </div>
+          )}
 
           {/* Flip buttons */}
           <fieldset className="mt-5">
@@ -221,12 +291,12 @@ export function FlipRotateTool() {
                 max={360}
                 value={customDegrees}
                 onChange={(e) => setCustomDegrees(parseInt(e.target.value, 10) || 0)}
-                className="w-28 rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                className="w-28 rounded-lg border border-[color:var(--color-border)] px-3 py-2 text-sm text-[color:var(--color-text-primary)] focus:border-[color:var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[color:var(--color-accent)]"
               />
               <button
                 onClick={() => handleRotate(customDegrees)}
                 disabled={isProcessing}
-                className="rounded-lg bg-violet-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Rotate {customDegrees}°
               </button>
@@ -235,7 +305,7 @@ export function FlipRotateTool() {
 
           {/* Processing indicator */}
           {isProcessing && (
-            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-violet-600">
+            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[color:var(--color-accent)]">
               <svg
                 className="h-4 w-4 animate-spin"
                 fill="none"
@@ -256,21 +326,29 @@ export function FlipRotateTool() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Processing...
+              Processing {doneEntries.length + 1} of {entries.length}...
             </div>
           )}
 
-          {/* Download button — shown after at least one transformation */}
+          {/* Download buttons — shown after at least one transformation */}
           {hasTransformed && !isProcessing && (
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <DownloadButton
-                onClick={handleDownload}
-                label="Download"
-                className="flex-1"
-              />
+              {doneEntries.length > 1 ? (
+                <DownloadButton
+                  onClick={handleDownloadAll}
+                  label="Download All as ZIP"
+                  className="flex-1"
+                />
+              ) : (
+                <DownloadButton
+                  onClick={() => handleDownload(doneEntries[0])}
+                  label="Download"
+                  className="flex-1"
+                />
+              )}
               <button
                 onClick={handleReset}
-                className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
               >
                 Start over
               </button>

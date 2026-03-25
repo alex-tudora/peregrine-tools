@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { Dropzone, DownloadButton } from "@peregrine/ui";
+import { useState, useCallback, useMemo } from "react";
+import { Dropzone, DownloadButton, logActivity } from "@peregrine/ui";
 import { svgToPng } from "@/lib/convert";
-import { downloadBlob, formatFileSize, readFileAsDataUrl } from "@/lib/download";
+import { downloadBlob, downloadAsZip, formatFileSize, readFileAsDataUrl } from "@/lib/download";
 
 type Scale = 1 | 2 | 3 | 4;
 
@@ -14,210 +14,266 @@ const SCALE_OPTIONS: { value: Scale; label: string }[] = [
   { value: 4, label: "4x" },
 ];
 
+interface FileEntry {
+  file: File;
+  preview: string;
+  resultBlob: Blob | null;
+  status: "pending" | "processing" | "done" | "error";
+  error?: string;
+}
+
 export function SvgToPngTool() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [entries, setEntries] = useState<FileEntry[]>([]);
   const [scale, setScale] = useState<Scale>(2);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFiles = useCallback(async (files: File[]) => {
-    const selected = files[0];
-    if (!selected) return;
-
     setError(null);
-    setResultBlob(null);
 
-    try {
-      const dataUrl = await readFileAsDataUrl(selected);
-      setFile(selected);
-      setPreview(dataUrl);
-    } catch {
-      setError("Failed to read the selected SVG file. Please try again.");
+    const newEntries: FileEntry[] = [];
+    for (const file of files) {
+      try {
+        const preview = await readFileAsDataUrl(file);
+        newEntries.push({ file, preview, resultBlob: null, status: "pending" });
+      } catch {
+        // skip unreadable files
+      }
     }
+
+    if (newEntries.length === 0) {
+      setError("Failed to read the selected files. Please try again.");
+      return;
+    }
+
+    setEntries((prev) => [...prev, ...newEntries]);
   }, []);
 
   const handleConvert = useCallback(async () => {
-    if (!file) return;
-
     setIsProcessing(true);
-    setResultBlob(null);
     setError(null);
 
-    try {
-      const blob = await svgToPng(file, scale);
-      setResultBlob(blob);
-    } catch {
-      setError("Conversion failed. The SVG file may be invalid or corrupted.");
-    } finally {
-      setIsProcessing(false);
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].status === "done") continue;
+
+      setEntries((prev) =>
+        prev.map((e, j) => (j === i ? { ...e, status: "processing" } : e))
+      );
+
+      try {
+        const blob = await svgToPng(entries[i].file, scale);
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, resultBlob: blob, status: "done" } : e
+          )
+        );
+      } catch {
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, status: "error", error: "Conversion failed" } : e
+          )
+        );
+      }
     }
-  }, [file, scale]);
 
-  const handleDownload = useCallback(() => {
-    if (!resultBlob || !file) return;
+    setIsProcessing(false);
+  }, [entries, scale]);
 
-    const baseName = file.name.replace(/\.svg$/i, "");
-    downloadBlob(resultBlob, `${baseName}-${scale}x.png`);
-  }, [resultBlob, file, scale]);
+  const doneEntries = useMemo(() => entries.filter((e) => e.status === "done"), [entries]);
+  const allDone = entries.length > 0 && doneEntries.length === entries.length;
+
+  const handleDownload = useCallback(
+    (entry: FileEntry) => {
+      if (!entry.resultBlob) return;
+      const baseName = entry.file.name.replace(/\.svg$/i, "");
+      downloadBlob(entry.resultBlob, `${baseName}-${scale}x.png`);
+      logActivity({ tool: "SVG to PNG", toolHref: "/svg-to-png", description: "Converted SVGs to PNG" });
+    },
+    [scale]
+  );
+
+  const handleDownloadAll = useCallback(async () => {
+    const files = doneEntries.map((entry) => ({
+      data: entry.resultBlob!,
+      name: `${entry.file.name.replace(/\.svg$/i, "")}-${scale}x.png`,
+    }));
+    await downloadAsZip(files, "svg-to-png.zip");
+    logActivity({ tool: "SVG to PNG", toolHref: "/svg-to-png", description: "Converted SVGs to PNG" });
+  }, [doneEntries, scale]);
 
   const handleReset = useCallback(() => {
-    setFile(null);
-    setPreview(null);
+    setEntries([]);
     setScale(2);
     setIsProcessing(false);
-    setResultBlob(null);
     setError(null);
+  }, []);
+
+  const handleRemove = useCallback((index: number) => {
+    setEntries((prev) => prev.filter((_, i) => i !== index));
   }, []);
 
   return (
     <div className="space-y-6">
-      {/* Dropzone — only visible when no file is loaded */}
-      {!file && (
+      {/* Dropzone — always visible to add more files */}
+      {!isProcessing && !allDone && (
         <Dropzone
           accept={[".svg"]}
-          multiple={false}
+          multiple={true}
           onFiles={handleFiles}
-          label="Drop your SVG file here"
+          label={entries.length === 0 ? "Drop your SVG files here" : "Drop more SVGs to add"}
         />
       )}
 
-      {/* File info + controls */}
-      {file && preview && (
+      {/* Files + controls */}
+      {entries.length > 0 && (
         <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
-          {/* Uploaded file summary */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
-                {file.name}
+          {/* File list */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
+                {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
-              <p className="mt-0.5 text-xs text-[color:var(--color-text-muted)]">
-                {formatFileSize(file.size)}
-              </p>
+              {!isProcessing && (
+                <button
+                  onClick={handleReset}
+                  className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
+                >
+                  Clear all
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleReset}
-              disabled={isProcessing}
-              className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Change file
-            </button>
-          </div>
 
-          {/* SVG preview */}
-          <div className="mt-4 flex justify-center">
-            <img
-              src={preview}
-              alt="SVG preview"
-              className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
-            />
+            <div className="max-h-48 overflow-y-auto space-y-1.5">
+              {entries.map((entry, i) => (
+                <div
+                  key={`${entry.file.name}-${i}`}
+                  className="flex items-center gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2"
+                >
+                  <img
+                    src={entry.preview}
+                    alt=""
+                    className="h-8 w-8 shrink-0 rounded object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-[color:var(--color-text-primary)]">{entry.file.name}</p>
+                    <p className="text-[10px] text-[color:var(--color-text-muted)]">
+                      {formatFileSize(entry.file.size)}
+                      {entry.status === "done" && entry.resultBlob && (
+                        <span className="text-[color:var(--color-text-secondary)]">
+                          {" → "}{formatFileSize(entry.resultBlob.size)}
+                        </span>
+                      )}
+                      {entry.status === "processing" && (
+                        <span className="text-[color:var(--color-accent)]"> Converting...</span>
+                      )}
+                      {entry.status === "error" && (
+                        <span className="text-red-500"> Failed</span>
+                      )}
+                    </p>
+                  </div>
+                  {!isProcessing && entry.status !== "processing" && (
+                    <button
+                      onClick={() => entry.status === "done" ? handleDownload(entry) : handleRemove(i)}
+                      className="shrink-0 text-xs font-medium text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-secondary)]"
+                    >
+                      {entry.status === "done" ? "↓" : "✕"}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Scale selector */}
-          <fieldset className="mt-5">
-            <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
-              Output scale
-            </legend>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5">
-              {SCALE_OPTIONS.map((option) => {
-                const isSelected = scale === option.value;
-                return (
-                  <label
-                    key={option.value}
-                    className={`
-                      flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
-                      ${
-                        isSelected
-                          ? "border-violet-500 bg-violet-50/60 text-violet-700 ring-1 ring-violet-500/20"
-                          : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
-                      }
-                    `}
-                  >
-                    <input
-                      type="radio"
-                      name="scale"
-                      value={option.value}
-                      checked={isSelected}
-                      onChange={() => {
-                        setScale(option.value);
-                        setResultBlob(null);
-                      }}
-                      className="sr-only"
-                    />
-                    {option.label}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
+                Output scale
+              </legend>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5">
+                {SCALE_OPTIONS.map((option) => {
+                  const isSelected = scale === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`
+                        flex cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all
+                        ${
+                          isSelected
+                            ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] ring-1 ring-[color:var(--color-accent-glow)]"
+                            : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-primary)] hover:border-[color:var(--color-border-hover)]"
+                        }
+                      `}
+                    >
+                      <input
+                        type="radio"
+                        name="scale"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => setScale(option.value)}
+                        className="sr-only"
+                      />
+                      {option.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {/* Convert button */}
-          {!resultBlob && (
+          {!allDone && (
             <button
               onClick={handleConvert}
-              disabled={isProcessing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-violet-500/25 transition-all duration-200 hover:bg-violet-600 hover:shadow-md hover:shadow-violet-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:bg-violet-500"
+              disabled={isProcessing || entries.length === 0}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             >
               {isProcessing ? (
                 <>
-                  <svg
-                    className="h-4 w-4 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
+                  <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Converting...
+                  Converting {doneEntries.length + 1} of {entries.length}...
                 </>
               ) : (
-                "Convert to PNG"
+                `Convert ${entries.length} SVG${entries.length !== 1 ? "s" : ""} to PNG`
               )}
             </button>
           )}
 
-          {/* Result */}
-          {resultBlob && (
+          {/* Results */}
+          {allDone && (
             <div className="mt-5 space-y-4">
+              {/* Summary */}
               <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[color:var(--color-text-secondary)]">Original SVG</span>
-                  <span className="font-medium text-[color:var(--color-text-primary)]">
-                    {formatFileSize(file.size)}
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-[color:var(--color-text-secondary)]">PNG ({scale}x)</span>
-                  <span className="font-medium text-[color:var(--color-text-primary)]">
-                    {formatFileSize(resultBlob.size)}
+                  <span className="text-[color:var(--color-text-secondary)]">
+                    {entries.length} file{entries.length !== 1 ? "s" : ""} converted at {scale}x
                   </span>
                 </div>
               </div>
 
+              {/* Download actions */}
               <div className="flex flex-col gap-3 sm:flex-row">
-                <DownloadButton
-                  onClick={handleDownload}
-                  label="Download PNG"
-                  className="flex-1"
-                />
+                {entries.length > 1 ? (
+                  <DownloadButton
+                    onClick={handleDownloadAll}
+                    label="Download All as ZIP"
+                    className="flex-1"
+                  />
+                ) : (
+                  <DownloadButton
+                    onClick={() => handleDownload(entries[0])}
+                    label="Download PNG"
+                    className="flex-1"
+                  />
+                )}
                 <button
                   onClick={handleReset}
-                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
                 >
-                  Convert another
+                  Convert more
                 </button>
               </div>
             </div>

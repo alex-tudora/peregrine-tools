@@ -1,18 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { PDFDocument, degrees } from "pdf-lib";
-import { Dropzone, DownloadButton, ProgressBar } from "@peregrine/ui";
-import { downloadFile, readFileAsArrayBuffer, formatFileSize } from "@/lib/download";
+import { Dropzone, DownloadButton, ProgressBar, logActivity } from "@peregrine/ui";
+import { downloadFile, downloadAsZip, readFileAsArrayBuffer, formatFileSize } from "@/lib/download";
 
 type RotationAngle = 90 | 180 | 270;
-type PageMode = "all" | "specific";
-
-interface UploadedFile {
-  name: string;
-  size: number;
-  buffer: ArrayBuffer;
-}
 
 const ROTATION_OPTIONS: { value: RotationAngle; label: string }[] = [
   { value: 90, label: "90\u00B0 clockwise" },
@@ -20,291 +13,347 @@ const ROTATION_OPTIONS: { value: RotationAngle; label: string }[] = [
   { value: 270, label: "270\u00B0 clockwise (90\u00B0 counter-clockwise)" },
 ];
 
+interface FileEntry {
+  buffer: ArrayBuffer;
+  name: string;
+  size: number;
+  resultBytes: Uint8Array | null;
+  status: "pending" | "processing" | "done" | "error";
+}
+
 export function RotatePdfTool() {
-  const [file, setFile] = useState<UploadedFile | null>(null);
-  const [totalPages, setTotalPages] = useState(0);
+  const [entries, setEntries] = useState<FileEntry[]>([]);
   const [angle, setAngle] = useState<RotationAngle>(90);
-  const [pageMode, setPageMode] = useState<PageMode>("all");
-  const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [result, setResult] = useState<Uint8Array | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFiles = useCallback(async (files: File[]) => {
-    const incoming = files[0];
-    if (!incoming) return;
-
     setError(null);
-    setResult(null);
-    setIsProcessing(true);
-    setProgress(10);
 
-    try {
-      const buffer = await readFileAsArrayBuffer(incoming);
-      setProgress(40);
-
-      const pdf = await PDFDocument.load(buffer);
-      const count = pdf.getPageCount();
-      setProgress(80);
-
-      setFile({ name: incoming.name, size: incoming.size, buffer });
-      setTotalPages(count);
-      setPageMode("all");
-      setSelectedPages(new Set());
-      setProgress(100);
-    } catch {
-      setError("Could not read the PDF. The file may be corrupted or password-protected.");
-      setFile(null);
-      setTotalPages(0);
-    } finally {
-      setIsProcessing(false);
-      setTimeout(() => setProgress(0), 500);
-    }
-  }, []);
-
-  const togglePage = useCallback((page: number) => {
-    setSelectedPages((prev) => {
-      const next = new Set(prev);
-      if (next.has(page)) {
-        next.delete(page);
-      } else {
-        next.add(page);
+    const newEntries: FileEntry[] = [];
+    for (const file of files) {
+      try {
+        const buffer = await readFileAsArrayBuffer(file);
+        // Validate it's a readable PDF
+        await PDFDocument.load(buffer);
+        newEntries.push({
+          buffer,
+          name: file.name,
+          size: file.size,
+          resultBytes: null,
+          status: "pending",
+        });
+      } catch {
+        // skip unreadable / corrupted files
       }
-      return next;
-    });
+    }
+
+    if (newEntries.length === 0) {
+      setError("Could not read the selected PDF(s). The files may be corrupted or password-protected.");
+      return;
+    }
+
+    setEntries((prev) => [...prev, ...newEntries]);
   }, []);
 
   const handleRotate = useCallback(async () => {
-    if (!file) return;
-
-    const pagesToRotate =
-      pageMode === "all"
-        ? Array.from({ length: totalPages }, (_, i) => i)
-        : Array.from(selectedPages).map((p) => p - 1);
-
-    if (pagesToRotate.length === 0) return;
-
     setIsProcessing(true);
-    setProgress(10);
     setError(null);
-    setResult(null);
+    setProgress(0);
 
-    try {
-      const pdf = await PDFDocument.load(file.buffer);
-      setProgress(40);
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].status === "done") continue;
 
-      for (const pageIndex of pagesToRotate) {
-        const page = pdf.getPage(pageIndex);
-        const currentRotation = page.getRotation().angle;
-        page.setRotation(degrees(currentRotation + angle));
+      setEntries((prev) =>
+        prev.map((e, j) => (j === i ? { ...e, status: "processing" } : e))
+      );
+
+      try {
+        const pdf = await PDFDocument.load(entries[i].buffer);
+        const pages = pdf.getPages();
+
+        for (const page of pages) {
+          const currentRotation = page.getRotation().angle;
+          page.setRotation(degrees(currentRotation + angle));
+        }
+
+        const output = await pdf.save();
+
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, resultBytes: output, status: "done" } : e
+          )
+        );
+      } catch {
+        setEntries((prev) =>
+          prev.map((e, j) =>
+            j === i ? { ...e, status: "error" } : e
+          )
+        );
       }
-      setProgress(70);
 
-      const output = await pdf.save();
-      setResult(output);
-      setProgress(100);
-    } catch {
-      setError("Something went wrong while rotating your PDF. Please check your file and try again.");
-      setProgress(0);
-    } finally {
-      setIsProcessing(false);
+      setProgress(Math.round(((i + 1) / entries.length) * 100));
+      // Yield to let the UI repaint between files
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
-  }, [file, totalPages, angle, pageMode, selectedPages]);
 
-  const handleDownload = useCallback(() => {
-    if (result && file) {
-      const baseName = file.name.replace(/\.pdf$/i, "");
-      downloadFile(result, `${baseName}_rotated.pdf`);
-    }
-  }, [result, file]);
+    setIsProcessing(false);
+  }, [entries, angle]);
 
-  const resetTool = useCallback(() => {
-    setFile(null);
-    setTotalPages(0);
+  const doneEntries = useMemo(() => entries.filter((e) => e.status === "done"), [entries]);
+  const allDone = entries.length > 0 && doneEntries.length === entries.length;
+  const hasEntries = entries.length > 0;
+  const processingIndex = useMemo(
+    () => entries.findIndex((e) => e.status === "processing"),
+    [entries]
+  );
+
+  const handleDownload = useCallback((entry: FileEntry) => {
+    if (!entry.resultBytes) return;
+    const baseName = entry.name.replace(/\.pdf$/i, "");
+    downloadFile(entry.resultBytes, `${baseName}_rotated.pdf`);
+    logActivity({ tool: "Rotate PDF", toolHref: "/rotate-pdf", description: "Rotated PDF pages" });
+  }, []);
+
+  const handleDownloadAll = useCallback(async () => {
+    const files = doneEntries.map((entry) => ({
+      data: entry.resultBytes!,
+      name: `${entry.name.replace(/\.pdf$/i, "")}_rotated.pdf`,
+    }));
+    await downloadAsZip(files, "rotated-pdfs.zip");
+    logActivity({ tool: "Rotate PDF", toolHref: "/rotate-pdf", description: "Rotated PDF pages" });
+  }, [doneEntries]);
+
+  const handleRemove = useCallback((index: number) => {
+    setEntries((prev) => prev.filter((_, i) => i !== index));
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setEntries([]);
     setAngle(90);
-    setPageMode("all");
-    setSelectedPages(new Set());
     setIsProcessing(false);
     setProgress(0);
-    setResult(null);
     setError(null);
   }, []);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Error banner */}
       {error && (
-        <div className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]" role="alert">
+        <div
+          className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"
+          role="alert"
+        >
           {error}
         </div>
       )}
 
-      {/* Dropzone — shown when no file is loaded */}
-      {!file && (
+      {/* Dropzone — always visible to allow adding more files (hidden during processing and when all done) */}
+      {!isProcessing && !allDone && (
         <Dropzone
           accept={[".pdf"]}
-          multiple={false}
+          multiple={true}
           onFiles={handleFiles}
-          label="Drop your PDF here"
+          label={entries.length === 0 ? "Drop your PDF files here" : "Drop more PDFs to add"}
         />
       )}
 
       {/* Progress bar */}
-      <ProgressBar progress={progress} />
+      {isProcessing && (
+        <ProgressBar progress={progress} />
+      )}
 
-      {/* File loaded — rotation options */}
-      {file && (
-        <div className="space-y-5">
-          {/* File info header */}
-          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 py-3">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">{file.name}</p>
-              <p className="text-xs text-[color:var(--color-text-muted)]">
-                {formatFileSize(file.size)} &middot; {totalPages}{" "}
-                {totalPages === 1 ? "page" : "pages"}
+      {/* Files + controls */}
+      {hasEntries && (
+        <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
+          {/* File list header */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-[color:var(--color-text-primary)]">
+                {entries.length} file{entries.length !== 1 ? "s" : ""}
               </p>
-            </div>
-            <button
-              type="button"
-              onClick={resetTool}
-              className="ml-4 shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-muted)] transition-colors hover:bg-slate-100 hover:text-[color:var(--color-text-secondary)]"
-            >
-              Change file
-            </button>
-          </div>
-
-          {/* Rotation angle selector */}
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
-              Rotation angle
-            </label>
-            <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
-              {ROTATION_OPTIONS.map((opt) => (
-                <label
-                  key={opt.value}
-                  className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
-                    angle === opt.value
-                      ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                      : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
-                  }`}
+              {!isProcessing && (
+                <button
+                  onClick={handleReset}
+                  className="shrink-0 rounded-lg border border-[color:var(--color-border)] px-3 py-1.5 text-xs font-medium text-[color:var(--color-text-secondary)] transition-colors hover:bg-[color:var(--color-bg-elevated)]"
                 >
-                  <input
-                    type="radio"
-                    name="rotation-angle"
-                    value={opt.value}
-                    checked={angle === opt.value}
-                    onChange={() => {
-                      setAngle(opt.value);
-                      setResult(null);
-                    }}
-                    className="sr-only"
-                  />
-                  {opt.label}
-                </label>
+                  Clear all
+                </button>
+              )}
+            </div>
+
+            {/* File list */}
+            <div className="max-h-48 overflow-y-auto space-y-1.5">
+              {entries.map((entry, i) => (
+                <div
+                  key={`${entry.name}-${i}`}
+                  className="flex items-center gap-3 rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)] px-3 py-2"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium text-[color:var(--color-text-primary)]">
+                      {entry.name}
+                    </p>
+                    <p className="text-[10px] text-[color:var(--color-text-muted)]">
+                      {formatFileSize(entry.size)}
+                      {entry.status === "processing" && (
+                        <span className="text-[color:var(--color-accent)]"> Rotating...</span>
+                      )}
+                      {entry.status === "done" && (
+                        <span className="text-emerald-600"> Done</span>
+                      )}
+                      {entry.status === "error" && (
+                        <span className="text-red-500"> Failed</span>
+                      )}
+                    </p>
+                  </div>
+                  {!isProcessing && entry.status !== "processing" && (
+                    <button
+                      onClick={() =>
+                        entry.status === "done"
+                          ? handleDownload(entry)
+                          : handleRemove(i)
+                      }
+                      className="shrink-0 text-xs font-medium text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-secondary)]"
+                    >
+                      {entry.status === "done" ? "\u2193" : "\u2715"}
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Page selection mode */}
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
-              Pages to rotate
-            </label>
-            <div className="flex gap-4">
-              <label
-                className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
-                  pageMode === "all"
-                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="page-mode"
-                  value="all"
-                  checked={pageMode === "all"}
-                  onChange={() => {
-                    setPageMode("all");
-                    setResult(null);
-                  }}
-                  className="sr-only"
-                />
-                All pages
-              </label>
-              <label
-                className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
-                  pageMode === "specific"
-                    ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                    : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="page-mode"
-                  value="specific"
-                  checked={pageMode === "specific"}
-                  onChange={() => {
-                    setPageMode("specific");
-                    setResult(null);
-                  }}
-                  className="sr-only"
-                />
-                Select specific pages
-              </label>
-            </div>
-          </div>
+          {/* Rotation angle selector */}
+          {!allDone && (
+            <fieldset className="mt-5">
+              <legend className="mb-2.5 text-sm font-medium text-[color:var(--color-text-secondary)]">
+                Rotation angle
+              </legend>
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
+                {ROTATION_OPTIONS.map((opt) => (
+                  <label
+                    key={opt.value}
+                    className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none ${
+                      angle === opt.value
+                        ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
+                        : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="rotation-angle"
+                      value={opt.value}
+                      checked={angle === opt.value}
+                      onChange={() => setAngle(opt.value)}
+                      className="sr-only"
+                    />
+                    {opt.label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
 
-          {/* Page checkboxes — shown only when "specific" mode is selected */}
-          {pageMode === "specific" && (
-            <div className="space-y-2">
-              <span className="text-xs text-[color:var(--color-text-muted)]">
-                {selectedPages.size} of {totalPages} selected
-              </span>
-              <div className="max-h-72 overflow-y-auto rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-3">
-                <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <label
-                      key={page}
-                      className={`flex cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-sm transition-colors select-none ${
-                        selectedPages.has(page)
-                          ? "border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
-                          : "border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-[color:var(--color-text-secondary)] hover:border-[color:var(--color-border-hover)] hover:bg-[color:var(--color-bg-elevated)]"
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedPages.has(page)}
-                        onChange={() => togglePage(page)}
-                        className="sr-only"
-                      />
-                      {page}
-                    </label>
-                  ))}
-                </div>
+          {/* Page selection — all pages (shared for all files) */}
+          {!allDone && (
+            <div className="mt-5">
+              <label className="mb-1.5 block text-sm font-medium text-[color:var(--color-text-secondary)]">
+                Pages to rotate
+              </label>
+              <div className="flex gap-4">
+                <label
+                  className="flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors select-none border-[color:var(--color-accent)]/30 bg-[color:var(--color-accent-light)] text-[color:var(--color-accent)] font-medium"
+                >
+                  <input
+                    type="radio"
+                    name="page-mode"
+                    value="all"
+                    checked
+                    readOnly
+                    className="sr-only"
+                  />
+                  All pages
+                </label>
               </div>
             </div>
           )}
 
-          {/* Action button */}
-          {!result ? (
+          {/* Rotate button */}
+          {!allDone && (
             <button
-              type="button"
               onClick={handleRotate}
-              disabled={
-                isProcessing ||
-                (pageMode === "specific" && selectedPages.size === 0)
-              }
-              className="w-full rounded-lg bg-[color:var(--color-accent)] py-3 font-semibold text-white transition-colors hover:bg-[color:var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[color:var(--color-accent)]"
+              disabled={isProcessing || entries.length === 0}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[color:var(--color-accent-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             >
-              {isProcessing ? "Rotating..." : "Rotate PDF"}
+              {isProcessing ? (
+                <>
+                  <svg
+                    className="h-4 w-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Rotating {processingIndex >= 0 ? processingIndex + 1 : doneEntries.length + 1} of {entries.length}...
+                </>
+              ) : (
+                `Rotate ${entries.length} PDF${entries.length !== 1 ? "s" : ""}`
+              )}
             </button>
-          ) : (
-            <DownloadButton
-              onClick={handleDownload}
-              label="Download Rotated PDF"
-              className="w-full"
-            />
+          )}
+
+          {/* Results — shown when all files are done */}
+          {allDone && (
+            <div className="mt-5 space-y-4">
+              {/* Summary */}
+              <div className="rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[color:var(--color-text-secondary)]">
+                    {entries.length} file{entries.length !== 1 ? "s" : ""} rotated
+                  </span>
+                  <span className="text-lg font-bold text-emerald-600">
+                    {angle}&deg; applied
+                  </span>
+                </div>
+              </div>
+
+              {/* Download actions */}
+              <div className="flex flex-col gap-3 sm:flex-row">
+                {entries.length > 1 ? (
+                  <DownloadButton
+                    onClick={handleDownloadAll}
+                    label="Download All as ZIP"
+                    className="flex-1"
+                  />
+                ) : (
+                  <DownloadButton
+                    onClick={() => handleDownload(entries[0])}
+                    label="Download Rotated PDF"
+                    className="flex-1"
+                  />
+                )}
+                <button
+                  onClick={handleReset}
+                  className="rounded-xl border border-[color:var(--color-border)] px-6 py-3 text-sm font-semibold text-[color:var(--color-text-secondary)] transition-all hover:bg-[color:var(--color-bg-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2"
+                >
+                  Rotate more
+                </button>
+              </div>
+            </div>
           )}
         </div>
       )}
