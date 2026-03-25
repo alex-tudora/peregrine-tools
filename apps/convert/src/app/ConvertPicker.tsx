@@ -88,13 +88,13 @@ export function ConvertPicker() {
   };
 
   const selectClass =
-    "w-full h-14 rounded-xl border-2 border-[color:var(--color-border)] bg-white px-4 text-base font-semibold text-[color:var(--color-text-primary)] transition-all hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-4 focus:ring-[color:var(--color-accent-glow)] focus:outline-none appearance-none cursor-pointer";
+    "w-full h-14 rounded-xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] px-4 text-base font-semibold text-[color:var(--color-text-primary)] transition-all hover:border-[color:var(--color-border-hover)] focus:border-[color:var(--color-accent)] focus:ring-4 focus:ring-[color:var(--color-accent-glow)] focus:outline-none appearance-none cursor-pointer";
 
   const chevronBg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
 
   return (
     <div>
-      <div className="rounded-3xl bg-white border-2 border-[color:var(--color-border)] p-6 sm:p-8 shadow-xl shadow-orange-900/[0.04]">
+      <div className="rounded-3xl bg-[color:var(--color-bg-card)] border-2 border-[color:var(--color-border)] p-6 sm:p-8 shadow-xl shadow-orange-900/[0.04]">
         <div className="flex flex-col md:flex-row items-stretch gap-4">
           {/* FROM */}
           <div className="flex-1">
@@ -125,7 +125,7 @@ export function ConvertPicker() {
 
           {/* Arrow */}
           <div className="flex items-end justify-center pb-1 md:pb-0 md:items-end">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5] border-2 border-[color:var(--color-accent)]/20 flex items-center justify-center shadow-sm">
+            <div className="w-12 h-12 rounded-full bg-[color:var(--color-accent-light)] border-2 border-[color:var(--color-accent)]/20 flex items-center justify-center shadow-sm">
               <svg className="w-5 h-5 text-[color:var(--color-accent)] animate-pulse-arrow hidden md:block" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
               </svg>

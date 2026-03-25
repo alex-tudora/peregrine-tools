@@ -64,7 +64,7 @@ export default function Home() {
 
       {/* === HERO + PICKER === */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FFF1E6] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
         {/* Decorative blobs */}
         <div className="absolute top-20 left-[10%] w-64 h-64 bg-[color:var(--color-accent)]/[0.04] rounded-full blur-3xl" />
         <div className="absolute top-40 right-[15%] w-48 h-48 bg-[color:var(--color-accent-glow)] rounded-full blur-3xl" />
