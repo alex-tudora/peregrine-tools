@@ -30,6 +30,18 @@ const toolComponents: Record<string, ComponentType<any>> = {
     () => import("@/components/tools/UnitConverterTool").then((m) => m.UnitConverterTool) as any,
     { ssr: false }
   ),
+  CurrencyConverterTool: dynamic(
+    () => import("@/components/tools/CurrencyConverterTool").then((m) => m.CurrencyConverterTool) as any,
+    { ssr: false }
+  ),
+  TextCaseConverterTool: dynamic(
+    () => import("@/components/tools/TextCaseConverterTool").then((m) => m.TextCaseConverterTool) as any,
+    { ssr: false }
+  ),
+  NumberConverterTool: dynamic(
+    () => import("@/components/tools/NumberConverterTool").then((m) => m.NumberConverterTool) as any,
+    { ssr: false }
+  ),
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

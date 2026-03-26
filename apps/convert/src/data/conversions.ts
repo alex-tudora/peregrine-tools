@@ -1,10 +1,13 @@
 import { unitConversions } from "./unitConversions";
+import { currencyConversions } from "./currencyConversions";
+import { textCaseConversions } from "./textCaseConversions";
+import { numberConversions } from "./numberConversions";
 
 export interface ConversionDef {
   slug: string;
   from: string;
   to: string;
-  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit';
+  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit' | 'currency' | 'number';
   toolName: string;
   description: string;
   keyword: string;
@@ -770,8 +773,8 @@ const fileConversions: ConversionDef[] = [
   },
 ];
 
-/** All conversions: file-based + unit converters */
-export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions];
+/** All conversions: file-based + unit converters + currency converters */
+export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions, ...currencyConversions, ...textCaseConversions, ...numberConversions];
 
 /** Quick lookup by slug */
 export const conversionsBySlug = new Map(conversions.map((c) => [c.slug, c]));
