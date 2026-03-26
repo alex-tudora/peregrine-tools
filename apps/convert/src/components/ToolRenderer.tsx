@@ -26,6 +26,10 @@ const toolComponents: Record<string, ComponentType<any>> = {
     () => import("@/components/tools/TextConverterTool").then((m) => m.TextConverterTool) as any,
     { ssr: false }
   ),
+  UnitConverterTool: dynamic(
+    () => import("@/components/tools/UnitConverterTool").then((m) => m.UnitConverterTool) as any,
+    { ssr: false }
+  ),
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

@@ -38,6 +38,42 @@ const conversionMap: ConversionRoute[] = [
   { from: "CSV", to: "JSON", path: "/csv-to-json", description: "Parse CSV into JSON" },
   { from: "Markdown", to: "HTML", path: "/markdown-to-html", description: "Render Markdown as HTML" },
   { from: "HTML", to: "Markdown", path: "/html-to-markdown", description: "Convert HTML to Markdown" },
+  // Unit conversions — Length
+  { from: "km", to: "miles", path: "/km-to-miles", description: "Convert kilometers to miles" },
+  { from: "miles", to: "km", path: "/miles-to-km", description: "Convert miles to kilometers" },
+  { from: "feet", to: "meters", path: "/feet-to-meters", description: "Convert feet to meters" },
+  { from: "meters", to: "feet", path: "/meters-to-feet", description: "Convert meters to feet" },
+  { from: "inches", to: "cm", path: "/inches-to-cm", description: "Convert inches to centimeters" },
+  { from: "cm", to: "inches", path: "/cm-to-inches", description: "Convert centimeters to inches" },
+  { from: "feet", to: "cm", path: "/feet-to-cm", description: "Convert feet to centimeters" },
+  { from: "yards", to: "meters", path: "/yards-to-meters", description: "Convert yards to meters" },
+  { from: "mm", to: "inches", path: "/mm-to-inches", description: "Convert millimeters to inches" },
+  { from: "meters", to: "cm", path: "/meters-to-cm", description: "Convert meters to centimeters" },
+  { from: "miles", to: "feet", path: "/miles-to-feet", description: "Convert miles to feet" },
+  // Unit conversions — Weight
+  { from: "kg", to: "lbs", path: "/kg-to-lbs", description: "Convert kilograms to pounds" },
+  { from: "lbs", to: "kg", path: "/lbs-to-kg", description: "Convert pounds to kilograms" },
+  { from: "oz", to: "grams", path: "/oz-to-grams", description: "Convert ounces to grams" },
+  { from: "grams", to: "oz", path: "/grams-to-oz", description: "Convert grams to ounces" },
+  { from: "stones", to: "kg", path: "/stones-to-kg", description: "Convert stones to kilograms" },
+  { from: "kg", to: "stones", path: "/kg-to-stones", description: "Convert kilograms to stones" },
+  { from: "kg", to: "grams", path: "/kg-to-grams", description: "Convert kilograms to grams" },
+  // Unit conversions — Temperature
+  { from: "\u00B0C", to: "\u00B0F", path: "/celsius-to-fahrenheit", description: "Convert Celsius to Fahrenheit" },
+  { from: "\u00B0F", to: "\u00B0C", path: "/fahrenheit-to-celsius", description: "Convert Fahrenheit to Celsius" },
+  { from: "\u00B0C", to: "K", path: "/celsius-to-kelvin", description: "Convert Celsius to Kelvin" },
+  { from: "\u00B0F", to: "K", path: "/fahrenheit-to-kelvin", description: "Convert Fahrenheit to Kelvin" },
+  // Unit conversions — Volume
+  { from: "liters", to: "gallons", path: "/liters-to-gallons", description: "Convert liters to US gallons" },
+  { from: "gallons", to: "liters", path: "/gallons-to-liters", description: "Convert US gallons to liters" },
+  { from: "cups", to: "ml", path: "/cups-to-ml", description: "Convert cups to milliliters" },
+  { from: "ml", to: "cups", path: "/ml-to-cups", description: "Convert milliliters to cups" },
+  // Unit conversions — Speed
+  { from: "km/h", to: "mph", path: "/kmh-to-mph", description: "Convert km/h to mph" },
+  { from: "mph", to: "km/h", path: "/mph-to-kmh", description: "Convert mph to km/h" },
+  // Unit conversions — Digital
+  { from: "MB", to: "GB", path: "/mb-to-gb", description: "Convert megabytes to gigabytes" },
+  { from: "GB", to: "TB", path: "/gb-to-tb", description: "Convert gigabytes to terabytes" },
 ];
 
 interface FormatGroup {
@@ -52,6 +88,12 @@ const formatGroups: FormatGroup[] = [
   { label: "Audio", formats: ["MP3", "WAV", "OGG", "FLAC", "AAC"] },
   { label: "Data", formats: ["JSON", "CSV"] },
   { label: "Text", formats: ["HTML", "Markdown"] },
+  { label: "Length", formats: ["km", "miles", "feet", "meters", "inches", "cm", "yards", "mm"] },
+  { label: "Weight", formats: ["kg", "lbs", "oz", "grams", "stones"] },
+  { label: "Temperature", formats: ["\u00B0C", "\u00B0F", "K"] },
+  { label: "Volume", formats: ["liters", "gallons", "cups", "ml"] },
+  { label: "Speed", formats: ["km/h", "mph"] },
+  { label: "Digital", formats: ["MB", "GB", "TB"] },
 ];
 
 const availableFromFormats = new Set(conversionMap.map((c) => c.from));

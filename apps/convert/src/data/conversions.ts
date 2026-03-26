@@ -1,8 +1,10 @@
+import { unitConversions } from "./unitConversions";
+
 export interface ConversionDef {
   slug: string;
   from: string;
   to: string;
-  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text';
+  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit';
   toolName: string;
   description: string;
   keyword: string;
@@ -17,7 +19,7 @@ export interface ConversionDef {
   requiresFFmpeg: boolean;
 }
 
-export const conversions: ConversionDef[] = [
+const fileConversions: ConversionDef[] = [
   // === PDF conversions ===
   {
     slug: 'pdf-to-jpg',
@@ -767,6 +769,9 @@ export const conversions: ConversionDef[] = [
     requiresFFmpeg: false,
   },
 ];
+
+/** All conversions: file-based + unit converters */
+export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions];
 
 /** Quick lookup by slug */
 export const conversionsBySlug = new Map(conversions.map((c) => [c.slug, c]));
