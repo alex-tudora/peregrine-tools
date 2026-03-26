@@ -149,12 +149,12 @@ export default function Home() {
           </div>
 
           {/* Rotating knight quote below search */}
-          <div className="animate-arrive delay-3 mt-6 text-center">
+          <div className="relative z-0 animate-arrive delay-3 mt-6 text-center">
             <RotatingQuote />
           </div>
 
           {/* Manual picker fallback */}
-          <div className="relative z-10 animate-arrive delay-4 mt-12">
+          <div className="relative z-0 animate-arrive delay-4 mt-12">
             <p className="text-center text-sm font-medium text-[color:var(--color-text-muted)] mb-4">
               Or pick your formats manually
             </p>

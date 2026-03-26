@@ -297,7 +297,7 @@ export function UniversalSearch() {
   let flatIndex = -1;
 
   return (
-    <div className="relative z-30 w-full max-w-2xl mx-auto">
+    <div className="relative z-50 w-full max-w-2xl mx-auto">
       {/* Search input */}
       <div className="relative">
         {/* Search icon */}
