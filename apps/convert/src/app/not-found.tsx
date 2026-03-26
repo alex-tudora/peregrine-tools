@@ -4,7 +4,7 @@ import { KnightLogo } from "./KnightLogo";
 export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
-      <KnightLogo size={80} className="mb-6 opacity-80" />
+      <KnightLogo size={80} className="mb-6 opacity-80 logo-invert" />
       <p className="text-8xl font-bold text-[color:var(--color-accent)]">404</p>
 
       <h1 className="mt-6 font-serif text-2xl font-semibold text-[color:var(--color-text-primary)]">
