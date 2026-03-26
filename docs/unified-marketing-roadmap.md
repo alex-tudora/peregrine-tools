@@ -1,310 +1,315 @@
 # UNIFIED MARKETING ROADMAP
-## Peregrine Tools + Altivol · March–September 2026
+## Peregrine Tools + Altivol · April–September 2026
 
-**Two products. One builder. One brand.**
-
----
-
-## The Strategic Picture
-
-You have two products that serve different markets but share one builder's story:
-
-| | Peregrine Tools | Altivol |
-|---|---|---|
-| **What** | 106 free browser-based utility tools across 7 sites | Life operating system — goals, tasks, habits, finance, career, health, learning, all connected |
-| **Revenue model** | Ads → premium subscription ($4-5/mo) | Freemium SaaS (free core, Pro with AI at $X/mo) |
-| **Traffic source** | SEO (organic search for "merge PDF", "compress image", etc.) | Personal brand + content marketing (LinkedIn, Dev.to, Product Hunt) |
-| **Stage** | Built (106 tools, blogs, SEO). Needs traffic. | Built (14 modules, 797 tests). Needs polish + launch. |
-| **Retention** | Low (utility tools are one-off visits, except Pomodoro) | High (daily use if users adopt it) |
-| **Audience** | Everyone who googles a file task | Ambitious professionals, developers, life designers |
-
-**The insight**: These products don't compete — they compound. Peregrine drives anonymous SEO traffic at scale. Altivol builds deep relationships with a smaller audience. Your personal brand (Alex Tudora) ties them together.
-
-A developer who reads your "Japanese philosophy meets code" article on LinkedIn → checks out Altivol → also discovers Peregrine tools. A user who finds Peregrine via Google → reads a blog post → sees "Built by Alex Tudora" → follows you on LinkedIn → discovers Altivol.
+**Companion document to MASTER_PLAN.md — tactical execution layer**
 
 ---
 
-## Month-by-Month Roadmap
+## Where You Are (Pre-Launch, March 2026)
 
-### Month 1 (April 2026): SHIP & SEED
+The building phase is done. What exists:
 
-**Peregrine:**
-- [ ] Deploy all 7 sites to production
-- [ ] Submit sitemaps to Google Search Console (all 7 domains)
-- [ ] Request indexing for top 10 pages per site
-- [ ] Set up Plausible dashboard (done — verify data flowing)
-- [ ] Connect Buttondown newsletter (done — verify form works)
-- [ ] Begin daily blog publishing (Mon=PDF, Tue=Pix, Wed=Vid, Thu=Dev, Fri=Kit, Sat=Convert, Sun=Hub)
-- [ ] Activate AdSense when approved
-- [ ] Submit to Product Hunt (peregrine-tools.com as the hero)
+**Peregrine Tools (ready to ship):**
+- 106 tools across 7 sites (PDF 17, Pix 17, Vid 13, Dev 27, Kit 32)
+- 3 cross-tool workflows (Optimize PDF, Extract Pages, Batch Image Processor)
+- 22 blog articles, 12 comparison pages
+- Dark mode, batch processing, command palette (⌘K), user preferences
+- Trust badge, share button, tool chaining on all tools
+- PWA install prompt, recent activity, branded filenames
+- Plausible analytics, Buttondown newsletter, favicons
+- Homepage SEO (structured data, categories, intros, trust sections)
+- AdSense submitted for review
 
-**Altivol:**
-- [ ] Finish remaining polish items (you know what's left)
-- [ ] Set up production domain and deploy
-- [ ] Create landing page with waitlist
-- [ ] Record 2-3 minute demo video showing the "everything connects" story
-- [ ] Write announcement article: "Why I Built My Own Life Management System"
+**Altivol (needs polish before launch):**
+- 14+ modules, 797 tests, Stripe billing, AI layer
+- Marketing strategy written with brand voice established
+- No public domain yet, no landing page deployed
 
-**Personal brand:**
-- [ ] Optimize LinkedIn profile: headline → "Building Altivol (Life OS) & Peregrine Tools (106 free browser tools) | Japanese philosophy meets code"
-- [ ] Publish intro post (Day 1 from your marketing strategy)
-- [ ] Post 3x/week on LinkedIn (Mon/Wed/Fri)
-- [ ] Identify 20 accounts to engage with daily
-- [ ] Start Dev.to article: "I Built 106 Browser-Based Tools With Zero Server Cost. Here's How."
-
-**Metrics to hit:**
-- Peregrine: 5K combined pageviews (baseline)
-- Altivol: Landing page live, 50 waitlist signups
-- LinkedIn: 12 posts published, 100 new connections
+**Personal brand (not yet started):**
+- LinkedIn profile exists but not optimized
+- No Dev.to/Medium articles published
+- No public content about what you're building
 
 ---
 
-### Month 2 (May 2026): CONTENT ENGINE
+## The Sequence (from MASTER_PLAN.md)
 
-**Peregrine:**
-- [ ] Continue daily blog publishing (30 articles this month)
-- [ ] Monitor Plausible: identify which tools get traffic, double down on content for those
-- [ ] Add 2 more comparison pages per site (target competitor long-tail: "ilovepdf alternative free", "tinypng vs squoosh")
-- [ ] Submit to web tool directories and "free tools" listicles
-- [ ] Post Peregrine tools on Reddit (r/webdev, r/productivity, r/freesoftware) — genuine, not spammy. "I built 106 free browser tools, no upload required" with link
+The master plan is right: **sequential focus, not parallel**. Peregrine first (it's ready), Altivol second (it needs polish), personal brand in parallel (15 min/day).
 
-**Altivol:**
-- [ ] Open beta: invite first 25 users from waitlist
-- [ ] Publish "Building Altivol" article #1 on Dev.to: architecture decisions
-- [ ] Collect feedback, fix critical issues
-- [ ] Record 3 short feature videos (Dashboard, Life Phases, Finance)
-
-**Personal brand:**
-- [ ] Continue 3x/week LinkedIn
-- [ ] Publish first "Japanese Philosophy → Code" article (your signature content)
-- [ ] First Dev.to deep-dive article (target: 1000+ views)
-- [ ] Engage daily: 15 min commenting on others' posts
-- [ ] Share Altivol beta opening on LinkedIn with the "I had 12 apps" story
-
-**Metrics to hit:**
-- Peregrine: 15K combined pageviews, 10+ pages indexed per site
-- Altivol: 25 beta users, initial feedback collected
-- LinkedIn: 300 followers, 1 post with 50+ reactions
-- Newsletter: 100 subscribers
+```
+APRIL        Ship Peregrine → SEO → Ads → Launch
+MAY          Polish Altivol → Landing page → Beta → Launch
+JUNE         Optimize winners → alextudora.com → Evaluate
+JULY+        Scale what works, expand if justified
+```
 
 ---
 
-### Month 3 (June 2026): TRACTION
+## APRIL: Ship Peregrine & Start the SEO Engine
 
-**Peregrine:**
-- [ ] Continue daily blog (60+ total articles across all sites)
-- [ ] Analyze Plausible: which keywords are driving traffic? Create more content targeting those clusters
-- [ ] Check AdSense revenue baseline
-- [ ] If 50K sessions reached: apply to Mediavine
-- [ ] Build 2 more cross-tool workflows based on user data (what tools do people use together?)
-- [ ] Guest post on a productivity blog linking to Peregrine tools
+### Week 1 (April 1-7): Deploy & Submit
 
-**Altivol:**
-- [ ] Open wider beta: 100 users
-- [ ] Publish "Building Altivol" article #2: the data model (how everything connects)
-- [ ] Launch on Product Hunt: "Altivol — Your Life Operating System"
-- [ ] Set up Stripe billing for Pro tier
-- [ ] First paying customer goal
-
-**Personal brand:**
-- [ ] Continue 3x/week LinkedIn (now 36+ posts total)
-- [ ] Publish "Books → Code" article (monthly series)
-- [ ] Goal: 1 article gets 1000+ views on Dev.to
-- [ ] Start Twitter/X if LinkedIn is working (cross-post highlights)
-- [ ] Reach out to 3 podcasts about "building in public" / "Japanese philosophy in tech"
-
-**Metrics to hit:**
-- Peregrine: 30K combined pageviews, first $100 in ad revenue
-- Altivol: 100 beta users, 5 paying Pro users, Product Hunt launch
-- LinkedIn: 500 followers, consistent engagement
-- Newsletter: 250 subscribers
-
----
-
-### Month 4-6 (July-September 2026): SCALE
-
-**Peregrine:**
-- [ ] 100+ blog articles published
-- [ ] Mediavine application (if traffic qualifies)
-- [ ] Launch Peregrine Pro lifetime pass ($19.99) — ad-free across all sites
-- [ ] Reach 50K-100K monthly combined sessions
-- [ ] Target: $500-1500/mo ad revenue
-- [ ] Explore affiliate partnerships (Adobe, cloud storage)
-
-**Altivol:**
-- [ ] Public launch (open registration)
-- [ ] 500 registered users, 25+ paying Pro users
-- [ ] Mobile app beta (Capacitor → TestFlight/Play Store)
-- [ ] Feature expansion based on user feedback
-- [ ] Target: $500-1000/mo subscription revenue
-- [ ] Case studies: "How [user] uses Altivol to manage their life"
-
-**Personal brand:**
-- [ ] 1000+ LinkedIn followers
-- [ ] 5+ Dev.to articles, 1+ with 5000 views
-- [ ] Speaking opportunity (podcast guest or meetup talk)
-- [ ] Known in the intersection of "productivity tools + developer + Japanese philosophy"
-- [ ] Newsletter: 500+ subscribers
-
----
-
-## Content Strategy: The Unified Approach
-
-Your personal brand is the connective tissue. Content should serve both products without feeling like promotion.
-
-### Content Calendar (Weekly)
-
-| Day | Platform | Content | Serves |
-|-----|----------|---------|--------|
-| **Monday** | LinkedIn | Technical insight / Altivol behind-the-scenes | Altivol + brand |
-| **Monday** | Peregrine Blog | PDF article | Peregrine SEO |
-| **Tuesday** | Peregrine Blog | Pix article | Peregrine SEO |
-| **Wednesday** | LinkedIn | Personal story / Japanese philosophy | Brand |
-| **Wednesday** | Peregrine Blog | Vid article | Peregrine SEO |
-| **Thursday** | Peregrine Blog | Dev article | Peregrine SEO |
-| **Friday** | LinkedIn | Lighter content / relatable developer humor | Brand |
-| **Friday** | Peregrine Blog | Kit article | Peregrine SEO |
-| **Saturday** | Peregrine Blog | Convert article | Peregrine SEO |
-| **Sunday** | Peregrine Blog | Hub article | Peregrine SEO |
-| **Bi-weekly** | Dev.to / Medium | Deep-dive article (alternating Altivol tech / Peregrine tech) | Both |
-
-**Total weekly output:**
-- 3 LinkedIn posts
-- 7 Peregrine blog articles
-- 1 Dev.to article (every 2 weeks)
-- 15 min daily engagement (commenting on LinkedIn)
-
-**Time estimate:** ~12-15 hours/week on content + engagement
-
-### Article Ideas That Serve Both Products
-
-**Cross-pollination articles** (these are the gold):
-
-1. "I Built 106 Browser Tools and a Life OS in One Year. Here's What I Learned About Shipping."
-   → Links to both, establishes credibility
-
-2. "Zero Server Cost: How I Process Millions of Files Without a Backend"
-   → Technical Peregrine deep-dive, shows expertise that supports Altivol credibility
-
-3. "Why I Apply Japanese Minimalism to Everything I Build"
-   → Brand piece, references both products' design philosophy
-
-4. "The Portfolio Approach to Side Projects: Why I Run 7 Sites Instead of 1"
-   → Business strategy, Peregrine-focused but positions you as a strategic thinker
-
-5. "From 12 Disconnected Apps to 1 Life OS: A Developer's Journey"
-   → Altivol story, but mentioning Peregrine shows you're a prolific builder
-
----
-
-## Marketing Channels Ranked by ROI
-
-| Channel | Effort | Impact for Peregrine | Impact for Altivol | Priority |
-|---------|--------|---------------------|--------------------|---------|
-| **Google SEO (blog)** | High (daily articles) | Very High | Low | #1 for Peregrine |
-| **LinkedIn** | Medium (3x/week) | Low | Very High | #1 for Altivol |
-| **Dev.to / Medium** | Medium (bi-weekly) | Medium | High | #2 for both |
-| **Product Hunt** | One-time | High (launch spike) | Very High (launch spike) | Do once per product |
-| **Reddit** | Low (occasional) | Medium | Medium | Opportunistic |
-| **Twitter/X** | Medium | Low | Medium | Optional, start Month 3 |
-| **Newsletter** | Low (monthly) | Medium | High | Retention for both |
-| **Podcasts** | Low (guest) | Low | High | Start Month 3 |
-
----
-
-## Revenue Projections: Combined Portfolio
-
-| Month | Peregrine Ads | Peregrine Subs | Altivol Subs | Newsletter/Affiliate | Total |
-|-------|--------------|---------------|-------------|---------------------|-------|
-| 1 | $0 | $0 | $0 | $0 | $0 |
-| 2 | $50 | $0 | $0 | $0 | $50 |
-| 3 | $150 | $0 | $50 | $0 | $200 |
-| 4 | $300 | $0 | $150 | $25 | $475 |
-| 5 | $500 | $100 | $300 | $50 | $950 |
-| 6 | $800 | $200 | $500 | $100 | $1,600 |
-
-**Conservative assumptions:** Peregrine traffic grows linearly to 50K/mo by Month 6. Altivol converts 2% of beta users to Pro. These are floor estimates, not targets.
-
----
-
-## The Personal Brand Bridge
-
-The most important marketing asset you have is **not** either product. It's **you** — Alex Tudora, the developer who applies Japanese philosophy to code, builds tools that respect privacy, and documents the journey with humor.
-
-People don't follow products. They follow people. Your LinkedIn audience will try Altivol because they trust you. Your Peregrine blog readers will subscribe to the newsletter because your articles are genuinely helpful. The newsletter drives both products.
-
-**The flywheel:**
-1. Write helpful content (LinkedIn + blogs) → builds audience
-2. Audience discovers products → tries Peregrine tools, signs up for Altivol
-3. Product users become fans → share with their network
-4. More audience → more content → more products → more fans
-
-**The key rule:** 90% of content should be valuable independent of your products. Teach, share, make people laugh. 10% can mention what you're building. If your content only works as a product pitch, it's not good enough.
-
----
-
-## Risk Mitigation
-
-| Risk | Impact | Mitigation |
-|------|--------|-----------|
-| Burnout from daily publishing + 2 products + marketing | High | Batch content on weekends (write 3-4 articles in one sitting). Automate where possible. Take Sundays off from marketing if needed. |
-| Peregrine SEO takes longer than expected | Medium | Stay consistent. New domains take 3-6 months. Don't panic at Month 2 if traffic is low. |
-| Altivol beta feedback is negative | Medium | Expected and useful. Ship fast, fix fast. First users are the most forgiving. |
-| LinkedIn content doesn't gain traction | Low | Iterate on what works. The Japanese philosophy angle is genuinely unique — lean into it harder. |
-| Splitting focus between 2 products | Medium | Clear separation: Peregrine = SEO content (async, can batch). Altivol = product work (focused sessions). Marketing = LinkedIn (15 min/day). |
-
----
-
-## Month 1 Action Checklist (Start Tomorrow)
-
-### Week 1
-- [ ] Deploy Peregrine to production (all 7 apps)
-- [ ] Submit sitemaps to GSC
-- [ ] Verify Plausible is collecting data
+**Morning priority (code):**
+- [ ] Deploy all 7 Peregrine sites to production (Vercel)
+- [ ] Verify Plausible is collecting data on all domains
 - [ ] Verify Buttondown newsletter form works
-- [ ] Optimize LinkedIn profile
-- [ ] Write and publish LinkedIn intro post
-- [ ] Write 7 Peregrine blog articles (one per site)
-- [ ] Deploy Altivol landing page with waitlist
+- [ ] Test top 20 tools across Chrome/Firefox/Safari/mobile
+- [ ] Fix any broken tools found during testing
 
-### Week 2
-- [ ] Request indexing for top 50 Peregrine pages in GSC
-- [ ] Publish 3 LinkedIn posts
-- [ ] Publish 7 Peregrine blog articles
-- [ ] Start Dev.to article draft
-- [ ] Begin daily LinkedIn engagement (15 min)
-- [ ] Altivol: finish remaining polish items
+**Afternoon priority (SEO):**
+- [ ] Submit sitemaps to Google Search Console for all 7 domains
+- [ ] Request indexing for 10 highest-value pages per site (merge-pdf, compress-image, json-formatter, etc.)
+- [ ] Verify all structured data with Google Rich Results Test
+- [ ] Submit convert-a-lot.com separately (different brand, different GSC property)
 
-### Week 3
-- [ ] Publish 3 LinkedIn posts + 7 blog articles
-- [ ] Submit Peregrine to Product Hunt
-- [ ] Publish first Dev.to article
-- [ ] Altivol: deploy production, open waitlist
-- [ ] Record Altivol demo video
+**Evening (personal brand, 15 min):**
+- [ ] Optimize LinkedIn profile: headline, about, featured section
+- [ ] Connect with 10 developers/indie hackers
 
-### Week 4
-- [ ] Review Month 1 metrics
-- [ ] Publish 3 LinkedIn posts + 7 blog articles
-- [ ] Check Plausible: what's working?
-- [ ] Check GSC: what's indexed?
-- [ ] Plan Month 2 based on data
-- [ ] Altivol: invite first 25 beta users
+### Week 2 (April 8-14): Content Engine Starts
+
+**Daily blog publishing begins:**
+| Day | Site | Article |
+|-----|------|---------|
+| Mon | PDF | "How to Password-Protect a PDF Before Emailing It" |
+| Tue | Pix | "Best Image Dimensions for Every Social Media Platform in 2026" |
+| Wed | Vid | "How to Convert a Video to GIF Without Losing Quality" |
+| Thu | Dev | "The Developer's Cheat Sheet for Common RegEx Patterns" |
+| Fri | Kit | "5 Free SEO Tools Every Blogger Should Use" |
+| Sat | Convert | "When to Use PNG vs JPG vs WebP: A Decision Guide" |
+| Sun | Hub | "Why Browser-Based Tools Are Better Than Desktop Software" |
+
+**LinkedIn (3 posts this week):**
+- Mon: Introduction post ("I had 12 apps and still felt disorganized. So I built 106 tools and a life OS...")
+- Wed: Technical post ("I built 106 browser-based tools with zero server cost. Here's the architecture.")
+- Fri: Relatable developer humor post
+
+**Other:**
+- [ ] Activate AdSense if approved
+- [ ] Start Dev.to article draft: "I Built 106 Browser-Based Tools. Here's What I Learned."
+
+### Week 3 (April 15-21): Continue Content + Prepare Launch
+
+**Continue daily blog publishing (7 more articles)**
+**Continue LinkedIn 3x/week**
+
+**Launch preparation:**
+- [ ] Prepare Product Hunt listing for peregrine-tools.com
+- [ ] Write Reddit posts (save as drafts, don't post yet):
+  - r/webdev: "106 free browser-based file tools — no upload, no sign-up"
+  - r/SideProject: "My side project: a family of 7 tool sites with 106 tools"
+  - r/InternetIsBeautiful: "Free PDF, image, video, and dev tools that work entirely in your browser"
+  - r/free: "106 free online tools — merge PDFs, compress images, format JSON, and more"
+- [ ] Write Hacker News "Show HN" post draft
+- [ ] Publish Dev.to article
+
+### Week 4 (April 22-30): LAUNCH WEEK
+
+**Monday:** Product Hunt launch (peregrine-tools.com as the main listing)
+**Tuesday:** Hacker News "Show HN"
+**Wednesday:** Reddit posts (all subs, staggered through the day)
+**Thursday:** Twitter/X thread + Dev.to article goes live
+**Friday:** Submit to directories: AlternativeTo, SaaSHub, ToolFinder, Product Hunt alternatives list
+
+**Continue daily blog publishing through launch week**
+
+**Revenue target end of April:** £50-150/month (AdSense on 5K-15K visits)
 
 ---
 
-## The Bottom Line
+## MAY: Altivol Polish & Launch
 
-You're not choosing between two products. You're building a portfolio with a personal brand as the engine. Peregrine captures search traffic at scale. Altivol captures high-value users who connect with your story. Your content bridges them.
+### Weeks 5-6 (May 1-14): Bug Bash & Polish
 
-The work for the next 3 months is:
-1. **Ship Peregrine** (it's ready) and feed it daily content
-2. **Polish and launch Altivol** (it's close) and tell the story publicly
-3. **Build the Alex Tudora brand** on LinkedIn — the connective tissue
+**Morning (Altivol code):**
+- [ ] Full end-to-end test of every module
+- [ ] Test subscription flow: signup → pricing → Stripe → Pro unlock
+- [ ] Mobile responsiveness audit
+- [ ] Fix critical issues
+- [ ] Ensure free tier is genuinely useful
 
-Six months from now, you want to be the developer who runs 7 utility sites getting 50K+ visits/month, has a Life OS with 100+ users, and a LinkedIn following that knows you as "the Japanese philosophy meets code guy."
+**Afternoon (Peregrine maintenance):**
+- [ ] Continue daily blog publishing (7 articles/week)
+- [ ] Monitor Plausible — which tools get traffic?
+- [ ] Check GSC — which pages are indexed?
+- [ ] Write 2 more comparison pages per site targeting competitor long-tails
 
-That's a unique position no one else occupies.
+**Evening (personal brand):**
+- [ ] Continue LinkedIn 3x/week
+- [ ] Publish "Building Altivol" Dev.to article #1
+
+### Weeks 7-8 (May 15-31): Altivol Launch
+
+**Week 7:**
+- [ ] Deploy Altivol to production domain
+- [ ] Landing page live: one clear value prop + demo video + waitlist
+- [ ] Record 2-3 minute demo video
+- [ ] Write launch blog post: "Why I Built My Own Life Management System"
+- [ ] Open beta: invite first 25 users from waitlist
+- [ ] LinkedIn post: "After building 106 free tools, I built something for myself..."
+
+**Week 8:**
+- [ ] Product Hunt launch: "Altivol — Your Life Operating System"
+- [ ] Reddit: r/productivity, r/selfimprovement, r/getdisciplined
+- [ ] Hacker News: "Show HN: A life management OS built on Japanese philosophy"
+- [ ] Indie Hackers post with transparency
+- [ ] Offer lifetime deal to first 50 users ($99)
+
+**Revenue target end of May:** £200-500/month (Peregrine ads + Altivol first subscribers)
 
 ---
 
-*"Two products, one builder, one story. Ship them both. Tell it publicly."*
+## JUNE: Optimize & Evaluate
+
+### Weeks 9-10: Double Down on Winners
+
+- [ ] Peregrine: which tools get the most traffic? Create more content in those verticals
+- [ ] Altivol: analyze user behavior — where do they drop off?
+- [ ] Collect Altivol feedback, prioritize top 3 requests
+- [ ] If Peregrine > 50K sessions: apply to Mediavine
+- [ ] Continue daily blog publishing
+- [ ] Continue LinkedIn 3x/week
+
+### Week 11: alextudora.com
+
+- [ ] Build in 1-2 days (hero, projects grid, about, contact, blog link)
+- [ ] Link to Peregrine, Altivol, GitHub
+- [ ] This is your credibility page for everything
+
+### Week 12: Evaluate
+
+- [ ] Revenue check: are you at £500/month?
+- [ ] Which project contributes most?
+- [ ] Plan next 3 months based on real data
+- [ ] Decision: Pro tier? Starter kit? More tools? More content?
+
+**Revenue target end of June:** £375-750/month
+
+---
+
+## Content Strategy
+
+### The Two Engines
+
+**Engine 1: Peregrine SEO (7 articles/day, async)**
+These are keyword-targeted how-to articles. You can batch-write them. They don't need your personality — they need to be useful, specific, and link to tools.
+
+Schedule: Mon=PDF, Tue=Pix, Wed=Vid, Thu=Dev, Fri=Kit, Sat=Convert, Sun=Hub
+
+**Engine 2: Personal Brand (3 posts/week, real-time)**
+These are LinkedIn/Dev.to posts that carry your voice. They DO need personality. The Japanese philosophy angle, the humor, the build-in-public transparency.
+
+Schedule: Mon=Technical, Wed=Story/Philosophy, Fri=Humor/Relatable
+
+### Cross-Pollination
+
+The magic happens when these overlap:
+
+- A Peregrine blog post about "how to compress images for web" → you share it on LinkedIn with a personal take → drives traffic to the tool → newsletter signup → Altivol discovery
+- An Altivol behind-the-scenes post on LinkedIn → positions you as a serious builder → people check your other work → discover Peregrine → use and share tools
+- A Dev.to deep-dive about your monorepo architecture → Hacker News picks it up → traffic spike to both products
+
+**Rule:** 90% of content should be valuable even if your products didn't exist. 10% can mention what you're building.
+
+---
+
+## Marketing Channels by Priority
+
+| Priority | Channel | Effort | Serves | When |
+|----------|---------|--------|--------|------|
+| 1 | Google SEO (daily blog) | 1-2h/day | Peregrine | From Day 1 |
+| 2 | Product Hunt | One-time | Both | Launch weeks |
+| 3 | LinkedIn | 30 min/day | Altivol + brand | From Day 1 |
+| 4 | Reddit | Occasional | Both | Launch + opportunistic |
+| 5 | Hacker News | Occasional | Both | Launch + articles |
+| 6 | Dev.to / Medium | Bi-weekly | Both | From Week 2 |
+| 7 | Twitter/X | Optional | Both | Month 2+ if bandwidth allows |
+| 8 | Podcasts (guest) | Low effort | Altivol + brand | Month 3+ |
+| 9 | Directories | One-time | Both | Launch month |
+| 10 | Newsletter | Monthly | Retention | From Day 1 (passive) |
+
+---
+
+## Revenue Projections (Conservative)
+
+| Month | Peregrine Ads | Peregrine Pro | Altivol | Other | Total |
+|-------|--------------|---------------|---------|-------|-------|
+| Apr | £75 | — | — | — | **£75** |
+| May | £125 | — | £80 | — | **£205** |
+| Jun | £175 | — | £200 | — | **£375** |
+| Jul | £225 | £100 | £280 | £10 | **£615** |
+| Aug | £275 | £150 | £350 | £25 | **£800** |
+| Sep | £325 | £200 | £400 | £50 | **£975** |
+
+**Month 3 target: ~£375** (close to the £500 goal — Month 4 should cross it)
+**Month 6 target: ~£975** (approaching £1K/month from two products)
+
+---
+
+## The Personal Brand: Alex Tudora
+
+Your brand is the bridge between both products and the long-term asset that survives any individual product.
+
+**Position:** "The developer who applies Japanese philosophy to code, builds tools that respect privacy, and documents the journey with humor."
+
+**Voice:** Funny but classy. Self-deprecating but insightful. Technical but accessible. Japanese minimalism meets Western pragmatism.
+
+**Platform priority:** LinkedIn first (professional audience → Altivol users), Dev.to second (developer audience → both products).
+
+**Content pillars (from your existing marketing strategy):**
+1. Chaos → Clarity (Altivol story)
+2. Code → Craft (Technical expertise)
+3. Curiosity → Connection (Learning in public)
+4. Comedy → Community (Relatable moments)
+
+**The signature series:** "What [Japanese concept] taught me about [tech topic]" — nobody else is doing this. Own it.
+
+---
+
+## Time Budget (Realistic Weekly)
+
+| Activity | Hours/week | When |
+|----------|-----------|------|
+| Peregrine blog articles (batch-write 7) | 5-7h | Sunday + weekday mornings |
+| LinkedIn posts (3) | 2h | Mon/Wed/Fri |
+| LinkedIn engagement (commenting) | 1.5h | 15 min/day |
+| Dev.to article (bi-weekly) | 3h | Thursday afternoon |
+| Altivol development | 15-20h | Core working hours |
+| Peregrine maintenance | 2-3h | As needed |
+| Analytics review | 1h | Friday |
+| **Total** | **~30-35h** | |
+
+This leaves room for thinking, reading, and not burning out. The master plan says "Sunday off" — respect that.
+
+---
+
+## Decision Framework (from MASTER_PLAN.md)
+
+When you get the urge to start something new:
+
+1. Is Peregrine generating £200+/month? If no → work on Peregrine.
+2. Is Altivol generating £200+/month? If no → work on Altivol.
+3. Have you launched the starter kit? If no → extract and ship it.
+4. Is this new idea better than improving what's already live? Almost certainly no.
+5. Will this make money in 30 days? If no → backlog.
+
+**Everything in the ideas vault (StatBabe, travel blog, philosophy blog, charity site, etc.) stays on ice until both Peregrine AND Altivol hit their revenue targets.**
+
+---
+
+## Start Tomorrow
+
+The building is done. The plan is written. The only thing between you and revenue is deploying what you've already built and telling people about it.
+
+Week 1, Day 1:
+1. Deploy Peregrine (all 7 sites)
+2. Submit sitemaps
+3. Write your LinkedIn intro post
+4. Publish your first blog article
+
+Everything else follows.
+
+---
+
+*"The hard part isn't building. You've proven that. The hard part is stopping building and starting selling."*
+— MASTER_PLAN.md
