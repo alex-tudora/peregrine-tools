@@ -115,13 +115,13 @@ export default function Home() {
       />
 
       {/* === HERO + PICKER === */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-visible">
         <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
         {/* Decorative blobs */}
         <div className="absolute top-20 left-[10%] w-64 h-64 bg-[color:var(--color-accent)]/[0.04] rounded-full blur-3xl" />
         <div className="absolute top-40 right-[15%] w-48 h-48 bg-[color:var(--color-accent-glow)] rounded-full blur-3xl" />
 
-        <div className="relative max-w-4xl mx-auto px-6 pt-10 pb-20 md:pt-16 md:pb-24">
+        <div className="relative max-w-4xl mx-auto px-6 pt-10 pb-32 md:pt-16 md:pb-40">
           <div className="text-center">
             {/* Brand mark */}
             <div className="animate-arrive inline-block mb-1">
@@ -142,14 +142,14 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Universal Search — primary interaction */}
-          <div className="animate-arrive delay-2 mt-10">
-            <UniversalSearch />
+          {/* Rotating knight quote */}
+          <div className="animate-arrive delay-2 mt-8 text-center">
+            <RotatingQuote />
           </div>
 
-          {/* Rotating knight quote below search */}
-          <div className="animate-arrive delay-3 mt-6 text-center">
-            <RotatingQuote />
+          {/* Universal Search — primary interaction */}
+          <div className="animate-arrive delay-3 mt-8">
+            <UniversalSearch />
           </div>
         </div>
       </section>
