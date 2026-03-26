@@ -67,9 +67,8 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <Script
-          defer
-          data-domain="peregrinepix.com"
-          src="https://plausible.io/js/script.js"
+          async
+          src="https://plausible.io/js/pa-6OWn-sSjqpiiNvqN4gAsJ.js"
           strategy="afterInteractive"
         />
         <Header
