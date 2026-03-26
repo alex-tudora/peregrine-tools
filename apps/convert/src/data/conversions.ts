@@ -2,12 +2,14 @@ import { unitConversions } from "./unitConversions";
 import { currencyConversions } from "./currencyConversions";
 import { textCaseConversions } from "./textCaseConversions";
 import { numberConversions } from "./numberConversions";
+import { colorConversions } from "./colorConversions";
+import { timezoneConversions } from "./timezoneConversions";
 
 export interface ConversionDef {
   slug: string;
   from: string;
   to: string;
-  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit' | 'currency' | 'number';
+  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit' | 'currency' | 'number' | 'color' | 'timezone';
   toolName: string;
   description: string;
   keyword: string;
@@ -774,7 +776,7 @@ const fileConversions: ConversionDef[] = [
 ];
 
 /** All conversions: file-based + unit converters + currency converters */
-export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions, ...currencyConversions, ...textCaseConversions, ...numberConversions];
+export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions, ...currencyConversions, ...textCaseConversions, ...numberConversions, ...colorConversions, ...timezoneConversions];
 
 /** Quick lookup by slug */
 export const conversionsBySlug = new Map(conversions.map((c) => [c.slug, c]));

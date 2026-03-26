@@ -121,6 +121,30 @@ const conversionMap: ConversionRoute[] = [
   // Unit conversions — Digital
   { from: "MB", to: "GB", path: "/mb-to-gb", description: "Convert megabytes to gigabytes" },
   { from: "GB", to: "TB", path: "/gb-to-tb", description: "Convert gigabytes to terabytes" },
+  // Color conversions
+  { from: "HEX", to: "RGB", path: "/hex-to-rgb", description: "Convert HEX color to RGB" },
+  { from: "RGB", to: "HEX", path: "/rgb-to-hex", description: "Convert RGB color to HEX" },
+  { from: "HEX", to: "HSL", path: "/hex-to-hsl", description: "Convert HEX color to HSL" },
+  { from: "HSL", to: "HEX", path: "/hsl-to-hex", description: "Convert HSL color to HEX" },
+  { from: "RGB", to: "HSL", path: "/rgb-to-hsl", description: "Convert RGB color to HSL" },
+  { from: "HSL", to: "RGB", path: "/hsl-to-rgb", description: "Convert HSL color to RGB" },
+  { from: "RGB", to: "CMYK", path: "/rgb-to-cmyk", description: "Convert RGB to CMYK for print" },
+  { from: "CMYK", to: "RGB", path: "/cmyk-to-rgb", description: "Convert CMYK to RGB for screen" },
+  { from: "HEX", to: "CMYK", path: "/hex-to-cmyk", description: "Convert HEX to CMYK for print" },
+  { from: "RGB", to: "HSB", path: "/rgb-to-hsb", description: "Convert RGB to HSB/HSV" },
+  { from: "HSB", to: "RGB", path: "/hsb-to-rgb", description: "Convert HSB/HSV to RGB" },
+  { from: "HEX", to: "OKLCH", path: "/hex-to-oklch", description: "Convert HEX to OKLCH" },
+  // Timezone conversions
+  { from: "EST", to: "UTC", path: "/est-to-utc", description: "Convert Eastern Time to UTC" },
+  { from: "UTC", to: "EST", path: "/utc-to-est", description: "Convert UTC to Eastern Time" },
+  { from: "PST", to: "EST", path: "/pst-to-est", description: "Convert Pacific to Eastern Time" },
+  { from: "EST", to: "PST", path: "/est-to-pst", description: "Convert Eastern to Pacific Time" },
+  { from: "GMT", to: "EST", path: "/gmt-to-est", description: "Convert GMT to Eastern Time" },
+  { from: "EST", to: "GMT", path: "/est-to-gmt", description: "Convert Eastern Time to GMT" },
+  { from: "UTC", to: "IST", path: "/utc-to-ist", description: "Convert UTC to India Standard Time" },
+  { from: "IST", to: "UTC", path: "/ist-to-utc", description: "Convert India Standard Time to UTC" },
+  { from: "UTC", to: "JST", path: "/utc-to-jst", description: "Convert UTC to Japan Standard Time" },
+  { from: "JST", to: "UTC", path: "/jst-to-utc", description: "Convert Japan Standard Time to UTC" },
 ];
 
 interface FormatGroup {
@@ -145,6 +169,8 @@ const formatGroups: FormatGroup[] = [
   { label: "Volume", formats: ["liters", "gallons", "cups", "ml"] },
   { label: "Speed", formats: ["km/h", "mph"] },
   { label: "Digital", formats: ["MB", "GB", "TB"] },
+  { label: "Color", formats: ["HEX", "RGB", "HSL", "CMYK", "HSB", "OKLCH"] },
+  { label: "Timezone", formats: ["UTC", "EST", "PST", "GMT", "IST", "JST"] },
 ];
 
 const availableFromFormats = new Set(conversionMap.map((c) => c.from));

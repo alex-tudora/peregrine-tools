@@ -27,19 +27,27 @@ const toolComponents: Record<string, ComponentType<any>> = {
     { ssr: false }
   ),
   UnitConverterTool: dynamic(
-    () => import("@/components/tools/UnitConverterTool").then((m) => m.UnitConverterTool) as any,
+    () => import("@/components/tools/UnitConverterTool").then((m) => ({ default: m.UnitConverterTool })),
     { ssr: false }
   ),
   CurrencyConverterTool: dynamic(
-    () => import("@/components/tools/CurrencyConverterTool").then((m) => m.CurrencyConverterTool) as any,
+    () => import("@/components/tools/CurrencyConverterTool").then((m) => ({ default: m.CurrencyConverterTool })),
     { ssr: false }
   ),
   TextCaseConverterTool: dynamic(
-    () => import("@/components/tools/TextCaseConverterTool").then((m) => m.TextCaseConverterTool) as any,
+    () => import("@/components/tools/TextCaseConverterTool").then((m) => ({ default: m.TextCaseConverterTool })),
     { ssr: false }
   ),
   NumberConverterTool: dynamic(
-    () => import("@/components/tools/NumberConverterTool").then((m) => m.NumberConverterTool) as any,
+    () => import("@/components/tools/NumberConverterTool").then((m) => ({ default: m.NumberConverterTool })),
+    { ssr: false }
+  ),
+  ColorConverterTool: dynamic(
+    () => import("@/components/tools/ColorConverterTool").then((m) => ({ default: m.ColorConverterTool })),
+    { ssr: false }
+  ),
+  TimezoneConverterTool: dynamic(
+    () => import("@/components/tools/TimezoneConverterTool").then((m) => ({ default: m.TimezoneConverterTool })),
     { ssr: false }
   ),
 };
