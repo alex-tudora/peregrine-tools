@@ -277,21 +277,46 @@ Organic search is the primary traffic engine. Every major tool site in every ver
 
 | Site | Content Pillars | Blog Frequency |
 |------|----------------|---------------|
-| **PDF** | How-to guides (merge, compress, convert), format comparisons (PDF vs DOCX), workflow tips, industry guides (legal, education) | 2–3 posts/week (highest priority) |
-| **Pix** | Image optimization guides, format comparisons (PNG vs JPG vs WebP), batch workflow tutorials, design tips | 2 posts/week |
+| **PDF** | How-to guides (merge, compress, convert, sign, OCR), format comparisons (PDF vs DOCX), workflow tips, industry guides (legal, education) | 2–3 posts/week (highest priority) |
+| **Pix** | Image optimization guides, format comparisons (PNG vs JPG vs WebP), batch workflow tutorials, background removal, design tips | 2 posts/week |
 | **Vid** | Video compression guides, format explainers (MP4 vs MOV vs WebM), social media video specs, GIF creation tutorials | 2 posts/week |
-| **Dev** | Tool tutorials (regex cheat sheets, JSON structure guides), developer productivity tips, encoding/hashing explainers | 1 post/week |
-| **Kit** | Writing productivity guides, QR code use cases, text formatting tips, Pomodoro technique guides | 1 post/week |
+| **Dev** | Tool tutorials (regex cheat sheets, JSON/YAML guides, TypeScript tips), developer productivity, encoding/hashing explainers | 1 post/week |
+| **Kit** | Writing productivity guides, Pomodoro technique deep dives, QR code use cases, SEO tips, calculator guides | 1 post/week |
 | **convert-a-lot** | Conversion-focused tool pages with embedded SEO content; programmatic pages for every "convert X to Y" permutation, each with a working tool on-page | Programmatic (50–100+ tool pages) |
 | **peregrine-tools** | Brand story, ecosystem overview, comparison posts ("Peregrine vs iLovePDF"), Pro subscription value posts | 1 post/week |
+
+### 8.2 Daily Publishing Schedule
+
+One article per day, rotating across sites. Quality over quantity — each article should be genuinely useful, target a specific search intent, include internal tool links, and offer insight beyond what the first Google result provides.
+
+| Day | Site | Content Focus |
+|-----|------|--------------|
+| **Monday** | PDF | How-to guides, workflow tips, document management |
+| **Tuesday** | Pix | Image optimization, format guides, design workflows |
+| **Wednesday** | Vid | Video compression, format explainers, social media specs |
+| **Thursday** | Dev | Developer tutorials, tool guides, encoding/security |
+| **Friday** | Kit | Productivity, writing, SEO, calculators |
+| **Saturday** | Convert | Conversion guides, format comparisons |
+| **Sunday** | Hub | Brand content, ecosystem comparisons, "best tools" roundups |
+
+**Article quality bar** (every post must have):
+- A clear search query it's targeting (check Google autocomplete)
+- 800-1500 words of substantive content
+- At least 2-3 internal links to relevant tools
+- Practical advice, tables, or examples — not just tool descriptions
+- Something the reader can't get from the first page of Google results
+
+**Content velocity target**: 7 articles/week = 30/month = 360/year. Combined with existing 22 articles, this reaches 200+ indexed content pages within 6 months — a meaningful content moat.
+
+**Guardrail**: If quality drops below the bar above, reduce to 5/week (skip Saturday/Sunday) rather than publishing filler. Google's helpful content system penalizes entire domains for thin content, not just individual pages.
 
 ### 8.2 Existing Content Assets
 
 The following content is already published and indexed:
 
-- **18 blog articles** across PDF (3), Pix (3), Vid (3), Dev (3), Kit (3), Convert (3)
+- **22 blog articles** across PDF (5), Pix (5), Vid (3), Dev (3), Kit (3), Convert (3)
 - **12 comparison pages** across PDF (2), Pix (2), Vid (2), Dev (2), Kit (2), Convert (2)
-- **103 tool pages** each with FAQs, HowTo steps, about sections, and structured data
+- **106 tool pages** each with FAQs, HowTo steps, about sections, and structured data (including 3 cross-tool workflows)
 - **7 homepages** with category organization, intro paragraphs, ItemList schema, trust sections, and blog links
 
 ### 8.3 convert-a-lot.com: The Standalone Conversion Site
