@@ -42,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
-    ...['/blog/jpeg-vs-png-vs-webp', '/blog/how-to-compress-images-for-web', '/blog/complete-guide-to-favicons'].map((route) => ({
+    ...['/blog/jpeg-vs-png-vs-webp', '/blog/how-to-compress-images-for-web', '/blog/complete-guide-to-favicons', '/blog/resize-images-without-losing-quality', '/blog/remove-image-background-guide'].map((route) => ({
       url: `${baseUrl}${route}`,
       lastModified,
       changeFrequency: 'monthly' as const,

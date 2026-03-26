@@ -289,6 +289,258 @@ export const posts: BlogPost[] = [
       </p>
     `,
   },
+  {
+    slug: "resize-images-without-losing-quality",
+    title: "How to Resize Images Without Losing Quality",
+    description:
+      "Resizing an image doesn't have to mean destroying it. Here's how downscaling, upscaling, and resampling actually work — and how to get sharp results every time.",
+    date: "2026-03-25",
+    readingTime: "5 min read",
+    relatedTools: [
+      { name: "Resize Image", href: "/resize-image" },
+      { name: "Compress Image", href: "/compress-image" },
+      { name: "Crop Image", href: "/crop-image" },
+    ],
+    content: `
+      <p>
+        "Resize this image to 800x600" sounds like a simple request. But depending on what
+        your original image looks like and what you're resizing it to, the results can range
+        from perfectly sharp to disturbingly blurry. Understanding why — and how to avoid the
+        bad outcomes — takes about three minutes.
+      </p>
+
+      <h2>Downscaling: Almost Always Safe</h2>
+      <p>
+        Making an image smaller is the easy case. You're starting with more pixel data than you
+        need and asking the computer to intelligently discard the excess. A 4000x3000 photo
+        resized to 1200x900 will look nearly identical to the original — you simply can't see
+        the missing pixels at the smaller size.
+      </p>
+      <p>
+        The key word is "intelligently." The resampling algorithm matters. There are three
+        common approaches:
+      </p>
+      <ul>
+        <li>
+          <strong>Nearest Neighbor</strong> — picks the closest pixel and drops the rest. Fast
+          but jagged. Only use this for pixel art where you want hard edges preserved.
+        </li>
+        <li>
+          <strong>Bilinear</strong> — averages neighboring pixels. Smooth results but can look
+          slightly soft. Good for general use.
+        </li>
+        <li>
+          <strong>Bicubic / Lanczos</strong> — samples a wider neighborhood of pixels with
+          weighted math. The sharpest results for photographs. This is what professional tools
+          and modern browsers use by default.
+        </li>
+      </ul>
+      <p>
+        When you use a <a href="/resize-image">resize tool</a>, it typically applies bicubic
+        resampling automatically. You don't need to configure this — just enter your target
+        dimensions and the algorithm handles the rest.
+      </p>
+
+      <h2>Upscaling: Here Be Dragons</h2>
+      <p>
+        Making an image larger is the hard case. You're asking the computer to invent pixel data
+        that doesn't exist. A 400x300 image resized to 1600x1200 will always look worse than a
+        photo that was originally shot at 1600x1200 — the detail simply isn't there.
+      </p>
+      <p>
+        Traditional upscaling (bilinear/bicubic) smears pixels to fill the gaps, producing a
+        soft, blurry result. The more you upscale, the worse it gets. Going from 400px to 800px
+        (2x) is usually acceptable. Going from 400px to 1600px (4x) looks noticeably degraded.
+        Going from 400px to 4000px (10x) looks like soup.
+      </p>
+      <p>
+        <strong>Practical rule:</strong> if you need a larger image, always start with the
+        largest source file available. Don't resize a thumbnail and expect poster quality.
+      </p>
+
+      <h2>The Aspect Ratio Trap</h2>
+      <p>
+        The most common resize mistake isn't the algorithm — it's distortion. If your original
+        is 4:3 and you resize to 16:9 without cropping, the image stretches. Faces become wide,
+        circles become ovals, and everything looks subtly wrong.
+      </p>
+      <p>
+        Two ways to handle this:
+      </p>
+      <ul>
+        <li>
+          <strong>Lock aspect ratio</strong> — enter one dimension (width OR height) and let the
+          tool calculate the other proportionally. Most resize tools have an "aspect ratio lock"
+          toggle. Use it.
+        </li>
+        <li>
+          <strong>Crop then resize</strong> — first <a href="/crop-image">crop the image</a> to
+          your target aspect ratio, then resize it to your target dimensions. This gives you full
+          control over what part of the image is kept.
+        </li>
+      </ul>
+
+      <h2>Resize for Specific Use Cases</h2>
+      <table>
+        <thead>
+          <tr><th>Use Case</th><th>Recommended Size</th><th>Format</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Website hero image</td><td>1920x1080 or 1600x900</td><td>JPEG (80% quality) or WebP</td></tr>
+          <tr><td>Blog post image</td><td>1200x630 (matches OG image spec)</td><td>JPEG or WebP</td></tr>
+          <tr><td>Email header</td><td>600x200</td><td>JPEG or PNG</td></tr>
+          <tr><td>Social media post</td><td>1080x1080 (square) or 1080x1350</td><td>JPEG</td></tr>
+          <tr><td>Profile picture</td><td>400x400</td><td>JPEG or PNG</td></tr>
+          <tr><td>Thumbnail</td><td>150x150 to 300x300</td><td>JPEG (70% quality)</td></tr>
+          <tr><td>Print (300 DPI)</td><td>Width in inches × 300</td><td>TIFF or PNG</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Resize + Compress: The Winning Combination</h2>
+      <p>
+        Resizing alone reduces file size because there are fewer pixels. But for the smallest
+        possible file, resize first, then <a href="/compress-image">compress the result</a>.
+        A 4000x3000 photo at 5MB can become a 1200x900 image at 120KB — a 97% reduction —
+        with no visible quality loss at the target display size.
+      </p>
+      <p>
+        The order matters. Always resize first, compress second. Compressing a large image and
+        then resizing it down wastes effort — you compressed pixels you're about to throw away.
+      </p>
+    `,
+  },
+  {
+    slug: "remove-image-background-guide",
+    title: "How to Remove Image Backgrounds: Techniques That Actually Work",
+    description:
+      "From simple solid-color backgrounds to complex hair-edge photos — here's what works, what doesn't, and when to use each approach.",
+    date: "2026-03-23",
+    readingTime: "6 min read",
+    relatedTools: [
+      { name: "Remove Background", href: "/remove-background" },
+      { name: "Compress Image", href: "/compress-image" },
+      { name: "PNG to JPG", href: "/png-to-jpg" },
+    ],
+    content: `
+      <p>
+        Removing the background from an image is one of those tasks that's either trivially easy
+        or maddeningly difficult, depending on what's in the photo. A product on a white
+        background? Three seconds. A person with wispy hair against a busy street scene? That's
+        where things get interesting.
+      </p>
+
+      <h2>Why Background Removal Is Hard</h2>
+      <p>
+        At a fundamental level, removing a background means deciding, for every single pixel in
+        the image, whether it belongs to the subject or the background. For most pixels this is
+        obvious — the center of someone's face is clearly "subject," the sky behind them is
+        clearly "background." The difficulty lives at the edges.
+      </p>
+      <p>
+        Hair, fur, transparent objects (glasses, wine glasses), shadows, and motion blur all
+        create pixels that are a blend of subject and background. These are the pixels that
+        make or break the result. A crude removal tool draws a hard line and misses these
+        transition pixels entirely. A good tool handles them with partial transparency.
+      </p>
+
+      <h2>Method 1: AI-Powered Automatic Removal</h2>
+      <p>
+        Modern background removal tools use machine learning models trained on millions of
+        images. You upload a photo, the AI identifies the subject, and outputs a transparent
+        PNG in seconds. No manual selection, no lasso tool, no edge refinement.
+      </p>
+      <p>
+        <a href="/remove-background">Peregrine's background remover</a> works this way. For
+        most common scenarios — portraits, product photos, pets, vehicles — the results are
+        surprisingly good. The AI handles hair edges, semi-transparent areas, and complex
+        outlines much better than you'd expect.
+      </p>
+      <p>
+        <strong>Best for:</strong> portraits, product photos, animals, objects on reasonably
+        distinct backgrounds.
+      </p>
+      <p>
+        <strong>Struggles with:</strong> subjects that are the same color as the background,
+        extremely fine details (individual hair strands), transparent or reflective objects.
+      </p>
+
+      <h2>Method 2: Manual Selection (Photoshop / GIMP)</h2>
+      <p>
+        For pixel-perfect results on difficult images, nothing beats manual selection with
+        professional tools. Photoshop's "Select and Mask" workspace lets you paint over edges,
+        adjust feathering, and preview the result against different backgrounds in real time.
+      </p>
+      <p>
+        This produces the best results but takes 5-30 minutes per image. It's justified for
+        commercial product photography, magazine covers, and professional compositing. It's
+        overkill for a LinkedIn profile photo.
+      </p>
+
+      <h2>Method 3: Simple Color-Based Removal</h2>
+      <p>
+        If your image has a solid, uniform background color — a studio photo on pure white, a
+        green screen shoot — you can remove it by simply deleting all pixels of that color.
+        This is the "magic wand" approach. It's fast and perfect for controlled environments,
+        but fails completely on natural photos where the background contains many colors.
+      </p>
+
+      <h2>After Removal: Choosing the Right Format</h2>
+      <p>
+        Once the background is gone, your image has transparency. This means you need to save
+        it in a format that supports transparency:
+      </p>
+      <ul>
+        <li>
+          <strong>PNG</strong> — the standard choice. Supports full transparency with 256 levels
+          of alpha per pixel. Larger file size. Use this for quality-critical work and when you
+          need to composite the image later.
+        </li>
+        <li>
+          <strong>WebP</strong> — modern web format. Supports transparency like PNG but at 25-35%
+          smaller file sizes. Not supported in very old browsers but fine for everything built
+          after 2020.
+        </li>
+      </ul>
+      <p>
+        Do NOT save a transparent image as JPEG. JPEG doesn't support transparency — the
+        transparent areas will fill with white (or black, depending on the tool). If you need
+        JPEG for a specific purpose, add a solid background color first, then
+        <a href="/png-to-jpg">convert to JPG</a>.
+      </p>
+
+      <h2>Common Use Cases and Tips</h2>
+
+      <h3>Product Photos for E-commerce</h3>
+      <p>
+        Amazon, Shopify, and most marketplaces require product images on pure white backgrounds.
+        If you shot your product on white and it's not perfectly white (slightly gray, uneven
+        lighting), AI removal + white background is actually better than trying to clean up the
+        original.
+      </p>
+
+      <h3>Profile Pictures and Headshots</h3>
+      <p>
+        Remove the background, then either keep transparent (works well on most platforms) or
+        add a subtle gradient or solid color. This creates a clean, professional look regardless
+        of what was originally behind you.
+      </p>
+
+      <h3>Presentations and Marketing Materials</h3>
+      <p>
+        Cut out a person or product, place them on a branded background or alongside text. This
+        is the classic use case for background removal — creating composite images where subjects
+        from different photos coexist in one design.
+      </p>
+
+      <h2>File Size After Removal</h2>
+      <p>
+        Background removal often increases file size because PNG files with complex transparency
+        data are larger than JPEGs. A 200KB JPEG portrait might become a 1.5MB PNG after
+        background removal. If file size matters, <a href="/compress-image">compress the result</a>
+        — you can typically reduce transparent PNGs by 40-60% without visible quality loss.
+      </p>
+    `,
+  },
 ];
 
 export function getPost(slug: string): BlogPost | undefined {

@@ -254,6 +254,254 @@ export const posts: BlogPost[] = [
       </p>
     `,
   },
+  {
+    slug: "digitally-sign-pdf-without-printing",
+    title: "How to Digitally Sign a PDF Without Printing It",
+    description:
+      "Stop printing PDFs just to sign them. Learn how to add your signature digitally — drawn or typed — in seconds, for free.",
+    date: "2026-03-25",
+    readingTime: "5 min read",
+    relatedTools: [
+      { name: "Sign PDF", href: "/sign-pdf" },
+      { name: "Protect PDF", href: "/protect-pdf" },
+      { name: "Merge PDF", href: "/merge-pdf" },
+    ],
+    content: `
+      <p>
+        You receive a contract in your inbox. It needs your signature by end of day. The old
+        way: print it, sign it with a pen, scan it back in, email it. That's three devices, five
+        minutes of your life, and a sheet of paper you'll immediately throw away.
+      </p>
+      <p>
+        The better way takes about ten seconds, and you never leave your browser.
+      </p>
+
+      <h2>What "Digitally Signing" Actually Means</h2>
+      <p>
+        There are two very different things people mean when they say "sign a PDF." The first is
+        a <strong>visual signature</strong> — your name or handwriting placed on the document as
+        an image. This is what most people need for everyday contracts, timesheets, permission
+        slips, and internal approvals.
+      </p>
+      <p>
+        The second is a <strong>cryptographic digital signature</strong> — a mathematically
+        verified identity certificate embedded in the file. This is used for legal filings,
+        government submissions, and regulated industries. It requires a certificate authority
+        and specialized software like Adobe Acrobat or DocuSign.
+      </p>
+      <p>
+        For 95% of everyday document signing, a visual signature is all you need. That's what
+        this guide covers.
+      </p>
+
+      <h2>Method 1: Draw Your Signature</h2>
+      <p>
+        Open a <a href="/sign-pdf">PDF signing tool</a>, upload your document, and draw your
+        signature directly on the page using your mouse or touchscreen. The tool renders your
+        PDF as a preview, and you click exactly where the signature should go. You can resize
+        and reposition it until it looks right.
+      </p>
+      <p>
+        Drawing works best on tablets and touchscreens, where you can use a finger or stylus
+        for a natural handwriting feel. On a desktop, a mouse signature will look a bit wobbly
+        — that's normal and universally accepted.
+      </p>
+
+      <h2>Method 2: Type Your Signature</h2>
+      <p>
+        If you prefer a clean, consistent look, type your name and choose a cursive-style font.
+        The tool renders it as a text element placed directly on the PDF. This produces a
+        professional result that's perfectly legible — no one can complain they can't read your
+        handwriting.
+      </p>
+      <p>
+        Typed signatures are just as legally valid as drawn ones for most purposes. What matters
+        is intent — that you deliberately placed your name on the document to indicate agreement.
+      </p>
+
+      <h2>Where to Place the Signature</h2>
+      <p>
+        Most tools let you click directly on the document to position your signature. For
+        contracts, look for the designated signature line — usually at the bottom of the last
+        page. For timesheets and forms, there's typically a labeled box.
+      </p>
+      <p>
+        If there's no designated spot, the convention is bottom-right of the last page. But
+        honestly, place it wherever makes sense for the document. The recipient will see it.
+      </p>
+
+      <h2>Is It Legally Binding?</h2>
+      <p>
+        In most jurisdictions — including the US (ESIGN Act), EU (eIDAS Regulation), UK, Canada,
+        and Australia — electronic signatures are legally equivalent to handwritten ones for the
+        vast majority of documents. The exceptions are typically wills, certain real estate deeds,
+        and court orders, which may still require wet-ink signatures depending on local law.
+      </p>
+      <p>
+        For employment contracts, NDAs, invoices, timesheets, consent forms, and general business
+        agreements, a visual signature on a PDF is legally binding. The key legal requirement is
+        that both parties agree to conduct business electronically — which, if someone sent you a
+        PDF to sign, they implicitly have.
+      </p>
+
+      <h2>After Signing: Protect the Document</h2>
+      <p>
+        Once you've signed a PDF, consider <a href="/protect-pdf">password-protecting it</a> before
+        sending it back. This prevents the recipient from modifying the document after your signature
+        is on it. It's not legally required, but it's good practice for important agreements.
+      </p>
+      <p>
+        If you're collecting multiple signatures — say, a contract that needs both parties — you can
+        sign your copy, then <a href="/merge-pdf">merge</a> the signed pages with the rest of the
+        document before sending the final version.
+      </p>
+
+      <h2>Privacy: Where Does Your Signature Go?</h2>
+      <p>
+        This is worth paying attention to. Many popular signing tools (DocuSign, Adobe Sign,
+        HelloSign) upload your document and signature to their servers. That means your signed
+        contract — which might contain salary figures, personal details, or confidential terms —
+        lives on a third party's infrastructure.
+      </p>
+      <p>
+        Browser-based tools like <a href="/sign-pdf">Peregrine PDF's signature tool</a> process
+        everything locally. Your PDF never leaves your device. The signature is drawn or typed in
+        your browser, embedded into the PDF using JavaScript, and downloaded directly to your
+        computer. No upload, no server, no third-party access.
+      </p>
+      <p>
+        For sensitive documents — employment contracts, financial agreements, medical forms —
+        this distinction matters.
+      </p>
+    `,
+  },
+  {
+    slug: "extract-text-from-pdf",
+    title: "How to Extract Text from a PDF: OCR vs Direct Extraction",
+    description:
+      "Two methods to get text out of a PDF — one instant, one for scanned documents. Here's when to use each and how they work.",
+    date: "2026-03-24",
+    readingTime: "4 min read",
+    relatedTools: [
+      { name: "PDF to Text", href: "/pdf-to-text" },
+      { name: "OCR PDF", href: "/ocr-pdf" },
+      { name: "Compress PDF", href: "/compress-pdf" },
+    ],
+    content: `
+      <p>
+        You have a PDF. You need the text inside it — maybe to paste into an email, feed into a
+        spreadsheet, or reuse in another document. Sounds simple, but PDFs are notoriously
+        uncooperative about giving up their content. There are two fundamentally different ways
+        to extract text, and choosing the wrong one wastes your time.
+      </p>
+
+      <h2>First: What Kind of PDF Do You Have?</h2>
+      <p>
+        This is the question that determines everything. PDFs come in two varieties:
+      </p>
+      <ul>
+        <li>
+          <strong>Digital PDFs</strong> — created from Word, Google Docs, a web page, or any
+          application that "printed" to PDF. The text exists as actual text data inside the file.
+          You can usually select and copy text from these in any PDF viewer.
+        </li>
+        <li>
+          <strong>Scanned PDFs</strong> — created by scanning a physical document. The text is
+          actually a photograph. To a computer, each page is just a picture of text, not actual
+          text. You cannot select or copy anything.
+        </li>
+      </ul>
+      <p>
+        Quick test: open the PDF and try to select text with your cursor. If you can highlight
+        individual words, it's digital. If clicking and dragging selects the entire page as one
+        block (or nothing at all), it's scanned.
+      </p>
+
+      <h2>Method 1: Direct Extraction (Digital PDFs)</h2>
+      <p>
+        For digital PDFs, extraction is instant. A <a href="/pdf-to-text">PDF to Text tool</a>
+        reads the text layer directly from the file structure — no image processing, no AI, no
+        waiting. It literally reads the text data that's already encoded in the PDF.
+      </p>
+      <p>
+        This method is:
+      </p>
+      <ul>
+        <li><strong>Instant</strong> — processes in milliseconds, even for 100+ page documents</li>
+        <li><strong>100% accurate</strong> — reproduces the exact text that's in the file</li>
+        <li><strong>Preserves formatting clues</strong> — paragraphs, headings, and lists are
+        generally maintained (though complex layouts like multi-column documents may jumble)</li>
+      </ul>
+      <p>
+        If your PDF was created from any application (not scanned), always try direct extraction
+        first. It's faster, more accurate, and uses fewer resources.
+      </p>
+
+      <h2>Method 2: OCR (Scanned PDFs)</h2>
+      <p>
+        For scanned PDFs, you need <strong>Optical Character Recognition (OCR)</strong>. This
+        technology analyzes the image of each page, identifies letter shapes, and converts them
+        into actual text. It's the digital equivalent of reading the page with your eyes.
+      </p>
+      <p>
+        An <a href="/ocr-pdf">OCR tool</a> works in three steps:
+      </p>
+      <ol>
+        <li>Renders each page of the PDF as a high-resolution image</li>
+        <li>Runs OCR analysis on each image to identify text</li>
+        <li>Outputs the recognized text, which you can copy or download</li>
+      </ol>
+      <p>
+        Modern OCR (including Tesseract, which powers most browser-based tools) is remarkably
+        accurate on clean, well-scanned documents — typically 95-99% accuracy for printed English
+        text. Accuracy drops with:
+      </p>
+      <ul>
+        <li>Handwritten text (highly variable, often 50-80%)</li>
+        <li>Poor scan quality (shadows, skew, low resolution)</li>
+        <li>Unusual fonts or decorative typography</li>
+        <li>Non-Latin scripts (though modern OCR supports 100+ languages)</li>
+        <li>Multi-column layouts where reading order is ambiguous</li>
+      </ul>
+
+      <h2>When Direct Extraction Fails on Digital PDFs</h2>
+      <p>
+        Sometimes a PDF looks digital but direct extraction produces garbled output — random
+        characters, wrong letter ordering, or complete nonsense. This usually means the PDF uses
+        <strong>custom font encoding</strong>. The creator embedded a font with non-standard
+        character mappings, so the letter "A" might be stored internally as "7" or "◆".
+      </p>
+      <p>
+        This is common with PDFs generated from InDesign, some accounting software, and
+        government forms. When this happens, treat it like a scanned PDF and use OCR instead.
+        The OCR engine reads the visual appearance of the characters, not the corrupted internal
+        encoding.
+      </p>
+
+      <h2>Practical Decision Tree</h2>
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Method</th><th>Tool</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PDF from Word/Docs/web</td><td>Direct extraction</td><td><a href="/pdf-to-text">PDF to Text</a></td></tr>
+          <tr><td>Scanned document</td><td>OCR</td><td><a href="/ocr-pdf">OCR PDF</a></td></tr>
+          <tr><td>Direct extraction gives garbage</td><td>OCR</td><td><a href="/ocr-pdf">OCR PDF</a></td></tr>
+          <tr><td>Need to search within the PDF</td><td>Either (extract first, then Ctrl+F)</td><td><a href="/pdf-to-text">PDF to Text</a></td></tr>
+          <tr><td>Foreign language document</td><td>OCR with language selection</td><td><a href="/ocr-pdf">OCR PDF</a></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Privacy Reminder</h2>
+      <p>
+        PDFs often contain sensitive content — contracts, medical records, financial statements.
+        Before uploading to any tool, check whether it processes locally or uploads to a server.
+        Both <a href="/pdf-to-text">Peregrine's text extraction</a> and
+        <a href="/ocr-pdf">OCR tools</a> run entirely in your browser. Your documents never
+        leave your device.
+      </p>
+    `,
+  },
 ];
 
 export function getPost(slug: string): BlogPost | undefined {

@@ -41,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
-    ...['/blog/how-to-reduce-pdf-file-size', '/blog/merge-pdf-files-guide', '/blog/pdf-vs-image-formats'].map((route) => ({
+    ...['/blog/how-to-reduce-pdf-file-size', '/blog/merge-pdf-files-guide', '/blog/pdf-vs-image-formats', '/blog/digitally-sign-pdf-without-printing', '/blog/extract-text-from-pdf'].map((route) => ({
       url: `${baseUrl}${route}`,
       lastModified,
       changeFrequency: 'monthly' as const,
