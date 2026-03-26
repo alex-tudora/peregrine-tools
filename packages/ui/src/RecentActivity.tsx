@@ -20,7 +20,7 @@ export function RecentActivity() {
   if (entries.length === 0) return null;
 
   return (
-    <section className="mt-16 mb-8">
+    <section className="max-w-7xl mx-auto px-6 lg:px-8 mt-16 mb-8">
       <h2 className="text-sm font-semibold uppercase tracking-widest text-[color:var(--color-text-muted)] mb-4">
         Recent Activity
       </h2>
