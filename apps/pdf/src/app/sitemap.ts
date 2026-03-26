@@ -20,6 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/add-page-numbers',
     '/ocr-pdf',
     '/pdf-to-text',
+    '/extract-pdf-pages',
+    '/optimize-pdf',
   ];
 
   return [

@@ -49,6 +49,8 @@ const pdfTools = [
   { name: "Page Numbers", href: "/add-page-numbers" },
   { name: "OCR PDF", href: "/ocr-pdf" },
   { name: "PDF to Text", href: "/pdf-to-text" },
+  { name: "Extract PDF Pages", href: "/extract-pdf-pages" },
+  { name: "Optimize PDF", href: "/optimize-pdf" },
 ];
 
 export default function RootLayout({

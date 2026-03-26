@@ -50,6 +50,7 @@ const pixTools = [
   { name: "Favicon Generator", href: "/favicon-generator" },
   { name: "Image to Base64", href: "/image-to-base64" },
   { name: "Image Filters", href: "/image-filters" },
+  { name: "Batch Image Processor", href: "/batch-process" },
 ];
 
 export default function RootLayout({

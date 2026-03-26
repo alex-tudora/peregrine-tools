@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/favicon-generator',
     '/image-to-base64',
     '/image-filters',
+    '/batch-process',
   ];
 
   return [
