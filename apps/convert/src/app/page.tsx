@@ -154,7 +154,7 @@ export default function Home() {
           </div>
 
           {/* Manual picker fallback */}
-          <div className="animate-arrive delay-4 mt-12">
+          <div className="relative z-10 animate-arrive delay-4 mt-12">
             <p className="text-center text-sm font-medium text-[color:var(--color-text-muted)] mb-4">
               Or pick your formats manually
             </p>
