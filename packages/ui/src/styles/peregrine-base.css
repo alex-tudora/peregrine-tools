@@ -250,6 +250,20 @@ html.dark .logo-invert {
   }
 }
 
+/* Logo with detailed colors — add subtle backdrop in dark mode */
+html.dark .logo-dark-bg {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  padding: 4px;
+}
+@media (prefers-color-scheme: dark) {
+  html:not(.light) .logo-dark-bg {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 4px;
+  }
+}
+
 /* Blog content typography */
 .blog-content h2 {
   font-size: 1.25rem;

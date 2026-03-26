@@ -73,7 +73,7 @@ export default function Home() {
           <div className="text-center">
             {/* Brand mark */}
             <div className="animate-arrive inline-block mb-1">
-              <KnightLogo size={120} className="logo-invert" />
+              <KnightLogo size={120} />
             </div>
 
             {/* Headline */}
