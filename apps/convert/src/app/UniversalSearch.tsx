@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { conversions, type ConversionDef } from "@/data/conversions";
 
@@ -189,8 +190,10 @@ export function UniversalSearch() {
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const [showAll, setShowAll] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
   // Cycle placeholder text
   useEffect(() => {
@@ -246,6 +249,19 @@ export function UniversalSearch() {
     setShowAll(false);
   }, [query]);
 
+  // Position the portal dropdown relative to the wrapper
+  const showDropdown = isFocused && query.trim().length > 0 && (totalResults > 0 || !!inlineAnswer);
+  useEffect(() => {
+    if (!showDropdown || !wrapperRef.current) return;
+    const rect = wrapperRef.current.getBoundingClientRect();
+    setDropdownStyle({
+      position: "fixed" as const,
+      top: rect.bottom + 8,
+      left: rect.left,
+      width: rect.width,
+    });
+  }, [showDropdown, query]);
+
   // Scroll active item into view
   useEffect(() => {
     if (activeIndex < 0 || !listRef.current) return;
@@ -290,14 +306,11 @@ export function UniversalSearch() {
     }
   };
 
-  const hasResults = query.trim().length > 0;
-  const showDropdown = isFocused && hasResults;
-
   // Track flat index for keyboard nav across groups
   let flatIndex = -1;
 
   return (
-    <div className="relative z-50 w-full max-w-2xl mx-auto">
+    <div ref={wrapperRef} className="relative w-full max-w-2xl mx-auto">
       {/* Search input */}
       <div className="relative">
         {/* Search icon */}
@@ -331,7 +344,7 @@ export function UniversalSearch() {
           placeholder={placeholders[placeholderIndex]}
           className="w-full h-16 sm:h-[72px] pl-14 pr-5 rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] text-lg sm:text-xl font-display font-medium text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-muted)]/60 transition-all duration-200 focus:border-[color:var(--color-accent)] focus:ring-4 focus:ring-[color:var(--color-accent-glow)] focus:outline-none shadow-lg shadow-orange-900/[0.06]"
           role="combobox"
-          aria-expanded={showDropdown}
+          aria-expanded={showDropdown || false}
           aria-haspopup="listbox"
           aria-controls="search-results"
           aria-activedescendant={activeIndex >= 0 ? `result-${activeIndex}` : undefined}
@@ -355,13 +368,14 @@ export function UniversalSearch() {
         )}
       </div>
 
-      {/* Dropdown */}
-      {showDropdown && (
+      {/* Dropdown — rendered via portal to escape all stacking contexts */}
+      {showDropdown && typeof document !== "undefined" && createPortal(
         <div
           ref={listRef}
           id="search-results"
           role="listbox"
-          className="absolute z-[100] mt-2 w-full max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
+          style={dropdownStyle}
+          className="z-[200] max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
         >
           {/* Inline answer banner */}
           {inlineAnswer && (
@@ -493,7 +507,8 @@ export function UniversalSearch() {
               </div>
             )
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
