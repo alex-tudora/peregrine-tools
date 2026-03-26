@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FalconLogo } from "./FalconLogo";
 
 interface FooterProps {
@@ -59,6 +61,87 @@ const sites = [
   },
 ];
 
+function NewsletterSignup() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    setStatus("loading");
+    try {
+      const res = await fetch("https://api.buttondown.com/v1/subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${process.env.NEXT_PUBLIC_BUTTONDOWN_API_KEY ?? ""}`,
+        },
+        body: JSON.stringify({ email_address: email, tags: ["peregrine-tools"] }),
+      });
+
+      if (res.ok || res.status === 201) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        const data = await res.json().catch(() => null);
+        if (data?.email_address?.[0]?.includes("already")) {
+          setStatus("success");
+          setEmail("");
+        } else {
+          setStatus("error");
+        }
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div className="flex items-center gap-2 text-sm text-emerald-400">
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        You're in! We'll let you know when we launch new tools.
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p className="text-sm font-medium text-white/80">
+          Get notified about new tools
+        </p>
+        <p className="mt-1 text-xs text-white/30">
+          We build new tools every month. No spam, unsubscribe anytime.
+        </p>
+      </div>
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          required
+          className="h-10 w-56 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-white placeholder:text-white/25 focus:border-white/30 focus:outline-none"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="h-10 shrink-0 rounded-lg bg-white/10 px-4 text-sm font-medium text-white transition-colors hover:bg-white/20 disabled:opacity-50"
+        >
+          {status === "loading" ? "..." : "Subscribe"}
+        </button>
+      </form>
+      {status === "error" && (
+        <p className="text-xs text-red-400">Something went wrong. Try again.</p>
+      )}
+    </div>
+  );
+}
+
 export function Footer({ siteName = "Peregrine Tools", logo }: FooterProps) {
   return (
     <footer className="bg-[color:var(--color-bg-dark)]">
@@ -97,6 +180,13 @@ export function Footer({ siteName = "Peregrine Tools", logo }: FooterProps) {
               </ul>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Newsletter signup */}
+      <div className="border-t border-white/[0.06]">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 py-10">
+          <NewsletterSignup />
         </div>
       </div>
 
