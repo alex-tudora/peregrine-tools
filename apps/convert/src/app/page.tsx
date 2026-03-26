@@ -155,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* === CONVERSION CATEGORIES === */}
-      <section className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+      <section className="relative z-0 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">

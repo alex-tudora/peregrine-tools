@@ -361,7 +361,7 @@ export function UniversalSearch() {
           ref={listRef}
           id="search-results"
           role="listbox"
-          className="absolute z-50 mt-2 w-full max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
+          className="absolute z-[100] mt-2 w-full max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
         >
           {/* Inline answer banner */}
           {inlineAnswer && (
