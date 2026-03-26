@@ -34,6 +34,11 @@ export {
 } from './text/markdown-html';
 
 export {
+  yamlToJson,
+  jsonToXml,
+} from './data/yaml-json-xml';
+
+export {
   downloadFile,
   downloadAsZip,
   formatFileSize,

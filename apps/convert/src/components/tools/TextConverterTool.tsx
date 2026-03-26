@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { jsonToCsv, csvToJson, parseMarkdown, htmlToMarkdown, type Delimiter } from "@peregrine/converters";
+import { jsonToCsv, csvToJson, parseMarkdown, htmlToMarkdown, yamlToJson, jsonToXml, type Delimiter } from "@peregrine/converters";
 
 interface TextConverterToolProps {
-  convertFn: "jsonToCsv" | "csvToJson" | "parseMarkdown" | "htmlToMarkdown";
+  convertFn: "jsonToCsv" | "csvToJson" | "parseMarkdown" | "htmlToMarkdown" | "yamlToJson" | "jsonToXml";
   inputLabel: string;
   outputLabel: string;
   placeholder: string;
@@ -18,6 +18,8 @@ const converters = {
     csvToJson(input, hasHeaders, delimiter),
   parseMarkdown: (input: string) => parseMarkdown(input),
   htmlToMarkdown: (input: string) => htmlToMarkdown(input),
+  yamlToJson: (input: string) => yamlToJson(input),
+  jsonToXml: (input: string) => jsonToXml(input),
 };
 
 const delimiterOptions: { value: Delimiter; label: string }[] = [
@@ -61,6 +63,10 @@ export function TextConverterTool({
         result = converters.jsonToCsv(input);
       } else if (convertFn === "parseMarkdown") {
         result = converters.parseMarkdown(input);
+      } else if (convertFn === "yamlToJson") {
+        result = converters.yamlToJson(input);
+      } else if (convertFn === "jsonToXml") {
+        result = converters.jsonToXml(input);
       } else {
         result = converters.htmlToMarkdown(input);
       }

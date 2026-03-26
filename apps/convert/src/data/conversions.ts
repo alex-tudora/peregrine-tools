@@ -4,12 +4,14 @@ import { textCaseConversions } from "./textCaseConversions";
 import { numberConversions } from "./numberConversions";
 import { colorConversions } from "./colorConversions";
 import { timezoneConversions } from "./timezoneConversions";
+import { dateConversions } from "./dateConversions";
+import { moreFileConversions } from "./moreFileConversions";
 
 export interface ConversionDef {
   slug: string;
   from: string;
   to: string;
-  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit' | 'currency' | 'number' | 'color' | 'timezone';
+  category: 'pdf' | 'image' | 'video' | 'audio' | 'data' | 'text' | 'unit' | 'currency' | 'number' | 'color' | 'timezone' | 'date';
   toolName: string;
   description: string;
   keyword: string;
@@ -775,8 +777,8 @@ const fileConversions: ConversionDef[] = [
   },
 ];
 
-/** All conversions: file-based + unit converters + currency converters */
-export const conversions: ConversionDef[] = [...fileConversions, ...unitConversions, ...currencyConversions, ...textCaseConversions, ...numberConversions, ...colorConversions, ...timezoneConversions];
+/** All conversions: file-based + unit converters + currency converters + more */
+export const conversions: ConversionDef[] = [...fileConversions, ...moreFileConversions, ...unitConversions, ...currencyConversions, ...textCaseConversions, ...numberConversions, ...colorConversions, ...timezoneConversions, ...dateConversions];
 
 /** Quick lookup by slug */
 export const conversionsBySlug = new Map(conversions.map((c) => [c.slug, c]));

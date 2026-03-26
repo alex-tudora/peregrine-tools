@@ -50,6 +50,10 @@ const toolComponents: Record<string, ComponentType<any>> = {
     () => import("@/components/tools/TimezoneConverterTool").then((m) => ({ default: m.TimezoneConverterTool })),
     { ssr: false }
   ),
+  DateFormatConverterTool: dynamic(
+    () => import("@/components/tools/DateFormatConverterTool").then((m) => ({ default: m.DateFormatConverterTool })),
+    { ssr: false }
+  ),
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

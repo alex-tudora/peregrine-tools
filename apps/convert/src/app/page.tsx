@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { KnightLogo } from "./KnightLogo";
+import { UniversalSearch } from "./UniversalSearch";
 import { ConvertPicker } from "./ConvertPicker";
 import { RotatingQuote } from "./RotatingQuote";
 
@@ -142,14 +143,22 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Picker */}
+          {/* Universal Search — primary interaction */}
           <div className="animate-arrive delay-2 mt-10">
-            <ConvertPicker />
+            <UniversalSearch />
           </div>
 
-          {/* Rotating knight quote below picker */}
+          {/* Rotating knight quote below search */}
           <div className="animate-arrive delay-3 mt-6 text-center">
             <RotatingQuote />
+          </div>
+
+          {/* Manual picker fallback */}
+          <div className="animate-arrive delay-4 mt-12">
+            <p className="text-center text-sm font-medium text-[color:var(--color-text-muted)] mb-4">
+              Or pick your formats manually
+            </p>
+            <ConvertPicker />
           </div>
         </div>
       </section>
