@@ -4,6 +4,7 @@ import { generateToolMetadata, generateToolPageStructuredData } from "@peregrine
 import { ToolLayout } from "@peregrine/ui";
 import { conversionsBySlug, allSlugs } from "@/data/conversions";
 import { ToolRenderer } from "@/components/ToolRenderer";
+import { KnightQuote } from "../KnightQuote";
 
 const SITE_NAME = "Convert-a-Lot";
 const SITE_URL = "https://convert-a-lot.com";
@@ -65,6 +66,7 @@ export default async function ConversionPage({ params }: PageProps) {
       <ToolLayout
         title={conversion.toolName}
         subtitle={conversion.subtitle}
+        afterSubtitle={<KnightQuote />}
         howTo={conversion.howTo}
         about={conversion.about}
         faqs={conversion.faqs}

@@ -24,6 +24,7 @@ interface ToolLayoutProps {
   title: string;
   subtitle: string;
   children: React.ReactNode;
+  afterSubtitle?: React.ReactNode;
   howTo?: string[];
   about?: string;
   faqs?: FAQ[];
@@ -118,6 +119,7 @@ export function ToolLayout({
   title,
   subtitle,
   children,
+  afterSubtitle,
   howTo = [],
   about,
   faqs = [],
@@ -135,6 +137,7 @@ export function ToolLayout({
         <p className="mt-3 text-lg text-[color:var(--color-text-secondary)] leading-relaxed max-w-2xl mx-auto animate-fade-in-up delay-1">
           {subtitle}
         </p>
+        {afterSubtitle}
       </div>
 
       {/* Tool UI */}

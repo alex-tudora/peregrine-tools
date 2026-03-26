@@ -7,13 +7,17 @@ export default function NotFound() {
       <KnightLogo size={80} className="mb-6 opacity-80" />
       <p className="text-8xl font-bold text-[color:var(--color-accent)]">404</p>
 
-      <h1 className="mt-6 font-serif text-2xl font-semibold text-[color:var(--color-text-primary)]">
+      <h1 className="mt-6 font-display text-2xl font-semibold text-[color:var(--color-text-primary)]">
         Page Not Found
       </h1>
 
-      <p className="mt-4 max-w-md text-[color:var(--color-text-secondary)] leading-relaxed">
-        Oops! We can convert a lot of things, but we can&apos;t convert this URL
-        into a real page.
+      <p className="mt-4 max-w-lg text-[color:var(--color-text-secondary)] leading-relaxed">
+        The knight looked everywhere. He checked the castle, the moat, even
+        behind the drawbridge. This page doesn&apos;t exist.
+      </p>
+
+      <p className="mt-6 text-[color:var(--color-text-muted)] italic font-display">
+        Maybe try converting something instead?
       </p>
 
       <Link
@@ -29,10 +33,10 @@ export default function NotFound() {
         </p>
         <div className="mt-3 flex flex-wrap justify-center gap-3">
           {[
-            { name: "PDF to JPG", href: "https://peregrinepdf.com/pdf-to-jpg" },
-            { name: "PNG to JPG", href: "https://peregrinepix.com/png-to-jpg" },
-            { name: "MP4 to MP3", href: "https://peregrinevid.com/video-to-mp3" },
-            { name: "JSON to CSV", href: "https://peregrinedev.com/json-to-csv" },
+            { name: "PDF to JPG", href: "/pdf-to-jpg" },
+            { name: "PNG to JPG", href: "/png-to-jpg" },
+            { name: "MP4 to MP3", href: "/mp4-to-mp3" },
+            { name: "JSON to CSV", href: "/json-to-csv" },
           ].map((tool) => (
             <a
               key={tool.href}
