@@ -115,7 +115,7 @@ export default function Home() {
       />
 
       {/* === HERO + PICKER === */}
-      <section className="relative overflow-visible">
+      <section className="relative z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--color-accent-light)] via-[color:var(--color-bg)] to-[color:var(--color-bg)]" />
         {/* Decorative blobs */}
         <div className="absolute top-20 left-[10%] w-64 h-64 bg-[color:var(--color-accent)]/[0.04] rounded-full blur-3xl" />
@@ -155,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* === CONVERSION CATEGORIES === */}
-      <section className="relative z-0 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
@@ -185,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* === POPULAR CONVERSIONS === */}
-      <section className="border-t border-[color:var(--color-border)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)]">
@@ -211,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* === HOW IT WORKS === */}
-      <section className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
             {/* Step 1: Pick formats */}
@@ -263,7 +263,7 @@ export default function Home() {
       </section>
 
       {/* === TRUST SECTION (Knight-themed) === */}
-      <section className="border-t border-[color:var(--color-border)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)] text-center mb-12">
             Why Convert-a-Lot
@@ -319,7 +319,7 @@ export default function Home() {
       </section>
 
       {/* === LATEST GUIDES (Blog) === */}
-      <section className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-elevated)]">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <h2 className="font-display font-bold text-3xl md:text-4xl text-[color:var(--color-text-primary)] text-center mb-12">
             Latest Guides
@@ -345,7 +345,7 @@ export default function Home() {
       </section>
 
       {/* === KNIGHT CLOSING === */}
-      <section className="border-t border-[color:var(--color-border)]">
+      <section className="relative z-10 border-t border-[color:var(--color-border)]">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
           <KnightLogo size={64} className="mx-auto mb-6 opacity-80" />
           <p className="font-display font-semibold text-2xl md:text-3xl leading-relaxed text-[color:var(--color-text-primary)]">

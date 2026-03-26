@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { conversions, type ConversionDef } from "@/data/conversions";
 
@@ -190,10 +189,8 @@ export function UniversalSearch() {
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const [showAll, setShowAll] = useState(false);
-  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
   // Cycle placeholder text
   useEffect(() => {
@@ -249,18 +246,7 @@ export function UniversalSearch() {
     setShowAll(false);
   }, [query]);
 
-  // Position the portal dropdown relative to the wrapper
   const showDropdown = isFocused && query.trim().length > 0 && (totalResults > 0 || !!inlineAnswer);
-  useEffect(() => {
-    if (!showDropdown || !wrapperRef.current) return;
-    const rect = wrapperRef.current.getBoundingClientRect();
-    setDropdownStyle({
-      position: "fixed" as const,
-      top: rect.bottom + 8,
-      left: rect.left,
-      width: rect.width,
-    });
-  }, [showDropdown, query]);
 
   // Scroll active item into view
   useEffect(() => {
@@ -310,7 +296,7 @@ export function UniversalSearch() {
   let flatIndex = -1;
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-2xl mx-auto">
+    <div className="relative w-full max-w-2xl mx-auto">
       {/* Search input */}
       <div className="relative">
         {/* Search icon */}
@@ -368,14 +354,13 @@ export function UniversalSearch() {
         )}
       </div>
 
-      {/* Dropdown — rendered via portal to escape all stacking contexts */}
-      {showDropdown && typeof document !== "undefined" && createPortal(
+      {/* Dropdown */}
+      {showDropdown && (
         <div
           ref={listRef}
           id="search-results"
           role="listbox"
-          style={dropdownStyle}
-          className="z-[200] max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
+          className="absolute z-50 mt-2 w-full max-h-[420px] overflow-y-auto rounded-2xl border-2 border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] shadow-2xl shadow-orange-900/[0.08]"
         >
           {/* Inline answer banner */}
           {inlineAnswer && (
@@ -507,8 +492,7 @@ export function UniversalSearch() {
               </div>
             )
           )}
-        </div>,
-        document.body
+        </div>
       )}
     </div>
   );
