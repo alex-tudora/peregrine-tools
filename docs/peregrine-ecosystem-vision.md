@@ -15,24 +15,29 @@ The foundation is built. Before any monetization phase begins, the following is 
 
 | Asset | Status |
 |-------|--------|
-| **103 tools** across 7 sites | Live and functional |
+| **106 Peregrine tools** across 7 sites | Deployed to production |
+| **158 Convert-a-Lot pages** | Deployed (28 file + 46 unit + 20 currency + 15 text + 8 number + 12 color + 10 timezone + 6 date + 13 more file) |
 | **Dark mode** | Full implementation, CSS variable system |
 | **Batch processing** | 14 tools with multi-file + ZIP download |
-| **Blog content** | 18 articles across 6 sites |
+| **Cross-tool workflows** | 3 workflow pages (Optimize PDF, Extract Pages, Batch Image Processor) |
+| **Blog content** | 22 articles across 6 sites |
 | **Comparison pages** | 12 pages (vs iLovePDF, Smallpdf, TinyPNG, Squoosh, DevToys, CyberChef, Convertio, CloudConvert, etc.) |
 | **SEO infrastructure** | Sitemaps, structured data (ItemList, FAQPage, HowTo), OG images, canonical URLs, meta tags |
-| **Cross-promotion** | Tool chaining (nextStep) on all 103 tools, footer cross-links, "More from Peregrine" sections |
+| **Cross-promotion** | Tool chaining (nextStep) on all tools, footer cross-links, "More from Peregrine" sections |
 | **Privacy trust badge** | On every Dropzone ("Your files never leave your device") |
 | **Share button** | On every tool page (Web Share API + clipboard) |
-| **Command palette** | ⌘K global search across all 103 tools on every page |
+| **Command palette** | ⌘K global search across all tools on every page |
 | **User preferences** | localStorage persistence for tool settings |
 | **Recent activity** | localStorage-based history on all homepages |
 | **PWA install prompt** | On all tool pages after successful operation |
 | **Branded filenames** | "-peregrine" suffix on all downloads |
-| **Plausible analytics** | Deployed on all 7 domains |
-| **Favicons** | realfavicongenerator.net favicons on all 7 apps |
-| **Homepage SEO** | Intro paragraphs, categories, ItemList schema, trust sections, blog links on all 7 homepages |
-| **Premium UX** | Confetti celebrations, animated numbers, before/after comparison, filter presets, reading level analysis |
+| **Plausible analytics** | Deployed on all 7+ domains |
+| **Newsletter** | Buttondown (buttondown.com/peregrine) on all footers |
+| **Favicons** | realfavicongenerator.net favicons on all apps |
+| **Homepage SEO** | Intro paragraphs, categories, ItemList schema, trust sections, blog links on all homepages |
+| **Premium UX** | Confetti, animated numbers, before/after comparison, filter presets, reading level, toast system |
+| **Convert-a-Lot branding** | Knight personality throughout, rotating quotes, universal search, category cards |
+| **Pomodoro Timer** | Streak counter, daily/weekly stats, focus sounds, task logging, tab title |
 
 This is the starting point. Everything below builds on this foundation.
 
@@ -62,7 +67,7 @@ Each site in the portfolio serves a distinct user intent and keyword cluster whi
 | **peregrinedev.com** | 27 | JSON formatter/validator, YAML formatter, JSON↔YAML, JSON to TypeScript, regex tester, Base64, color picker/palette/contrast, password generator, markdown preview, diff checker, hash generator | JSON formatter, regex tester, Base64 encoder, color contrast checker, YAML formatter |
 | **peregrinekit.com** | 32 | Word counter, case converter, text to speech, pomodoro timer, QR code generator, calculators, SEO tools | word counter, pomodoro timer, QR code generator, text to speech, meta tag generator |
 | **peregrine-tools.com** | — | Unified hub: searchable directory of all tools across the ecosystem, brand homepage, Pro subscription gateway | free online tools, file converter, document tools, utility tools |
-| **convert-a-lot.com** | 28 | Standalone conversion tool site: built-in tools for converting between file formats (PDF, image, video, audio, document). Operates independently under its own brand identity | convert file online, file converter, free converter, convert PDF, convert image |
+| **convert-a-lot.com** | 158 | Universal converter: files, units, currency, text, numbers, color, timezone, date formats. Knight mascot branding. Operates independently under its own brand identity | convert file online, kg to lbs, celsius to fahrenheit, usd to eur, hex to rgb, file converter |
 
 ### 2.1 Hub-and-Spoke Architecture
 
@@ -316,7 +321,10 @@ The following content is already published and indexed:
 
 - **22 blog articles** across PDF (5), Pix (5), Vid (3), Dev (3), Kit (3), Convert (3)
 - **12 comparison pages** across PDF (2), Pix (2), Vid (2), Dev (2), Kit (2), Convert (2)
-- **106 tool pages** each with FAQs, HowTo steps, about sections, and structured data (including 3 cross-tool workflows)
+- **106 Peregrine tool pages** each with FAQs, HowTo steps, about sections, and structured data (including 3 cross-tool workflows)
+- **158 Convert-a-Lot conversion pages** covering files, units, currency, text, numbers, color, timezone, and date formats
+- **7 Peregrine homepages** with category organization, intro paragraphs, ItemList schema, trust sections, and blog links
+- **1 Convert-a-Lot homepage** with universal search, knight-branded category cards, and rotating quotes
 - **7 homepages** with category organization, intro paragraphs, ItemList schema, trust sections, and blog links
 
 ### 8.3 convert-a-lot.com: The Standalone Conversion Site
@@ -328,7 +336,9 @@ convert-a-lot.com deserves specific strategic attention. The domain name itself 
 - Each tool page targets a specific conversion query: "Convert PDF to JPG," "Convert PNG to PDF," "Convert video to GIF," "Convert MP4 to MP3"
 - Every page includes a fully functional, client-side conversion tool—users complete their task on-site, no redirects
 - Lightweight SEO content around each tool (300–500 words explaining the conversion, format differences, use cases)
-- Scale: 28 conversion paths at launch, expanding to 100+ as format coverage grows
+- Scale: 158 conversion pages at launch covering files, units, currency, text, numbers, color, timezone, and date formats. Targeting 200+ as coverage expands.
+- Universal search on homepage: type anything ("kg", "PDF", "USD") and get instant suggestions with inline answers
+- Knight mascot branding throughout: self-deprecating humor, rotating quotes, personality in loading/error/success states
 - Monetization: display ads on each tool page plus inclusion in the unified Peregrine Pro subscription for ad-free access
 
 ---
