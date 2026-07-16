@@ -39,6 +39,17 @@ export {
 } from './data/yaml-json-xml';
 
 export {
+  convertCase,
+  toTitleCase,
+  toSentenceCase,
+  toCamelCase,
+  toPascalCase,
+  toSnakeCase,
+  toKebabCase,
+  type CaseType,
+} from './text/case';
+
+export {
   downloadFile,
   downloadAsZip,
   formatFileSize,

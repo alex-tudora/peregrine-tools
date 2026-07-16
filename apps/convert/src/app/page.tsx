@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { KnightLogo } from "./KnightLogo";
 import { UniversalSearch } from "./UniversalSearch";
-import { RotatingQuote } from "./RotatingQuote";
+import { KnightQuote, HERO_QUOTES } from "./KnightQuote";
 
 export const metadata: Metadata = {
   description: "The fastest free online file converter. Convert between PDF, images, video, audio, and data formats instantly. No sign-up, no upload.",
@@ -144,7 +144,7 @@ export default function Home() {
 
           {/* Rotating knight quote */}
           <div className="animate-arrive delay-2 mt-8 text-center">
-            <RotatingQuote />
+            <KnightQuote rotating quotes={HERO_QUOTES} />
           </div>
 
           {/* Universal Search — primary interaction */}
@@ -225,7 +225,7 @@ export default function Home() {
                 Pick your formats
               </h3>
               <p className="text-sm text-[color:var(--color-text-muted)] leading-relaxed max-w-xs mx-auto">
-                Choose what you have and what you need. 28 conversion paths across documents, images, video, audio, and data. The one thing he trained for.
+                Choose what you have and what you need. 150+ conversion paths across documents, images, video, audio, units, currency, color, and more. The one thing he trained for.
               </p>
             </div>
 
