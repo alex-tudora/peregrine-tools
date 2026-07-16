@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback } from "react";
+import { formatFileSize } from "./format";
 
 interface FileItem {
   name: string;
@@ -13,14 +14,6 @@ interface FileListProps {
   onRemove: (id: string) => void;
   onReorder?: (files: FileItem[]) => void;
   className?: string;
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 Bytes";
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
 }
 
 export function FileList({ files, onRemove, onReorder, className = "" }: FileListProps) {

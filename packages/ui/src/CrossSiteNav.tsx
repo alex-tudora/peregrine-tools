@@ -1,52 +1,7 @@
 "use client";
 
 import React from "react";
-
-interface SiteInfo {
-  name: string;
-  slug: string;
-  url: string;
-  accent: string;
-  tagline: string;
-}
-
-const sites: SiteInfo[] = [
-  {
-    name: "Peregrine PDF",
-    slug: "pdf",
-    url: "https://peregrinepdf.com",
-    accent: "#2563EB",
-    tagline: "Merge, split & compress documents",
-  },
-  {
-    name: "Peregrine Pix",
-    slug: "pix",
-    url: "https://peregrinepix.com",
-    accent: "#7C3AED",
-    tagline: "Resize, compress & transform images",
-  },
-  {
-    name: "Peregrine Kit",
-    slug: "kit",
-    url: "https://peregrinekit.com",
-    accent: "#059669",
-    tagline: "Text utilities & everyday tools",
-  },
-  {
-    name: "Peregrine Vid",
-    slug: "vid",
-    url: "https://peregrinevid.com",
-    accent: "#E11D48",
-    tagline: "Compress, trim & convert video",
-  },
-  {
-    name: "Peregrine Dev",
-    slug: "dev",
-    url: "https://peregrinedev.com",
-    accent: "#D97706",
-    tagline: "JSON, regex & developer utilities",
-  },
-];
+import { peregrineSites as sites, type SiteInfo } from "./catalog";
 
 interface CrossSiteNavProps {
   currentSite?: string;
@@ -88,11 +43,7 @@ export function CrossSiteNav({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span
-                  className={`text-sm font-semibold tracking-tight ${
-                    isCurrent ? "text-[color:var(--color-text-primary)]" : "text-[color:var(--color-text-primary)]"
-                  }`}
-                >
+                <span className="text-sm font-semibold tracking-tight text-[color:var(--color-text-primary)]">
                   {site.name}
                 </span>
                 {isCurrent && (

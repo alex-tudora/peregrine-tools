@@ -1,63 +1,22 @@
 import React from "react";
 import { FalconLogo } from "./FalconLogo";
+import { peregrineSites, toolsForSite } from "./catalog";
 
 interface FooterProps {
   siteName?: string;
   logo?: React.ReactNode;
 }
 
-const sites = [
-  {
-    title: "PDF",
-    url: "https://peregrinepdf.com",
-    tools: [
-      { name: "Merge PDF", href: "https://peregrinepdf.com/merge-pdf" },
-      { name: "Split PDF", href: "https://peregrinepdf.com/split-pdf" },
-      { name: "Compress PDF", href: "https://peregrinepdf.com/compress-pdf" },
-      { name: "PDF to JPG", href: "https://peregrinepdf.com/pdf-to-jpg" },
-    ],
-  },
-  {
-    title: "Pix",
-    url: "https://peregrinepix.com",
-    tools: [
-      { name: "Compress Image", href: "https://peregrinepix.com/compress-image" },
-      { name: "Resize Image", href: "https://peregrinepix.com/resize-image" },
-      { name: "Remove BG", href: "https://peregrinepix.com/remove-background" },
-      { name: "PNG to JPG", href: "https://peregrinepix.com/png-to-jpg" },
-    ],
-  },
-  {
-    title: "Kit",
-    url: "https://peregrinekit.com",
-    tools: [
-      { name: "Word Counter", href: "https://peregrinekit.com/word-counter" },
-      { name: "Case Converter", href: "https://peregrinekit.com/case-converter" },
-      { name: "Lorem Ipsum", href: "https://peregrinekit.com/lorem-ipsum-generator" },
-      { name: "QR Generator", href: "https://peregrinekit.com/qr-code-generator" },
-    ],
-  },
-  {
-    title: "Vid",
-    url: "https://peregrinevid.com",
-    tools: [
-      { name: "Compress Video", href: "https://peregrinevid.com/compress-video" },
-      { name: "Trim Video", href: "https://peregrinevid.com/trim-video" },
-      { name: "Video to GIF", href: "https://peregrinevid.com/video-to-gif" },
-      { name: "Video to MP3", href: "https://peregrinevid.com/video-to-mp3" },
-    ],
-  },
-  {
-    title: "Dev",
-    url: "https://peregrinedev.com",
-    tools: [
-      { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter" },
-      { name: "Regex Tester", href: "https://peregrinedev.com/regex-tester" },
-      { name: "Base64", href: "https://peregrinedev.com/base64-encode-decode" },
-      { name: "Color Picker", href: "https://peregrinedev.com/color-picker" },
-    ],
-  },
-];
+/*
+ * Derived from the single-source catalog — the first four tools of each site.
+ * This replaces a hand-maintained list that had drifted (its Base64 link pointed
+ * at the non-existent /base64-encode-decode instead of the real /base64).
+ */
+const sites = peregrineSites.map((site) => ({
+  title: site.short,
+  url: site.url,
+  tools: toolsForSite(site.short).slice(0, 4),
+}));
 
 function NewsletterSignup() {
   return (
