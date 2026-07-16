@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { securityHeaders } from "@peregrine/config/headers";
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
@@ -6,6 +7,9 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve.alias.canvas = false;
     return config;
+  },
+  async headers() {
+    return [{ source: "/(.*)", headers: securityHeaders }];
   },
 };
 

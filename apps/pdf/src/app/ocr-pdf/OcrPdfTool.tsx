@@ -4,7 +4,6 @@ import React, { useState, useCallback } from "react";
 import { Dropzone, ProgressBar, logActivity } from "@peregrine/ui";
 import { pdfToImages } from "@/lib/convert";
 import { downloadFile, readFileAsArrayBuffer } from "@/lib/download";
-import { createWorker } from "tesseract.js";
 
 const LANGUAGES: { label: string; code: string }[] = [
   { label: "English", code: "eng" },
@@ -59,6 +58,9 @@ export function OcrPdfTool() {
       setProgress(20);
       setStatusText("Initializing OCR engine...");
 
+      // Loaded on demand — tesseract.js core + language data is large, so it's
+      // fetched when the user runs OCR rather than on page load.
+      const { createWorker } = await import("tesseract.js");
       const worker = await createWorker(language);
       const totalPages = rendered.length;
       const allText: string[] = [];
