@@ -88,7 +88,8 @@ export function generateSiteMetadata({
       follow: true,
     },
     other: {
-      "google-adsense-account": "ca-pub-2865991938661915",
+      "google-adsense-account":
+        process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-2865991938661915",
     },
   };
 }

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { DM_Sans, Outfit } from "next/font/google";
-import { Header } from "@peregrine/ui";
+import { Header, Analytics, ConsentAds } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
 import { KnightLogo } from "./KnightLogo";
 import "./globals.css";
@@ -42,17 +41,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden bg-[color:var(--color-bg)]">
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-        <Script
-          async
-          src="https://plausible.io/js/pa-6OWn-sSjqpiiNvqN4gAsJ.js"
-          strategy="afterInteractive"
-        />
+        <Analytics domain="convert-a-lot.com" />
+        <ConsentAds />
         <Header
           siteName="Convert-a-Lot"
           logo={<KnightLogo size={34} className="-mr-1" />}

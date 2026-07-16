@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
-import { Header, Footer } from "@peregrine/ui";
+import { Header, Footer, Analytics, ConsentAds } from "@peregrine/ui";
 import { generateSiteMetadata } from "@peregrine/seo";
 import "./globals.css";
 
@@ -56,17 +55,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2865991938661915"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-        <Script
-          async
-          src="https://plausible.io/js/pa-6OWn-sSjqpiiNvqN4gAsJ.js"
-          strategy="afterInteractive"
-        />
+        <Analytics domain="peregrine-tools.com" />
+        <ConsentAds />
         <Header
           siteName="Peregrine Tools"
           currentTools={currentTools}
