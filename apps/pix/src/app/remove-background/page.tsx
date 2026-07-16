@@ -28,9 +28,9 @@ const howTo = [
 
 const faqs = [
   {
-    question: "When will AI background removal be available?",
+    question: "How does the background removal work?",
     answer:
-      "We are actively integrating a specialized AI model for background removal. The feature is coming soon — bookmark this page and check back for updates.",
+      "It runs a neural network segmentation model entirely in your browser. The first time you use the tool it downloads the model (a few megabytes), then all processing happens on your device — your image is never uploaded to a server.",
   },
   {
     question: "Will this tool be free?",

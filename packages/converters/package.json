@@ -7,6 +7,11 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "dependencies": {
+    "yaml": "^2.5.0",
+    "marked": "^14",
+    "turndown": "^7"
+  },
   "peerDependencies": {
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4",
@@ -25,6 +30,7 @@
   },
   "devDependencies": {
     "typescript": "^5",
-    "@types/file-saver": "^2"
+    "@types/file-saver": "^2",
+    "@types/turndown": "^5"
   }
 }

@@ -15,6 +15,7 @@
     "@peregrine/ui": "workspace:*",
     "@peregrine/config": "workspace:*",
     "@peregrine/seo": "workspace:*",
+    "@peregrine/converters": "workspace:*",
     "qrcode": "^1.5.3"
   },
   "devDependencies": {

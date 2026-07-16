@@ -2,19 +2,26 @@
 
 import { useState, useCallback } from "react";
 import { Dropzone } from "@peregrine/ui";
-import { readFileAsDataUrl, formatFileSize } from "@/lib/download";
+import { readFileAsDataUrl, downloadBlob, formatFileSize } from "@/lib/download";
+
+type Status = "idle" | "processing" | "done";
 
 export function RemoveBackgroundTool() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [status, setStatus] = useState<Status>("idle");
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const handleFiles = useCallback(async (files: File[]) => {
     const selected = files[0];
     if (!selected) return;
-
     setError(null);
-
+    setResultUrl(null);
+    setResultBlob(null);
+    setStatus("idle");
     try {
       const dataUrl = await readFileAsDataUrl(selected);
       setFile(selected);
@@ -24,15 +31,57 @@ export function RemoveBackgroundTool() {
     }
   }, []);
 
+  const handleRemove = useCallback(async () => {
+    if (!file) return;
+    setStatus("processing");
+    setProgress(0);
+    setError(null);
+    try {
+      // Loaded on demand — the model + wasm are several MB, so we keep them out
+      // of the initial page bundle and only fetch them when the user acts.
+      const { removeBackground } = await import("@imgly/background-removal");
+      const blob = await removeBackground(file, {
+        progress: (_key: string, current: number, total: number) => {
+          if (total > 0) setProgress(Math.round((current / total) * 100));
+        },
+      });
+      const url = URL.createObjectURL(blob);
+      setResultBlob(blob);
+      setResultUrl(url);
+      setStatus("done");
+    } catch (e) {
+      setError(
+        e instanceof Error
+          ? `Background removal failed: ${e.message}`
+          : "Background removal failed. Please try a different image."
+      );
+      setStatus("idle");
+    }
+  }, [file]);
+
   const handleReset = useCallback(() => {
+    if (resultUrl) URL.revokeObjectURL(resultUrl);
     setFile(null);
     setPreview(null);
+    setResultUrl(null);
+    setResultBlob(null);
+    setStatus("idle");
+    setProgress(0);
     setError(null);
-  }, []);
+  }, [resultUrl]);
+
+  const handleDownload = useCallback(() => {
+    if (!resultBlob || !file) return;
+    const base = file.name.replace(/\.[^.]+$/, "");
+    downloadBlob(resultBlob, `${base}-no-bg-peregrine.png`);
+  }, [resultBlob, file]);
+
+  // Checkerboard so transparency is visible in the result preview.
+  const checkerboard =
+    "repeating-conic-gradient(#e5e5e5 0% 25%, #ffffff 0% 50%) 50% / 20px 20px";
 
   return (
     <div className="space-y-6">
-      {/* Dropzone — only visible when no file is loaded */}
       {!file && (
         <Dropzone
           accept={[".jpg", ".jpeg", ".png", ".webp"]}
@@ -42,10 +91,8 @@ export function RemoveBackgroundTool() {
         />
       )}
 
-      {/* File info + preview */}
       {file && preview && (
         <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)] p-5 sm:p-6">
-          {/* Uploaded file summary */}
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="truncate text-sm font-medium text-[color:var(--color-text-primary)]">
@@ -63,78 +110,84 @@ export function RemoveBackgroundTool() {
             </button>
           </div>
 
-          {/* Image preview */}
-          <div className="mt-4 flex justify-center">
-            <img
-              src={preview}
-              alt="Uploaded image"
-              className="max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
-            />
-          </div>
-
-          {/* Coming soon info box */}
-          <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4">
-            <div className="flex items-start gap-3">
-              <svg
-                className="mt-0.5 h-5 w-5 shrink-0 text-amber-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                aria-hidden="true"
+          {/* Before / after */}
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <figure className="text-center">
+              <img
+                src={preview}
+                alt="Original"
+                className="mx-auto max-h-64 rounded-lg border border-[color:var(--color-border)] object-contain"
+              />
+              <figcaption className="mt-2 text-xs text-[color:var(--color-text-muted)]">
+                Original
+              </figcaption>
+            </figure>
+            <figure className="text-center">
+              <div
+                className="flex min-h-[8rem] items-center justify-center rounded-lg border border-[color:var(--color-border)]"
+                style={{ background: resultUrl ? checkerboard : undefined }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-                />
-              </svg>
-              <div>
-                <p className="text-sm font-semibold text-amber-800">
-                  AI background removal is coming soon
-                </p>
-                <p className="mt-1 text-sm text-amber-700">
-                  This feature requires a specialized model that we are
-                  integrating. Bookmark this page and check back for updates.
-                  In the meantime, try our other image tools below.
-                </p>
+                {resultUrl ? (
+                  <img
+                    src={resultUrl}
+                    alt="Background removed"
+                    className="max-h-64 object-contain"
+                  />
+                ) : (
+                  <span className="p-8 text-xs text-[color:var(--color-text-muted)]">
+                    {status === "processing"
+                      ? `Removing background… ${progress}%`
+                      : "Result appears here"}
+                  </span>
+                )}
               </div>
-            </div>
+              <figcaption className="mt-2 text-xs text-[color:var(--color-text-muted)]">
+                Background removed
+              </figcaption>
+            </figure>
           </div>
 
-          {/* Disabled button */}
-          <button
-            type="button"
-            disabled
-            className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-slate-300 px-6 py-3 text-sm font-semibold text-[color:var(--color-text-muted)]"
-          >
-            Remove Background — Coming Soon
-          </button>
-
-          {/* Links to other useful tools */}
-          <div className="mt-5 rounded-lg bg-[color:var(--color-bg-elevated)] p-4">
-            <p className="mb-2 text-sm font-medium text-[color:var(--color-text-secondary)]">
-              Try these tools while you wait
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="/crop-image"
-                className="rounded-md bg-[color:var(--color-bg-card)] px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
-              >
-                Crop Image
-              </a>
-              <a
-                href="/add-watermark"
-                className="rounded-md bg-[color:var(--color-bg-card)] px-3 py-1.5 text-sm font-medium text-violet-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-violet-50"
-              >
-                Add Watermark
-              </a>
+          {status === "processing" && (
+            <div className="mt-5">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-[color:var(--color-border)]">
+                <div
+                  className="h-full rounded-full bg-violet-500 transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <p className="mt-2 text-center text-xs text-[color:var(--color-text-muted)]">
+                First run downloads the AI model (a few MB). It then runs entirely
+                on your device — your image is never uploaded.
+              </p>
             </div>
-          </div>
+          )}
+
+          {status !== "done" && (
+            <button
+              type="button"
+              onClick={handleRemove}
+              disabled={status === "processing"}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700 disabled:cursor-not-allowed disabled:bg-violet-300"
+            >
+              {status === "processing" ? "Removing Background…" : "Remove Background"}
+            </button>
+          )}
+
+          {status === "done" && (
+            <button
+              type="button"
+              onClick={handleDownload}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              Download PNG
+            </button>
+          )}
         </div>
       )}
 
-      {/* Error message */}
       {error && (
         <div
           className="rounded-lg bg-[color:var(--color-error-bg,#fef2f2)] px-4 py-3 text-sm text-[color:var(--color-error)]"

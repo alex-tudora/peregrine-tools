@@ -14,7 +14,9 @@
     "react-dom": "^19",
     "@peregrine/ui": "workspace:*",
     "@peregrine/config": "workspace:*",
-    "@peregrine/seo": "workspace:*"
+    "@peregrine/seo": "workspace:*",
+    "@peregrine/converters": "workspace:*",
+    "yaml": "^2.5.0"
   },
   "devDependencies": {
     "typescript": "^5",
