@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ToolCard } from "@peregrine/ui";
+import { ToolCard, peregrineSites, toolsForSite } from "@peregrine/ui";
 import { generateOrganizationStructuredData, generateWebSiteStructuredData } from "@peregrine/seo";
 import { ToolSearch } from "./ToolSearch";
 
@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 };
 
 /* ------------------------------------------------------------------ */
-/*  Site Showcase data (mirrors CrossSiteNav.peregrineSites)           */
+/*  Site Showcase data — derived from the single-source catalog         */
+/*  (@peregrine/ui) so tool counts and highlights can't drift.          */
 /* ------------------------------------------------------------------ */
 
 interface SiteShowcard {
@@ -21,73 +22,17 @@ interface SiteShowcard {
   highlights: { name: string; href: string }[];
 }
 
-const sites: SiteShowcard[] = [
-  {
-    name: "Peregrine PDF",
-    url: "https://peregrinepdf.com",
-    accent: "#2563EB",
-    tagline: "Merge, split & compress documents",
-    toolCount: 15,
-    highlights: [
-      { name: "Merge PDF", href: "https://peregrinepdf.com/merge-pdf" },
-      { name: "Compress PDF", href: "https://peregrinepdf.com/compress-pdf" },
-      { name: "PDF to JPG", href: "https://peregrinepdf.com/pdf-to-jpg" },
-      { name: "Sign PDF", href: "https://peregrinepdf.com/sign-pdf" },
-    ],
-  },
-  {
-    name: "Peregrine Pix",
-    url: "https://peregrinepix.com",
-    accent: "#7C3AED",
-    tagline: "Resize, compress & transform images",
-    toolCount: 16,
-    highlights: [
-      { name: "Compress Image", href: "https://peregrinepix.com/compress-image" },
-      { name: "Resize Image", href: "https://peregrinepix.com/resize-image" },
-      { name: "Remove Background", href: "https://peregrinepix.com/remove-background" },
-      { name: "PNG to JPG", href: "https://peregrinepix.com/png-to-jpg" },
-    ],
-  },
-  {
-    name: "Peregrine Kit",
-    url: "https://peregrinekit.com",
-    accent: "#059669",
-    tagline: "Text utilities & everyday tools",
-    toolCount: 31,
-    highlights: [
-      { name: "QR Code Generator", href: "https://peregrinekit.com/qr-code-generator" },
-      { name: "Word Counter", href: "https://peregrinekit.com/word-counter" },
-      { name: "Case Converter", href: "https://peregrinekit.com/case-converter" },
-      { name: "Unit Converter", href: "https://peregrinekit.com/unit-converter" },
-    ],
-  },
-  {
-    name: "Peregrine Vid",
-    url: "https://peregrinevid.com",
-    accent: "#E11D48",
-    tagline: "Compress, trim & convert video",
-    toolCount: 13,
-    highlights: [
-      { name: "Compress Video", href: "https://peregrinevid.com/compress-video" },
-      { name: "Video to MP3", href: "https://peregrinevid.com/video-to-mp3" },
-      { name: "Video to GIF", href: "https://peregrinevid.com/video-to-gif" },
-      { name: "Trim Video", href: "https://peregrinevid.com/trim-video" },
-    ],
-  },
-  {
-    name: "Peregrine Dev",
-    url: "https://peregrinedev.com",
-    accent: "#D97706",
-    tagline: "JSON, regex & developer utilities",
-    toolCount: 27,
-    highlights: [
-      { name: "JSON Formatter", href: "https://peregrinedev.com/json-formatter" },
-      { name: "Regex Tester", href: "https://peregrinedev.com/regex-tester" },
-      { name: "Base64 Encode/Decode", href: "https://peregrinedev.com/base64" },
-      { name: "JWT Decoder", href: "https://peregrinedev.com/jwt-decoder" },
-    ],
-  },
-];
+const sites: SiteShowcard[] = peregrineSites.map((site) => {
+  const tools = toolsForSite(site.short);
+  return {
+    name: site.name,
+    url: site.url,
+    accent: site.accent,
+    tagline: site.tagline,
+    toolCount: tools.length,
+    highlights: tools.slice(0, 4).map((t) => ({ name: t.name, href: t.href })),
+  };
+});
 
 /* ------------------------------------------------------------------ */
 /*  Popular Tools (curated 8)                                          */

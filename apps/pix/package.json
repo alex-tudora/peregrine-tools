@@ -14,6 +14,7 @@
     "react-dom": "^19",
     "jszip": "^3.10.1",
     "file-saver": "^2.0.5",
+    "@imgly/background-removal": "^1.5.5",
     "@peregrine/ui": "workspace:*",
     "@peregrine/config": "workspace:*",
     "@peregrine/seo": "workspace:*"

@@ -21,12 +21,4 @@ export {
   type ToolPageStructuredDataOptions,
 } from "./structuredData";
 
-export {
-  generateSitemapEntries,
-  type ToolEntry,
-  type SitemapEntry,
-} from "./sitemap";
-
-export { generateRobotsTxt } from "./robots";
-
 export { createOGImageResponse, type OGImageOptions } from "./og";

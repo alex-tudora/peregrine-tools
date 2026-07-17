@@ -1,6 +1,14 @@
 export { FalconLogo } from "./FalconLogo";
-export { CrossSiteNav, peregrineSites } from "./CrossSiteNav";
-export type { SiteInfo } from "./CrossSiteNav";
+export { CrossSiteNav } from "./CrossSiteNav";
+export {
+  peregrineSites,
+  allTools,
+  siteOrder,
+  toolsForSite,
+  type SiteInfo,
+  type ToolEntry,
+} from "./catalog";
+export { formatFileSize } from "./format";
 export { Header } from "./Header";
 export { Footer } from "./Footer";
 export { ToolCard } from "./ToolCard";
@@ -9,6 +17,9 @@ export { FileList } from "./FileList";
 export { DownloadButton } from "./DownloadButton";
 export { ProgressBar } from "./ProgressBar";
 export { AdPlacement } from "./AdPlacement";
+export { ConsentAds } from "./ConsentAds";
+export { Analytics } from "./Analytics";
+export { getConsent, setConsent, subscribeConsent, type ConsentState } from "./consent";
 export { ToolLayout } from "./ToolLayout";
 export { ToolActionButton } from "./ToolActionButton";
 export { OptionSelector } from "./OptionSelector";
@@ -23,5 +34,3 @@ export { useRecentActivity, logActivity } from "./useRecentActivity";
 export type { ActivityEntry } from "./useRecentActivity";
 export { usePreference } from "./usePreferences";
 export { CommandPalette } from "./CommandPalette";
-export { allTools, siteOrder } from "./toolIndex";
-export type { ToolEntry } from "./toolIndex";

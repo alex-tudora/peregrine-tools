@@ -39,8 +39,8 @@ const about = `
     Our merge pdf tool runs entirely in your browser using client-side JavaScript. That means
     your files are never uploaded to a remote server — they stay on your device from start to
     finish. This approach ensures maximum privacy and eliminates the risk of sensitive data
-    being intercepted or stored by third parties. There are no file-size restrictions beyond
-    what your browser can handle, no daily usage caps, and no watermarks stamped onto your
+    being intercepted or stored by third parties. Each file can be up to 100 MB, with no daily
+    usage caps and no watermarks stamped onto your
     output. Simply drag and drop your PDFs, arrange them in the order you want, click the merge
     button, and download the result. It works on any modern browser across desktop and mobile
     devices, with no software installation or account creation required.
@@ -61,7 +61,7 @@ const faqs = [
   {
     question: "Is there a file size limit?",
     answer:
-      "There is no hard file size limit imposed by the tool itself. The practical limit depends on your device's available memory and browser capabilities. Most modern devices can comfortably handle files up to several hundred megabytes.",
+      "Each PDF can be up to 100 MB. Because everything runs in your browser, very large files are also bound by your device's available memory — but 100 MB per file covers the vast majority of documents.",
   },
   {
     question: "How many PDF files can I merge at once?",

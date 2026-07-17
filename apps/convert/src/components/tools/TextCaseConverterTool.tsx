@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
+import {
+  toTitleCase,
+  toCamelCase,
+  toPascalCase,
+  toSnakeCase,
+  toKebabCase,
+} from "@peregrine/converters";
 
 type ConversionType =
   | "uppercase"
@@ -70,35 +77,19 @@ function convertText(text: string, type: ConversionType): string {
       return text.toLowerCase();
 
     case "titlecase":
-      return text.replace(
-        /\w\S*/g,
-        (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      );
+      return toTitleCase(text);
 
-    case "camelcase": {
-      return text
-        .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
-        .replace(/^[A-Z]/, (char) => char.toLowerCase());
-    }
+    case "camelcase":
+      return toCamelCase(text);
 
     case "snakecase":
-      return text
-        .replace(/([a-z])([A-Z])/g, "$1_$2")
-        .replace(/[\s\-]+/g, "_")
-        .replace(/[^a-zA-Z0-9_]/g, "")
-        .toLowerCase();
+      return toSnakeCase(text);
 
     case "kebabcase":
-      return text
-        .replace(/([a-z])([A-Z])/g, "$1-$2")
-        .replace(/[\s_]+/g, "-")
-        .replace(/[^a-zA-Z0-9-]/g, "")
-        .toLowerCase();
+      return toKebabCase(text);
 
     case "pascalcase":
-      return text
-        .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
-        .replace(/^[a-z]/, (char) => char.toUpperCase());
+      return toPascalCase(text);
 
     case "base64encode":
       try {

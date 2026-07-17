@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { securityHeaders } from "@peregrine/config/headers";
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
@@ -8,6 +9,8 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
+          ...securityHeaders,
+          // ffmpeg.wasm needs cross-origin isolation for SharedArrayBuffer.
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { securityHeaders } from "@peregrine/config/headers";
 
 const ffmpegRoutes =
   "/(mp4-to-mp3|mp4-to-gif|mp4-to-webm|avi-to-mp4|mov-to-mp4|mkv-to-mp4|webm-to-mp4|wav-to-mp3|mp3-to-wav|ogg-to-mp3|flac-to-mp3|aac-to-mp3)";
@@ -13,7 +14,9 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      { source: "/(.*)", headers: securityHeaders },
       {
+        // ffmpeg.wasm routes additionally need cross-origin isolation.
         source: ffmpegRoutes,
         headers: [
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },

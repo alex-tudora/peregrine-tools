@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
+import { formatFileSize } from "./format";
 
 interface DropzoneProps {
   accept?: string[];
@@ -12,14 +13,6 @@ interface DropzoneProps {
 }
 
 const DEFAULT_MAX_SIZE = 100 * 1024 * 1024; // 100 MB
-
-function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 Bytes";
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
-}
 
 export function Dropzone({
   accept = [],
@@ -58,7 +51,7 @@ export function Dropzone({
         }
 
         if (file.size > maxSize) {
-          errors.push(`"${file.name}" exceeds ${formatBytes(maxSize)} limit`);
+          errors.push(`"${file.name}" exceeds ${formatFileSize(maxSize)} limit`);
           continue;
         }
 
@@ -210,7 +203,7 @@ export function Dropzone({
           </p>
         )}
         <p className="mt-1 text-xs text-[color:var(--color-text-muted)]">
-          Max file size: {formatBytes(maxSize)}
+          Max file size: {formatFileSize(maxSize)}
           {multiple ? "" : " (single file)"}
         </p>
 

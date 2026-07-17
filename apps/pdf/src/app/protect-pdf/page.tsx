@@ -10,14 +10,20 @@ const siteName = "Peregrine PDF";
 const siteUrl = "https://peregrinepdf.com";
 const path = "/protect-pdf";
 
-export const metadata = generateToolMetadata({
-  toolName,
-  description,
-  keyword,
-  siteName,
-  siteUrl,
-  path,
-});
+export const metadata = {
+  ...generateToolMetadata({
+    toolName,
+    description,
+    keyword,
+    siteName,
+    siteUrl,
+    path,
+  }),
+  // This tool cannot function client-side (AES encryption needs a server /
+  // native lib), so the UI is disabled. Keep it out of the index until it's real
+  // — otherwise Google ranks a "protect PDF" page that can't protect anything.
+  robots: { index: false, follow: true },
+};
 
 const howTo = [
   "Upload your PDF file using the drop zone above",
